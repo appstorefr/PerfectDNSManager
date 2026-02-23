@@ -35,8 +35,20 @@ class UpdateManager(private val context: Context) {
                             if (tagName != currentVersion) {
                                 showToastOnMainThread(context.getString(R.string.update_available, tagName))
                                 val assets = json.getJSONArray("assets")
-                                if (assets.length() > 0) {
-                                    val apkUrl = assets.getJSONObject(0).getString("browser_download_url")
+                                // Chercher latest.apk en priorité, sinon premier .apk trouvé
+                                var apkUrl: String? = null
+                                for (i in 0 until assets.length()) {
+                                    val asset = assets.getJSONObject(i)
+                                    val name = asset.getString("name")
+                                    if (name == "latest.apk") {
+                                        apkUrl = asset.getString("browser_download_url")
+                                        break
+                                    }
+                                    if (apkUrl == null && name.endsWith(".apk")) {
+                                        apkUrl = asset.getString("browser_download_url")
+                                    }
+                                }
+                                if (apkUrl != null) {
                                     downloadAndInstallUpdate(apkUrl)
                                 }
                             } else {
