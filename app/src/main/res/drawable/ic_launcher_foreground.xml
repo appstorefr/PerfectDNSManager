@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Globe circle (centré dans la safe zone adaptive icon : 256,256) -->
+    <path
+        android:pathData="M256,256 m-130,0 a130,130 0 1,0 260,0 a130,130 0 1,0 -260,0"
+        android:fillColor="#14B8A6"
+        android:fillAlpha="0.15"/>
+    <path
+        android:pathData="M256,256 m-130,0 a130,130 0 1,0 260,0 a130,130 0 1,0 -260,0"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="3"
+        android:strokeAlpha="0.5"
+        android:fillColor="#00000000"/>
+
+    <!-- Globe horizontal ellipse -->
+    <path
+        android:pathData="M126,256 a130,55 0 1,0 260,0 a130,55 0 1,0 -260,0"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.3"
+        android:fillColor="#00000000"/>
+
+    <!-- Globe vertical ellipse narrow -->
+    <path
+        android:pathData="M256,126 a65,130 0 1,0 0,260 a65,130 0 1,0 0,-260"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.3"
+        android:fillColor="#00000000"/>
+
+    <!-- Globe vertical ellipse wide -->
+    <path
+        android:pathData="M256,126 a100,130 0 1,0 0,260 a100,130 0 1,0 0,-260"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.2"
+        android:fillColor="#00000000"/>
+
+    <!-- Horizontal line through globe -->
+    <path
+        android:pathData="M126,256 L386,256"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.25"/>
+
+    <!-- Toggle track (centré) -->
+    <path
+        android:pathData="M196,228 L316,228 a28,28 0 0,1 0,56 L196,284 a28,28 0 0,1 0,-56 Z"
+        android:fillColor="#1A1A2E"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="3"/>
+
+    <!-- Toggle knob (ON position) -->
+    <path
+        android:pathData="M293,256 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"
+        android:fillColor="#14B8A6"/>
+
+    <!-- Power icon - vertical line -->
+    <path
+        android:pathData="M293,242 L293,251"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+
+    <!-- Power icon - arc -->
+    <path
+        android:pathData="M281,248 C275,256 275,268 284,274 C290,278 297,278 303,274 C312,268 312,256 306,248"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Satellite nodes (plus gros et lumineux) -->
+    <path
+        android:pathData="M145,145 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0"
+        android:fillColor="#A855F7"/>
+    <path
+        android:pathData="M155,155 L205,210"
+        android:strokeColor="#A855F7"
+        android:strokeWidth="2"
+        android:strokeAlpha="0.5"/>
+
+    <path
+        android:pathData="M367,145 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0"
+        android:fillColor="#A855F7"/>
+    <path
+        android:pathData="M357,155 L307,210"
+        android:strokeColor="#A855F7"
+        android:strokeWidth="2"
+        android:strokeAlpha="0.5"/>
+
+    <path
+        android:pathData="M145,367 m-8,0 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0"
+        android:fillColor="#14B8A6"/>
+    <path
+        android:pathData="M155,360 L205,310"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.4"/>
+
+    <path
+        android:pathData="M367,367 m-8,0 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0"
+        android:fillColor="#14B8A6"/>
+    <path
+        android:pathData="M357,360 L307,310"
+        android:strokeColor="#14B8A6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.4"/>
+
+    <!-- Tiny accent particles -->
+    <path
+        android:pathData="M105,230 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#A855F7"
+        android:fillAlpha="0.5"/>
+    <path
+        android:pathData="M407,230 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#A855F7"
+        android:fillAlpha="0.5"/>
+
+</vector>
