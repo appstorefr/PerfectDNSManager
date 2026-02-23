@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E1E1E"
+    android:padding="24dp"
+    tools:context=".MainActivity">
+
+    <!-- En-tete -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/btnLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/focusable_item_background"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textAllCaps="false"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:focusable="true"
+            android:nextFocusRight="@id/btnSettings"
+            android:nextFocusDown="@id/layoutSelectDns" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/dns_switcher"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-medium" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/focusable_item_background"
+            android:src="@drawable/ic_settings"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:focusable="true"
+            android:nextFocusLeft="@id/btnLanguage"
+            android:nextFocusDown="@id/layoutSelectDns"
+            android:contentDescription="@string/settings_content_description" />
+    </RelativeLayout>
+
+    <!-- Fournisseur DNS : -->
+    <TextView
+        android:id="@+id/tvDnsProviderLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dns_provider_label"
+        android:textSize="16sp"
+        android:textColor="#CCCCCC"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:id="@+id/layoutSelectDns"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/focusable_item_background"
+        android:focusable="true"
+        android:clickable="true"
+        android:nextFocusUp="@id/btnSettings"
+        android:nextFocusDown="@id/tvStatus">
+
+        <ImageView
+            android:id="@+id/ivSelectedDnsIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:contentDescription="DNS icon" />
+
+        <TextView
+            android:id="@+id/tvSelectDns"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dns_select_button"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <!-- Espace flexible -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Service DNS utilisé : -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dns_service_used"
+        android:textSize="14sp"
+        android:textColor="#CCCCCC"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_active_dns"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@drawable/focusable_item_background"
+        android:focusable="true"
+        android:layout_marginBottom="12dp"
+        android:nextFocusUp="@id/layoutSelectDns"
+        android:nextFocusDown="@id/btnToggle" />
+
+    <!-- 2| Activation : -->
+    <TextView
+        android:id="@+id/tvActivationLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activation_label"
+        android:textSize="16sp"
+        android:textColor="#CCCCCC"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Bouton Activer/Désactiver -->
+    <Button
+        android:id="@+id/btnToggle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/activate"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_activate_background"
+        android:focusable="true"
+        android:layout_marginBottom="8dp"
+        android:nextFocusUp="@id/tvStatus"
+        android:nextFocusDown="@id/btnTestDns" />
+
+    <!-- Bouton Test DNS -->
+    <Button
+        android:id="@+id/btnTestDns"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="@string/test_dns"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1B5E20"
+        android:focusable="true"
+        android:nextFocusUp="@id/btnToggle" />
+
+</LinearLayout>

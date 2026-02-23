@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E1E1E"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:nextFocusDown="@id/btnAddProfile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_dns_server"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Info méthode -->
+    <TextView
+        android:id="@+id/tvMethodInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#2196F3"
+        android:textSize="13sp"
+        android:layout_marginBottom="12dp"
+        android:padding="8dp"
+        android:background="#1A2196F3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/btnAddProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_new_profile"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:focusable="true"
+            android:layout_marginEnd="8dp"
+            android:nextFocusUp="@id/btnBack"
+            android:nextFocusDown="@id/rvDnsList"
+            android:nextFocusRight="@id/btnSpeedtest" />
+
+        <Button
+            android:id="@+id/btnSpeedtest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dns_speedtest_button"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF6F00"
+            android:focusable="true"
+            android:nextFocusLeft="@id/btnAddProfile"
+            android:nextFocusUp="@id/btnBack"
+            android:nextFocusDown="@id/rvDnsList" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDnsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:descendantFocusability="afterDescendants" />
+
+</LinearLayout>

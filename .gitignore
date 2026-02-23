@@ -1,0 +1,17 @@
+# Android / Gradle
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+.idea/
+.DS_Store
+captures/
+*.apk
+*.ap_
+*.aab
+
+# Specs (not needed in repo)
+PerfectDNSManager-SPEC-*.md
+*.zip
+dns_providers.txt

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#2E2E2E">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_dns_profile"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Nom -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_name"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/profile_name_hint"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:background="#444444"
+            android:padding="10dp"
+            android:layout_marginBottom="16dp"
+            android:focusable="true" />
+
+        <!-- Type DNS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dns_type"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rgType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp">
+
+            <RadioButton
+                android:id="@+id/rbDoh"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="DNS over HTTPS (DoH) — Recommandé"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#2196F3"
+                android:background="@drawable/focusable_item_background"
+                android:padding="8dp"
+                android:focusable="true" />
+
+            <RadioButton
+                android:id="@+id/rbDot"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="DNS over TLS (DoT)"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#4CAF50"
+                android:background="@drawable/focusable_item_background"
+                android:padding="8dp"
+                android:focusable="true" />
+
+            <RadioButton
+                android:id="@+id/rbStandard"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Standard (UDP non chiffré)"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#FF9800"
+                android:background="@drawable/focusable_item_background"
+                android:padding="8dp"
+                android:focusable="true" />
+        </RadioGroup>
+
+        <!-- NextDNS checkbox -->
+        <CheckBox
+            android:id="@+id/cbNextDns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Utiliser un profil NextDNS"
+            android:textColor="#00AAFF"
+            android:textSize="14sp"
+            android:buttonTint="#00AAFF"
+            android:layout_marginBottom="8dp"
+            android:focusable="true"
+            android:visibility="visible" />
+
+        <!-- NextDNS Profile ID -->
+        <LinearLayout
+            android:id="@+id/llNextDns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Identifiant NextDNS (ex: 92ff5b)"
+                android:textColor="#CCCCCC"
+                android:textSize="13sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etNextDnsId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ex: 92ff5b"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#888888"
+                android:background="#444444"
+                android:padding="10dp"
+                android:focusable="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DoH → https://dns.nextdns.io/{id}\nDoT → {id}.dns.nextdns.io"
+                android:textColor="#666688"
+                android:textSize="11sp"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- DNS Primaire -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/primary_dns"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/primary_dns_hint"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:background="#444444"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"
+            android:focusable="true" />
+
+        <!-- DNS Secondaire -->
+        <TextView
+            android:id="@+id/tvSecondaryLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/secondary_dns_optional"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/etSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/secondary_dns_hint"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:background="#444444"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            android:focusable="true"/>
+
+        <!-- IPv6 Primaire -->
+        <TextView
+            android:id="@+id/tvPrimaryV6Label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DNS Primaire IPv6 (optionnel)"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/etPrimaryV6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ex: 2606:4700:4700::1111"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:background="#444444"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            android:focusable="true"/>
+
+        <!-- IPv6 Secondaire -->
+        <EditText
+            android:id="@+id/etSecondaryV6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DNS Secondaire IPv6 (optionnel)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:background="#444444"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            android:focusable="true"/>
+
+        <!-- Boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/focusable_item_background"
+                android:layout_marginEnd="12dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/focusable_item_background"
+                android:focusable="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

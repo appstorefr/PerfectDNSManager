@@ -1,0 +1,371 @@
+package net.appstorefr.perfectdnsmanager.data
+
+import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+
+class ConfigManager(private val context: Context) {
+
+    private val gson = Gson()
+
+    data class ImportResult(
+        val profileCount: Int,
+        val favoriteCount: Int,
+        val rewriteRuleCount: Int,
+        val nextDnsProfileCount: Int,
+        val hasDefaultProfile: Boolean,
+        val settingsRestored: Boolean
+    )
+
+    // ══════════════════════════════════════════════════════════════
+    //  Export
+    // ══════════════════════════════════════════════════════════════
+
+    fun exportConfigSelective(
+        includeProfiles: Boolean = true,
+        includeFavorites: Boolean = true,
+        includeDefaultProfile: Boolean = true,
+        includeNextDnsProfiles: Boolean = true,
+        includeRewriteRules: Boolean = true,
+        includeSettings: Boolean = true
+    ): String {
+        val root = JsonObject()
+
+        root.addProperty("version", "1.0.40")
+        root.addProperty("exportDate", iso8601Now())
+
+        val profileManager = ProfileManager(context)
+        val profiles = profileManager.loadProfiles()
+
+        if (includeProfiles) {
+            root.add("profiles", gson.toJsonTree(profiles))
+        }
+
+        if (includeFavorites) {
+            val favoriteIds = profiles.filter { it.isFavorite }.map { it.id }
+            root.add("favorites", gson.toJsonTree(favoriteIds))
+        }
+
+        val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+
+        if (includeDefaultProfile) {
+            val defaultProfileJson = prefs.getString("default_profile_json", null)
+            if (defaultProfileJson != null) {
+                root.add("defaultProfile", JsonParser.parseString(defaultProfileJson))
+            }
+            val selectedProfileJson = prefs.getString("selected_profile_json", null)
+            if (selectedProfileJson != null) {
+                root.add("selectedProfile", JsonParser.parseString(selectedProfileJson))
+            }
+        }
+
+        if (includeRewriteRules) {
+            val rewriteRepo = DnsRewriteRepository(context)
+            val rewriteRules = rewriteRepo.getAllRules()
+            root.add("rewriteRules", gson.toJsonTree(rewriteRules))
+        }
+
+        if (includeNextDnsProfiles) {
+            val nextDnsPrefs = context.getSharedPreferences("nextdns_profiles", Context.MODE_PRIVATE)
+            val nextDnsIds = nextDnsPrefs.getStringSet("profile_ids", emptySet()) ?: emptySet()
+            root.add("nextDnsProfiles", gson.toJsonTree(nextDnsIds.sorted()))
+        }
+
+        if (includeSettings) {
+            val settings = JsonObject()
+            settings.addProperty("auto_start_enabled", prefs.getBoolean("auto_start_enabled", false))
+            settings.addProperty("auto_reconnect_dns", prefs.getBoolean("auto_reconnect_dns", false))
+            settings.addProperty("disable_ipv6", prefs.getBoolean("disable_ipv6", false))
+            settings.addProperty("adb_dot_enabled", prefs.getBoolean("adb_dot_enabled", false))
+            settings.addProperty("operator_dns_enabled", prefs.getBoolean("operator_dns_enabled", false))
+            settings.addProperty("advanced_features_enabled", prefs.getBoolean("advanced_features_enabled", false))
+            root.add("settings", settings)
+        }
+
+        return gson.newBuilder().setPrettyPrinting().create().toJson(root)
+    }
+
+    fun exportConfig(): String {
+        val root = JsonObject()
+
+        // Version and date
+        root.addProperty("version", "1.0.40")
+        root.addProperty("exportDate", iso8601Now())
+
+        // Profiles from ProfileManager (SharedPrefs "dns_profiles_v2", key "profiles")
+        val profileManager = ProfileManager(context)
+        val profiles = profileManager.loadProfiles()
+        root.add("profiles", gson.toJsonTree(profiles))
+
+        // Favorites: list of profile IDs where isFavorite == true
+        val favoriteIds = profiles.filter { it.isFavorite }.map { it.id }
+        root.add("favorites", gson.toJsonTree(favoriteIds))
+
+        // Default and selected profile from SharedPrefs "prefs"
+        val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val defaultProfileJson = prefs.getString("default_profile_json", null)
+        if (defaultProfileJson != null) {
+            root.add("defaultProfile", JsonParser.parseString(defaultProfileJson))
+        } else {
+            root.add("defaultProfile", null)
+        }
+
+        val selectedProfileJson = prefs.getString("selected_profile_json", null)
+        if (selectedProfileJson != null) {
+            root.add("selectedProfile", JsonParser.parseString(selectedProfileJson))
+        } else {
+            root.add("selectedProfile", null)
+        }
+
+        // Rewrite rules from DnsRewriteRepository (SharedPrefs "dns_rewrite_rules", key "rules")
+        val rewriteRepo = DnsRewriteRepository(context)
+        val rewriteRules = rewriteRepo.getAllRules()
+        root.add("rewriteRules", gson.toJsonTree(rewriteRules))
+
+        // NextDNS profile IDs from SharedPrefs "nextdns_profiles", key "profile_ids"
+        val nextDnsPrefs = context.getSharedPreferences("nextdns_profiles", Context.MODE_PRIVATE)
+        val nextDnsIds = nextDnsPrefs.getStringSet("profile_ids", emptySet()) ?: emptySet()
+        root.add("nextDnsProfiles", gson.toJsonTree(nextDnsIds.sorted()))
+
+        // Settings from SharedPrefs "prefs"
+        val settings = JsonObject()
+        settings.addProperty("auto_start_enabled", prefs.getBoolean("auto_start_enabled", false))
+        settings.addProperty("auto_reconnect_dns", prefs.getBoolean("auto_reconnect_dns", false))
+        settings.addProperty("disable_ipv6", prefs.getBoolean("disable_ipv6", false))
+        settings.addProperty("adb_dot_enabled", prefs.getBoolean("adb_dot_enabled", false))
+        settings.addProperty("operator_dns_enabled", prefs.getBoolean("operator_dns_enabled", false))
+        settings.addProperty("advanced_features_enabled", prefs.getBoolean("advanced_features_enabled", false))
+        root.add("settings", settings)
+
+        return gson.newBuilder().setPrettyPrinting().create().toJson(root)
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  Import
+    // ══════════════════════════════════════════════════════════════
+
+    fun importConfig(json: String, importSettings: Boolean = true): ImportResult {
+        val root = JsonParser.parseString(json).asJsonObject
+
+        // ── Profiles ──
+        var profileCount = 0
+        var favoriteCount = 0
+        if (root.has("profiles") && !root.get("profiles").isJsonNull) {
+            val profileType = object : TypeToken<List<DnsProfile>>() {}.type
+            val profiles: List<DnsProfile> = gson.fromJson(root.get("profiles"), profileType)
+            profileCount = profiles.size
+
+            // Restore favorites: if the export includes a favorites list, apply it
+            val restoredProfiles = if (root.has("favorites") && !root.get("favorites").isJsonNull) {
+                val favType = object : TypeToken<List<Long>>() {}.type
+                val favoriteIds: List<Long> = gson.fromJson(root.get("favorites"), favType)
+                favoriteCount = favoriteIds.size
+                profiles.map { profile ->
+                    profile.copy(isFavorite = profile.id in favoriteIds)
+                }
+            } else {
+                favoriteCount = profiles.count { it.isFavorite }
+                profiles
+            }
+
+            // Save via ProfileManager (SharedPrefs "dns_profiles_v2", key "profiles")
+            val profileManager = ProfileManager(context)
+            profileManager.saveProfiles(restoredProfiles)
+        }
+
+        // ── Default profile ──
+        val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val hasDefaultProfile: Boolean
+        if (root.has("defaultProfile") && !root.get("defaultProfile").isJsonNull) {
+            val defaultProfileElement = root.get("defaultProfile")
+            prefs.edit().putString("default_profile_json", gson.toJson(defaultProfileElement)).apply()
+            hasDefaultProfile = true
+        } else {
+            prefs.edit().remove("default_profile_json").apply()
+            hasDefaultProfile = false
+        }
+
+        // ── Selected profile ──
+        if (root.has("selectedProfile") && !root.get("selectedProfile").isJsonNull) {
+            val selectedProfileElement = root.get("selectedProfile")
+            prefs.edit().putString("selected_profile_json", gson.toJson(selectedProfileElement)).apply()
+        } else {
+            prefs.edit().remove("selected_profile_json").apply()
+        }
+
+        // ── Rewrite rules ──
+        var rewriteRuleCount = 0
+        if (root.has("rewriteRules") && !root.get("rewriteRules").isJsonNull) {
+            val ruleType = object : TypeToken<List<DnsRewriteRule>>() {}.type
+            val rules: List<DnsRewriteRule> = gson.fromJson(root.get("rewriteRules"), ruleType)
+            rewriteRuleCount = rules.size
+
+            // Save directly to SharedPrefs "dns_rewrite_rules", key "rules"
+            val rewritePrefs = context.getSharedPreferences("dns_rewrite_rules", Context.MODE_PRIVATE)
+            rewritePrefs.edit().putString("rules", gson.toJson(rules)).apply()
+        }
+
+        // ── NextDNS profile IDs ──
+        var nextDnsProfileCount = 0
+        if (root.has("nextDnsProfiles") && !root.get("nextDnsProfiles").isJsonNull) {
+            val idsType = object : TypeToken<List<String>>() {}.type
+            val ids: List<String> = gson.fromJson(root.get("nextDnsProfiles"), idsType)
+            nextDnsProfileCount = ids.size
+
+            val nextDnsPrefs = context.getSharedPreferences("nextdns_profiles", Context.MODE_PRIVATE)
+            nextDnsPrefs.edit().putStringSet("profile_ids", ids.toSet()).apply()
+        }
+
+        // ── Settings ──
+        var settingsRestored = false
+        if (importSettings && root.has("settings") && !root.get("settings").isJsonNull) {
+            val settings = root.getAsJsonObject("settings")
+            val editor = prefs.edit()
+
+            if (settings.has("auto_start_enabled")) {
+                editor.putBoolean("auto_start_enabled", settings.get("auto_start_enabled").asBoolean)
+            }
+            if (settings.has("auto_reconnect_dns")) {
+                editor.putBoolean("auto_reconnect_dns", settings.get("auto_reconnect_dns").asBoolean)
+            }
+            if (settings.has("disable_ipv6")) {
+                editor.putBoolean("disable_ipv6", settings.get("disable_ipv6").asBoolean)
+            }
+            if (settings.has("adb_dot_enabled")) {
+                editor.putBoolean("adb_dot_enabled", settings.get("adb_dot_enabled").asBoolean)
+            }
+            if (settings.has("operator_dns_enabled")) {
+                editor.putBoolean("operator_dns_enabled", settings.get("operator_dns_enabled").asBoolean)
+            }
+            if (settings.has("advanced_features_enabled")) {
+                editor.putBoolean("advanced_features_enabled", settings.get("advanced_features_enabled").asBoolean)
+            }
+
+            editor.apply()
+            settingsRestored = true
+        }
+
+        return ImportResult(
+            profileCount = profileCount,
+            favoriteCount = favoriteCount,
+            rewriteRuleCount = rewriteRuleCount,
+            nextDnsProfileCount = nextDnsProfileCount,
+            hasDefaultProfile = hasDefaultProfile,
+            settingsRestored = settingsRestored
+        )
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  Summary (human-readable preview of a config JSON)
+    // ══════════════════════════════════════════════════════════════
+
+    fun getConfigSummary(json: String): String {
+        return try {
+            val root = JsonParser.parseString(json).asJsonObject
+            val sb = StringBuilder()
+
+            // Version
+            val version = if (root.has("version")) root.get("version").asString else "unknown"
+            sb.appendLine("Version: $version")
+
+            // Export date
+            if (root.has("exportDate") && !root.get("exportDate").isJsonNull) {
+                sb.appendLine("Date: ${root.get("exportDate").asString}")
+            }
+
+            // Profiles
+            if (root.has("profiles") && !root.get("profiles").isJsonNull) {
+                val profileArray = root.getAsJsonArray("profiles")
+                val total = profileArray.size()
+                val customCount = profileArray.count { element ->
+                    try {
+                        element.asJsonObject.get("isCustom")?.asBoolean == true
+                    } catch (_: Exception) {
+                        false
+                    }
+                }
+                sb.appendLine("Profiles: $total ($customCount custom)")
+            } else {
+                sb.appendLine("Profiles: 0")
+            }
+
+            // Favorites
+            if (root.has("favorites") && !root.get("favorites").isJsonNull) {
+                sb.appendLine("Favorites: ${root.getAsJsonArray("favorites").size()}")
+            }
+
+            // Default profile
+            if (root.has("defaultProfile") && !root.get("defaultProfile").isJsonNull) {
+                try {
+                    val dp = root.getAsJsonObject("defaultProfile")
+                    val provider = dp.get("providerName")?.asString ?: ""
+                    val name = dp.get("name")?.asString ?: ""
+                    sb.appendLine("Default profile: $provider - $name")
+                } catch (_: Exception) {
+                    sb.appendLine("Default profile: yes")
+                }
+            } else {
+                sb.appendLine("Default profile: none")
+            }
+
+            // Rewrite rules
+            if (root.has("rewriteRules") && !root.get("rewriteRules").isJsonNull) {
+                val rulesArray = root.getAsJsonArray("rewriteRules")
+                val enabledCount = rulesArray.count { element ->
+                    try {
+                        element.asJsonObject.get("isEnabled")?.asBoolean == true
+                    } catch (_: Exception) {
+                        false
+                    }
+                }
+                sb.appendLine("Rewrite rules: ${rulesArray.size()} ($enabledCount enabled)")
+            } else {
+                sb.appendLine("Rewrite rules: 0")
+            }
+
+            // NextDNS profiles
+            if (root.has("nextDnsProfiles") && !root.get("nextDnsProfiles").isJsonNull) {
+                val nextDnsArray = root.getAsJsonArray("nextDnsProfiles")
+                if (nextDnsArray.size() > 0) {
+                    val ids = nextDnsArray.map { it.asString }
+                    sb.appendLine("NextDNS profiles: ${ids.joinToString(", ")}")
+                } else {
+                    sb.appendLine("NextDNS profiles: none")
+                }
+            }
+
+            // Settings
+            if (root.has("settings") && !root.get("settings").isJsonNull) {
+                val settings = root.getAsJsonObject("settings")
+                val enabledSettings = settings.entrySet()
+                    .filter { it.value.asBoolean }
+                    .map { it.key.replace("_", " ") }
+                if (enabledSettings.isNotEmpty()) {
+                    sb.appendLine("Settings enabled: ${enabledSettings.joinToString(", ")}")
+                } else {
+                    sb.appendLine("Settings: all disabled")
+                }
+            }
+
+            sb.toString().trimEnd()
+        } catch (e: Exception) {
+            "Invalid configuration file: ${e.message}"
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  Helpers
+    // ══════════════════════════════════════════════════════════════
+
+    private fun iso8601Now(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(Date())
+    }
+}
