@@ -349,6 +349,10 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Unable to open Shizuku</string>
 
+    <!-- Downloader code -->
+    <string name="downloader_code_label">Downloader code (AFTVnews):</string>
+    <string name="downloader_code_value">2759555</string>
+
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS Rewriting</string>
 </resources>
