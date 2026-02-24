@@ -4,9 +4,17 @@
     android:height="108dp"
     android:viewportWidth="512"
     android:viewportHeight="512">
-    
-    <!-- Dark background matching logo 4 -->
+
+    <!-- Dark background -->
     <path
         android:pathData="M0,0 L512,0 L512,512 L0,512 Z"
-        android:fillColor="#1A1A2E"/>
+        android:fillColor="#050810"/>
+
+    <!-- Subtle grid (network feel) -->
+    <path android:pathData="M0,170 L512,170" android:strokeColor="#1565C0" android:strokeWidth="0.5" android:strokeAlpha="0.06"/>
+    <path android:pathData="M0,256 L512,256" android:strokeColor="#1565C0" android:strokeWidth="0.5" android:strokeAlpha="0.06"/>
+    <path android:pathData="M0,342 L512,342" android:strokeColor="#1565C0" android:strokeWidth="0.5" android:strokeAlpha="0.06"/>
+    <path android:pathData="M170,0 L170,512" android:strokeColor="#1565C0" android:strokeWidth="0.5" android:strokeAlpha="0.06"/>
+    <path android:pathData="M256,0 L256,512" android:strokeColor="#1565C0" android:strokeWidth="0.5" android:strokeAlpha="0.06"/>
+    <path android:pathData="M342,0 L342,512" android:strokeColor="#1565C0" android:strokeWidth="0.5" android:strokeAlpha="0.06"/>
 </vector>
