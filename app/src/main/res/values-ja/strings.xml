@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_name">Perfect DNS Manager</string>
+
+    <!-- MainActivity -->
+    <string name="dns_switcher">Perfect DNS Manager</string>
+    <string name="dns_profile">DNS プロファイル</string>
+    <string name="add_new_profile">➕ 新規プロファイル</string>
+    <string name="application_method">適用方法</string>
+    <string name="private_dns_adb">プライベート DNS (ADB)</string>
+    <string name="local_vpn_all_types">ローカル VPN</string>
+    <string name="activate">有効にする</string>
+    <string name="deactivate">無効にする</string>
+    <string name="no_active_dns">アクティブな DNS はありません</string>
+    <string name="about">概要</string>
+    <string name="select_a_profile">プロファイルを選択してください</string>
+    <string name="click_to_select_dns">ここをタップして DNS を選択</string>
+    <string name="profile_added">プロファイルを追加しました: %1$s</string>
+    <string name="private_dns_supports_only_dot">プライベート DNS は DoT のみ対応しています</string>
+    <string name="adb_requires_root_or_pc">設定を変更できません。\n\nPC から以下のコマンドで権限を付与してください：\n\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\n（またはデバイスが Root 化されている必要があります）</string>
+    <string name="error_activating_adb">ADB の有効化エラー</string>
+    <string name="dns_activated_via_adb">ADB 経由で DNS を有効にしました</string>
+    <string name="vpn_permission_denied">VPN の権限が拒否されました</string>
+    <string name="vpn_activated">VPN を有効にしました: %1$s</string>
+    <string name="dns_disabled">DNS を無効にしました</string>
+    <string name="firestick_warning_title">Firestick に関する警告</string>
+    <string name="firestick_warning_message">Firestick デバイスで ADB メソッドを使用すると、インターネット接続が失われる可能性があります。VPN メソッドの使用を推奨します。</string>
+    <string name="continue_anyway">続行</string>
+    <string name="dns_provider_label">1| DNS プロバイダーの選択：</string>
+    <string name="dns_select_button">👉 DNS プロバイダーを選択 👈</string>
+    <string name="activation_label">2| 有効化：</string>
+    <string name="dns_service_used">使用中の DNS サービス：</string>
+    <string name="settings_content_description">設定</string>
+    <string name="wan_ipv4_label">IPv4 : </string>
+    <string name="wan_ipv6_label">IPv6 : </string>
+    <string name="wan_ip_loading">読み込み中…</string>
+    <string name="wan_ip_error">利用不可</string>
+    <string name="wan_ipv6_blocked">ブロック済み ✓</string>
+    <string name="share_ip_button">📤 tmpfiles.org で IP を共有</string>
+    <string name="share_ip_uploading">IP をアップロード中…</string>
+    <string name="share_ip_success_title">IP を共有しました</string>
+    <string name="share_ip_success_message">tmpfiles 番号: %1$s\n\n番号はクリップボードにコピーされました。\n\nURL: %2$s\n（60分で期限切れ）</string>
+    <string name="share_ip_error">IP の共有中にエラーが発生しました</string>
+
+    <!-- Navigation -->
+    <string name="back">戻る</string>
+    <string name="back_arrow">← 戻る</string>
+
+    <!-- Settings -->
+    <string name="settings_title">設定</string>
+    <string name="language_select_button">言語 / Language</string>
+    <string name="how_to_adb">🛠 ADB の有効化方法</string>
+    <string name="adb_status_active">🟢 ADB デバッグ：有効</string>
+    <string name="adb_status_inactive">🔴 ADB デバッグ：無効</string>
+    <string name="advanced_features_title">⚙️ 高度な機能</string>
+    <string name="advanced_features_desc">以下の機能を有効にします：ADB 経由の DNS DoT、URL リライト、キャリア DNS。</string>
+    <string name="url_rewrite_warning">⚠️ URL リライトは DNS DoH または Standard モードでのみ動作します（DoT/ADB では動作しません）</string>
+    <string name="url_rewrite_button">🔀 URL リライト</string>
+    <string name="restore_dns_button">🔄 初期 DNS を復元</string>
+    <string name="show_operator_dns">🇫🇷 フランスのキャリア DNS を表示（Orange/Bouygues/SFR/Free）</string>
+    <string name="show_standard_dns">📋 クラシック DNS（Standard）を表示</string>
+    <string name="show_profile_variants">📋 DNS プロバイダーの各種プロファイルを表示（unfiltered、noads、kids など）</string>
+    <string name="dns_dot_adb">📡 ADB 経由の DNS DoT</string>
+    <string name="adb_warning">⚠️ ADB メソッドはシステム設定を変更します。接続に問題が発生した場合は、このオプションを無効にして VPN メソッドを使用してください。</string>
+    <string name="disable_ipv6_label">IPv6 を無効にする / IPv4 を強制</string>
+
+    <!-- Auto-start / Auto-reconnect -->
+    <string name="auto_settings_title">自動起動</string>
+    <string name="auto_start_label">起動時に起動</string>
+    <string name="auto_start_description">デバイスの起動時にアプリを自動的に起動する</string>
+    <string name="auto_reconnect_label">DNS への自動接続</string>
+    <string name="auto_reconnect_description">デフォルトまたは最後に使用した DNS に自動的に再接続する</string>
+    <string name="auto_reconnect_dns_info">→ %1$s</string>
+    <string name="auto_reconnect_no_dns">→ DNS が設定されていません</string>
+    <string name="auto_reconnect_default_prefix">（デフォルト）</string>
+
+    <!-- Import / Export -->
+    <string name="import_export_title">💾 設定ファイル</string>
+    <string name="import_export_desc">完全な設定をバックアップまたは復元します（プロファイル、お気に入り、デフォルト DNS、リライトルール、設定）。</string>
+    <string name="export_config_button">📤 設定をエクスポート</string>
+    <string name="import_config_button">📥 設定をインポート</string>
+    <string name="config_exported_title">📤 設定をエクスポートしました</string>
+    <string name="config_exported_message">ファイル: %1$s\n\nJSON はクリップボードにもコピーされました。\n\n共有または保存できます。</string>
+    <string name="share_button">共有</string>
+    <string name="upload_to_tmpfiles">☁️ tmpfiles.org に送信（60分）</string>
+    <string name="tmpfiles_temporary">tmpfiles.org（60分）</string>
+    <string name="uploading">送信中…</string>
+    <string name="upload_success_title">☁️ ファイルを送信しました！</string>
+    <string name="upload_success_message">URL:\n%1$s\n\nリンクはクリップボードにコピーされました。</string>
+    <string name="upload_success_message_with_number">インポート番号: %1$s\n\n別のデバイスにこの設定をインポートするには、この番号だけを伝えてください。\n\n完全な URL:\n%2$s\n\n番号はクリップボードにコピーされました。</string>
+    <string name="upload_error">送信エラー: %1$s</string>
+    <string name="share_config">設定を共有</string>
+    <string name="export_error">エクスポートエラー: %1$s</string>
+    <string name="import_from_clipboard">📋 クリップボードから貼り付け</string>
+    <string name="import_from_url">🌐 URL からインポート</string>
+    <string name="import_from_file">📁 ローカルファイルからインポート</string>
+    <string name="import_from_tmpfiles">📦 tmpfiles.org から</string>
+    <string name="import_from_tmpfiles_title">📦 tmpfiles.org からインポート</string>
+    <string name="enter_tmpfiles_number">tmpfiles.org のファイル番号を入力してください：</string>
+    <string name="tmpfiles_number_hint">例: 19637359</string>
+    <string name="clipboard_empty">クリップボードが空です</string>
+    <string name="enter_config_url">設定 JSON ファイルの URL を入力してください：</string>
+    <string name="import_from_url_title">🌐 URL からインポート</string>
+    <string name="download_button">ダウンロード</string>
+    <string name="downloading">ダウンロード中…</string>
+    <string name="no_file_found">ファイルが見つかりません: %1$s</string>
+    <string name="read_error">読み取りエラー: %1$s</string>
+    <string name="confirm_import_title">📥 インポートの確認</string>
+    <string name="confirm_import_message">設定の内容:\n\n%1$s\n\n⚠️ 現在の設定が上書きされます。</string>
+    <string name="import_with_settings">インポート（設定を含む）</string>
+    <string name="import_without_settings">インポート（設定を除く）</string>
+    <string name="invalid_json">無効な JSON: %1$s</string>
+    <string name="import_done_title">インポート完了</string>
+    <string name="import_done">✅ インポート完了！</string>
+    <string name="import_profiles_count">• %1$d 件の DNS プロファイル</string>
+    <string name="import_favorites_count">• %1$d 件のお気に入り</string>
+    <string name="import_rewrite_count">• %1$d 件のリライトルール</string>
+    <string name="import_nextdns_count">• %1$d 件のカスタム NextDNS プロファイル</string>
+    <string name="import_default_restored">• デフォルト DNS を復元しました</string>
+    <string name="import_settings_restored">• 設定を復元しました</string>
+
+    <!-- Restore DNS -->
+    <string name="restore_dns_title">DNS を復元</string>
+    <string name="restore_dns_message">オプションを選択してください：</string>
+    <string name="restore_defaults">デフォルトを復元\n（カスタムは保持）</string>
+    <string name="reset_all">すべてリセット</string>
+    <string name="confirm_title">確認</string>
+    <string name="reset_all_confirm">すべてのカスタムプロファイルが削除されます。続行しますか？</string>
+    <string name="yes_reset_all">はい、すべてリセット</string>
+    <string name="defaults_restored">デフォルト DNS を復元しました！</string>
+    <string name="all_reset">すべてリセットしました！</string>
+
+    <!-- URL Rewrite -->
+    <string name="url_rewrite_title">🔀 URL リライト</string>
+    <string name="add_new_rule">➕ 新しいルールを追加</string>
+    <string name="close">閉じる</string>
+    <string name="new_rewrite_rule_title">➕ 新しいリライトルール</string>
+    <string name="rewrite_explain">ドメインを別のドメインにリダイレクトします。\nキャリアの DNS ブロックを回避するのに便利です。</string>
+    <string name="source_domain">ソースドメイン：</string>
+    <string name="source_domain_hint">例: ygg.re</string>
+    <string name="dest_domain">宛先ドメイン：</string>
+    <string name="dest_domain_hint">例: ygg.unblocked.re</string>
+    <string name="add_button">追加</string>
+    <string name="rewrite_added">リライトを追加しました: %1$s → %2$s</string>
+    <string name="status_label">ステータス: %1$s</string>
+    <string name="enabled">有効</string>
+    <string name="disabled">無効</string>
+    <string name="enable_button">有効にする</string>
+    <string name="disable_button">無効にする</string>
+    <string name="rule_enabled">ルールを有効にしました</string>
+    <string name="rule_disabled">ルールを無効にしました</string>
+    <string name="delete_rule_confirm">ルール %1$s → %2$s を削除しますか？</string>
+    <string name="rule_deleted">ルールを削除しました</string>
+    <string name="add_rewrite_rule_title">リライトルールを追加</string>
+
+    <!-- Language dialog -->
+    <string name="choose_language_title">🌍 Langue / Language / Idioma</string>
+    <string name="lang_francais">🇫🇷 Français</string>
+    <string name="lang_english">🇬🇧 English</string>
+    <string name="lang_espanol">🇪🇸 Español</string>
+    <string name="lang_italiano">🇮🇹 Italiano</string>
+    <string name="lang_portugues">🇧🇷 Português</string>
+    <string name="lang_russian">🇷🇺 Русский</string>
+    <string name="lang_chinese">🇨🇳 中文</string>
+    <string name="lang_arabic">🇸🇦 العربية</string>
+    <string name="lang_hindi">🇮🇳 हिन्दी</string>
+    <string name="lang_bengali">🇧🇩 বাংলা</string>
+    <string name="lang_japanese">🇯🇵 日本語</string>
+
+    <!-- Support -->
+    <string name="support_us_button">❤️ 開発者を支援</string>
+    <string name="support_us_title">開発者を支援 ❤️</string>
+    <string name="support_us_message">アプリを気に入っていただけましたか？お役に立ちましたか？\n開発者へのちょっとした支援をお願いします！</string>
+    <string name="select_crypto_button">👉 ここをタップして送信する暗号通貨を選択 👈</string>
+    <string name="choose_crypto_title">暗号通貨を選択</string>
+
+    <!-- AboutActivity -->
+    <string name="about_title">Perfect DNS Manager について</string>
+    <string name="version">バージョン %1$s</string>
+    <string name="about_community_text">🚫 広告なし\n📊 データ収集なし\n🆓 自由に使用・共有可能\n💜 コミュニティのために作られました ❤️</string>
+    <string name="check_for_updates">アップデートを確認</string>
+    <string name="checking_for_updates">アップデートを確認中…</string>
+    <string name="credits">クレジット</string>
+    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
+    <string name="appstorefr">AppstoreFR</string>
+    <string name="contact_email">contact@appstorefr.net</string>
+    <string name="support_about_button">❤️ 開発者を支援</string>
+    <string name="ia_credit">AI: Claude Opus 4.6 (Anthropic)</string>
+
+    <!-- DNS Deletion -->
+    <string name="cannot_delete">削除できません</string>
+    <string name="cannot_delete_predefined">プリセットプロファイルは削除できません。</string>
+    <string name="confirm_delete">削除の確認</string>
+    <string name="delete_profile_message">プロファイル「%1$s」を本当に削除しますか？</string>
+    <string name="delete">削除</string>
+
+    <!-- AddProfileDialog -->
+    <string name="new_dns_profile">新しい DNS プロファイル</string>
+    <string name="profile_name">プロファイル名</string>
+    <string name="profile_name_hint">例: 自分の DNS</string>
+    <string name="dns_type">DNS タイプ</string>
+    <string name="primary_dns">プライマリ DNS</string>
+    <string name="primary_dns_hint">例: 8.8.8.8 または dns.google</string>
+    <string name="secondary_dns_optional">セカンダリ DNS（任意）</string>
+    <string name="secondary_dns_hint">例: 8.8.4.4</string>
+    <string name="cancel">キャンセル</string>
+    <string name="save">保存</string>
+    <string name="name_required">名前は必須です</string>
+    <string name="primary_dns_required">プライマリ DNS は必須です</string>
+
+    <!-- DNS Test -->
+    <string name="test_dns">🔍 DNS テスト</string>
+    <string name="test_dns_title">DNS テスト</string>
+    <string name="test_dns_running">テスト中…</string>
+    <string name="test_dns_success">✅ DNS は正常に動作しています！\n\n%1$s の名前解決に成功しました。\nDNS の変更は正常に適用されています。</string>
+    <string name="test_dns_fail">❌ DNS の名前解決に失敗しました。\n\nドメイン %1$s を解決できませんでした。\nDNS の設定を確認してください。</string>
+    <string name="test_dns_no_dns">テストする前に DNS を有効にしてください。</string>
+    <string name="test_domain_label">テストするドメイン：</string>
+    <string name="test_button">テスト</string>
+    <string name="test_flushing">DNS キャッシュをフラッシュ中 + テスト中…</string>
+    <string name="test_no_connection_title">❌ 接続なし</string>
+    <string name="test_no_connection_msg">何も名前解決できません。\nインターネット接続を確認してください。</string>
+    <string name="test_blocked_title">🔒 ドメインがブロックされています</string>
+    <string name="test_blocked_msg">%1$s → %2$s\n\nこの IP はブロック用アドレスです。\n%3$s</string>
+    <string name="test_blocked_dns_bad">⚠️ DNS が正常に動作していません。</string>
+    <string name="test_blocked_activate">代替 DNS を有効にして再テストしてください！</string>
+    <string name="test_accessible_title">✅ ドメインはアクセス可能</string>
+    <string name="test_accessible_msg_active">%1$s → %2$s\n\nDNS は正常に動作しています！</string>
+    <string name="test_accessible_msg_inactive">%1$s → %2$s\n\nこのドメインは代替 DNS なしでもアクセス可能です。</string>
+    <string name="test_unresolved_title">❓ 未解決</string>
+    <string name="test_unresolved_msg_active">%1$s: %2$s\n\nDNS サーバーがこのドメインを認識していない可能性があります。</string>
+    <string name="test_unresolved_msg_inactive">%1$s: %2$s\n\nお使いの ISP がこのドメインをブロックしている可能性があります。</string>
+
+    <!-- VPN Report -->
+    <string name="dns_report_title">DNS レポート</string>
+    <string name="report_private_dns_header">── プライベート DNS (ADB) ──</string>
+    <string name="report_vpn_header">── VPN DNS ──</string>
+    <string name="report_vpn_active">状態: 有効</string>
+    <string name="report_vpn_inactive">状態: 無効</string>
+    <string name="report_vpn_server">サーバー: %1$s</string>
+    <string name="report_selected_header">── 選択されたプロファイル ──</string>
+    <string name="report_method">メソッド: %1$s</string>
+    <string name="report_primary">プライマリ: %1$s</string>
+    <string name="report_secondary">セカンダリ: %1$s</string>
+    <string name="ok">OK</string>
+
+    <!-- ADB Error -->
+    <string name="adb_error_title">ADB エラー / 権限</string>
+    <string name="reset_adb_keys">ADB キーをリセット</string>
+    <string name="adb_keys_reset">ADB キーをリセットしました。再試行してください。</string>
+
+    <!-- DnsSelection -->
+    <string name="choose_dns_server">DNS サーバーを選択</string>
+    <string name="method_doh_vpn_dot_adb">DoH / Standard → VPN   |   DoT → プライベート DNS (ADB)</string>
+    <string name="method_vpn_only">VPN 経由の DNS — DoH および Standard</string>
+    <string name="long_press_edit">（長押しで編集）</string>
+    <string name="favorites_label">★ お気に入り</string>
+    <string name="removed_from_favorites">お気に入りから削除しました</string>
+    <string name="added_to_favorites">お気に入りに追加しました</string>
+    <string name="remove_from_favorites">★ お気に入りから削除</string>
+    <string name="add_to_favorites">☆ お気に入りに追加</string>
+    <string name="remove_default_dns">⭐ デフォルト DNS から削除</string>
+    <string name="set_default_dns">⭐ デフォルト DNS に設定</string>
+    <string name="default_dns_removed">デフォルト DNS を削除しました</string>
+    <string name="default_dns_set">⭐ %1$s をデフォルト DNS に設定しました</string>
+    <string name="edit_button">✏️ 編集</string>
+    <string name="delete_button">🗑️ 削除</string>
+    <string name="delete_profile_title">このプロファイルを削除しますか？</string>
+    <string name="profile_deleted">プロファイルを削除しました</string>
+    <string name="edit_profile_title">プロファイルを編集</string>
+    <string name="name_label">名前：</string>
+    <string name="primary_dns_label">プライマリ DNS：</string>
+    <string name="secondary_dns_label">セカンダリ DNS：</string>
+    <string name="save_button">保存</string>
+    <string name="profile_updated">プロファイルを更新しました</string>
+
+    <!-- NextDNS -->
+    <string name="add_nextdns_profile">➕ カスタム NextDNS プロファイルを追加</string>
+    <string name="nextdns_explain">NextDNS プロファイルの ID を入力してください。\nhttps://my.nextdns.io/XXXXXX/setup</string>
+    <string name="nextdns_add_title">NextDNS プロファイルを追加</string>
+    <string name="nextdns_add_select">追加して選択（DoH）</string>
+    <string name="nextdns_id_required">ID は必須です</string>
+
+    <!-- HowTo -->
+    <string name="howto_title">🛠 ADB デバッグを有効にする方法</string>
+    <string name="howto_adb_active">✅ ADB デバッグ：有効 — 準備完了です！</string>
+    <string name="howto_adb_inactive">❌ ADB デバッグ：無効 — 以下のガイドに従ってください</string>
+    <string name="howto_open_dev_options">開発者オプションを開く</string>
+    <string name="howto_check_dev_options">開発者オプションを確認</string>
+    <string name="howto_step1_title">ステップ 1 — 開発者オプションを有効にする</string>
+    <string name="howto_step1_desc">設定 → デバイス情報 に移動\n→「ビルド番号」を 7 回タップ\n\n「これでデベロッパーになりました！」というメッセージが表示されます。</string>
+    <string name="howto_step2_title">ステップ 2 — ADB デバッグを有効にする</string>
+    <string name="howto_step2_desc">設定 → 開発者オプション に移動\n→「ADB デバッグ」を有効にする\n\nまたは上のボタンを使用して直接アクセスしてください。</string>
+    <string name="howto_step3_title">ステップ 3 — 接続を許可する</string>
+    <string name="howto_step3_desc">ADB 経由で初めて DNS を有効にする際、「USB デバッグを許可しますか？」というポップアップが表示されることがあります。\n\n→「このデバイスからの接続を常に許可する」にチェック\n→ OK を押す\n\nアプリは接続を自動的に記憶します。</string>
+    <string name="howto_note_tv_title">💡 Thomson ボックス / Android TV に関する注意</string>
+    <string name="howto_note_tv_desc">ほとんどの Android TV ボックスでは、ADB ポート 5555 がローカルでアクセス可能です。開発者オプションで ADB デバッグを有効にするだけで十分です — USB ケーブルや PC は不要です。</string>
+    <string name="howto_firestick_title">🔥 Firestick / Fire TV</string>
+    <string name="howto_firestick_desc">Firestick では、ADB 自動接続メソッドが機能しないことがよくあります。設定なしで動作する VPN メソッドの使用を推奨します。\n\nそれでも ADB を使用したい場合：\n1. PC に ADB をインストール（platform-tools）\n2. Firestick に接続：\n   adb connect IP_FIRESTICK:5555\n3. 権限を付与：\n   adb shell pm grant net.appstorefr.perfectdnsmanager android.permission.WRITE_SECURE_SETTINGS\n4. その後、アプリから直接 DNS を変更できるようになります。</string>
+    <string name="howto_recommendation_title">✅ 推奨事項</string>
+    <string name="howto_recommendation_desc">VPN メソッドが最も簡単です：特別な設定なしですべてのデバイスで動作します。DNS リクエストのみを選択したサーバーにリダイレクトするローカル VPN を作成します。</string>
+
+    <!-- Notification -->
+    <string name="notif_starting">DNS: 起動中…</string>
+    <string name="notif_open_app_vpn">アプリを開いて VPN DNS を再有効化してください</string>
+
+    <!-- UpdateManager -->
+    <string name="update_available">アップデートが利用可能: v%1$s</string>
+    <string name="app_up_to_date">アプリは最新です ✓</string>
+    <string name="update_check_error">アップデートの確認ができません</string>
+    <string name="update_downloading">ダウンロード中…</string>
+    <string name="update_download_error">ダウンロード中にエラーが発生しました</string>
+    <string name="update_install_error">インストール中にエラーが発生しました</string>
+    <string name="update_dialog_title">アップデートが利用可能</string>
+    <string name="update_dialog_message">新しいバージョン（v%1$s）が利用可能です。\nダウンロードしてインストールしますか？</string>
+    <string name="update_dialog_install">インストール</string>
+    <string name="update_dialog_later">後で</string>
+
+    <!-- Version migration -->
+    <string name="presets_updated_toast">DNS プロファイルをバージョン %1$s に更新しました</string>
+
+    <!-- ADB Compatibility -->
+    <string name="adb_requires_android9">⚠️ DoT/ADB メソッドには Android 9（Pie）以上が必要です。お使いのデバイスは対応していません。</string>
+
+    <!-- HowTo Compatibility -->
+    <string name="howto_compat_title">⚠️ Android の互換性</string>
+    <string name="howto_compat_desc">プライベート DNS（ADB 経由の DoT）メソッドには Android 9（Pie）以上（API 28+）が必要です。\n\nAndroid 8 以前のデバイスはこのメソッドに対応していません。代わりに VPN（DoH）メソッドを使用してください。</string>
+    <string name="howto_android11_title">⚠️ Android 11 以上 — ワイヤレス ADB</string>
+    <string name="howto_android11_desc">Android 11 以降、ワイヤレス ADB サービスはランダムなポートを使用し、TLS ペアリングが必要です。\n\n最近のスマートフォンでは、ADB ローカル自動接続が機能しない場合があります。これらのデバイスでは VPN メソッドを推奨します。\n\nAndroid TV ボックスでは、ポート 5555 は通常アクセス可能です。</string>
+
+    <!-- Shizuku -->
+    <string name="shizuku_section_title">Shizuku（Android 11 以上）</string>
+    <string name="shizuku_section_desc">Shizuku を使用すると、有線 ADB 接続なしでプライベート DNS を変更できます。ワイヤレス ADB で TLS ペアリングが必要な Android 11 以上に最適です。</string>
+    <string name="shizuku_not_installed">未インストール</string>
+    <string name="shizuku_not_running">インストール済みですが未起動</string>
+    <string name="shizuku_no_permission">権限が付与されていません</string>
+    <string name="shizuku_ready">準備完了</string>
+    <string name="shizuku_install">Shizuku をインストール</string>
+    <string name="shizuku_open">Shizuku を開く</string>
+    <string name="shizuku_grant_permission">権限を付与</string>
+    <string name="shizuku_permission_granted">Shizuku の権限が付与されました！</string>
+
+    <!-- DNS Ratings -->
+    <string name="speed_label">速度</string>
+    <string name="privacy_label">プライバシー</string>
+
+    <!-- DNS Speedtest -->
+    <string name="dns_speedtest_button">⚡ スピードテスト</string>
+    <string name="dns_speedtest_title">⚡ DNS スピードテスト</string>
+    <string name="dns_speedtest_running">DNS 遅延テスト中…</string>
+    <string name="dns_speedtest_result">%1$s（%2$s）: %3$s</string>
+    <string name="dns_speedtest_error">エラー</string>
+    <string name="dns_speedtest_ms">%1$d ms</string>
+
+    <!-- Export granulaire -->
+    <string name="export_select_title">📤 エクスポートする内容を選択してください</string>
+    <string name="export_toggle_profiles">DNS プロファイル</string>
+    <string name="export_toggle_favorites">お気に入り</string>
+    <string name="export_toggle_default_dns">デフォルト DNS</string>
+    <string name="export_toggle_nextdns">カスタム NextDNS プロファイル</string>
+    <string name="export_toggle_rewrite">URL リライトルール</string>
+    <string name="export_toggle_settings">設定</string>
+    <string name="export_button">エクスポート</string>
+    <string name="export_choose_dest">生成されたファイル: %1$s\n\nJSON はクリップボードにコピーされました。\n\n保存先を選択してください：</string>
+    <string name="export_save_local">💾 ローカルに保存</string>
+    <string name="export_saved_locally">💾 ファイルを保存しました:\n%1$s</string>
+
+    <!-- IPv6 VPN reconnect -->
+    <string name="vpn_reconnecting_ipv6">VPN を再接続しました（IPv6 変更）</string>
+
+    <!-- Shizuku hardcoded fix -->
+    <string name="shizuku_cannot_open">Shizuku を開けません</string>
+
+    <!-- Downloader code -->
+    <string name="downloader_code_label">ダウンローダーコード（AFTVnews）：</string>
+    <string name="downloader_code_value">2759555</string>
+
+    <!-- DNS Rewrite screen -->
+    <string name="dns_rewrite_screen_title">DNS リライト（Rewriting）</string>
+</resources>

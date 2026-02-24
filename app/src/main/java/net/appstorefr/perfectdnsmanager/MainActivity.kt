@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         // Premier lancement : si pas de langue choisie, définir la langue du système
         if (prefs.getString("language", null) == null) {
             val sysLang = java.util.Locale.getDefault().language
-            val supported = listOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar")
+            val supported = listOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar", "hi", "bn", "ja")
             val lang = if (sysLang in supported) sysLang else "en"
             prefs.edit().putString("language", lang).apply()
         }
@@ -441,6 +441,9 @@ class MainActivity : AppCompatActivity() {
             "ru" -> "\uD83C\uDDF7\uD83C\uDDFA"
             "zh" -> "\uD83C\uDDE8\uD83C\uDDF3"
             "ar" -> "\uD83C\uDDF8\uD83C\uDDE6"
+            "hi" -> "\uD83C\uDDEE\uD83C\uDDF3"
+            "bn" -> "\uD83C\uDDE7\uD83C\uDDE9"
+            "ja" -> "\uD83C\uDDEF\uD83C\uDDF5"
             else -> "\uD83C\uDDEC\uD83C\uDDE7"
         }
         btnLanguage.text = flag
@@ -455,9 +458,12 @@ class MainActivity : AppCompatActivity() {
             "\uD83C\uDDE7\uD83C\uDDF7 Portugu\u00eas",
             "\uD83C\uDDF7\uD83C\uDDFA \u0420\u0443\u0441\u0441\u043a\u0438\u0439",
             "\uD83C\uDDE8\uD83C\uDDF3 \u4e2d\u6587",
-            "\uD83C\uDDF8\uD83C\uDDE6 \u0627\u0644\u0639\u0631\u0628\u064a\u0629"
+            "\uD83C\uDDF8\uD83C\uDDE6 \u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+            "\uD83C\uDDEE\uD83C\uDDF3 \u0939\u093f\u0928\u094d\u0926\u0940",
+            "\uD83C\uDDE7\uD83C\uDDE9 \u09AC\u09BE\u0982\u09B2\u09BE",
+            "\uD83C\uDDEF\uD83C\uDDF5 \u65E5\u672C\u8A9E"
         )
-        val codes = arrayOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar")
+        val codes = arrayOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar", "hi", "bn", "ja")
         AlertDialog.Builder(this)
             .setTitle("Language")
             .setItems(languages) { _, which ->

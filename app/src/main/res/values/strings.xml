@@ -162,6 +162,9 @@
     <string name="lang_russian">🇷🇺 Русский</string>
     <string name="lang_chinese">🇨🇳 中文</string>
     <string name="lang_arabic">🇸🇦 العربية</string>
+    <string name="lang_hindi">🇮🇳 हिन्दी</string>
+    <string name="lang_bengali">🇧🇩 বাংলা</string>
+    <string name="lang_japanese">🇯🇵 日本語</string>
 
     <!-- Support -->
     <string name="support_us_button">❤️ Me soutenir</string>

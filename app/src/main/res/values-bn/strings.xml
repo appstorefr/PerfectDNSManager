@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_name">Perfect DNS Manager</string>
+
+    <!-- MainActivity -->
+    <string name="dns_switcher">Perfect DNS Manager</string>
+    <string name="dns_profile">DNS প্রোফাইল</string>
+    <string name="add_new_profile">➕ নতুন প্রোফাইল</string>
+    <string name="application_method">প্রয়োগের পদ্ধতি</string>
+    <string name="private_dns_adb">Private DNS (ADB)</string>
+    <string name="local_vpn_all_types">স্থানীয় VPN</string>
+    <string name="activate">সক্রিয় করুন</string>
+    <string name="deactivate">নিষ্ক্রিয় করুন</string>
+    <string name="no_active_dns">কোনো সক্রিয় DNS নেই</string>
+    <string name="about">সম্পর্কে</string>
+    <string name="select_a_profile">একটি প্রোফাইল নির্বাচন করুন</string>
+    <string name="click_to_select_dns">DNS নির্বাচন করতে এখানে ক্লিক করুন</string>
+    <string name="profile_added">প্রোফাইল যোগ করা হয়েছে: %1$s</string>
+    <string name="private_dns_supports_only_dot">Private DNS শুধুমাত্র DoT সমর্থন করে</string>
+    <string name="adb_requires_root_or_pc">সেটিংস পরিবর্তন করা সম্ভব হচ্ছে না।\n\nনিশ্চিত করুন যে আপনি PC এর মাধ্যমে অনুমতি দিয়েছেন:\n\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\n(অথবা আপনার ডিভাইস রুটেড)</string>
+    <string name="error_activating_adb">ADB সক্রিয়করণে ত্রুটি</string>
+    <string name="dns_activated_via_adb">ADB এর মাধ্যমে DNS সক্রিয় করা হয়েছে</string>
+    <string name="vpn_permission_denied">VPN অনুমতি প্রত্যাখ্যাত</string>
+    <string name="vpn_activated">VPN সক্রিয়: %1$s</string>
+    <string name="dns_disabled">DNS নিষ্ক্রিয় করা হয়েছে</string>
+    <string name="firestick_warning_title">Firestick সতর্কতা</string>
+    <string name="firestick_warning_message">Firestick ডিভাইসে ADB পদ্ধতি ব্যবহার করলে ইন্টারনেট সংযোগ হারাতে পারে। VPN পদ্ধতি ব্যবহার করার পরামর্শ দেওয়া হচ্ছে।</string>
+    <string name="continue_anyway">চালিয়ে যান</string>
+    <string name="dns_provider_label">1| DNS প্রদানকারী নির্বাচন:</string>
+    <string name="dns_select_button">👉 DNS প্রদানকারী নির্বাচন 👈</string>
+    <string name="activation_label">2| সক্রিয়করণ:</string>
+    <string name="dns_service_used">ব্যবহৃত DNS সেবা:</string>
+    <string name="settings_content_description">সেটিংস</string>
+    <string name="wan_ipv4_label">IPv4 : </string>
+    <string name="wan_ipv6_label">IPv6 : </string>
+    <string name="wan_ip_loading">লোড হচ্ছে…</string>
+    <string name="wan_ip_error">অনুপলব্ধ</string>
+    <string name="wan_ipv6_blocked">ব্লক করা হয়েছে ✓</string>
+    <string name="share_ip_button">📤 tmpfiles.org এর মাধ্যমে আমার IP শেয়ার করুন</string>
+    <string name="share_ip_uploading">IP আপলোড হচ্ছে…</string>
+    <string name="share_ip_success_title">IP শেয়ার করা হয়েছে</string>
+    <string name="share_ip_success_message">tmpfiles নম্বর: %1$s\n\nনম্বরটি ক্লিপবোর্ডে কপি করা হয়েছে।\n\nURL: %2$s\n(৬০ মিনিটে মেয়াদ শেষ হবে)</string>
+    <string name="share_ip_error">IP শেয়ার করতে ত্রুটি হয়েছে</string>
+
+    <!-- Navigation -->
+    <string name="back">ফিরে যান</string>
+    <string name="back_arrow">← ফিরে যান</string>
+
+    <!-- Settings -->
+    <string name="settings_title">সেটিংস</string>
+    <string name="language_select_button">Langue / Language</string>
+    <string name="how_to_adb">🛠 ADB কীভাবে সক্রিয় করবেন</string>
+    <string name="adb_status_active">🟢 ADB ডিবাগিং: সক্রিয়</string>
+    <string name="adb_status_inactive">🔴 ADB ডিবাগিং: নিষ্ক্রিয়</string>
+    <string name="advanced_features_title">⚙️ উন্নত বৈশিষ্ট্য</string>
+    <string name="advanced_features_desc">বৈশিষ্ট্য সক্রিয় করুন: ADB এর মাধ্যমে DNS DoT, URL Rewrite এবং অপারেটর DNS।</string>
+    <string name="url_rewrite_warning">⚠️ URL Rewrite শুধুমাত্র DNS DoH বা Standard এ কাজ করে (DoT/ADB তে নয়)</string>
+    <string name="url_rewrite_button">🔀 URL Rewrite</string>
+    <string name="restore_dns_button">🔄 প্রাথমিক DNS পুনরুদ্ধার করুন</string>
+    <string name="show_operator_dns">🇫🇷 ফ্রান্স অপারেটর DNS দেখান (Orange/Bouygues/SFR/Free)</string>
+    <string name="show_standard_dns">📋 ক্লাসিক DNS দেখান (Standard)</string>
+    <string name="show_profile_variants">📋 DNS প্রদানকারীদের বিভিন্ন প্রোফাইল দেখান (unfiltered, noads, kids ইত্যাদি…)</string>
+    <string name="dns_dot_adb">📡 ADB এর মাধ্যমে DNS DoT</string>
+    <string name="adb_warning">⚠️ ADB পদ্ধতি সিস্টেম সেটিংস পরিবর্তন করে। সংযোগ সমস্যা হলে, এই বিকল্পটি নিষ্ক্রিয় করুন এবং VPN পদ্ধতি ব্যবহার করুন।</string>
+    <string name="disable_ipv6_label">IPv6 নিষ্ক্রিয় করুন / IPv4 জোর করুন</string>
+
+    <!-- Auto-start / Auto-reconnect -->
+    <string name="auto_settings_title">স্বয়ংক্রিয় শুরু</string>
+    <string name="auto_start_label">বুটে চালু করুন</string>
+    <string name="auto_start_description">ডিভাইস চালু হলে স্বয়ংক্রিয়ভাবে অ্যাপ চালু করুন</string>
+    <string name="auto_reconnect_label">DNS এ স্বয়ংক্রিয় সংযোগ</string>
+    <string name="auto_reconnect_description">ডিফল্ট বা সর্বশেষ ব্যবহৃত DNS এ স্বয়ংক্রিয়ভাবে পুনরায় সংযোগ করুন</string>
+    <string name="auto_reconnect_dns_info">→ %1$s</string>
+    <string name="auto_reconnect_no_dns">→ কোনো DNS কনফিগার করা নেই</string>
+    <string name="auto_reconnect_default_prefix">(ডিফল্ট) </string>
+
+    <!-- Import / Export -->
+    <string name="import_export_title">💾 কনফিগারেশন ফাইল</string>
+    <string name="import_export_desc">আপনার সম্পূর্ণ কনফিগারেশন সংরক্ষণ বা পুনরুদ্ধার করুন (প্রোফাইল, পছন্দসই, ডিফল্ট DNS, rewrite নিয়ম, সেটিংস)।</string>
+    <string name="export_config_button">📤 কনফিগারেশন রপ্তানি করুন</string>
+    <string name="import_config_button">📥 কনফিগারেশন আমদানি করুন</string>
+    <string name="config_exported_title">📤 কনফিগারেশন রপ্তানি হয়েছে</string>
+    <string name="config_exported_message">ফাইল: %1$s\n\nJSON ক্লিপবোর্ডেও কপি করা হয়েছে।\n\nআপনি এটি শেয়ার বা সংরক্ষণ করতে পারেন।</string>
+    <string name="share_button">শেয়ার করুন</string>
+    <string name="upload_to_tmpfiles">☁️ tmpfiles.org এ পাঠান (৬০ মিনিট)</string>
+    <string name="tmpfiles_temporary">tmpfiles.org (৬০ মিনিট)</string>
+    <string name="uploading">পাঠানো হচ্ছে…</string>
+    <string name="upload_success_title">☁️ ফাইল পাঠানো হয়েছে!</string>
+    <string name="upload_success_message">URL:\n%1$s\n\nলিঙ্ক ক্লিপবোর্ডে কপি করা হয়েছে।</string>
+    <string name="upload_success_message_with_number">আমদানি নম্বর: %1$s\n\nঅন্য ডিভাইসে এই কনফিগারেশন আমদানি করতে, শুধুমাত্র এই নম্বরটি দিন।\n\nসম্পূর্ণ URL:\n%2$s\n\nনম্বর ক্লিপবোর্ডে কপি করা হয়েছে।</string>
+    <string name="upload_error">পাঠাতে ত্রুটি: %1$s</string>
+    <string name="share_config">কনফিগারেশন শেয়ার করুন</string>
+    <string name="export_error">রপ্তানিতে ত্রুটি: %1$s</string>
+    <string name="import_from_clipboard">📋 ক্লিপবোর্ড থেকে পেস্ট করুন</string>
+    <string name="import_from_url">🌐 URL থেকে আমদানি করুন</string>
+    <string name="import_from_file">📁 স্থানীয় ফাইল থেকে আমদানি করুন</string>
+    <string name="import_from_tmpfiles">📦 tmpfiles.org থেকে</string>
+    <string name="import_from_tmpfiles_title">📦 tmpfiles.org আমদানি</string>
+    <string name="enter_tmpfiles_number">tmpfiles.org ফোল্ডার নম্বর লিখুন:</string>
+    <string name="tmpfiles_number_hint">উদাহরণ: 19637359</string>
+    <string name="clipboard_empty">ক্লিপবোর্ড খালি</string>
+    <string name="enter_config_url">JSON কনফিগারেশন ফাইলের URL লিখুন:</string>
+    <string name="import_from_url_title">🌐 URL থেকে আমদানি</string>
+    <string name="download_button">ডাউনলোড করুন</string>
+    <string name="downloading">ডাউনলোড হচ্ছে…</string>
+    <string name="no_file_found">কোনো ফাইল পাওয়া যায়নি: %1$s</string>
+    <string name="read_error">পড়তে ত্রুটি: %1$s</string>
+    <string name="confirm_import_title">📥 আমদানি নিশ্চিত করুন</string>
+    <string name="confirm_import_message">কনফিগারেশনের বিষয়বস্তু:\n\n%1$s\n\n⚠️ এটি আপনার বর্তমান কনফিগারেশন প্রতিস্থাপন করবে।</string>
+    <string name="import_with_settings">আমদানি করুন (সেটিংস সহ)</string>
+    <string name="import_without_settings">আমদানি করুন (সেটিংস ছাড়া)</string>
+    <string name="invalid_json">অবৈধ JSON: %1$s</string>
+    <string name="import_done_title">আমদানি সম্পন্ন</string>
+    <string name="import_done">✅ আমদানি সম্পন্ন!</string>
+    <string name="import_profiles_count">• %1$d টি DNS প্রোফাইল</string>
+    <string name="import_favorites_count">• %1$d টি পছন্দসই</string>
+    <string name="import_rewrite_count">• %1$d টি rewrite নিয়ম</string>
+    <string name="import_nextdns_count">• %1$d টি কাস্টম NextDNS প্রোফাইল</string>
+    <string name="import_default_restored">• ডিফল্ট DNS পুনরুদ্ধার করা হয়েছে</string>
+    <string name="import_settings_restored">• সেটিংস পুনরুদ্ধার করা হয়েছে</string>
+
+    <!-- Restore DNS -->
+    <string name="restore_dns_title">DNS পুনরুদ্ধার করুন</string>
+    <string name="restore_dns_message">একটি বিকল্প নির্বাচন করুন:</string>
+    <string name="restore_defaults">ডিফল্ট পুনরুদ্ধার করুন\n(কাস্টম রাখুন)</string>
+    <string name="reset_all">সব রিসেট করুন</string>
+    <string name="confirm_title">নিশ্চিত করুন</string>
+    <string name="reset_all_confirm">এটি আপনার সমস্ত কাস্টম প্রোফাইল মুছে ফেলবে। চালিয়ে যেতে চান?</string>
+    <string name="yes_reset_all">হ্যাঁ, সব রিসেট করুন</string>
+    <string name="defaults_restored">ডিফল্ট DNS পুনরুদ্ধার করা হয়েছে!</string>
+    <string name="all_reset">সব রিসেট করা হয়েছে!</string>
+
+    <!-- URL Rewrite -->
+    <string name="url_rewrite_title">🔀 URL Rewrite</string>
+    <string name="add_new_rule">➕ একটি নতুন নিয়ম যোগ করুন</string>
+    <string name="close">বন্ধ করুন</string>
+    <string name="new_rewrite_rule_title">➕ নতুন Rewrite নিয়ম</string>
+    <string name="rewrite_explain">একটি ডোমেইনকে অন্য ডোমেইনে পুনঃনির্দেশ করে।\nঅপারেটর DNS ব্লকিং এড়াতে কার্যকর।</string>
+    <string name="source_domain">উৎস ডোমেইন:</string>
+    <string name="source_domain_hint">উদাহরণ: ygg.re</string>
+    <string name="dest_domain">গন্তব্য ডোমেইন:</string>
+    <string name="dest_domain_hint">উদাহরণ: ygg.unblocked.re</string>
+    <string name="add_button">যোগ করুন</string>
+    <string name="rewrite_added">Rewrite যোগ করা হয়েছে: %1$s → %2$s</string>
+    <string name="status_label">স্থিতি: %1$s</string>
+    <string name="enabled">সক্রিয়</string>
+    <string name="disabled">নিষ্ক্রিয়</string>
+    <string name="enable_button">সক্রিয় করুন</string>
+    <string name="disable_button">নিষ্ক্রিয় করুন</string>
+    <string name="rule_enabled">নিয়ম সক্রিয় করা হয়েছে</string>
+    <string name="rule_disabled">নিয়ম নিষ্ক্রিয় করা হয়েছে</string>
+    <string name="delete_rule_confirm">নিয়ম মুছে ফেলবেন %1$s → %2$s?</string>
+    <string name="rule_deleted">নিয়ম মুছে ফেলা হয়েছে</string>
+    <string name="add_rewrite_rule_title">একটি rewrite নিয়ম যোগ করুন</string>
+
+    <!-- Language dialog -->
+    <string name="choose_language_title">🌍 Langue / Language / Idioma</string>
+    <string name="lang_francais">🇫🇷 Français</string>
+    <string name="lang_english">🇬🇧 English</string>
+    <string name="lang_espanol">🇪🇸 Español</string>
+    <string name="lang_italiano">🇮🇹 Italiano</string>
+    <string name="lang_portugues">🇧🇷 Português</string>
+    <string name="lang_russian">🇷🇺 Русский</string>
+    <string name="lang_chinese">🇨🇳 中文</string>
+    <string name="lang_hindi">🇮🇳 हिन्दी</string>
+    <string name="lang_bengali">🇧🇩 বাংলা</string>
+    <string name="lang_japanese">🇯🇵 日本語</string>
+    <string name="lang_arabic">🇸🇦 العربية</string>
+
+    <!-- Support -->
+    <string name="support_us_button">❤️ আমাকে সমর্থন করুন</string>
+    <string name="support_us_title">আমাকে সমর্থন করুন ❤️</string>
+    <string name="support_us_message">আপনি কি অ্যাপটি পছন্দ করেছেন? এটি কি আপনাকে সাহায্য করেছে?\nডেভেলপারকে একটু সাহায্য করতে দ্বিধা করবেন না!</string>
+    <string name="select_crypto_button">👉 পাঠানোর জন্য ক্রিপ্টো নির্বাচন করতে এখানে ক্লিক করুন 👈</string>
+    <string name="choose_crypto_title">একটি ক্রিপ্টো নির্বাচন করুন</string>
+
+    <!-- AboutActivity -->
+    <string name="about_title">Perfect DNS Manager সম্পর্কে</string>
+    <string name="version">সংস্করণ %1$s</string>
+    <string name="about_community_text">🚫 কোনো বিজ্ঞাপন নেই\n📊 কোনো ডেটা সংগ্রহ নেই\n🆓 ব্যবহার ও শেয়ার করতে মুক্ত\n💜 কমিউনিটির জন্য তৈরি ❤️</string>
+    <string name="check_for_updates">আপডেট পরীক্ষা করুন</string>
+    <string name="checking_for_updates">আপডেট পরীক্ষা করা হচ্ছে…</string>
+    <string name="credits">কৃতিত্ব</string>
+    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
+    <string name="appstorefr">AppstoreFR</string>
+    <string name="contact_email">contact@appstorefr.net</string>
+    <string name="support_about_button">❤️ আমাকে সমর্থন করুন</string>
+    <string name="ia_credit">IA : Claude Opus 4.6 (Anthropic)</string>
+
+    <!-- DNS Deletion -->
+    <string name="cannot_delete">মুছে ফেলা সম্ভব নয়</string>
+    <string name="cannot_delete_predefined">আপনি পূর্বনির্ধারিত প্রোফাইল মুছে ফেলতে পারবেন না।</string>
+    <string name="confirm_delete">মুছে ফেলা নিশ্চিত করুন</string>
+    <string name="delete_profile_message">আপনি কি সত্যিই &quot;%1$s&quot; প্রোফাইলটি মুছে ফেলতে চান?</string>
+    <string name="delete">মুছে ফেলুন</string>
+
+    <!-- AddProfileDialog -->
+    <string name="new_dns_profile">নতুন DNS প্রোফাইল</string>
+    <string name="profile_name">প্রোফাইলের নাম</string>
+    <string name="profile_name_hint">উদাহরণ: আমার ব্যক্তিগত DNS</string>
+    <string name="dns_type">DNS এর ধরন</string>
+    <string name="primary_dns">প্রাথমিক DNS</string>
+    <string name="primary_dns_hint">উদাহরণ: 8.8.8.8 বা dns.google</string>
+    <string name="secondary_dns_optional">মাধ্যমিক DNS (ঐচ্ছিক)</string>
+    <string name="secondary_dns_hint">উদাহরণ: 8.8.4.4</string>
+    <string name="cancel">বাতিল</string>
+    <string name="save">সংরক্ষণ করুন</string>
+    <string name="name_required">নাম আবশ্যক</string>
+    <string name="primary_dns_required">প্রাথমিক DNS আবশ্যক</string>
+
+    <!-- DNS Test -->
+    <string name="test_dns">🔍 DNS পরীক্ষা করুন</string>
+    <string name="test_dns_title">DNS পরীক্ষা</string>
+    <string name="test_dns_running">পরীক্ষা চলছে…</string>
+    <string name="test_dns_success">✅ DNS কাজ করছে!\n\n%1$s সফলভাবে সমাধান হয়েছে।\nDNS পরিবর্তন সক্রিয় আছে।</string>
+    <string name="test_dns_fail">❌ DNS সমাধান ব্যর্থ।\n\n%1$s ডোমেইন সমাধান করা যায়নি।\nআপনার DNS কনফিগারেশন পরীক্ষা করুন।</string>
+    <string name="test_dns_no_dns">পরীক্ষা করার আগে প্রথমে একটি DNS সক্রিয় করুন।</string>
+    <string name="test_domain_label">পরীক্ষা করার ডোমেইন:</string>
+    <string name="test_button">পরীক্ষা করুন</string>
+    <string name="test_flushing">DNS ক্যাশ ফ্লাশ + পরীক্ষা চলছে…</string>
+    <string name="test_no_connection_title">❌ কোনো সংযোগ নেই</string>
+    <string name="test_no_connection_msg">কিছুই সমাধান করা সম্ভব হচ্ছে না।\nআপনার ইন্টারনেট সংযোগ পরীক্ষা করুন।</string>
+    <string name="test_blocked_title">🔒 ডোমেইন ব্লক করা হয়েছে</string>
+    <string name="test_blocked_msg">%1$s → %2$s\n\nএই IP একটি ব্লকিং ঠিকানা।\n%3$s</string>
+    <string name="test_blocked_dns_bad">⚠️ DNS সঠিকভাবে কাজ করছে না।</string>
+    <string name="test_blocked_activate">একটি বিকল্প DNS সক্রিয় করুন তারপর আবার পরীক্ষা করুন!</string>
+    <string name="test_accessible_title">✅ ডোমেইন অ্যাক্সেসযোগ্য</string>
+    <string name="test_accessible_msg_active">%1$s → %2$s\n\nDNS কাজ করছে!</string>
+    <string name="test_accessible_msg_inactive">%1$s → %2$s\n\nবিকল্প DNS ছাড়াই এই ডোমেইন অ্যাক্সেসযোগ্য।</string>
+    <string name="test_unresolved_title">❓ সমাধান হয়নি</string>
+    <string name="test_unresolved_msg_active">%1$s : %2$s\n\nDNS সার্ভার হয়তো এই ডোমেইন চেনে না।</string>
+    <string name="test_unresolved_msg_inactive">%1$s : %2$s\n\nআপনার ISP সম্ভবত এই ডোমেইন ব্লক করছে।</string>
+
+    <!-- VPN Report -->
+    <string name="dns_report_title">DNS রিপোর্ট</string>
+    <string name="report_private_dns_header">── Private DNS (ADB) ──</string>
+    <string name="report_vpn_header">── VPN DNS ──</string>
+    <string name="report_vpn_active">অবস্থা: সক্রিয়</string>
+    <string name="report_vpn_inactive">অবস্থা: নিষ্ক্রিয়</string>
+    <string name="report_vpn_server">সার্ভার: %1$s</string>
+    <string name="report_selected_header">── নির্বাচিত প্রোফাইল ──</string>
+    <string name="report_method">পদ্ধতি: %1$s</string>
+    <string name="report_primary">প্রাথমিক: %1$s</string>
+    <string name="report_secondary">মাধ্যমিক: %1$s</string>
+    <string name="ok">ঠিক আছে</string>
+
+    <!-- ADB Error -->
+    <string name="adb_error_title">ADB / অনুমতি ত্রুটি</string>
+    <string name="reset_adb_keys">ADB কী রিসেট করুন</string>
+    <string name="adb_keys_reset">ADB কী রিসেট করা হয়েছে। আবার চেষ্টা করুন।</string>
+
+    <!-- DnsSelection -->
+    <string name="choose_dns_server">একটি DNS সার্ভার নির্বাচন করুন</string>
+    <string name="method_doh_vpn_dot_adb">DoH / Standard → VPN   |   DoT → Private DNS (ADB)</string>
+    <string name="method_vpn_only">VPN এর মাধ্যমে DNS — DoH এবং Standard</string>
+    <string name="long_press_edit">(দীর্ঘ চাপ = সম্পাদনা)</string>
+    <string name="favorites_label">★ পছন্দসই</string>
+    <string name="removed_from_favorites">পছন্দসই থেকে সরানো হয়েছে</string>
+    <string name="added_to_favorites">পছন্দসইতে যোগ করা হয়েছে</string>
+    <string name="remove_from_favorites">★ পছন্দসই থেকে সরান</string>
+    <string name="add_to_favorites">☆ পছন্দসইতে যোগ করুন</string>
+    <string name="remove_default_dns">⭐ ডিফল্ট DNS থেকে সরান</string>
+    <string name="set_default_dns">⭐ ডিফল্ট DNS হিসেবে সেট করুন</string>
+    <string name="default_dns_removed">ডিফল্ট DNS সরানো হয়েছে</string>
+    <string name="default_dns_set">⭐ %1$s ডিফল্ট DNS হিসেবে সেট করা হয়েছে</string>
+    <string name="edit_button">✏️ সম্পাদনা করুন</string>
+    <string name="delete_button">🗑️ মুছে ফেলুন</string>
+    <string name="delete_profile_title">এই প্রোফাইল মুছে ফেলবেন?</string>
+    <string name="profile_deleted">প্রোফাইল মুছে ফেলা হয়েছে</string>
+    <string name="edit_profile_title">প্রোফাইল সম্পাদনা করুন</string>
+    <string name="name_label">নাম:</string>
+    <string name="primary_dns_label">প্রাথমিক DNS:</string>
+    <string name="secondary_dns_label">মাধ্যমিক DNS:</string>
+    <string name="save_button">সংরক্ষণ করুন</string>
+    <string name="profile_updated">প্রোফাইল আপডেট করা হয়েছে</string>
+
+    <!-- NextDNS -->
+    <string name="add_nextdns_profile">➕ একটি কাস্টম NextDNS প্রোফাইল যোগ করুন</string>
+    <string name="nextdns_explain">আপনার NextDNS প্রোফাইলের আইডি লিখুন।\nhttps://my.nextdns.io/XXXXXX/setup</string>
+    <string name="nextdns_add_title">NextDNS প্রোফাইল যোগ করুন</string>
+    <string name="nextdns_add_select">যোগ করুন এবং নির্বাচন করুন (DoH)</string>
+    <string name="nextdns_id_required">আইডি আবশ্যক</string>
+
+    <!-- HowTo -->
+    <string name="howto_title">🛠 ADB ডিবাগিং কীভাবে সক্রিয় করবেন</string>
+    <string name="howto_adb_active">✅ ADB ডিবাগিং: সক্রিয় — আপনি প্রস্তুত!</string>
+    <string name="howto_adb_inactive">❌ ADB ডিবাগিং: নিষ্ক্রিয় — নিচের নির্দেশিকা অনুসরণ করুন</string>
+    <string name="howto_open_dev_options">ডেভেলপার অপশন খুলুন</string>
+    <string name="howto_check_dev_options">ডেভেলপার অপশন পরীক্ষা করুন</string>
+    <string name="howto_step1_title">ধাপ ১ — ডেভেলপার অপশন সক্রিয় করুন</string>
+    <string name="howto_step1_desc">যান: সেটিংস → সম্পর্কে\n→ « বিল্ড নম্বর » এ ৭ বার চাপুন\n\n« আপনি এখন একজন ডেভেলপার! » বার্তা দেখা যাবে।</string>
+    <string name="howto_step2_title">ধাপ ২ — ADB ডিবাগিং সক্রিয় করুন</string>
+    <string name="howto_step2_desc">যান: সেটিংস → ডেভেলপার অপশন\n→ « ADB ডিবাগিং » সক্রিয় করুন\n\nঅথবা সরাসরি যেতে উপরের বোতাম ব্যবহার করুন।</string>
+    <string name="howto_step3_title">ধাপ ৩ — সংযোগ অনুমোদন করুন</string>
+    <string name="howto_step3_desc">ADB এর মাধ্যমে প্রথমবার DNS সক্রিয় করার সময়, « USB ডিবাগিং অনুমোদন করবেন? » পপআপ আসতে পারে।\n\n→ « সর্বদা এই ডিভাইস থেকে অনুমোদন করুন » চেক করুন\n→ ঠিক আছে চাপুন\n\nঅ্যাপটি তখন স্বয়ংক্রিয়ভাবে সংযোগ মনে রাখবে।</string>
+    <string name="howto_note_tv_title">💡 Thomson / Android TV বক্সের জন্য নোট</string>
+    <string name="howto_note_tv_desc">বেশিরভাগ Android TV বক্সে, ADB পোর্ট 5555 স্থানীয়ভাবে অ্যাক্সেসযোগ্য। ডেভেলপার অপশনে ADB ডিবাগিং সক্রিয় থাকলেই যথেষ্ট — USB কেবল বা PC এর প্রয়োজন নেই।</string>
+    <string name="howto_firestick_title">🔥 Firestick / Fire TV</string>
+    <string name="howto_firestick_desc">Firestick এ, ADB স্বয়ংক্রিয়-সংযোগ পদ্ধতি প্রায়ই কাজ করে না। কোনো কনফিগারেশন ছাড়াই কাজ করে এমন VPN পদ্ধতি ব্যবহার করার পরামর্শ দেওয়া হচ্ছে।\n\nআপনি যদি তবুও ADB ব্যবহার করতে চান:\n1. PC তে ADB ইনস্টল করুন (platform-tools)\n2. Firestick এ সংযোগ করুন:\n   adb connect IP_FIRESTICK:5555\n3. অনুমতি দিন:\n   adb shell pm grant net.appstorefr.perfectdnsmanager android.permission.WRITE_SECURE_SETTINGS\n4. এরপর, অ্যাপ সরাসরি DNS পরিবর্তন করতে পারবে।</string>
+    <string name="howto_recommendation_title">✅ সুপারিশ</string>
+    <string name="howto_recommendation_desc">VPN পদ্ধতি সবচেয়ে সহজ: এটি কোনো বিশেষ কনফিগারেশন ছাড়াই সব ডিভাইসে কাজ করে। এটি একটি স্থানীয় VPN তৈরি করে যা শুধুমাত্র DNS অনুরোধগুলি আপনার পছন্দের সার্ভারে পুনঃনির্দেশ করে।</string>
+
+    <!-- Notification -->
+    <string name="notif_starting">DNS: শুরু হচ্ছে…</string>
+    <string name="notif_open_app_vpn">VPN DNS পুনরায় সক্রিয় করতে অ্যাপ খুলুন</string>
+
+    <!-- UpdateManager -->
+    <string name="update_available">আপডেট উপলব্ধ: v%1$s</string>
+    <string name="app_up_to_date">অ্যাপ আপ টু ডেট ✓</string>
+    <string name="update_check_error">আপডেট পরীক্ষা করা সম্ভব হচ্ছে না</string>
+    <string name="update_downloading">ডাউনলোড হচ্ছে…</string>
+    <string name="update_download_error">ডাউনলোডে ত্রুটি</string>
+    <string name="update_install_error">ইনস্টলে ত্রুটি</string>
+    <string name="update_dialog_title">আপডেট উপলব্ধ</string>
+    <string name="update_dialog_message">একটি নতুন সংস্করণ (v%1$s) উপলব্ধ।\nআপনি কি এটি ডাউনলোড এবং ইনস্টল করতে চান?</string>
+    <string name="update_dialog_install">ইনস্টল করুন</string>
+    <string name="update_dialog_later">পরে</string>
+
+    <!-- Version migration -->
+    <string name="presets_updated_toast">সংস্করণ %1$s এর জন্য DNS প্রোফাইল আপডেট করা হয়েছে</string>
+
+    <!-- ADB Compatibility -->
+    <string name="adb_requires_android9">⚠️ DoT/ADB পদ্ধতির জন্য Android 9 (Pie) বা তার উপরে প্রয়োজন। আপনার ডিভাইস সামঞ্জস্যপূর্ণ নয়।</string>
+
+    <!-- HowTo Compatibility -->
+    <string name="howto_compat_title">⚠️ Android সামঞ্জস্যতা</string>
+    <string name="howto_compat_desc">Private DNS (ADB এর মাধ্যমে DoT) পদ্ধতির জন্য Android 9 (Pie) বা তার উপরে (API 28+) প্রয়োজন।\n\nAndroid 8 বা তার নিচের ডিভাইসগুলি এই পদ্ধতির সাথে সামঞ্জস্যপূর্ণ নয়। এর পরিবর্তে VPN (DoH) পদ্ধতি ব্যবহার করুন।</string>
+    <string name="howto_android11_title">⚠️ Android 11+ — ওয়্যারলেস ADB</string>
+    <string name="howto_android11_desc">Android 11 থেকে, ওয়্যারলেস ADB সেবা একটি এলোমেলো পোর্ট ব্যবহার করে এবং TLS পেয়ারিং প্রয়োজন।\n\nসাম্প্রতিক ফোনে, স্থানীয় ADB স্বয়ংক্রিয়-সংযোগ কাজ নাও করতে পারে। এই ডিভাইসগুলিতে VPN পদ্ধতি সুপারিশ করা হচ্ছে।\n\nAndroid TV বক্সে, পোর্ট 5555 সাধারণত অ্যাক্সেসযোগ্য থাকে।</string>
+
+    <!-- Shizuku -->
+    <string name="shizuku_section_title">Shizuku (Android 11+)</string>
+    <string name="shizuku_section_desc">Shizuku তারযুক্ত ADB সংযোগ ছাড়াই প্রাইভেট DNS পরিবর্তন করতে দেয়। Android 11+ এর জন্য আদর্শ যেখানে ওয়্যারলেস ADB এর জন্য TLS পেয়ারিং প্রয়োজন।</string>
+    <string name="shizuku_not_installed">ইনস্টল করা নেই</string>
+    <string name="shizuku_not_running">ইনস্টল করা আছে কিন্তু চালু নেই</string>
+    <string name="shizuku_no_permission">অনুমতি দেওয়া হয়নি</string>
+    <string name="shizuku_ready">প্রস্তুত</string>
+    <string name="shizuku_install">Shizuku ইনস্টল করুন</string>
+    <string name="shizuku_open">Shizuku খুলুন</string>
+    <string name="shizuku_grant_permission">অনুমতি দিন</string>
+    <string name="shizuku_permission_granted">Shizuku অনুমতি দেওয়া হয়েছে!</string>
+
+    <!-- DNS Ratings -->
+    <string name="speed_label">গতি</string>
+    <string name="privacy_label">গোপনীয়তা</string>
+
+    <!-- DNS Speedtest -->
+    <string name="dns_speedtest_button">⚡ স্পিডটেস্ট</string>
+    <string name="dns_speedtest_title">⚡ DNS স্পিডটেস্ট</string>
+    <string name="dns_speedtest_running">DNS লেটেন্সি পরীক্ষা চলছে…</string>
+    <string name="dns_speedtest_result">%1$s (%2$s) : %3$s</string>
+    <string name="dns_speedtest_error">ত্রুটি</string>
+    <string name="dns_speedtest_ms">%1$d ms</string>
+
+    <!-- Export granulaire -->
+    <string name="export_select_title">📤 আপনি কী রপ্তানি করতে চান?</string>
+    <string name="export_toggle_profiles">DNS প্রোফাইল</string>
+    <string name="export_toggle_favorites">পছন্দসই</string>
+    <string name="export_toggle_default_dns">ডিফল্ট DNS</string>
+    <string name="export_toggle_nextdns">কাস্টম NextDNS প্রোফাইল</string>
+    <string name="export_toggle_rewrite">URL Rewrite নিয়ম</string>
+    <string name="export_toggle_settings">সেটিংস</string>
+    <string name="export_button">রপ্তানি করুন</string>
+    <string name="export_choose_dest">তৈরি ফাইল: %1$s\n\nJSON ক্লিপবোর্ডে কপি করা হয়েছে।\n\nগন্তব্য নির্বাচন করুন:</string>
+    <string name="export_save_local">💾 স্থানীয় সংরক্ষণ</string>
+    <string name="export_saved_locally">💾 ফাইল সংরক্ষিত:\n%1$s</string>
+
+    <!-- IPv6 VPN reconnect -->
+    <string name="vpn_reconnecting_ipv6">VPN পুনরায় সংযুক্ত (IPv6 পরিবর্তিত)</string>
+
+    <!-- Shizuku hardcoded fix -->
+    <string name="shizuku_cannot_open">Shizuku খোলা সম্ভব হচ্ছে না</string>
+
+    <!-- Downloader code -->
+    <string name="downloader_code_label">Downloader কোড (AFTVnews):</string>
+    <string name="downloader_code_value">2759555</string>
+
+    <!-- DNS Rewrite screen -->
+    <string name="dns_rewrite_screen_title">DNS পুনর্লিখন (Rewriting)</string>
+</resources>
