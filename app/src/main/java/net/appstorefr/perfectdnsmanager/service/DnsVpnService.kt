@@ -628,7 +628,12 @@ class DnsVpnService : VpnService() {
         try { dnsSocket?.close() } catch (_: Exception) {}
         synchronized(tunOutLock) { try { tunOut?.close() } catch (_: Exception) {} }
         try { vpnInterface?.close() } catch (_: Exception) {}
-        stopForeground(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            @Suppress("DEPRECATION")
+            stopForeground(true)
+        }
     }
 
     private fun mkNotif(msg: String): Notification {

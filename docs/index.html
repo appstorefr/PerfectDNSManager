@@ -190,6 +190,11 @@
     <h1>Perfect DNS Manager</h1>
     <p class="subtitle">Choose your language / Choisissez votre langue</p>
 
+    <p style="color: var(--text-dim); font-size: 0.9em; margin-bottom: 16px; max-width: 600px; text-align: center;">
+        Missing your language? Help us translate! / Votre langue manque ? Aidez-nous &agrave; traduire !<br>
+        <a href="mailto:contact@appstorefr.net" style="color: #2196F3;">contact@appstorefr.net</a> &middot; <a href="https://github.com/appstorefr/PerfectDNSManager" style="color: #2196F3;">GitHub</a>
+    </p>
+
     <div class="lang-grid">
         <a href="fr.html" class="lang-card">
             <span class="lang-flag">&#x1F1EB;&#x1F1F7;</span>
@@ -227,12 +232,32 @@
 
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         <span class="dl-icon">&#x2B07;&#xFE0F;</span>
-        Download APK / T&eacute;l&eacute;charger l'APK
+        Download APK / T&eacute;l&eacute;charger l'APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
     </a>
+
+    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 48px;">
+        <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Code Downloader (AFTVnews):</div>
+        <div style="font-size: 2em; font-weight: 700; font-family: monospace; color: var(--accent); letter-spacing: 3px;">2759555</div>
+        <div style="font-size: 0.95em; color: rgba(255,255,255,0.5); margin-top: 8px;">Direct URL:</div>
+        <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
+    </div>
 
     <footer>
         <p>Perfect DNS Manager &copy; 2026 AppstoreFR</p>
     </footer>
+
+<script>
+fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const apk = data.assets && data.assets.find(a => a.name === 'latest.apk');
+    if (apk) {
+      const sizeMB = (apk.size / 1048576).toFixed(1);
+      const el = document.getElementById('apk-size');
+      if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+  }).catch(() => {});
+</script>
 
 </body>
 </html>

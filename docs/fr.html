@@ -289,7 +289,7 @@
     <div class="version-badge">v1.0.50 &mdash; Build 50</div>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
-        &#x2B07;&#xFE0F; T&eacute;l&eacute;charger l'APK
+        &#x2B07;&#xFE0F; T&eacute;l&eacute;charger l'APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
     </a>
     <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
         <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Code Downloader (AFTVnews) :</div>
@@ -376,7 +376,7 @@
             <div class="feature-card">
                 <div class="icon">&#x1F30D;</div>
                 <h3>Multilingue</h3>
-                <p>Interface disponible en Fran&ccedil;ais et en Anglais, avec changement de langue instantan&eacute;.</p>
+                <p>Interface disponible en 8 langues : fran&ccedil;ais, anglais, espagnol, italien, portugais, russe, chinois et arabe.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F504;</div>
@@ -591,6 +591,15 @@
     </div>
 </section>
 
+<!-- Aide traduction -->
+<section style="text-align: center; padding: 32px 20px 16px;">
+    <p style="color: var(--text-dim); font-size: 0.9em;">
+        &#x1F30D; Traduction erron&eacute;e ? Aidez-nous &agrave; la corriger !<br>
+        T&eacute;l&eacute;chargez le <a href="https://github.com/appstorefr/PerfectDNSManager/blob/main/app/src/main/res/values/strings.xml">fichier de traduction</a>,
+        modifiez-le et renvoyez-le par <a href="mailto:contact@appstorefr.net">email</a> ou via <a href="https://github.com/appstorefr/PerfectDNSManager">GitHub</a>.
+    </p>
+</section>
+
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR &mdash; Fait avec &#x2764;&#xFE0F; pour la communaut&eacute;</p>
@@ -609,6 +618,19 @@ function copyAddr(addr) {
     });
 }
 
+</script>
+
+<script>
+fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const apk = data.assets && data.assets.find(a => a.name === 'latest.apk');
+    if (apk) {
+      const sizeMB = (apk.size / 1048576).toFixed(1);
+      const el = document.getElementById('apk-size');
+      if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+  }).catch(() => {});
 </script>
 
 </body>

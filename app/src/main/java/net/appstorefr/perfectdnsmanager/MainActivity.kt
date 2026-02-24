@@ -131,7 +131,9 @@ class MainActivity : AppCompatActivity() {
         // Premier lancement : si pas de langue choisie, définir la langue du système
         if (prefs.getString("language", null) == null) {
             val sysLang = java.util.Locale.getDefault().language
-            prefs.edit().putString("language", if (sysLang == "fr") "fr" else "en").apply()
+            val supported = listOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar")
+            val lang = if (sysLang in supported) sysLang else "en"
+            prefs.edit().putString("language", lang).apply()
         }
 
         // Migration de version : rafraîchir les presets DNS si la version a changé
@@ -430,16 +432,36 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateLanguageButton() {
         val lang = prefs.getString("language", "fr") ?: "fr"
-        btnLanguage.text = if (lang == "fr") "\uD83C\uDDEB\uD83C\uDDF7 FR" else "\uD83C\uDDEC\uD83C\uDDE7 EN"
+        val flag = when (lang) {
+            "fr" -> "\uD83C\uDDEB\uD83C\uDDF7"
+            "en" -> "\uD83C\uDDEC\uD83C\uDDE7"
+            "es" -> "\uD83C\uDDEA\uD83C\uDDF8"
+            "it" -> "\uD83C\uDDEE\uD83C\uDDF9"
+            "pt" -> "\uD83C\uDDE7\uD83C\uDDF7"
+            "ru" -> "\uD83C\uDDF7\uD83C\uDDFA"
+            "zh" -> "\uD83C\uDDE8\uD83C\uDDF3"
+            "ar" -> "\uD83C\uDDF8\uD83C\uDDE6"
+            else -> "\uD83C\uDDEC\uD83C\uDDE7"
+        }
+        btnLanguage.text = flag
     }
 
     private fun showLanguageDialog() {
-        val languages = arrayOf("\uD83C\uDDEB\uD83C\uDDF7 Fran\u00e7ais", "\uD83C\uDDEC\uD83C\uDDE7 English")
+        val languages = arrayOf(
+            "\uD83C\uDDEB\uD83C\uDDF7 Fran\u00e7ais",
+            "\uD83C\uDDEC\uD83C\uDDE7 English",
+            "\uD83C\uDDEA\uD83C\uDDF8 Espa\u00f1ol",
+            "\uD83C\uDDEE\uD83C\uDDF9 Italiano",
+            "\uD83C\uDDE7\uD83C\uDDF7 Portugu\u00eas",
+            "\uD83C\uDDF7\uD83C\uDDFA \u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+            "\uD83C\uDDE8\uD83C\uDDF3 \u4e2d\u6587",
+            "\uD83C\uDDF8\uD83C\uDDE6 \u0627\u0644\u0639\u0631\u0628\u064a\u0629"
+        )
+        val codes = arrayOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar")
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.choose_language_title))
+            .setTitle("Language")
             .setItems(languages) { _, which ->
-                val langCode = if (which == 0) "fr" else "en"
-                prefs.edit().putString("language", langCode).apply()
+                prefs.edit().putString("language", codes[which]).apply()
                 recreate()
             }
             .show()
@@ -512,6 +534,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startVpnService(profile: DnsProfile) {
+        // Première connexion VPN : activer auto-start, auto-reconnect et disable IPv6
+        if (!prefs.getBoolean("first_vpn_done", false)) {
+            prefs.edit()
+                .putBoolean("auto_start_enabled", true)
+                .putBoolean("auto_reconnect_dns", true)
+                .putBoolean("disable_ipv6", true)
+                .putBoolean("first_vpn_done", true)
+                .apply()
+        }
+
         val intent = Intent(this, DnsVpnService::class.java).apply {
             action = DnsVpnService.ACTION_START
             putExtra(DnsVpnService.EXTRA_DNS_PRIMARY, profile.primary)
@@ -598,17 +630,10 @@ class MainActivity : AppCompatActivity() {
             else
                 getString(R.string.shizuku_install)
             builder.setNegativeButton(shizukuLabel) { _, _ ->
-                try {
-                    startActivity(android.content.Intent(
-                        android.content.Intent.ACTION_VIEW,
-                        android.net.Uri.parse("market://details?id=moe.shizuku.privileged.api")
-                    ))
-                } catch (_: Exception) {
-                    startActivity(android.content.Intent(
-                        android.content.Intent.ACTION_VIEW,
-                        android.net.Uri.parse("https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api")
-                    ))
-                }
+                startActivity(android.content.Intent(
+                    android.content.Intent.ACTION_VIEW,
+                    android.net.Uri.parse("https://github.com/RikkaApps/Shizuku/releases/latest")
+                ))
             }
         }
 

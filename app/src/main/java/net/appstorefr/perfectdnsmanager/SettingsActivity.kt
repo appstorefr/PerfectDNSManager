@@ -220,11 +220,7 @@ class SettingsActivity : AppCompatActivity() {
                 val mgr = shizukuManager ?: return@setOnClickListener
                 when {
                     !mgr.isShizukuInstalled() -> {
-                        try {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=moe.shizuku.privileged.api")))
-                        } catch (_: Exception) {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api")))
-                        }
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/RikkaApps/Shizuku/releases/latest")))
                     }
                     !mgr.isShizukuRunning() -> {
                         val launchIntent = packageManager.getLaunchIntentForPackage("moe.shizuku.privileged.api")

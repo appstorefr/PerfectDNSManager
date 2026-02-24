@@ -289,7 +289,7 @@
     <div class="version-badge">v1.0.50 — Build 50</div>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
-        ⬇️ تحميل APK
+        ⬇️ تحميل APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
     </a>
     <div class="dl-box" style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
         <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">كود التنزيل (AFTVnews) :</div>
@@ -376,7 +376,7 @@
             <div class="feature-card">
                 <div class="icon">&#x1F30D;</div>
                 <h3>متعدد اللغات</h3>
-                <p>واجهة متاحة بالفرنسية والإنجليزية، مع تبديل فوري للغة.</p>
+                <p>الواجهة متوفرة بـ 8 لغات: الفرنسية والإنجليزية والإسبانية والإيطالية والبرتغالية والروسية والصينية والعربية.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F504;</div>
@@ -417,12 +417,22 @@
             <span class="ver">v1.0.50</span>
             <span class="date">فبراير 2026</span>
             <ul>
-                <li>Nouveau logo Switch : icône app et page GitHub redessinées</li>
-                <li>Réorganisation de la page d'accueil : bouton Tester DNS accessible, encart unifié IPs + statut</li>
-                <li>Pré-sélection du DNS par défaut à l'ouverture de l'application</li>
-                <li>Auto-reconnexion VPN après mise à jour de l'application</li>
-                <li>Affichage du nombre de profils par fournisseur DNS</li>
-                <li>Page dédiée pour la récupération des rapports IP partagés</li>
+                <li>شعار جديد: أيقونة زر التشغيل المبسطة (عرض محسّن لـ Android TV)</li>
+                <li>8 لغات متاحة: الفرنسية والإنجليزية والإسبانية والروسية والصينية والعربية والإيطالية والبرتغالية</li>
+                <li>صفحة GitHub الرئيسية متعددة اللغات مع محدد اللغة</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.49</span>
+            <span class="date">فبراير 2026</span>
+            <ul>
+                <li>شعار Switch: إعادة تصميم أيقونة التطبيق وصفحة GitHub</li>
+                <li>إعادة تنظيم الصفحة الرئيسية: زر اختبار DNS متاح، لوحة موحدة للـ IP + الحالة</li>
+                <li>اختيار مسبق لـ DNS الافتراضي عند فتح التطبيق</li>
+                <li>إعادة اتصال VPN تلقائي بعد تحديث التطبيق</li>
+                <li>عرض عدد الملفات الشخصية لكل مزود DNS</li>
+                <li>صفحة مخصصة لاسترجاع تقارير IP المشتركة</li>
             </ul>
         </div>
 
@@ -430,11 +440,11 @@
             <span class="ver">v1.0.46</span>
             <span class="date">فبراير 2026</span>
             <ul>
-                <li>Affichage IPv4 / IPv6 en temps réel sur la page d'accueil</li>
-                <li>Indicateur visuel IPv6 bloqué (vert ✓) ou actif (rouge)</li>
-                <li>Partage des IPs via tmpfiles.org (numéro + presse-papier)</li>
-                <li>Fix changement de profil DNS avec VPN actif (reconnexion visible)</li>
-                <li>Mise à jour automatique in-app au lancement</li>
+                <li>عرض IPv4 / IPv6 في الوقت الفعلي على الصفحة الرئيسية</li>
+                <li>مؤشر مرئي لـ IPv6 محظور (أخضر ✓) أو نشط (أحمر)</li>
+                <li>مشاركة عناوين IP عبر tmpfiles.org (رقم + الحافظة)</li>
+                <li>إصلاح تغيير ملف DNS مع VPN نشط (إعادة اتصال مرئية)</li>
+                <li>تحديث تلقائي داخل التطبيق عند التشغيل</li>
             </ul>
         </div>
 
@@ -442,9 +452,9 @@
             <span class="ver">v1.0.45</span>
             <span class="date">فبراير 2026</span>
             <ul>
-                <li>Highlights focus unifiés sur toute l'application (compatibilité Android TV D-pad)</li>
-                <li>Correction speedtest DNS (latence réaliste avec réutilisation de connexion)</li>
-                <li>Code Downloader AFTVnews intégré dans la page À propos</li>
+                <li>تمييز التركيز الموحد في جميع أنحاء التطبيق (توافق Android TV D-pad)</li>
+                <li>إصلاح اختبار سرعة DNS (زمن استجابة واقعي مع إعادة استخدام الاتصال)</li>
+                <li>دمج كود AFTVnews Downloader في صفحة حول التطبيق</li>
             </ul>
         </div>
 
@@ -452,13 +462,13 @@
             <span class="ver">v1.0.40</span>
             <span class="date">فبراير 2026</span>
             <ul>
-                <li>Indicateurs <strong style="color: #FFD700;">1|</strong> et <strong style="color: #FFD700;">2|</strong> en jaune doré sur la page d'accueil</li>
-                <li>Affichage du type DNS (DoH/DoT/Standard) et méthode (VPN/ADB) dans l'info auto-reconnect</li>
-                <li>Export granulaire : choix de ce qu'on exporte (profils, favoris, règles rewrite, paramètres…)</li>
-                <li>DNS Speedtest intégré : testez la latence de tous vos fournisseurs</li>
-                <li>Auto-reconnexion VPN au toggle IPv6</li>
-                <li>Mise à jour automatique via GitHub Releases</li>
-                <li>Nettoyage du code et traductions</li>
+                <li>مؤشرات <strong style="color: #FFD700;">1|</strong> و <strong style="color: #FFD700;">2|</strong> ذهبية على الصفحة الرئيسية</li>
+                <li>عرض نوع DNS (DoH/DoT/قياسي) والطريقة (VPN/ADB) في معلومات إعادة الاتصال التلقائي</li>
+                <li>تصدير دقيق: اختيار ما يتم تصديره (ملفات شخصية، مفضلات، قواعد إعادة الكتابة، إعدادات...)</li>
+                <li>اختبار سرعة DNS مدمج: اختبر زمن استجابة جميع مزوديك</li>
+                <li>إعادة اتصال VPN تلقائي عند تبديل IPv6</li>
+                <li>تحديثات تلقائية عبر GitHub Releases</li>
+                <li>تنظيف الكود والترجمات</li>
             </ul>
         </div>
 
@@ -466,10 +476,10 @@
             <span class="ver">v1.0.39</span>
             <span class="date">فبراير 2026</span>
             <ul>
-                <li>Classement DNS par étoiles (vitesse & vie privée)</li>
-                <li>Simplification import/export (tmpfiles.org)</li>
-                <li>Restriction ajout profil selon mode avancé</li>
-                <li>Fix partage VPN (FLAG_ACTIVITY_NEW_TASK)</li>
+                <li>تصنيف DNS بالنجوم (السرعة والخصوصية)</li>
+                <li>تبسيط الاستيراد/التصدير (tmpfiles.org)</li>
+                <li>تقييد إضافة الملفات الشخصية حسب الوضع المتقدم</li>
+                <li>إصلاح مشاركة VPN (FLAG_ACTIVITY_NEW_TASK)</li>
             </ul>
         </div>
 
@@ -477,8 +487,8 @@
             <span class="ver">v1.0.38</span>
             <span class="date">فبراير 2026</span>
             <ul>
-                <li>Intégration Shizuku pour modifier Private DNS sans PC</li>
-                <li>Support ADB sans fil amélioré</li>
+                <li>دمج Shizuku لتعديل Private DNS بدون كمبيوتر</li>
+                <li>تحسين دعم ADB اللاسلكي</li>
             </ul>
         </div>
     </div>
@@ -581,6 +591,15 @@
     </div>
 </section>
 
+<!-- مساعدة في الترجمة -->
+<section style="text-align: center; padding: 32px 20px 16px;">
+    <p style="color: var(--text-dim); font-size: 0.9em;">
+        &#x1F30D; خطأ في الترجمة؟ ساعدنا في تصحيحها!<br>
+        حمّل <a href="https://github.com/appstorefr/PerfectDNSManager/blob/main/app/src/main/res/values-ar/strings.xml">ملف الترجمة</a>،
+        عدّله وأرسله عبر <a href="mailto:contact@appstorefr.net">البريد الإلكتروني</a> أو عبر <a href="https://github.com/appstorefr/PerfectDNSManager">GitHub</a>.
+    </p>
+</section>
+
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR — صُنع بـ &#x2764;&#xFE0F; للمجتمع</p>
@@ -598,6 +617,19 @@ function copyAddr(addr) {
         setTimeout(() => toast.classList.remove('show'), 2000);
     });
 }
+</script>
+
+<script>
+fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const apk = data.assets && data.assets.find(a => a.name === 'latest.apk');
+    if (apk) {
+      const sizeMB = (apk.size / 1048576).toFixed(1);
+      const el = document.getElementById('apk-size');
+      if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+  }).catch(() => {});
 </script>
 
 </body>

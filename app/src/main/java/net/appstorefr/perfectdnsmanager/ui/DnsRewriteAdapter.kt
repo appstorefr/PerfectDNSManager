@@ -50,7 +50,7 @@ class DnsRewriteAdapter(
             }
 
             btnDelete.setOnClickListener {
-                val position = adapterPosition
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onRuleDeleted(rules[position])
                     rules.removeAt(position)

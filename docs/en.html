@@ -289,7 +289,7 @@
     <div class="version-badge">v1.0.50 &mdash; Build 50</div>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
-        &#x2B07;&#xFE0F; Download APK
+        &#x2B07;&#xFE0F; Download APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
     </a>
     <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
         <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Downloader Code (AFTVnews):</div>
@@ -376,7 +376,7 @@
             <div class="feature-card">
                 <div class="icon">&#x1F30D;</div>
                 <h3>Multilingual</h3>
-                <p>Interface available in French and English, with instant language switching.</p>
+                <p>Interface available in 8 languages: French, English, Spanish, Italian, Portuguese, Russian, Chinese and Arabic.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F504;</div>
@@ -415,70 +415,80 @@
 
         <div class="changelog-item">
             <span class="ver">v1.0.50</span>
-            <span class="date">F&eacute;vrier 2026</span>
+            <span class="date">February 2026</span>
             <ul>
-                <li>Nouveau logo Switch : ic&ocirc;ne app et page GitHub redessin&eacute;es</li>
-                <li>R&eacute;organisation de la page d'accueil : bouton Tester DNS accessible, encart unifi&eacute; IPs + statut</li>
-                <li>Pr&eacute;-s&eacute;lection du DNS par d&eacute;faut &agrave; l'ouverture de l'application</li>
-                <li>Auto-reconnexion VPN apr&egrave;s mise &agrave; jour de l'application</li>
-                <li>Affichage du nombre de profils par fournisseur DNS</li>
-                <li>Page d&eacute;di&eacute;e pour la r&eacute;cup&eacute;ration des rapports IP partag&eacute;s</li>
+                <li>New logo: simplified power button icon (optimized rendering for Android TV)</li>
+                <li>8 languages available: French, English, Spanish, Russian, Chinese, Arabic, Italian, Portuguese</li>
+                <li>Multilingual GitHub homepage with language selector</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.49</span>
+            <span class="date">February 2026</span>
+            <ul>
+                <li>Switch logo: app icon and GitHub page redesigned</li>
+                <li>Homepage reorganization: accessible DNS Test button, unified IP + status panel</li>
+                <li>Default DNS pre-selection on app launch</li>
+                <li>VPN auto-reconnection after app update</li>
+                <li>Profile count display per DNS provider</li>
+                <li>Dedicated page for shared IP report retrieval</li>
             </ul>
         </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.46</span>
-            <span class="date">F&eacute;vrier 2026</span>
+            <span class="date">February 2026</span>
             <ul>
-                <li>Affichage IPv4 / IPv6 en temps r&eacute;el sur la page d'accueil</li>
-                <li>Indicateur visuel IPv6 bloqu&eacute; (vert &#x2713;) ou actif (rouge)</li>
-                <li>Partage des IPs via tmpfiles.org (num&eacute;ro + presse-papier)</li>
-                <li>Fix changement de profil DNS avec VPN actif (reconnexion visible)</li>
-                <li>Mise &agrave; jour automatique in-app au lancement</li>
+                <li>Real-time IPv4 / IPv6 display on homepage</li>
+                <li>Visual indicator for IPv6 blocked (green &#x2713;) or active (red)</li>
+                <li>IP sharing via tmpfiles.org (number + clipboard)</li>
+                <li>Fix DNS profile change with active VPN (visible reconnection)</li>
+                <li>Automatic in-app update on launch</li>
             </ul>
         </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.45</span>
-            <span class="date">F&eacute;vrier 2026</span>
+            <span class="date">February 2026</span>
             <ul>
-                <li>Highlights focus unifi&eacute;s sur toute l'application (compatibilit&eacute; Android TV D-pad)</li>
-                <li>Correction speedtest DNS (latence r&eacute;aliste avec r&eacute;utilisation de connexion)</li>
-                <li>Code Downloader AFTVnews int&eacute;gr&eacute; dans la page &Agrave; propos</li>
+                <li>Unified focus highlights across the entire app (Android TV D-pad compatibility)</li>
+                <li>DNS speedtest fix (realistic latency with connection reuse)</li>
+                <li>AFTVnews Downloader Code integrated in About page</li>
             </ul>
         </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.40</span>
-            <span class="date">F&eacute;vrier 2026</span>
+            <span class="date">February 2026</span>
             <ul>
-                <li>Indicateurs <strong style="color: #FFD700;">1|</strong> et <strong style="color: #FFD700;">2|</strong> en jaune dor&eacute; sur la page d'accueil</li>
-                <li>Affichage du type DNS (DoH/DoT/Standard) et m&eacute;thode (VPN/ADB) dans l'info auto-reconnect</li>
-                <li>Export granulaire : choix de ce qu'on exporte (profils, favoris, r&egrave;gles rewrite, param&egrave;tres&hellip;)</li>
-                <li>DNS Speedtest int&eacute;gr&eacute; : testez la latence de tous vos fournisseurs</li>
-                <li>Auto-reconnexion VPN au toggle IPv6</li>
-                <li>Mise &agrave; jour automatique via GitHub Releases</li>
-                <li>Nettoyage du code et traductions</li>
+                <li>Golden <strong style="color: #FFD700;">1|</strong> and <strong style="color: #FFD700;">2|</strong> indicators on homepage</li>
+                <li>DNS type (DoH/DoT/Standard) and method (VPN/ADB) display in auto-reconnect info</li>
+                <li>Granular export: choose what to export (profiles, favorites, rewrite rules, settings&hellip;)</li>
+                <li>Built-in DNS Speedtest: test latency of all your providers</li>
+                <li>VPN auto-reconnection on IPv6 toggle</li>
+                <li>Automatic updates via GitHub Releases</li>
+                <li>Code cleanup and translations</li>
             </ul>
         </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.39</span>
-            <span class="date">F&eacute;vrier 2026</span>
+            <span class="date">February 2026</span>
             <ul>
-                <li>Classement DNS par &eacute;toiles (vitesse &amp; vie priv&eacute;e)</li>
-                <li>Simplification import/export (tmpfiles.org)</li>
-                <li>Restriction ajout profil selon mode avanc&eacute;</li>
-                <li>Fix partage VPN (FLAG_ACTIVITY_NEW_TASK)</li>
+                <li>Star-based DNS ranking (speed &amp; privacy)</li>
+                <li>Simplified import/export (tmpfiles.org)</li>
+                <li>Profile addition restricted by advanced mode</li>
+                <li>Fix VPN sharing (FLAG_ACTIVITY_NEW_TASK)</li>
             </ul>
         </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.38</span>
-            <span class="date">F&eacute;vrier 2026</span>
+            <span class="date">February 2026</span>
             <ul>
-                <li>Int&eacute;gration Shizuku pour modifier Private DNS sans PC</li>
-                <li>Support ADB sans fil am&eacute;lior&eacute;</li>
+                <li>Shizuku integration to modify Private DNS without PC</li>
+                <li>Improved wireless ADB support</li>
             </ul>
         </div>
     </div>
@@ -581,6 +591,15 @@
     </div>
 </section>
 
+<!-- Translation help -->
+<section style="text-align: center; padding: 32px 20px 16px;">
+    <p style="color: var(--text-dim); font-size: 0.9em;">
+        &#x1F30D; Found a translation error? Help us fix it!<br>
+        Download the <a href="https://github.com/appstorefr/PerfectDNSManager/blob/main/app/src/main/res/values-en/strings.xml">translation file</a>,
+        edit it and send it back by <a href="mailto:contact@appstorefr.net">email</a> or via <a href="https://github.com/appstorefr/PerfectDNSManager">GitHub</a>.
+    </p>
+</section>
+
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR &mdash; Made with &#x2764;&#xFE0F; for the community</p>
@@ -599,6 +618,19 @@ function copyAddr(addr) {
     });
 }
 
+</script>
+
+<script>
+fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const apk = data.assets && data.assets.find(a => a.name === 'latest.apk');
+    if (apk) {
+      const sizeMB = (apk.size / 1048576).toFixed(1);
+      const el = document.getElementById('apk-size');
+      if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+  }).catch(() => {});
 </script>
 
 </body>
