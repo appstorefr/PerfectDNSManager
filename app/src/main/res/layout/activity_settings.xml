@@ -341,6 +341,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:backgroundTint="#7B1FA2"
+                        android:foreground="@drawable/btn_focus_foreground"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:focusable="true" />
@@ -367,6 +368,7 @@
                 android:layout_height="44dp"
                 android:text="@string/url_rewrite_button"
                 android:backgroundTint="#4A148C"
+                android:foreground="@drawable/btn_focus_foreground"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:focusable="true" />
@@ -388,7 +390,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@drawable/focusable_item_background"
+            android:focusable="true"
+            android:padding="4dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -417,6 +422,7 @@
                 android:layout_height="44dp"
                 android:text="@string/export_config_button"
                 android:backgroundTint="#1565C0"
+                android:foreground="@drawable/btn_focus_foreground"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp"
@@ -427,6 +433,7 @@
                 android:layout_height="44dp"
                 android:text="@string/import_config_button"
                 android:backgroundTint="#2E7D32"
+                android:foreground="@drawable/btn_focus_foreground"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp"
@@ -437,6 +444,7 @@
                 android:layout_height="44dp"
                 android:text="@string/restore_dns_button"
                 android:backgroundTint="#1565C0"
+                android:foreground="@drawable/btn_focus_foreground"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:focusable="true" />
@@ -450,6 +458,7 @@
         android:layout_height="48dp"
         android:text="@string/support_us_button"
         android:backgroundTint="#B71C1C"
+        android:foreground="@drawable/btn_focus_foreground"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:layout_marginBottom="4dp"
@@ -462,6 +471,7 @@
         android:layout_height="48dp"
         android:text="@string/about"
         android:backgroundTint="#333355"
+        android:foreground="@drawable/btn_focus_foreground"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:focusable="true" />

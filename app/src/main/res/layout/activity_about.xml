@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
             android:backgroundTint="#333355"
+            android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
             android:layout_gravity="start"
             android:layout_marginBottom="16dp"
@@ -60,6 +61,7 @@
             android:layout_height="wrap_content"
             android:text="@string/support_about_button"
             android:backgroundTint="#FF6F00"
+            android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="20dp"
             android:focusable="true"/>
@@ -79,6 +81,7 @@
             android:layout_height="wrap_content"
             android:text="@string/check_for_updates"
             android:backgroundTint="#0066AA"
+            android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="32dp"
             android:focusable="true"/>

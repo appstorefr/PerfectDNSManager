@@ -7,34 +7,32 @@
     android:padding="16dp">
 
     <!-- Header -->
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:layout_marginBottom="8dp">
 
         <Button
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:text="@string/back"
             android:textColor="#FFFFFF"
             android:background="@drawable/focusable_item_background"
-            android:layout_marginEnd="16dp"
             android:focusable="true"
             android:nextFocusDown="@id/btnAddProfile" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:text="@string/choose_dns_server"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:textStyle="bold"
             android:gravity="center" />
-    </LinearLayout>
+    </FrameLayout>
 
     <!-- Info méthode -->
     <TextView
@@ -75,6 +73,7 @@
             android:text="@string/dns_speedtest_button"
             android:textColor="#FFFFFF"
             android:backgroundTint="#1565C0"
+            android:foreground="@drawable/btn_focus_foreground"
             android:focusable="true"
             android:nextFocusLeft="@id/btnAddProfile"
             android:nextFocusUp="@id/btnBack"
