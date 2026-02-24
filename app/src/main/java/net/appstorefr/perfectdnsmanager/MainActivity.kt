@@ -26,6 +26,8 @@ import net.appstorefr.perfectdnsmanager.service.DnsVpnService
 import net.appstorefr.perfectdnsmanager.service.UpdateManager
 import net.appstorefr.perfectdnsmanager.util.LocaleHelper
 import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.net.InetAddress
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSettings: ImageButton
     private lateinit var btnTestDns: Button
     private lateinit var tvStatus: TextView
+    private lateinit var tvWanIp: TextView
+    private lateinit var tvWanIpv6: TextView
     private lateinit var adbManager: AdbDnsManager
     private lateinit var prefs: SharedPreferences
 
@@ -85,9 +89,33 @@ class MainActivity : AppCompatActivity() {
                 selectedProfile = newProfile
                 prefs.edit().putString("selected_profile_json", profileJson).apply()
                 updateSelectButtonText()
-                // Auto-reconnexion : si DNS était actif, déconnecter et reconnecter avec le nouveau profil
+                // Auto-reconnexion : si DNS était actif, reconnecter avec le nouveau profil
                 if (wasActive) {
-                    disableDnsQuiet { applyDns() }
+                    val adbWasActive = adbManager.getCurrentPrivateDnsMode()?.contains("hostname") == true
+                    if (adbWasActive) {
+                        // ADB → désactiver d'abord, puis appliquer le nouveau profil
+                        Thread {
+                            adbManager.disablePrivateDns()
+                            runOnUiThread { setInactiveStatus(); applyDns() }
+                        }.start()
+                    } else {
+                        // VPN actif → ACTION_RESTART : stop visible + restart après délai
+                        // (pas ACTION_STOP+stopSelf qui détruirait le service)
+                        val svcIntent = Intent(this@MainActivity, DnsVpnService::class.java).apply {
+                            action = DnsVpnService.ACTION_RESTART
+                            putExtra(DnsVpnService.EXTRA_DNS_PRIMARY, newProfile.primary)
+                            newProfile.secondary?.let { putExtra(DnsVpnService.EXTRA_DNS_SECONDARY, it) }
+                        }
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                            startForegroundService(svcIntent) else startService(svcIntent)
+                        val label = "VPN: ${newProfile.providerName}\n${newProfile.primary}"
+                        prefs.edit()
+                            .putBoolean("vpn_active", true)
+                            .putString("vpn_label", label)
+                            .putString("last_method", "VPN")
+                            .apply()
+                        setActiveStatus(true, label)
+                    }
                 }
             }
         }
@@ -116,6 +144,9 @@ class MainActivity : AppCompatActivity() {
 
         // Vérification auto des mises à jour au lancement
         checkForAppUpdate()
+
+        // Récupérer l'IP WAN
+        fetchWanIp()
     }
 
     private fun checkForAppUpdate() {
@@ -146,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             checkStatus()
+            fetchWanIp()
         }
     }
 
@@ -170,6 +202,107 @@ class MainActivity : AppCompatActivity() {
         btnSettings = findViewById(R.id.btnSettings)
         btnTestDns = findViewById(R.id.btnTestDns)
         tvStatus = findViewById(R.id.tvStatus)
+        tvWanIp = findViewById(R.id.tvWanIp)
+        tvWanIpv6 = findViewById(R.id.tvWanIpv6)
+        findViewById<Button>(R.id.btnShareIp).setOnClickListener { shareIpsViaTmpfiles() }
+    }
+
+    private fun fetchWanIp() {
+        // IPv4
+        Thread {
+            val ip = try {
+                java.net.URL("https://api4.ipify.org").readText().trim()
+            } catch (_: Exception) {
+                try {
+                    java.net.URL("https://ipv4.icanhazip.com").readText().trim()
+                } catch (_: Exception) { null }
+            }
+            runOnUiThread {
+                tvWanIp.text = ip ?: getString(R.string.wan_ip_error)
+            }
+        }.start()
+        // IPv6
+        Thread {
+            val ipv6 = try {
+                java.net.URL("https://api6.ipify.org").readText().trim()
+            } catch (_: Exception) {
+                try {
+                    java.net.URL("https://ipv6.icanhazip.com").readText().trim()
+                } catch (_: Exception) { null }
+            }
+            runOnUiThread {
+                if (ipv6 != null && ipv6.contains(":")) {
+                    tvWanIpv6.text = ipv6
+                    tvWanIpv6.setTextColor(Color.parseColor("#FF5252"))
+                } else {
+                    tvWanIpv6.text = getString(R.string.wan_ipv6_blocked)
+                    tvWanIpv6.setTextColor(Color.parseColor("#4CAF50"))
+                }
+            }
+        }.start()
+    }
+
+    private fun shareIpsViaTmpfiles() {
+        val ipv4 = tvWanIp.text.toString()
+        val ipv6 = tvWanIpv6.text.toString()
+        if (ipv4 == getString(R.string.wan_ip_loading)) {
+            Toast.makeText(this, getString(R.string.wan_ip_loading), Toast.LENGTH_SHORT).show()
+            return
+        }
+        Toast.makeText(this, getString(R.string.share_ip_uploading), Toast.LENGTH_SHORT).show()
+        Thread {
+            try {
+                val content = buildString {
+                    appendLine("=== Perfect DNS Manager — IP Report ===")
+                    appendLine()
+                    appendLine("IPv4 : $ipv4")
+                    appendLine("IPv6 : $ipv6")
+                    appendLine()
+                    appendLine("DNS actif : ${tvStatus.text}")
+                    appendLine("Profil : ${selectedProfile?.let { "${it.providerName} - ${it.name}" } ?: "aucun"}")
+                    appendLine()
+                    appendLine("Date : ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date())}")
+                }
+                val file = java.io.File(cacheDir, "ip-report.txt")
+                file.writeText(content)
+                val client = okhttp3.OkHttpClient.Builder()
+                    .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                    .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                    .build()
+                val body = okhttp3.MultipartBody.Builder()
+                    .setType(okhttp3.MultipartBody.FORM)
+                    .addFormDataPart("file", file.name,
+                        file.asRequestBody("text/plain".toMediaType()))
+                    .build()
+                val request = okhttp3.Request.Builder()
+                    .url("https://tmpfiles.org/api/v1/upload")
+                    .post(body)
+                    .build()
+                val response = client.newCall(request).execute()
+                val responseBody = response.body?.string() ?: ""
+                response.close()
+                val jsonObj = org.json.JSONObject(responseBody)
+                if (jsonObj.optString("status") == "success") {
+                    val pageUrl = jsonObj.getJSONObject("data").getString("url")
+                    val directUrl = pageUrl.replace("tmpfiles.org/", "tmpfiles.org/dl/")
+                    val numberRegex = Regex("tmpfiles\\.org/dl/(\\d+)/")
+                    val number = numberRegex.find(directUrl)?.groupValues?.get(1) ?: ""
+                    runOnUiThread {
+                        val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                        clipboard.setPrimaryClip(android.content.ClipData.newPlainText("IP Number", number))
+                        AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.share_ip_success_title))
+                            .setMessage(getString(R.string.share_ip_success_message, number, directUrl))
+                            .setPositiveButton("OK", null)
+                            .show()
+                    }
+                } else {
+                    runOnUiThread { Toast.makeText(this, getString(R.string.share_ip_error), Toast.LENGTH_LONG).show() }
+                }
+            } catch (e: Exception) {
+                runOnUiThread { Toast.makeText(this, getString(R.string.share_ip_error) + ": ${e.message}", Toast.LENGTH_LONG).show() }
+            }
+        }.start()
     }
 
     private fun restoreState() {

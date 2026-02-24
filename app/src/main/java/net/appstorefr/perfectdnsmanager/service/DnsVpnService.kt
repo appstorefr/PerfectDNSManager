@@ -91,6 +91,7 @@ class DnsVpnService : VpnService() {
     companion object {
         const val ACTION_START = "net.appstorefr.perfectdnsmanager.START_VPN"
         const val ACTION_STOP = "net.appstorefr.perfectdnsmanager.STOP_VPN"
+        const val ACTION_RESTART = "net.appstorefr.perfectdnsmanager.RESTART_VPN"
         const val ACTION_RELOAD_RULES = "net.appstorefr.perfectdnsmanager.RELOAD_RULES"
         const val EXTRA_DNS_PRIMARY = "dns_primary"
         const val EXTRA_DNS_SECONDARY = "dns_secondary"
@@ -129,6 +130,13 @@ class DnsVpnService : VpnService() {
                 dnsServer = intent.getStringExtra(EXTRA_DNS_PRIMARY) ?: "1.1.1.1"
                 dnsServerSecondary = intent.getStringExtra(EXTRA_DNS_SECONDARY)
                 stopVpn(); startVpn()
+            }
+            ACTION_RESTART -> {
+                // Changement de profil : stop visible (icône VPN disparaît) puis restart après délai
+                dnsServer = intent.getStringExtra(EXTRA_DNS_PRIMARY) ?: "1.1.1.1"
+                dnsServerSecondary = intent.getStringExtra(EXTRA_DNS_SECONDARY)
+                stopVpn()
+                android.os.Handler(mainLooper).postDelayed({ startVpn() }, 600)
             }
             ACTION_STOP -> { stopVpn(); stopSelf() }
             ACTION_RELOAD_RULES -> {

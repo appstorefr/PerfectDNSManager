@@ -30,6 +30,16 @@
     <string name="activation_label">2| Activation :</string>
     <string name="dns_service_used">Service DNS utilisé :</string>
     <string name="settings_content_description">Paramètres</string>
+    <string name="wan_ipv4_label">IPv4 : </string>
+    <string name="wan_ipv6_label">IPv6 : </string>
+    <string name="wan_ip_loading">chargement…</string>
+    <string name="wan_ip_error">indisponible</string>
+    <string name="wan_ipv6_blocked">bloqué ✓</string>
+    <string name="share_ip_button">📤 Partager mes IPs via tmpfiles.org</string>
+    <string name="share_ip_uploading">Upload des IPs en cours…</string>
+    <string name="share_ip_success_title">IPs partagées</string>
+    <string name="share_ip_success_message">Numéro tmpfiles : %1$s\n\nLe numéro a été copié dans le presse-papier.\n\nURL : %2$s\n(expire dans 60 min)</string>
+    <string name="share_ip_error">Erreur lors du partage des IPs</string>
 
     <!-- Navigation -->
     <string name="back">Retour</string>

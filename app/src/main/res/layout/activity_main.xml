@@ -79,7 +79,7 @@
         android:focusable="true"
         android:clickable="true"
         android:nextFocusUp="@id/btnSettings"
-        android:nextFocusDown="@id/tvStatus">
+        android:nextFocusDown="@id/btnShareIp">
 
         <ImageView
             android:id="@+id/ivSelectedDnsIcon"
@@ -101,6 +101,92 @@
             android:gravity="center"
             android:textAllCaps="false" />
     </LinearLayout>
+
+    <!-- IP WAN -->
+    <LinearLayout
+        android:id="@+id/layoutWanIp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#15FFFFFF"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wan_ipv4_label"
+                android:textSize="13sp"
+                android:textColor="#AAAAAA" />
+
+            <TextView
+                android:id="@+id/tvWanIp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/wan_ip_loading"
+                android:textSize="13sp"
+                android:textColor="#FFD700"
+                android:fontFamily="monospace"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wan_ipv6_label"
+                android:textSize="13sp"
+                android:textColor="#AAAAAA" />
+
+            <TextView
+                android:id="@+id/tvWanIpv6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/wan_ip_loading"
+                android:textSize="13sp"
+                android:textColor="#FFD700"
+                android:fontFamily="monospace"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnShareIp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:minHeight="40dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/share_ip_button"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#37474F"
+            android:foreground="@drawable/btn_focus_foreground"
+            android:focusable="true"
+            android:clickable="true"
+            android:textAllCaps="false"
+            android:nextFocusUp="@id/layoutSelectDns"
+            android:nextFocusDown="@id/tvStatus" />
+    </LinearLayout>
+
+    <!-- Refresh IP -->
+    <Button
+        android:id="@+id/btnRefreshIp"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 
     <!-- Espace flexible -->
     <View
@@ -129,7 +215,7 @@
         android:background="@drawable/focusable_item_background"
         android:focusable="true"
         android:layout_marginBottom="12dp"
-        android:nextFocusUp="@id/layoutSelectDns"
+        android:nextFocusUp="@id/btnShareIp"
         android:nextFocusDown="@id/btnToggle" />
 
     <!-- 2| Activation : -->
