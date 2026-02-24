@@ -320,7 +320,7 @@
     <string name="privacy_label">Privacy</string>
 
     <!-- Missing from FR -->
-    <string name="contact_email">appstorefr@ik.me</string>
+    <string name="contact_email">contact@appstorefr.net</string>
 
     <!-- DNS Speedtest -->
     <string name="dns_speedtest_button">⚡ Speedtest</string>
