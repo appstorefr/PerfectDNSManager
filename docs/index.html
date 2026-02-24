@@ -242,6 +242,10 @@
         </a>
     </div>
 
+    <div id="version-badge" style="display:inline-block;background:var(--accent);color:#000;padding:6px 18px;border-radius:20px;font-weight:700;font-size:0.95em;margin-bottom:16px;"></div>
+
+    <br>
+
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         <span class="dl-icon">&#x2B07;&#xFE0F;</span>
         Download APK / T&eacute;l&eacute;charger l'APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -267,6 +271,12 @@ fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest
       const sizeMB = (apk.size / 1048576).toFixed(1);
       const el = document.getElementById('apk-size');
       if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+    const badge = document.getElementById('version-badge');
+    if (badge && data.tag_name) {
+      const ver = data.tag_name;
+      const size = apk ? ' \u2014 ' + (apk.size / 1048576).toFixed(1) + ' MB' : '';
+      badge.textContent = ver + size;
     }
   }).catch(() => {});
 </script>
