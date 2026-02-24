@@ -37,7 +37,7 @@ class ConfigManager(private val context: Context) {
     ): String {
         val root = JsonObject()
 
-        root.addProperty("version", "1.0.44")
+        root.addProperty("version", "1.0.45")
         root.addProperty("exportDate", iso8601Now())
 
         val profileManager = ProfileManager(context)
@@ -95,7 +95,7 @@ class ConfigManager(private val context: Context) {
         val root = JsonObject()
 
         // Version and date
-        root.addProperty("version", "1.0.44")
+        root.addProperty("version", "1.0.45")
         root.addProperty("exportDate", iso8601Now())
 
         // Profiles from ProfileManager (SharedPrefs "dns_profiles_v2", key "profiles")

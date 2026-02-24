@@ -23,6 +23,7 @@ import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.data.DnsType
 import net.appstorefr.perfectdnsmanager.service.AdbDnsManager
 import net.appstorefr.perfectdnsmanager.service.DnsVpnService
+import net.appstorefr.perfectdnsmanager.service.UpdateManager
 import net.appstorefr.perfectdnsmanager.util.LocaleHelper
 import com.google.gson.Gson
 import java.net.InetAddress
@@ -112,6 +113,16 @@ class MainActivity : AppCompatActivity() {
         applyGoldenIndicators()
         restoreState()
         setupUI()
+
+        // Vérification auto des mises à jour au lancement
+        checkForAppUpdate()
+    }
+
+    private fun checkForAppUpdate() {
+        val currentVersion = try {
+            packageManager.getPackageInfo(packageName, 0).versionName ?: "1.0"
+        } catch (_: Exception) { "1.0" }
+        UpdateManager(this).checkOnLaunch(currentVersion)
     }
 
     override fun onResume() {

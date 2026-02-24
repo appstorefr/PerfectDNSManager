@@ -290,6 +290,10 @@
     <string name="update_downloading">Downloading…</string>
     <string name="update_download_error">Download error</string>
     <string name="update_install_error">Installation error</string>
+    <string name="update_dialog_title">Update available</string>
+    <string name="update_dialog_message">A new version (v%1$s) is available.\nWould you like to download and install it?</string>
+    <string name="update_dialog_install">Install</string>
+    <string name="update_dialog_later">Later</string>
 
     <!-- Version migration -->
     <string name="presets_updated_toast">DNS profiles updated for version %1$s</string>

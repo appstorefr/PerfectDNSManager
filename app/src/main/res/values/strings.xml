@@ -291,6 +291,10 @@
     <string name="update_downloading">Téléchargement en cours…</string>
     <string name="update_download_error">Erreur lors du téléchargement</string>
     <string name="update_install_error">Erreur lors de l\'installation</string>
+    <string name="update_dialog_title">Mise à jour disponible</string>
+    <string name="update_dialog_message">Une nouvelle version (v%1$s) est disponible.\nVoulez-vous la télécharger et l\'installer ?</string>
+    <string name="update_dialog_install">Installer</string>
+    <string name="update_dialog_later">Plus tard</string>
 
     <!-- Version migration -->
     <string name="presets_updated_toast">Profils DNS mis à jour pour la version %1$s</string>
