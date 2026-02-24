@@ -32,7 +32,7 @@ class AboutActivity : AppCompatActivity() {
         } catch (e: Exception) {
             "1.0"
         }
-        tvVersion.text = getString(R.string.version, currentVersion) + "\n${BuildConfig.VERSION_DISPLAY}"
+        tvVersion.text = getString(R.string.version, currentVersion)
 
         btnBack.requestFocus()
         btnBack.setOnClickListener { finish() }
