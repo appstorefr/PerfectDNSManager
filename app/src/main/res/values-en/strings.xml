@@ -48,7 +48,7 @@
     <string name="restore_dns_button">🔄 Restore initial DNS</string>
     <string name="show_operator_dns">🇫🇷 Show French ISP DNS (Orange/Bouygues/SFR/Free)</string>
     <string name="show_standard_dns">📋 Show classic DNS (Standard)</string>
-    <string name="show_profile_variants">📋 Show different DNS profiles</string>
+    <string name="show_profile_variants">📋 Show DNS provider profiles (unfiltered, noads, kids etc…)</string>
     <string name="dns_dot_adb">📡 DNS DoT via ADB</string>
     <string name="adb_warning">⚠️ The ADB method modifies system settings. If you experience connectivity issues, disable this option and use the VPN method.</string>
     <string name="disable_ipv6_label">Disable IPv6 / Force IPv4</string>

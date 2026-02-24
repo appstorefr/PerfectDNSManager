@@ -452,18 +452,31 @@ class DnsSelectionActivity : AppCompatActivity() {
                 } else false
             }
 
+            // Client HTTP partagé pour tous les tests DoH (réutilise le pool de connexions)
+            val sharedClient = okhttp3.OkHttpClient.Builder()
+                .connectTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+                .build()
+
             data class SpeedResult(val provider: String, val address: String, val latency: Long?, val type: String)
             val results = mutableListOf<SpeedResult>()
 
             for (profile in testProfiles) {
                 val latency = if (profile.type == DnsType.DOH) {
-                    DnsTester.measureDohLatency(profile.primary)
+                    // Warmup (TCP+TLS handshake) puis mesure réelle
+                    DnsTester.measureDohLatency(profile.primary, client = sharedClient)
+                    DnsTester.measureDohLatency(profile.primary, client = sharedClient)
                 } else {
                     DnsTester.measureLatency(profile.primary)
                 }
                 val typeLabel = if (profile.type == DnsType.DOH) "DoH" else "Standard"
                 results.add(SpeedResult(profile.providerName, profile.primary, latency, typeLabel))
             }
+
+            // Fermer le pool de connexions
+            sharedClient.dispatcher.executorService.shutdown()
+            sharedClient.connectionPool.evictAll()
 
             val sorted = results.sortedWith(compareBy(nullsLast()) { it.latency })
             val sb = StringBuilder()

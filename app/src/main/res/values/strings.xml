@@ -48,7 +48,7 @@
     <string name="restore_dns_button">🔄 Restaurer les DNS initiaux</string>
     <string name="show_operator_dns">🇫🇷 Afficher les DNS opérateurs France (Orange/Bouygues/SFR/Free)</string>
     <string name="show_standard_dns">📋 Afficher les DNS classique (Standard)</string>
-    <string name="show_profile_variants">📋 Afficher les différents profils DNS</string>
+    <string name="show_profile_variants">📋 Afficher les différents profils des fournisseurs DNS (unfiltered, noads, kids etc…)</string>
     <string name="dns_dot_adb">📡 DNS DoT via ADB</string>
     <string name="adb_warning">⚠️ La méthode ADB modifie les paramètres système. En cas de problème de connectivité, désactivez cette option et utilisez la méthode VPN.</string>
     <string name="disable_ipv6_label">Désactiver IPv6 / Forcer IPv4</string>

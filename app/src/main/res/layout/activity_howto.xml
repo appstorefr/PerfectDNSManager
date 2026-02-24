@@ -222,6 +222,7 @@
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
             android:backgroundTint="#444444"
+            android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
             android:focusable="true"/>
 

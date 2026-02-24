@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/back_arrow"
         android:backgroundTint="#333355"
+        android:foreground="@drawable/btn_focus_foreground"
         android:textColor="#FFFFFF"
         android:layout_gravity="start"
         android:layout_marginBottom="12dp"

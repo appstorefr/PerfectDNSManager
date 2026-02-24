@@ -102,18 +102,22 @@ object DnsTester {
         }
     }
 
+    /** Client HTTP réutilisable pour les tests DoH (évite le coût TCP+TLS à chaque test) */
+    private val dohClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .build()
+    }
+
     /**
      * Mesure la latence d'un serveur DNS over HTTPS (DoH).
+     * @param client client HTTP à utiliser (réutiliser pour bénéficier du pool de connexions)
      * @return latence en millisecondes, ou null si erreur
      */
-    fun measureDohLatency(url: String, domain: String = "google.com"): Long? {
+    fun measureDohLatency(url: String, domain: String = "google.com", client: OkHttpClient = dohClient): Long? {
         return try {
-            val client = OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
-                .build()
-
             val queryBuffer = buildQuery(domain)
             val queryBytes = queryBuffer.array().copyOf(queryBuffer.limit())
             val body = queryBytes.toRequestBody("application/dns-message".toMediaType())

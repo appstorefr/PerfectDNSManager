@@ -23,8 +23,10 @@
         android:layout_height="wrap_content"
         android:text="@string/add_new_rule"
         android:backgroundTint="#2196F3"
+        android:foreground="@drawable/btn_focus_foreground"
         android:textColor="#FFFFFF"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:focusable="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRewriteRules"
@@ -38,7 +40,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_arrow"
+        android:backgroundTint="#444444"
+        android:foreground="@drawable/btn_focus_foreground"
         android:layout_gravity="start"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:focusable="true"/>
 
 </LinearLayout>
