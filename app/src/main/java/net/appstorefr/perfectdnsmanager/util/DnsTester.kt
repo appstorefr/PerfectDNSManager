@@ -27,7 +27,7 @@ object DnsTester {
 
             // 2. Send Query
             val serverAddress = InetAddress.getByName(server)
-            val requestPacket = DatagramPacket(queryBuffer.array(), queryBuffer.position(), serverAddress, 53)
+            val requestPacket = DatagramPacket(queryBuffer.array(), queryBuffer.limit(), serverAddress, 53)
             socket.send(requestPacket)
 
             // 3. Receive Response
@@ -85,7 +85,7 @@ object DnsTester {
             socket.soTimeout = 5000
             val queryBuffer = buildQuery(domain)
             val serverAddress = InetAddress.getByName(server)
-            val requestPacket = DatagramPacket(queryBuffer.array(), queryBuffer.position(), serverAddress, 53)
+            val requestPacket = DatagramPacket(queryBuffer.array(), queryBuffer.limit(), serverAddress, 53)
 
             val start = System.currentTimeMillis()
             socket.send(requestPacket)
@@ -115,7 +115,7 @@ object DnsTester {
                 .build()
 
             val queryBuffer = buildQuery(domain)
-            val queryBytes = queryBuffer.array().copyOf(queryBuffer.position())
+            val queryBytes = queryBuffer.array().copyOf(queryBuffer.limit())
             val body = queryBytes.toRequestBody("application/dns-message".toMediaType())
             val request = Request.Builder()
                 .url(url)

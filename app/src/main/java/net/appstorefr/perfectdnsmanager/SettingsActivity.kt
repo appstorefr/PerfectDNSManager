@@ -602,11 +602,14 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun showUploadSuccess(url: String) {
+        // Extract tmpfiles number from URL: https://tmpfiles.org/dl/12345/file.json → 12345
+        val numberRegex = Regex("tmpfiles\\.org/dl/(\\d+)/")
+        val number = numberRegex.find(url)?.groupValues?.get(1) ?: ""
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
-        clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Config URL", url))
+        clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Config Number", number))
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.upload_success_title))
-            .setMessage(getString(R.string.upload_success_message, url))
+            .setMessage(getString(R.string.upload_success_message_with_number, number, url))
             .setPositiveButton("OK", null)
             .show()
     }

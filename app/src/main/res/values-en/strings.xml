@@ -76,6 +76,7 @@
     <string name="uploading">Uploading…</string>
     <string name="upload_success_title">☁️ File uploaded!</string>
     <string name="upload_success_message">URL:\n%1$s\n\nLink copied to clipboard.</string>
+    <string name="upload_success_message_with_number">Import number: %1$s\n\nTo import this configuration on another device, just give this number.\n\nFull URL:\n%2$s\n\nNumber copied to clipboard.</string>
     <string name="upload_error">Upload error: %1$s</string>
     <string name="share_config">Share configuration</string>
     <string name="export_error">Export error: %1$s</string>

@@ -76,6 +76,7 @@
     <string name="uploading">Envoi en cours…</string>
     <string name="upload_success_title">☁️ Fichier envoyé !</string>
     <string name="upload_success_message">URL :\n%1$s\n\nLien copié dans le presse-papier.</string>
+    <string name="upload_success_message_with_number">Numéro d\'import : %1$s\n\nPour importer cette configuration sur un autre appareil, donnez uniquement ce numéro.\n\nURL complète :\n%2$s\n\nNuméro copié dans le presse-papier.</string>
     <string name="upload_error">Erreur envoi: %1$s</string>
     <string name="share_config">Partager la configuration</string>
     <string name="export_error">Erreur export: %1$s</string>
