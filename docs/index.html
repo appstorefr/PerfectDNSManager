@@ -230,7 +230,7 @@
     <div class="hero-icon">🛡️</div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">Changez vos DNS en un clic. Privacité, performance, liberté.</p>
-    <div class="version-badge">v1.0.46 — Build 46</div>
+    <div class="version-badge">v1.0.47 — Build 47</div>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         ⬇️ Télécharger l'APK
@@ -242,15 +242,9 @@
         <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
     </div>
 
-    <!-- IP Lookup -->
-    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 20px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
-        <div style="font-size: 1em; font-weight: 600; margin-bottom: 10px;">🌐 Récupérer un rapport IP partagé</div>
-        <div style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-bottom: 12px;">Entrez le numéro tmpfiles reçu depuis l'application :</div>
-        <div style="display: flex; gap: 8px;">
-            <input id="ipNumber" type="text" placeholder="ex: 12345678" style="flex: 1; padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 1em; font-family: monospace;">
-            <button onclick="openIpReport()" style="padding: 10px 20px; border-radius: 6px; border: none; background: var(--primary); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.95em;">Ouvrir</button>
-        </div>
-        <div id="ipError" style="color: var(--red); font-size: 0.85em; margin-top: 8px; display: none;">Veuillez entrer un numéro valide</div>
+    <!-- IP Lookup link -->
+    <div style="margin-top: 24px;">
+        <a href="ip.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">🌐 Récupérer un rapport IP partagé →</a>
     </div>
 </div>
 
@@ -364,13 +358,23 @@
         <h2>Dernières mises à jour</h2>
 
         <div class="changelog-item">
+            <span class="ver">v1.0.47</span>
+            <span class="date">Février 2026</span>
+            <ul>
+                <li>Réorganisation de la page d'accueil : bouton Tester DNS accessible, encart unifié IPs + statut</li>
+                <li>Pré-sélection du DNS par défaut à l'ouverture de l'application</li>
+                <li>Page dédiée pour la récupération des rapports IP partagés</li>
+                <li>Lien vers la page GitHub dans les rapports IP</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
             <span class="ver">v1.0.46</span>
             <span class="date">Février 2026</span>
             <ul>
                 <li>Affichage IPv4 / IPv6 en temps réel sur la page d'accueil</li>
                 <li>Indicateur visuel IPv6 bloqué (vert ✓) ou actif (rouge)</li>
                 <li>Partage des IPs via tmpfiles.org (numéro + presse-papier)</li>
-                <li>Outil de récupération IP sur la page GitHub</li>
                 <li>Fix changement de profil DNS avec VPN actif (reconnexion visible)</li>
                 <li>Mise à jour automatique in-app au lancement</li>
             </ul>
@@ -536,19 +540,7 @@ function copyAddr(addr) {
         setTimeout(() => toast.classList.remove('show'), 2000);
     });
 }
-function openIpReport() {
-    const num = document.getElementById('ipNumber').value.trim();
-    const err = document.getElementById('ipError');
-    if (!num || !/^\d+$/.test(num)) {
-        err.style.display = 'block';
-        return;
-    }
-    err.style.display = 'none';
-    window.open('https://tmpfiles.org/dl/' + num + '/ip-report.txt', '_blank');
-}
-document.getElementById('ipNumber').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') openIpReport();
-});
+
 </script>
 
 </body>

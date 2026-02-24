@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect DNS Manager — Rapport IP</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --card: #252525;
+            --primary: #2196F3;
+            --accent: #FFD700;
+            --text: #FFFFFF;
+            --text-dim: #BBBBBB;
+            --green: #4CAF50;
+            --red: #FF5252;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2em; font-weight: 700; margin-bottom: 8px; }
+        .header .subtitle { font-size: 1.05em; color: rgba(255,255,255,0.8); }
+        .header .back-link {
+            display: inline-block;
+            margin-top: 16px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9em;
+        }
+        .header .back-link:hover { color: #fff; }
+
+        .container { max-width: 600px; margin: 0 auto; padding: 0 20px; }
+
+        .main-content {
+            flex: 1;
+            padding: 48px 0;
+        }
+
+        .lookup-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #333;
+        }
+        .lookup-card h2 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        .lookup-card .desc {
+            color: var(--text-dim);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1.1em;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .input-row input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .input-row input::placeholder { color: #666; }
+        .input-row button {
+            padding: 12px 28px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.15s;
+        }
+        .input-row button:hover { background: #1976D2; }
+        .error-msg {
+            color: var(--red);
+            font-size: 0.85em;
+            display: none;
+        }
+
+        .howto {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+            border: 1px solid #333;
+        }
+        .howto h3 {
+            font-size: 1.05em;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        .howto ol {
+            padding-left: 20px;
+            color: var(--text-dim);
+            font-size: 0.9em;
+        }
+        .howto li { margin-bottom: 8px; }
+        .howto code {
+            background: rgba(255,255,255,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--primary);
+        }
+
+        footer {
+            background: var(--surface);
+            padding: 24px 20px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85em;
+            border-top: 1px solid #333;
+        }
+        footer a { color: var(--primary); }
+
+        @media (max-width: 500px) {
+            .lookup-card { padding: 20px; }
+            .input-row { flex-direction: column; }
+            .input-row button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🌐 Rapport IP</h1>
+    <p class="subtitle">Récupérez un rapport IP partagé depuis l'application</p>
+    <a href="index.html" class="back-link">← Retour à la page principale</a>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <div class="lookup-card">
+            <h2>Entrez le numéro tmpfiles</h2>
+            <p class="desc">Collez le numéro reçu depuis Perfect DNS Manager pour ouvrir le rapport IP correspondant.</p>
+            <div class="input-row">
+                <input id="ipNumber" type="text" placeholder="ex: 12345678" autofocus>
+                <button onclick="openIpReport()">Ouvrir</button>
+            </div>
+            <div id="ipError" class="error-msg">Veuillez entrer un numéro valide</div>
+        </div>
+
+        <div class="howto">
+            <h3>Comment ça marche ?</h3>
+            <ol>
+                <li>Dans l'application, appuyez sur <code>📤 Partager mes IPs</code></li>
+                <li>L'application génère un rapport avec votre IPv4, IPv6 et DNS actif</li>
+                <li>Le rapport est envoyé sur tmpfiles.org et un numéro est copié dans le presse-papier</li>
+                <li>Envoyez ce numéro à la personne qui en a besoin</li>
+                <li>Elle vient sur cette page, colle le numéro, et ouvre le rapport</li>
+            </ol>
+            <p style="margin-top: 12px; font-size: 0.85em; color: #888;">
+                ⏰ Les rapports expirent automatiquement après 60 minutes.
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>Perfect DNS Manager &copy; 2026 <a href="https://github.com/appstorefr/PerfectDNSManager">AppstoreFR</a></p>
+</footer>
+
+<script>
+function openIpReport() {
+    const num = document.getElementById('ipNumber').value.trim();
+    const err = document.getElementById('ipError');
+    if (!num || !/^\d+$/.test(num)) {
+        err.style.display = 'block';
+        return;
+    }
+    err.style.display = 'none';
+    window.open('https://tmpfiles.org/dl/' + num + '/ip-report.txt', '_blank');
+}
+document.getElementById('ipNumber').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') openIpReport();
+});
+</script>
+
+</body>
+</html>

@@ -25,7 +25,7 @@
     <string name="firestick_warning_title">Avertissement Firestick</string>
     <string name="firestick_warning_message">L\'utilisation de la méthode ADB sur les appareils Firestick peut entraîner une perte de connectivité Internet. Il est recommandé d\'utiliser la méthode VPN.</string>
     <string name="continue_anyway">Continuer</string>
-    <string name="dns_provider_label">1| Fournisseur DNS :</string>
+    <string name="dns_provider_label">1| Choix du Fournisseur DNS :</string>
     <string name="dns_select_button">👉 Choix du fournisseur DNS 👈</string>
     <string name="activation_label">2| Activation :</string>
     <string name="dns_service_used">Service DNS utilisé :</string>

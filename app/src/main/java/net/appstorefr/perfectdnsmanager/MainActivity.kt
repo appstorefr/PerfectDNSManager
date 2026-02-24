@@ -262,6 +262,9 @@ class MainActivity : AppCompatActivity() {
                     appendLine("Profil : ${selectedProfile?.let { "${it.providerName} - ${it.name}" } ?: "aucun"}")
                     appendLine()
                     appendLine("Date : ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date())}")
+                    appendLine()
+                    appendLine("---")
+                    appendLine("Consulter ce rapport en ligne : https://appstorefr.github.io/PerfectDNSManager/ip.html")
                 }
                 val file = java.io.File(cacheDir, "ip-report.txt")
                 file.writeText(content)
@@ -317,7 +320,20 @@ class MainActivity : AppCompatActivity() {
                 catch (_: Exception) {}
             }
         } else {
-            selectedProfile = null
+            // Pré-sélectionner le DNS par défaut, sinon le dernier sélectionné
+            val defaultJson = prefs.getString("default_profile_json", null)
+            val selectedJson = prefs.getString("selected_profile_json", null)
+            val profileJson = defaultJson ?: selectedJson
+            if (profileJson != null) {
+                try {
+                    selectedProfile = Gson().fromJson(profileJson, DnsProfile::class.java)
+                    prefs.edit().putString("selected_profile_json", profileJson).apply()
+                } catch (_: Exception) {
+                    selectedProfile = null
+                }
+            } else {
+                selectedProfile = null
+            }
             prefs.edit().putBoolean("vpn_active", false).apply()
         }
         updateSelectButtonText()
