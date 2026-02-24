@@ -63,10 +63,12 @@ class MainActivity : AppCompatActivity() {
         } else if (profile != null) {
             isActivating = false
             btnToggle.isEnabled = true
+            btnToggle.requestFocus()
             Toast.makeText(this, getString(R.string.vpn_permission_denied), Toast.LENGTH_SHORT).show()
         } else {
             isActivating = false
             btnToggle.isEnabled = true
+            btnToggle.requestFocus()
         }
         pendingVpnProfile = null
     }
@@ -351,6 +353,7 @@ class MainActivity : AppCompatActivity() {
         btnToggle.postDelayed({
             isActivating = false
             btnToggle.isEnabled = true
+            btnToggle.requestFocus()
         }, 500)
     }
 
