@@ -1,0 +1,376 @@
+<resources>
+    <string name="app_name">Perfect DNS Manager</string>
+
+    <!-- MainActivity -->
+    <string name="dns_switcher">Perfect DNS Manager</string>
+    <string name="dns_profile">ملف DNS</string>
+    <string name="add_new_profile">➕ ملف جديد</string>
+    <string name="application_method">طريقة التطبيق</string>
+    <string name="private_dns_adb">Private DNS (ADB)</string>
+    <string name="local_vpn_all_types">VPN محلي</string>
+    <string name="activate">تفعيل</string>
+    <string name="deactivate">إلغاء التفعيل</string>
+    <string name="no_active_dns">لا يوجد DNS نشط</string>
+    <string name="about">حول</string>
+    <string name="select_a_profile">اختر ملفًا</string>
+    <string name="click_to_select_dns">اضغط هنا لاختيار DNS</string>
+    <string name="profile_added">تمت إضافة الملف: %1$s</string>
+    <string name="private_dns_supports_only_dot">Private DNS يدعم DoT فقط</string>
+    <string name="adb_requires_root_or_pc">تعذّر تعديل الإعدادات.\n\nتأكد من منح الإذن عبر الكمبيوتر:\n\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\n(أو أن جهازك يملك صلاحيات Root)</string>
+    <string name="error_activating_adb">خطأ في تفعيل ADB</string>
+    <string name="dns_activated_via_adb">تم تفعيل DNS عبر ADB</string>
+    <string name="vpn_permission_denied">تم رفض إذن VPN</string>
+    <string name="vpn_activated">تم تفعيل VPN: %1$s</string>
+    <string name="dns_disabled">تم تعطيل DNS</string>
+    <string name="firestick_warning_title">تحذير Firestick</string>
+    <string name="firestick_warning_message">استخدام طريقة ADB على أجهزة Firestick قد يؤدي إلى فقدان الاتصال بالإنترنت. يُنصح باستخدام طريقة VPN.</string>
+    <string name="continue_anyway">متابعة</string>
+    <string name="dns_provider_label">1| اختيار مزود DNS:</string>
+    <string name="dns_select_button">👉 اختيار مزود DNS 👈</string>
+    <string name="activation_label">2| التفعيل:</string>
+    <string name="dns_service_used">خدمة DNS المستخدمة:</string>
+    <string name="settings_content_description">الإعدادات</string>
+    <string name="wan_ipv4_label">IPv4: </string>
+    <string name="wan_ipv6_label">IPv6: </string>
+    <string name="wan_ip_loading">جارٍ التحميل…</string>
+    <string name="wan_ip_error">غير متوفر</string>
+    <string name="wan_ipv6_blocked">محظور ✓</string>
+    <string name="share_ip_button">📤 مشاركة عناوين IP عبر tmpfiles.org</string>
+    <string name="share_ip_uploading">جارٍ رفع عناوين IP…</string>
+    <string name="share_ip_success_title">تم مشاركة عناوين IP</string>
+    <string name="share_ip_success_message">رقم tmpfiles: %1$s\n\nتم نسخ الرقم إلى الحافظة.\n\nURL: %2$s\n(ينتهي خلال 60 دقيقة)</string>
+    <string name="share_ip_error">خطأ أثناء مشاركة عناوين IP</string>
+
+    <!-- Navigation -->
+    <string name="back">رجوع</string>
+    <string name="back_arrow">← رجوع</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="language_select_button">اللغة / Language</string>
+    <string name="how_to_adb">🛠 كيفية تفعيل ADB</string>
+    <string name="adb_status_active">🟢 تصحيح ADB: نشط</string>
+    <string name="adb_status_inactive">🔴 تصحيح ADB: غير نشط</string>
+    <string name="advanced_features_title">⚙️ الميزات المتقدمة</string>
+    <string name="advanced_features_desc">تفعيل الميزات: DNS DoT عبر ADB، URL Rewrite و DNS المشغّل.</string>
+    <string name="url_rewrite_warning">⚠️ URL Rewrite يعمل فقط مع DNS DoH أو القياسي (ليس DoT/ADB)</string>
+    <string name="url_rewrite_button">🔀 URL Rewrite</string>
+    <string name="restore_dns_button">🔄 استعادة DNS الأولي</string>
+    <string name="show_operator_dns">🇫🇷 عرض DNS المشغّلين الفرنسيين (Orange/Bouygues/SFR/Free)</string>
+    <string name="show_standard_dns">📋 عرض DNS الكلاسيكي (قياسي)</string>
+    <string name="show_profile_variants">📋 عرض ملفات مزودي DNS المختلفة (بدون فلترة، بدون إعلانات، أطفال إلخ…)</string>
+    <string name="dns_dot_adb">📡 DNS DoT عبر ADB</string>
+    <string name="adb_warning">⚠️ طريقة ADB تعدّل إعدادات النظام. في حال وجود مشاكل في الاتصال، قم بتعطيل هذا الخيار واستخدم طريقة VPN.</string>
+    <string name="disable_ipv6_label">تعطيل IPv6 / فرض IPv4</string>
+
+    <!-- Auto-start / Auto-reconnect -->
+    <string name="auto_settings_title">التشغيل التلقائي</string>
+    <string name="auto_start_label">التشغيل عند بدء الجهاز</string>
+    <string name="auto_start_description">تشغيل التطبيق تلقائيًا عند بدء تشغيل الجهاز</string>
+    <string name="auto_reconnect_label">الاتصال التلقائي بـ DNS</string>
+    <string name="auto_reconnect_description">إعادة الاتصال تلقائيًا بـ DNS الافتراضي أو آخر DNS مستخدم</string>
+    <string name="auto_reconnect_dns_info">→ %1$s</string>
+    <string name="auto_reconnect_no_dns">→ لم يتم تكوين DNS</string>
+    <string name="auto_reconnect_default_prefix">(افتراضي) </string>
+
+    <!-- Import / Export -->
+    <string name="import_export_title">💾 ملف التكوين</string>
+    <string name="import_export_desc">احفظ أو استعد تكوينك الكامل (الملفات، المفضلة، DNS الافتراضي، قواعد إعادة الكتابة، الإعدادات).</string>
+    <string name="export_config_button">📤 تصدير التكوين</string>
+    <string name="import_config_button">📥 استيراد تكوين</string>
+    <string name="config_exported_title">📤 تم تصدير التكوين</string>
+    <string name="config_exported_message">الملف: %1$s\n\nتم نسخ JSON أيضًا إلى الحافظة.\n\nيمكنك مشاركته أو حفظه.</string>
+    <string name="share_button">مشاركة</string>
+    <string name="upload_to_tmpfiles">☁️ رفع إلى tmpfiles.org (60 دقيقة)</string>
+    <string name="tmpfiles_temporary">tmpfiles.org (60 دقيقة)</string>
+    <string name="uploading">جارٍ الرفع…</string>
+    <string name="upload_success_title">☁️ تم رفع الملف!</string>
+    <string name="upload_success_message">URL:\n%1$s\n\nتم نسخ الرابط إلى الحافظة.</string>
+    <string name="upload_success_message_with_number">رقم الاستيراد: %1$s\n\nلاستيراد هذا التكوين على جهاز آخر، أعطِ هذا الرقم فقط.\n\nURL الكامل:\n%2$s\n\nتم نسخ الرقم إلى الحافظة.</string>
+    <string name="upload_error">خطأ في الرفع: %1$s</string>
+    <string name="share_config">مشاركة التكوين</string>
+    <string name="export_error">خطأ في التصدير: %1$s</string>
+    <string name="import_from_clipboard">📋 لصق من الحافظة</string>
+    <string name="import_from_url">🌐 استيراد من URL</string>
+    <string name="import_from_file">📁 استيراد من ملف محلي</string>
+    <string name="import_from_tmpfiles">📦 من tmpfiles.org</string>
+    <string name="import_from_tmpfiles_title">📦 استيراد من tmpfiles.org</string>
+    <string name="enter_tmpfiles_number">أدخل رقم مجلد tmpfiles.org:</string>
+    <string name="tmpfiles_number_hint">مثال: 19637359</string>
+    <string name="clipboard_empty">الحافظة فارغة</string>
+    <string name="enter_config_url">أدخل URL لملف تكوين JSON:</string>
+    <string name="import_from_url_title">🌐 استيراد من URL</string>
+    <string name="download_button">تنزيل</string>
+    <string name="downloading">جارٍ التنزيل…</string>
+    <string name="no_file_found">لم يتم العثور على ملف: %1$s</string>
+    <string name="read_error">خطأ في القراءة: %1$s</string>
+    <string name="confirm_import_title">📥 تأكيد الاستيراد</string>
+    <string name="confirm_import_message">محتوى التكوين:\n\n%1$s\n\n⚠️ سيحل هذا محل تكوينك الحالي.</string>
+    <string name="import_with_settings">استيراد (مع الإعدادات)</string>
+    <string name="import_without_settings">استيراد (بدون الإعدادات)</string>
+    <string name="invalid_json">JSON غير صالح: %1$s</string>
+    <string name="import_done_title">اكتمل الاستيراد</string>
+    <string name="import_done">✅ اكتمل الاستيراد!</string>
+    <string name="import_profiles_count">• %1$d ملف DNS</string>
+    <string name="import_favorites_count">• %1$d مفضلة</string>
+    <string name="import_rewrite_count">• %1$d قاعدة إعادة كتابة</string>
+    <string name="import_nextdns_count">• %1$d ملف NextDNS مخصص</string>
+    <string name="import_default_restored">• تمت استعادة DNS الافتراضي</string>
+    <string name="import_settings_restored">• تمت استعادة الإعدادات</string>
+
+    <!-- Restore DNS -->
+    <string name="restore_dns_title">استعادة DNS</string>
+    <string name="restore_dns_message">اختر خيارًا:</string>
+    <string name="restore_defaults">استعادة الافتراضي\n(الإبقاء على المخصص)</string>
+    <string name="reset_all">إعادة تعيين الكل</string>
+    <string name="confirm_title">تأكيد</string>
+    <string name="reset_all_confirm">سيؤدي هذا إلى حذف جميع ملفاتك المخصصة. متابعة؟</string>
+    <string name="yes_reset_all">نعم، إعادة تعيين الكل</string>
+    <string name="defaults_restored">تمت استعادة DNS الافتراضي!</string>
+    <string name="all_reset">تمت إعادة تعيين الكل!</string>
+
+    <!-- URL Rewrite -->
+    <string name="url_rewrite_title">🔀 URL Rewrite</string>
+    <string name="add_new_rule">➕ إضافة قاعدة جديدة</string>
+    <string name="close">إغلاق</string>
+    <string name="new_rewrite_rule_title">➕ قاعدة Rewrite جديدة</string>
+    <string name="rewrite_explain">يعيد توجيه نطاق إلى نطاق آخر.\nمفيد لتجاوز حظر DNS من المشغّل.</string>
+    <string name="source_domain">النطاق المصدر:</string>
+    <string name="source_domain_hint">مثال: ygg.re</string>
+    <string name="dest_domain">النطاق الوجهة:</string>
+    <string name="dest_domain_hint">مثال: ygg.unblocked.re</string>
+    <string name="add_button">إضافة</string>
+    <string name="rewrite_added">تمت إضافة إعادة الكتابة: %1$s → %2$s</string>
+    <string name="status_label">الحالة: %1$s</string>
+    <string name="enabled">مفعّل</string>
+    <string name="disabled">معطّل</string>
+    <string name="enable_button">تفعيل</string>
+    <string name="disable_button">تعطيل</string>
+    <string name="rule_enabled">تم تفعيل القاعدة</string>
+    <string name="rule_disabled">تم تعطيل القاعدة</string>
+    <string name="delete_rule_confirm">حذف القاعدة %1$s → %2$s؟</string>
+    <string name="rule_deleted">تم حذف القاعدة</string>
+    <string name="add_rewrite_rule_title">إضافة قاعدة إعادة كتابة</string>
+
+    <!-- Language dialog -->
+    <string name="choose_language_title">Choose your language / Choisissez votre langue</string>
+    <string name="lang_francais">🇫🇷 Français</string>
+    <string name="lang_english">🇬🇧 English</string>
+    <string name="lang_espanol">🇪🇸 Español</string>
+    <string name="lang_italiano">🇮🇹 Italiano</string>
+    <string name="lang_portugues">🇧🇷 Português</string>
+    <string name="lang_russian">🇷🇺 Русский</string>
+    <string name="lang_chinese">🇨🇳 中文</string>
+    <string name="lang_arabic">🇸🇦 العربية</string>
+
+    <!-- Support -->
+    <string name="support_us_button">❤️ ادعمني</string>
+    <string name="support_us_title">ادعمني ❤️</string>
+    <string name="support_us_message">هل أعجبك التطبيق؟ هل ساعدك؟\nلا تتردد في تقديم بادرة صغيرة للمطوّر!</string>
+    <string name="select_crypto_button">👉 اضغط هنا لاختيار العملة الرقمية للإرسال 👈</string>
+    <string name="choose_crypto_title">اختر عملة رقمية</string>
+
+    <!-- AboutActivity -->
+    <string name="about_title">حول Perfect DNS Manager</string>
+    <string name="version">الإصدار %1$s</string>
+    <string name="about_community_text">🚫 بدون إعلانات\n📊 بدون جمع بيانات\n🆓 مجاني للاستخدام والمشاركة\n💜 صُنع للمجتمع ❤️</string>
+    <string name="check_for_updates">التحقق من التحديثات</string>
+    <string name="checking_for_updates">جارٍ التحقق من التحديثات…</string>
+    <string name="credits">شكر وتقدير</string>
+    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
+    <string name="appstorefr">AppstoreFR</string>
+    <string name="contact_email">contact@appstorefr.net</string>
+    <string name="support_about_button">❤️ ادعمني</string>
+    <string name="ia_credit">ذكاء اصطناعي: Claude Opus 4.6 (Anthropic)</string>
+
+    <!-- DNS Deletion -->
+    <string name="cannot_delete">لا يمكن الحذف</string>
+    <string name="cannot_delete_predefined">لا يمكنك حذف ملف مُعدّ مسبقًا.</string>
+    <string name="confirm_delete">تأكيد الحذف</string>
+    <string name="delete_profile_message">هل تريد حقًا حذف الملف &quot;%1$s&quot;؟</string>
+    <string name="delete">حذف</string>
+
+    <!-- AddProfileDialog -->
+    <string name="new_dns_profile">ملف DNS جديد</string>
+    <string name="profile_name">اسم الملف</string>
+    <string name="profile_name_hint">مثال: DNS الخاص بي</string>
+    <string name="dns_type">نوع DNS</string>
+    <string name="primary_dns">DNS الرئيسي</string>
+    <string name="primary_dns_hint">مثال: 8.8.8.8 أو dns.google</string>
+    <string name="secondary_dns_optional">DNS الثانوي (اختياري)</string>
+    <string name="secondary_dns_hint">مثال: 8.8.4.4</string>
+    <string name="cancel">إلغاء</string>
+    <string name="save">حفظ</string>
+    <string name="name_required">الاسم مطلوب</string>
+    <string name="primary_dns_required">DNS الرئيسي مطلوب</string>
+
+    <!-- DNS Test -->
+    <string name="test_dns">🔍 اختبار DNS</string>
+    <string name="test_dns_title">اختبار DNS</string>
+    <string name="test_dns_running">جارٍ الاختبار…</string>
+    <string name="test_dns_success">✅ DNS يعمل!\n\nتم حل %1$s بنجاح.\nتغيير DNS نشط.</string>
+    <string name="test_dns_fail">❌ فشل حل DNS.\n\nتعذّر حل النطاق %1$s.\nتحقق من إعدادات DNS.</string>
+    <string name="test_dns_no_dns">قم بتفعيل DNS أولاً قبل الاختبار.</string>
+    <string name="test_domain_label">النطاق للاختبار:</string>
+    <string name="test_button">اختبار</string>
+    <string name="test_flushing">مسح ذاكرة DNS + جارٍ الاختبار…</string>
+    <string name="test_no_connection_title">❌ لا يوجد اتصال</string>
+    <string name="test_no_connection_msg">تعذّر حل أي شيء.\nتحقق من اتصالك بالإنترنت.</string>
+    <string name="test_blocked_title">🔒 النطاق محظور</string>
+    <string name="test_blocked_msg">%1$s → %2$s\n\nهذا العنوان IP هو عنوان حظر.\n%3$s</string>
+    <string name="test_blocked_dns_bad">⚠️ DNS لا يعمل بشكل صحيح.</string>
+    <string name="test_blocked_activate">قم بتفعيل DNS بديل ثم أعد المحاولة!</string>
+    <string name="test_accessible_title">✅ النطاق متاح</string>
+    <string name="test_accessible_msg_active">%1$s → %2$s\n\nDNS يعمل!</string>
+    <string name="test_accessible_msg_inactive">%1$s → %2$s\n\nهذا النطاق متاح بدون DNS بديل.</string>
+    <string name="test_unresolved_title">❓ لم يتم الحل</string>
+    <string name="test_unresolved_msg_active">%1$s: %2$s\n\nقد لا يعرف خادم DNS هذا النطاق.</string>
+    <string name="test_unresolved_msg_inactive">%1$s: %2$s\n\nمن المحتمل أن مزود الخدمة يحظر هذا النطاق.</string>
+
+    <!-- VPN Report -->
+    <string name="dns_report_title">تقرير DNS</string>
+    <string name="report_private_dns_header">── Private DNS (ADB) ──</string>
+    <string name="report_vpn_header">── VPN DNS ──</string>
+    <string name="report_vpn_active">الحالة: نشط</string>
+    <string name="report_vpn_inactive">الحالة: غير نشط</string>
+    <string name="report_vpn_server">الخادم: %1$s</string>
+    <string name="report_selected_header">── الملف المحدد ──</string>
+    <string name="report_method">الطريقة: %1$s</string>
+    <string name="report_primary">الرئيسي: %1$s</string>
+    <string name="report_secondary">الثانوي: %1$s</string>
+    <string name="ok">موافق</string>
+
+    <!-- ADB Error -->
+    <string name="adb_error_title">خطأ ADB / إذن</string>
+    <string name="reset_adb_keys">إعادة تعيين مفاتيح ADB</string>
+    <string name="adb_keys_reset">تمت إعادة تعيين مفاتيح ADB. أعد المحاولة.</string>
+
+    <!-- DnsSelection -->
+    <string name="choose_dns_server">اختر خادم DNS</string>
+    <string name="method_doh_vpn_dot_adb">DoH / قياسي → VPN   |   DoT → Private DNS (ADB)</string>
+    <string name="method_vpn_only">DNS عبر VPN — DoH وقياسي</string>
+    <string name="long_press_edit">(ضغط مطوّل = تعديل)</string>
+    <string name="favorites_label">★ المفضلة</string>
+    <string name="removed_from_favorites">تمت الإزالة من المفضلة</string>
+    <string name="added_to_favorites">تمت الإضافة إلى المفضلة</string>
+    <string name="remove_from_favorites">★ إزالة من المفضلة</string>
+    <string name="add_to_favorites">☆ إضافة إلى المفضلة</string>
+    <string name="remove_default_dns">⭐ إزالة من DNS الافتراضي</string>
+    <string name="set_default_dns">⭐ تعيين كـ DNS الافتراضي</string>
+    <string name="default_dns_removed">تمت إزالة DNS الافتراضي</string>
+    <string name="default_dns_set">⭐ تم تعيين %1$s كـ DNS الافتراضي</string>
+    <string name="edit_button">✏️ تعديل</string>
+    <string name="delete_button">🗑️ حذف</string>
+    <string name="delete_profile_title">حذف هذا الملف؟</string>
+    <string name="profile_deleted">تم حذف الملف</string>
+    <string name="edit_profile_title">تعديل الملف</string>
+    <string name="name_label">الاسم:</string>
+    <string name="primary_dns_label">DNS الرئيسي:</string>
+    <string name="secondary_dns_label">DNS الثانوي:</string>
+    <string name="save_button">حفظ</string>
+    <string name="profile_updated">تم تحديث الملف</string>
+
+    <!-- NextDNS -->
+    <string name="add_nextdns_profile">➕ إضافة ملف NextDNS مخصص</string>
+    <string name="nextdns_explain">أدخل معرّف ملف NextDNS الخاص بك.\nhttps://my.nextdns.io/XXXXXX/setup</string>
+    <string name="nextdns_add_title">إضافة ملف NextDNS</string>
+    <string name="nextdns_add_select">إضافة واختيار (DoH)</string>
+    <string name="nextdns_id_required">المعرّف مطلوب</string>
+
+    <!-- HowTo -->
+    <string name="howto_title">🛠 كيفية تفعيل تصحيح ADB</string>
+    <string name="howto_adb_active">✅ تصحيح ADB: نشط — أنت جاهز!</string>
+    <string name="howto_adb_inactive">❌ تصحيح ADB: غير نشط — اتبع الدليل أدناه</string>
+    <string name="howto_open_dev_options">فتح خيارات المطور</string>
+    <string name="howto_check_dev_options">التحقق من خيارات المطور</string>
+    <string name="howto_step1_title">الخطوة 1 — تفعيل خيارات المطور</string>
+    <string name="howto_step1_desc">اذهب إلى: الإعدادات → حول الهاتف\n→ اضغط 7 مرات على «رقم الإصدار»\n\nستظهر رسالة «أنت الآن مطوّر!».</string>
+    <string name="howto_step2_title">الخطوة 2 — تفعيل تصحيح ADB</string>
+    <string name="howto_step2_desc">اذهب إلى: الإعدادات → خيارات المطور\n→ فعّل «تصحيح ADB»\n\nأو استخدم الزر أعلاه للوصول مباشرة.</string>
+    <string name="howto_step3_title">الخطوة 3 — تفويض الاتصال</string>
+    <string name="howto_step3_desc">عند تفعيل DNS عبر ADB لأول مرة، قد تظهر نافذة «السماح بتصحيح USB؟».\n\n→ ضع علامة على «السماح دائمًا من هذا الجهاز»\n→ اضغط موافق\n\nسيتذكر التطبيق الاتصال تلقائيًا.</string>
+    <string name="howto_note_tv_title">💡 ملاحظة لأجهزة Thomson / Android TV</string>
+    <string name="howto_note_tv_desc">في معظم أجهزة Android TV، منفذ ADB 5555 متاح محليًا. يكفي تفعيل تصحيح ADB في خيارات المطور — لا حاجة لكابل USB أو كمبيوتر.</string>
+    <string name="howto_firestick_title">🔥 Firestick / Fire TV</string>
+    <string name="howto_firestick_desc">على Firestick، طريقة الاتصال التلقائي بـ ADB غالبًا لا تعمل. يُنصح باستخدام طريقة VPN التي تعمل بدون أي إعداد.\n\nإذا كنت تريد استخدام ADB:\n1. ثبّت ADB على الكمبيوتر (platform-tools)\n2. اتصل بـ Firestick:\n   adb connect IP_FIRESTICK:5555\n3. امنح الإذن:\n   adb shell pm grant net.appstorefr.perfectdnsmanager android.permission.WRITE_SECURE_SETTINGS\n4. بعد ذلك، سيتمكن التطبيق من تغيير DNS مباشرة.</string>
+    <string name="howto_recommendation_title">✅ توصية</string>
+    <string name="howto_recommendation_desc">طريقة VPN هي الأبسط: تعمل على جميع الأجهزة بدون أي إعداد خاص. تنشئ VPN محلي يعيد توجيه طلبات DNS فقط إلى الخادم الذي تختاره.</string>
+
+    <!-- Notification -->
+    <string name="notif_starting">DNS: جارٍ البدء…</string>
+    <string name="notif_open_app_vpn">افتح التطبيق لإعادة تفعيل VPN DNS</string>
+
+    <!-- UpdateManager -->
+    <string name="update_available">تحديث متوفر: v%1$s</string>
+    <string name="app_up_to_date">التطبيق محدّث ✓</string>
+    <string name="update_check_error">تعذّر التحقق من التحديثات</string>
+    <string name="update_downloading">جارٍ التنزيل…</string>
+    <string name="update_download_error">خطأ في التنزيل</string>
+    <string name="update_install_error">خطأ في التثبيت</string>
+    <string name="update_dialog_title">تحديث متوفر</string>
+    <string name="update_dialog_message">إصدار جديد (v%1$s) متوفر.\nهل تريد تنزيله وتثبيته؟</string>
+    <string name="update_dialog_install">تثبيت</string>
+    <string name="update_dialog_later">لاحقًا</string>
+
+    <!-- Version migration -->
+    <string name="presets_updated_toast">تم تحديث ملفات DNS للإصدار %1$s</string>
+
+    <!-- ADB Compatibility -->
+    <string name="adb_requires_android9">⚠️ طريقة DoT/ADB تتطلب Android 9 (Pie) أو أعلى. جهازك غير متوافق.</string>
+
+    <!-- HowTo Compatibility -->
+    <string name="howto_compat_title">⚠️ توافق Android</string>
+    <string name="howto_compat_desc">طريقة Private DNS (DoT عبر ADB) تتطلب Android 9 (Pie) أو أعلى (API 28+).\n\nالأجهزة التي تعمل بنظام Android 8 أو أقل غير متوافقة مع هذه الطريقة. استخدم طريقة VPN (DoH) بدلاً من ذلك.</string>
+    <string name="howto_android11_title">⚠️ Android 11+ — ADB لاسلكي</string>
+    <string name="howto_android11_desc">منذ Android 11، تستخدم خدمة ADB اللاسلكي منفذًا عشوائيًا وتتطلب إقران TLS.\n\nعلى الهواتف الحديثة، قد لا يعمل الاتصال التلقائي المحلي بـ ADB. يُنصح باستخدام طريقة VPN على هذه الأجهزة.\n\nعلى أجهزة Android TV، عادةً ما يبقى المنفذ 5555 متاحًا.</string>
+
+    <!-- Shizuku -->
+    <string name="shizuku_section_title">Shizuku (Android 11+)</string>
+    <string name="shizuku_section_desc">Shizuku يسمح بتعديل Private DNS بدون اتصال ADB سلكي. مثالي لـ Android 11+ حيث يتطلب ADB اللاسلكي إقران TLS.</string>
+    <string name="shizuku_not_installed">غير مثبّت</string>
+    <string name="shizuku_not_running">مثبّت لكن غير مشغّل</string>
+    <string name="shizuku_no_permission">لم يتم منح الإذن</string>
+    <string name="shizuku_ready">جاهز</string>
+    <string name="shizuku_install">تثبيت Shizuku</string>
+    <string name="shizuku_open">فتح Shizuku</string>
+    <string name="shizuku_grant_permission">منح الإذن</string>
+    <string name="shizuku_permission_granted">تم منح إذن Shizuku!</string>
+
+    <!-- DNS Ratings -->
+    <string name="speed_label">السرعة</string>
+    <string name="privacy_label">الخصوصية</string>
+
+    <!-- DNS Speedtest -->
+    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
+    <string name="dns_speedtest_running">جارٍ اختبار زمن استجابة DNS…</string>
+    <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
+    <string name="dns_speedtest_error">خطأ</string>
+    <string name="dns_speedtest_ms">%1$d مللي ثانية</string>
+
+    <!-- Export granulaire -->
+    <string name="export_select_title">📤 ماذا تريد أن تصدّر؟</string>
+    <string name="export_toggle_profiles">ملفات DNS</string>
+    <string name="export_toggle_favorites">المفضلة</string>
+    <string name="export_toggle_default_dns">DNS الافتراضي</string>
+    <string name="export_toggle_nextdns">ملفات NextDNS المخصصة</string>
+    <string name="export_toggle_rewrite">قواعد URL Rewrite</string>
+    <string name="export_toggle_settings">الإعدادات</string>
+    <string name="export_button">تصدير</string>
+    <string name="export_choose_dest">تم إنشاء الملف: %1$s\n\nتم نسخ JSON إلى الحافظة.\n\nاختر الوجهة:</string>
+    <string name="export_save_local">💾 حفظ محلي</string>
+    <string name="export_saved_locally">💾 تم حفظ الملف:\n%1$s</string>
+
+    <!-- IPv6 VPN reconnect -->
+    <string name="vpn_reconnecting_ipv6">تمت إعادة اتصال VPN (تم تغيير IPv6)</string>
+
+    <!-- Shizuku hardcoded fix -->
+    <string name="shizuku_cannot_open">تعذّر فتح Shizuku</string>
+
+    <!-- Downloader code -->
+    <string name="downloader_code_label">رمز Downloader (AFTVnews):</string>
+    <string name="downloader_code_value">2759555</string>
+
+    <!-- DNS Rewrite screen -->
+    <string name="dns_rewrite_screen_title">إعادة كتابة DNS (Rewriting)</string>
+</resources>

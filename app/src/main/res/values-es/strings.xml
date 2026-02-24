@@ -1,0 +1,376 @@
+<resources>
+    <string name="app_name">Perfect DNS Manager</string>
+
+    <!-- MainActivity -->
+    <string name="dns_switcher">Perfect DNS Manager</string>
+    <string name="dns_profile">Perfil DNS</string>
+    <string name="add_new_profile">➕ NUEVO PERFIL</string>
+    <string name="application_method">Método de aplicación</string>
+    <string name="private_dns_adb">Private DNS (ADB)</string>
+    <string name="local_vpn_all_types">VPN local</string>
+    <string name="activate">ACTIVAR</string>
+    <string name="deactivate">DESACTIVAR</string>
+    <string name="no_active_dns">Ningún DNS activo</string>
+    <string name="about">Acerca de</string>
+    <string name="select_a_profile">Selecciona un perfil</string>
+    <string name="click_to_select_dns">Haz clic aquí para elegir un DNS</string>
+    <string name="profile_added">Perfil añadido: %1$s</string>
+    <string name="private_dns_supports_only_dot">Private DNS solo soporta DoT</string>
+    <string name="adb_requires_root_or_pc">No se pueden modificar los ajustes.\n\nAsegúrate de haber concedido el permiso desde un PC:\n\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\n(O que tu dispositivo tenga Root)</string>
+    <string name="error_activating_adb">Error al activar ADB</string>
+    <string name="dns_activated_via_adb">DNS activado vía ADB</string>
+    <string name="vpn_permission_denied">Permiso VPN denegado</string>
+    <string name="vpn_activated">VPN activado: %1$s</string>
+    <string name="dns_disabled">DNS desactivado</string>
+    <string name="firestick_warning_title">Advertencia Firestick</string>
+    <string name="firestick_warning_message">El uso del método ADB en dispositivos Firestick puede causar pérdida de conectividad a Internet. Se recomienda usar el método VPN.</string>
+    <string name="continue_anyway">Continuar</string>
+    <string name="dns_provider_label">1| Elección del Proveedor DNS:</string>
+    <string name="dns_select_button">👉 Elegir proveedor DNS 👈</string>
+    <string name="activation_label">2| Activación:</string>
+    <string name="dns_service_used">Servicio DNS utilizado:</string>
+    <string name="settings_content_description">Ajustes</string>
+    <string name="wan_ipv4_label">IPv4: </string>
+    <string name="wan_ipv6_label">IPv6: </string>
+    <string name="wan_ip_loading">cargando…</string>
+    <string name="wan_ip_error">no disponible</string>
+    <string name="wan_ipv6_blocked">bloqueado ✓</string>
+    <string name="share_ip_button">📤 Compartir mis IPs vía tmpfiles.org</string>
+    <string name="share_ip_uploading">Subiendo IPs…</string>
+    <string name="share_ip_success_title">IPs compartidas</string>
+    <string name="share_ip_success_message">Número tmpfiles: %1$s\n\nEl número se ha copiado al portapapeles.\n\nURL: %2$s\n(expira en 60 min)</string>
+    <string name="share_ip_error">Error al compartir las IPs</string>
+
+    <!-- Navigation -->
+    <string name="back">Volver</string>
+    <string name="back_arrow">← Volver</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ajustes</string>
+    <string name="language_select_button">Idioma / Language</string>
+    <string name="how_to_adb">🛠 Cómo activar ADB</string>
+    <string name="adb_status_active">🟢 Depuración ADB: Activa</string>
+    <string name="adb_status_inactive">🔴 Depuración ADB: Inactiva</string>
+    <string name="advanced_features_title">⚙️ Funciones avanzadas</string>
+    <string name="advanced_features_desc">Activa las funciones: DNS DoT vía ADB, URL Rewrite y DNS de operador.</string>
+    <string name="url_rewrite_warning">⚠️ URL Rewrite solo funciona con DNS DoH o Estándar (no con DoT/ADB)</string>
+    <string name="url_rewrite_button">🔀 URL Rewrite</string>
+    <string name="restore_dns_button">🔄 Restaurar los DNS iniciales</string>
+    <string name="show_operator_dns">🇫🇷 Mostrar los DNS de operadores Francia (Orange/Bouygues/SFR/Free)</string>
+    <string name="show_standard_dns">📋 Mostrar los DNS clásicos (Estándar)</string>
+    <string name="show_profile_variants">📋 Mostrar los diferentes perfiles de proveedores DNS (unfiltered, noads, kids etc…)</string>
+    <string name="dns_dot_adb">📡 DNS DoT vía ADB</string>
+    <string name="adb_warning">⚠️ El método ADB modifica los ajustes del sistema. En caso de problemas de conectividad, desactiva esta opción y usa el método VPN.</string>
+    <string name="disable_ipv6_label">Desactivar IPv6 / Forzar IPv4</string>
+
+    <!-- Auto-start / Auto-reconnect -->
+    <string name="auto_settings_title">Inicio automático</string>
+    <string name="auto_start_label">Iniciar al arrancar</string>
+    <string name="auto_start_description">Iniciar la aplicación automáticamente al encender el dispositivo</string>
+    <string name="auto_reconnect_label">Conexión automática al DNS</string>
+    <string name="auto_reconnect_description">Reconectarse automáticamente al DNS predeterminado o al último utilizado</string>
+    <string name="auto_reconnect_dns_info">→ %1$s</string>
+    <string name="auto_reconnect_no_dns">→ Ningún DNS configurado</string>
+    <string name="auto_reconnect_default_prefix">(predeterminado) </string>
+
+    <!-- Import / Export -->
+    <string name="import_export_title">💾 Archivo de configuración</string>
+    <string name="import_export_desc">Guarda o restaura tu configuración completa (perfiles, favoritos, DNS predeterminado, reglas rewrite, ajustes).</string>
+    <string name="export_config_button">📤 Exportar configuración</string>
+    <string name="import_config_button">📥 Importar configuración</string>
+    <string name="config_exported_title">📤 Configuración exportada</string>
+    <string name="config_exported_message">Archivo: %1$s\n\nEl JSON también se ha copiado al portapapeles.\n\nPuedes compartirlo o guardarlo.</string>
+    <string name="share_button">Compartir</string>
+    <string name="upload_to_tmpfiles">☁️ Enviar a tmpfiles.org (60 min)</string>
+    <string name="tmpfiles_temporary">tmpfiles.org (60 min)</string>
+    <string name="uploading">Enviando…</string>
+    <string name="upload_success_title">☁️ ¡Archivo enviado!</string>
+    <string name="upload_success_message">URL:\n%1$s\n\nEnlace copiado al portapapeles.</string>
+    <string name="upload_success_message_with_number">Número de importación: %1$s\n\nPara importar esta configuración en otro dispositivo, solo proporciona este número.\n\nURL completa:\n%2$s\n\nNúmero copiado al portapapeles.</string>
+    <string name="upload_error">Error de envío: %1$s</string>
+    <string name="share_config">Compartir configuración</string>
+    <string name="export_error">Error de exportación: %1$s</string>
+    <string name="import_from_clipboard">📋 Pegar desde el portapapeles</string>
+    <string name="import_from_url">🌐 Importar desde una URL</string>
+    <string name="import_from_file">📁 Importar desde un archivo local</string>
+    <string name="import_from_tmpfiles">📦 Desde tmpfiles.org</string>
+    <string name="import_from_tmpfiles_title">📦 Importar desde tmpfiles.org</string>
+    <string name="enter_tmpfiles_number">Introduce el número de la carpeta tmpfiles.org:</string>
+    <string name="tmpfiles_number_hint">Ej: 19637359</string>
+    <string name="clipboard_empty">Portapapeles vacío</string>
+    <string name="enter_config_url">Introduce la URL del archivo de configuración JSON:</string>
+    <string name="import_from_url_title">🌐 Importar desde URL</string>
+    <string name="download_button">Descargar</string>
+    <string name="downloading">Descargando…</string>
+    <string name="no_file_found">Archivo no encontrado: %1$s</string>
+    <string name="read_error">Error de lectura: %1$s</string>
+    <string name="confirm_import_title">📥 Confirmar importación</string>
+    <string name="confirm_import_message">Contenido de la configuración:\n\n%1$s\n\n⚠️ Esto reemplazará tu configuración actual.</string>
+    <string name="import_with_settings">Importar (con ajustes)</string>
+    <string name="import_without_settings">Importar (sin ajustes)</string>
+    <string name="invalid_json">JSON inválido: %1$s</string>
+    <string name="import_done_title">Importación completada</string>
+    <string name="import_done">✅ ¡Importación completada!</string>
+    <string name="import_profiles_count">• %1$d perfiles DNS</string>
+    <string name="import_favorites_count">• %1$d favoritos</string>
+    <string name="import_rewrite_count">• %1$d reglas rewrite</string>
+    <string name="import_nextdns_count">• %1$d perfiles NextDNS personalizados</string>
+    <string name="import_default_restored">• DNS predeterminado restaurado</string>
+    <string name="import_settings_restored">• Ajustes restaurados</string>
+
+    <!-- Restore DNS -->
+    <string name="restore_dns_title">Restaurar los DNS</string>
+    <string name="restore_dns_message">Elige una opción:</string>
+    <string name="restore_defaults">Restaurar valores predeterminados\n(mantener personalizados)</string>
+    <string name="reset_all">Restablecer todo</string>
+    <string name="confirm_title">Confirmar</string>
+    <string name="reset_all_confirm">Esto eliminará TODOS tus perfiles personalizados. ¿Continuar?</string>
+    <string name="yes_reset_all">Sí, restablecer todo</string>
+    <string name="defaults_restored">¡DNS predeterminados restaurados!</string>
+    <string name="all_reset">¡Todo restablecido!</string>
+
+    <!-- URL Rewrite -->
+    <string name="url_rewrite_title">🔀 URL Rewrite</string>
+    <string name="add_new_rule">➕ Añadir una nueva regla</string>
+    <string name="close">Cerrar</string>
+    <string name="new_rewrite_rule_title">➕ Nueva regla Rewrite</string>
+    <string name="rewrite_explain">Redirige un dominio a otro dominio.\nÚtil para evitar el bloqueo DNS del operador.</string>
+    <string name="source_domain">Dominio de origen:</string>
+    <string name="source_domain_hint">ej: ygg.re</string>
+    <string name="dest_domain">Dominio de destino:</string>
+    <string name="dest_domain_hint">ej: ygg.unblocked.re</string>
+    <string name="add_button">Añadir</string>
+    <string name="rewrite_added">Rewrite añadido: %1$s → %2$s</string>
+    <string name="status_label">Estado: %1$s</string>
+    <string name="enabled">Activada</string>
+    <string name="disabled">Desactivada</string>
+    <string name="enable_button">Activar</string>
+    <string name="disable_button">Desactivar</string>
+    <string name="rule_enabled">Regla activada</string>
+    <string name="rule_disabled">Regla desactivada</string>
+    <string name="delete_rule_confirm">¿Eliminar la regla %1$s → %2$s?</string>
+    <string name="rule_deleted">Regla eliminada</string>
+    <string name="add_rewrite_rule_title">Añadir una regla de reescritura</string>
+
+    <!-- Language dialog -->
+    <string name="choose_language_title">🌍 Langue / Language / Idioma</string>
+    <string name="lang_francais">🇫🇷 Français</string>
+    <string name="lang_english">🇬🇧 English</string>
+    <string name="lang_espanol">🇪🇸 Español</string>
+    <string name="lang_italiano">🇮🇹 Italiano</string>
+    <string name="lang_portugues">🇧🇷 Português</string>
+    <string name="lang_russian">🇷🇺 Русский</string>
+    <string name="lang_chinese">🇨🇳 中文</string>
+    <string name="lang_arabic">🇸🇦 العربية</string>
+
+    <!-- Support -->
+    <string name="support_us_button">❤️ Apóyame</string>
+    <string name="support_us_title">Apóyame ❤️</string>
+    <string name="support_us_message">¿Te gusta la aplicación? ¿Te ha ayudado?\n¡No dudes en hacer un pequeño gesto para el desarrollador!</string>
+    <string name="select_crypto_button">👉 Haz clic aquí para elegir la crypto a enviar 👈</string>
+    <string name="choose_crypto_title">Elegir una crypto</string>
+
+    <!-- AboutActivity -->
+    <string name="about_title">Acerca de Perfect DNS Manager</string>
+    <string name="version">Versión %1$s</string>
+    <string name="about_community_text">🚫 Sin anuncios\n📊 Sin recopilación de datos\n🆓 Libre de usar y compartir\n💜 Hecha para la comunidad ❤️</string>
+    <string name="check_for_updates">Buscar actualizaciones</string>
+    <string name="checking_for_updates">Buscando actualizaciones…</string>
+    <string name="credits">Créditos</string>
+    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
+    <string name="appstorefr">AppstoreFR</string>
+    <string name="contact_email">contact@appstorefr.net</string>
+    <string name="support_about_button">❤️ Apóyame</string>
+    <string name="ia_credit">IA: Claude Opus 4.6 (Anthropic)</string>
+
+    <!-- DNS Deletion -->
+    <string name="cannot_delete">No se puede eliminar</string>
+    <string name="cannot_delete_predefined">No puedes eliminar un perfil predefinido.</string>
+    <string name="confirm_delete">Confirmar eliminación</string>
+    <string name="delete_profile_message">¿Realmente deseas eliminar el perfil &quot;%1$s&quot;?</string>
+    <string name="delete">Eliminar</string>
+
+    <!-- AddProfileDialog -->
+    <string name="new_dns_profile">Nuevo perfil DNS</string>
+    <string name="profile_name">Nombre del perfil</string>
+    <string name="profile_name_hint">Ej: Mi DNS personal</string>
+    <string name="dns_type">Tipo de DNS</string>
+    <string name="primary_dns">DNS Primario</string>
+    <string name="primary_dns_hint">Ej: 8.8.8.8 o dns.google</string>
+    <string name="secondary_dns_optional">DNS Secundario (opcional)</string>
+    <string name="secondary_dns_hint">Ej: 8.8.4.4</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="name_required">Nombre requerido</string>
+    <string name="primary_dns_required">DNS primario requerido</string>
+
+    <!-- DNS Test -->
+    <string name="test_dns">🔍 Probar el DNS</string>
+    <string name="test_dns_title">Prueba DNS</string>
+    <string name="test_dns_running">Prueba en curso…</string>
+    <string name="test_dns_success">✅ ¡DNS funcional!\n\n%1$s resuelto con éxito.\nEl cambio de DNS está activo.</string>
+    <string name="test_dns_fail">❌ Fallo en la resolución DNS.\n\nEl dominio %1$s no pudo ser resuelto.\nVerifica tu configuración DNS.</string>
+    <string name="test_dns_no_dns">Activa primero un DNS antes de probar.</string>
+    <string name="test_domain_label">Dominio a probar:</string>
+    <string name="test_button">Probar</string>
+    <string name="test_flushing">Limpiando caché DNS + probando…</string>
+    <string name="test_no_connection_title">❌ Sin conexión</string>
+    <string name="test_no_connection_msg">No se puede resolver nada.\nVerifica tu conexión a Internet.</string>
+    <string name="test_blocked_title">🔒 Dominio BLOQUEADO</string>
+    <string name="test_blocked_msg">%1$s → %2$s\n\nEsta IP es una dirección de bloqueo.\n%3$s</string>
+    <string name="test_blocked_dns_bad">⚠️ El DNS no funciona correctamente.</string>
+    <string name="test_blocked_activate">¡Activa un DNS alternativo y vuelve a probar!</string>
+    <string name="test_accessible_title">✅ Dominio ACCESIBLE</string>
+    <string name="test_accessible_msg_active">%1$s → %2$s\n\n¡El DNS funciona!</string>
+    <string name="test_accessible_msg_inactive">%1$s → %2$s\n\nEste dominio es accesible sin DNS alternativo.</string>
+    <string name="test_unresolved_title">❓ No resuelto</string>
+    <string name="test_unresolved_msg_active">%1$s: %2$s\n\nEl servidor DNS quizás no conoce este dominio.</string>
+    <string name="test_unresolved_msg_inactive">%1$s: %2$s\n\nTu operador probablemente bloquea este dominio.</string>
+
+    <!-- VPN Report -->
+    <string name="dns_report_title">Informe DNS</string>
+    <string name="report_private_dns_header">── Private DNS (ADB) ──</string>
+    <string name="report_vpn_header">── VPN DNS ──</string>
+    <string name="report_vpn_active">Estado: Activo</string>
+    <string name="report_vpn_inactive">Estado: Inactivo</string>
+    <string name="report_vpn_server">Servidor: %1$s</string>
+    <string name="report_selected_header">── Perfil seleccionado ──</string>
+    <string name="report_method">Método: %1$s</string>
+    <string name="report_primary">Primario: %1$s</string>
+    <string name="report_secondary">Secundario: %1$s</string>
+    <string name="ok">OK</string>
+
+    <!-- ADB Error -->
+    <string name="adb_error_title">Error ADB / Permiso</string>
+    <string name="reset_adb_keys">Restablecer claves ADB</string>
+    <string name="adb_keys_reset">Claves ADB restablecidas. Inténtalo de nuevo.</string>
+
+    <!-- DnsSelection -->
+    <string name="choose_dns_server">Elegir un servidor DNS</string>
+    <string name="method_doh_vpn_dot_adb">DoH / Estándar → VPN   |   DoT → Private DNS (ADB)</string>
+    <string name="method_vpn_only">DNS vía VPN — DoH y Estándar</string>
+    <string name="long_press_edit">(pulsación larga = editar)</string>
+    <string name="favorites_label">★ Favoritos</string>
+    <string name="removed_from_favorites">Eliminado de favoritos</string>
+    <string name="added_to_favorites">Añadido a favoritos</string>
+    <string name="remove_from_favorites">★ Quitar de favoritos</string>
+    <string name="add_to_favorites">☆ Añadir a favoritos</string>
+    <string name="remove_default_dns">⭐ Quitar del DNS predeterminado</string>
+    <string name="set_default_dns">⭐ Definir como DNS predeterminado</string>
+    <string name="default_dns_removed">DNS predeterminado eliminado</string>
+    <string name="default_dns_set">⭐ %1$s definido como DNS predeterminado</string>
+    <string name="edit_button">✏️ Editar</string>
+    <string name="delete_button">🗑️ Eliminar</string>
+    <string name="delete_profile_title">¿Eliminar este perfil?</string>
+    <string name="profile_deleted">Perfil eliminado</string>
+    <string name="edit_profile_title">Editar perfil</string>
+    <string name="name_label">Nombre:</string>
+    <string name="primary_dns_label">DNS Primario:</string>
+    <string name="secondary_dns_label">DNS Secundario:</string>
+    <string name="save_button">Guardar</string>
+    <string name="profile_updated">Perfil actualizado</string>
+
+    <!-- NextDNS -->
+    <string name="add_nextdns_profile">➕ Añadir un perfil NextDNS personalizado</string>
+    <string name="nextdns_explain">Introduce el identificador de tu perfil NextDNS.\nhttps://my.nextdns.io/XXXXXX/setup</string>
+    <string name="nextdns_add_title">Añadir perfil NextDNS</string>
+    <string name="nextdns_add_select">Añadir y seleccionar (DoH)</string>
+    <string name="nextdns_id_required">Identificador requerido</string>
+
+    <!-- HowTo -->
+    <string name="howto_title">🛠 Cómo activar la depuración ADB</string>
+    <string name="howto_adb_active">✅ Depuración ADB: ACTIVA — ¡Estás listo!</string>
+    <string name="howto_adb_inactive">❌ Depuración ADB: INACTIVA — Sigue la guía a continuación</string>
+    <string name="howto_open_dev_options">Abrir Opciones de desarrollador</string>
+    <string name="howto_check_dev_options">Verificar opciones de desarrollador</string>
+    <string name="howto_step1_title">Paso 1 — Activar las Opciones de desarrollador</string>
+    <string name="howto_step1_desc">Ve a: Ajustes → Acerca del teléfono\n→ Pulsa 7 veces en « Número de compilación »\n\nAparecerá el mensaje « ¡Ahora eres un desarrollador! ».</string>
+    <string name="howto_step2_title">Paso 2 — Activar la Depuración ADB</string>
+    <string name="howto_step2_desc">Ve a: Ajustes → Opciones de desarrollador\n→ Activa « Depuración ADB »\n\nO usa el botón de arriba para acceder directamente.</string>
+    <string name="howto_step3_title">Paso 3 — Autorizar la conexión</string>
+    <string name="howto_step3_desc">Al activar por primera vez el DNS vía ADB, puede aparecer una ventana « ¿Permitir depuración USB? ».\n\n→ Marca « Permitir siempre desde este dispositivo »\n→ Pulsa OK\n\nLa aplicación recordará automáticamente la conexión.</string>
+    <string name="howto_note_tv_title">💡 Nota para boxes Thomson / Android TV</string>
+    <string name="howto_note_tv_desc">En la mayoría de las boxes Android TV, el puerto ADB 5555 es accesible localmente. Solo necesitas que la depuración ADB esté activada en las opciones de desarrollador — no se necesita cable USB ni PC.</string>
+    <string name="howto_firestick_title">🔥 Firestick / Fire TV</string>
+    <string name="howto_firestick_desc">En Firestick, el método de auto-conexión ADB a menudo no funciona. Se recomienda usar el método VPN que funciona sin configuración.\n\nSi aún así quieres usar ADB:\n1. Instala ADB en un PC (platform-tools)\n2. Conéctate al Firestick:\n   adb connect IP_FIRESTICK:5555\n3. Concede el permiso:\n   adb shell pm grant net.appstorefr.perfectdnsmanager android.permission.WRITE_SECURE_SETTINGS\n4. Después de eso, la app podrá cambiar el DNS directamente.</string>
+    <string name="howto_recommendation_title">✅ Recomendación</string>
+    <string name="howto_recommendation_desc">El método VPN es el más sencillo: funciona en todos los dispositivos sin ninguna configuración especial. Crea un VPN local que solo redirige las consultas DNS al servidor de tu elección.</string>
+
+    <!-- Notification -->
+    <string name="notif_starting">DNS: iniciando…</string>
+    <string name="notif_open_app_vpn">Abre la app para reactivar el VPN DNS</string>
+
+    <!-- UpdateManager -->
+    <string name="update_available">Actualización disponible: v%1$s</string>
+    <string name="app_up_to_date">Aplicación actualizada ✓</string>
+    <string name="update_check_error">No se pueden verificar las actualizaciones</string>
+    <string name="update_downloading">Descargando…</string>
+    <string name="update_download_error">Error durante la descarga</string>
+    <string name="update_install_error">Error durante la instalación</string>
+    <string name="update_dialog_title">Actualización disponible</string>
+    <string name="update_dialog_message">Una nueva versión (v%1$s) está disponible.\n¿Deseas descargarla e instalarla?</string>
+    <string name="update_dialog_install">Instalar</string>
+    <string name="update_dialog_later">Más tarde</string>
+
+    <!-- Version migration -->
+    <string name="presets_updated_toast">Perfiles DNS actualizados para la versión %1$s</string>
+
+    <!-- ADB Compatibility -->
+    <string name="adb_requires_android9">⚠️ El método DoT/ADB requiere Android 9 (Pie) o superior. Tu dispositivo no es compatible.</string>
+
+    <!-- HowTo Compatibility -->
+    <string name="howto_compat_title">⚠️ Compatibilidad Android</string>
+    <string name="howto_compat_desc">El método Private DNS (DoT vía ADB) requiere Android 9 (Pie) o superior (API 28+).\n\nLos dispositivos con Android 8 o inferior no son compatibles con este método. Usa el método VPN (DoH) en su lugar.</string>
+    <string name="howto_android11_title">⚠️ Android 11+ — ADB inalámbrico</string>
+    <string name="howto_android11_desc">Desde Android 11, el servicio ADB inalámbrico usa un puerto aleatorio y requiere emparejamiento TLS.\n\nEn teléfonos recientes, la auto-conexión ADB local puede no funcionar. El método VPN es recomendado en estos dispositivos.\n\nEn las boxes Android TV, el puerto 5555 generalmente sigue siendo accesible.</string>
+
+    <!-- Shizuku -->
+    <string name="shizuku_section_title">Shizuku (Android 11+)</string>
+    <string name="shizuku_section_desc">Shizuku permite modificar el DNS privado sin conexión ADB por cable. Ideal para Android 11+ donde el ADB inalámbrico requiere emparejamiento TLS.</string>
+    <string name="shizuku_not_installed">No instalado</string>
+    <string name="shizuku_not_running">Instalado pero no iniciado</string>
+    <string name="shizuku_no_permission">Permiso no concedido</string>
+    <string name="shizuku_ready">Listo</string>
+    <string name="shizuku_install">Instalar Shizuku</string>
+    <string name="shizuku_open">Abrir Shizuku</string>
+    <string name="shizuku_grant_permission">Conceder permiso</string>
+    <string name="shizuku_permission_granted">¡Permiso Shizuku concedido!</string>
+
+    <!-- DNS Ratings -->
+    <string name="speed_label">Velocidad</string>
+    <string name="privacy_label">Privacidad</string>
+
+    <!-- DNS Speedtest -->
+    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
+    <string name="dns_speedtest_running">Prueba de latencia DNS en curso…</string>
+    <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
+    <string name="dns_speedtest_error">Error</string>
+    <string name="dns_speedtest_ms">%1$d ms</string>
+
+    <!-- Export granulaire -->
+    <string name="export_select_title">📤 ¿Qué deseas exportar?</string>
+    <string name="export_toggle_profiles">Perfiles DNS</string>
+    <string name="export_toggle_favorites">Favoritos</string>
+    <string name="export_toggle_default_dns">DNS predeterminado</string>
+    <string name="export_toggle_nextdns">Perfiles NextDNS personalizados</string>
+    <string name="export_toggle_rewrite">Reglas URL Rewrite</string>
+    <string name="export_toggle_settings">Ajustes</string>
+    <string name="export_button">Exportar</string>
+    <string name="export_choose_dest">Archivo generado: %1$s\n\nJSON copiado al portapapeles.\n\nElige el destino:</string>
+    <string name="export_save_local">💾 Guardar localmente</string>
+    <string name="export_saved_locally">💾 Archivo guardado:\n%1$s</string>
+
+    <!-- IPv6 VPN reconnect -->
+    <string name="vpn_reconnecting_ipv6">VPN reconectado (IPv6 modificado)</string>
+
+    <!-- Shizuku hardcoded fix -->
+    <string name="shizuku_cannot_open">No se puede abrir Shizuku</string>
+
+    <!-- Downloader code -->
+    <string name="downloader_code_label">Código Downloader (AFTVnews):</string>
+    <string name="downloader_code_value">2759555</string>
+
+    <!-- DNS Rewrite screen -->
+    <string name="dns_rewrite_screen_title">Reescritura DNS (Rewriting)</string>
+</resources>

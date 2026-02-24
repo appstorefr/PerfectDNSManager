@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect DNS Manager</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --card: #252525;
+            --primary: #2196F3;
+            --accent: #FFD700;
+            --text: #FFFFFF;
+            --text-dim: #BBBBBB;
+            --green: #4CAF50;
+            --red: #FF5252;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Language bar */
+        .lang-bar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(18,18,18,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #333;
+            padding: 8px 0;
+            text-align: center;
+        }
+        .lang-bar a {
+            display: inline-block;
+            font-size: 1.3em;
+            margin: 0 6px;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .lang-bar a:hover { opacity: 1; transform: scale(1.15); text-decoration: none; }
+        .lang-bar a.active { opacity: 1; }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero-icon { font-size: 64px; margin-bottom: 16px; }
+        .hero h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; }
+        .hero .tagline { font-size: 1.15em; color: rgba(255,255,255,0.85); margin-bottom: 24px; }
+        .hero .version-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95em;
+            margin-bottom: 24px;
+        }
+        .hero .dl-btn {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 8px;
+            font-size: 1.15em;
+            font-weight: 600;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+        }
+        .hero .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76,175,80,0.5); text-decoration: none; }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+        /* Sections */
+        section { padding: 48px 0; }
+        section h2 {
+            font-size: 1.6em;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        /* Info bar */
+        .info-bar {
+            background: var(--surface);
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+        .info-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .info-item { text-align: center; }
+        .info-item .label { font-size: 0.8em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .info-item .value { font-size: 1.1em; font-weight: 600; color: var(--accent); }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .feature-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 3px solid var(--primary);
+        }
+        .feature-card .icon { font-size: 1.5em; margin-bottom: 8px; }
+        .feature-card h3 { font-size: 1.05em; margin-bottom: 6px; }
+        .feature-card p { font-size: 0.9em; color: var(--text-dim); }
+
+        /* Changelog */
+        .changelog-item {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        .changelog-item .ver {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .changelog-item .date { color: var(--text-dim); font-size: 0.85em; }
+        .changelog-item ul { margin-top: 10px; padding-left: 20px; }
+        .changelog-item li { color: var(--text-dim); font-size: 0.9em; margin-bottom: 4px; }
+
+        /* Community */
+        .community-badges {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .badge {
+            background: var(--card);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        /* Support / Crypto */
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .crypto-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+            border: 2px solid transparent;
+        }
+        .crypto-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+        .crypto-card.active { border-color: var(--accent); }
+        .crypto-card h3 { font-size: 1em; margin-bottom: 10px; }
+        .crypto-card .qr-container {
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .crypto-card .qr-container img { width: 160px; height: 160px; display: block; }
+        .crypto-card .addr {
+            font-family: 'Courier New', monospace;
+            font-size: 0.72em;
+            word-break: break-all;
+            color: var(--text-dim);
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: text;
+            user-select: all;
+        }
+        .crypto-card .networks {
+            font-size: 0.78em;
+            color: var(--primary);
+            margin-top: 6px;
+        }
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .copy-toast.show { opacity: 1; }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85em;
+            border-top: 1px solid #333;
+        }
+        footer a { color: var(--primary); }
+
+        /* Screenshots placeholder */
+        .screenshots {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.7em; }
+            .info-grid { gap: 20px; }
+            .crypto-card .qr-container img { width: 130px; height: 130px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language bar -->
+<div class="lang-bar">
+    <a href="fr.html" title="Francais">&#x1F1EB;&#x1F1F7;</a>
+    <a href="en.html" title="English">&#x1F1EC;&#x1F1E7;</a>
+    <a href="es.html" title="Espanol">&#x1F1EA;&#x1F1F8;</a>
+    <a href="ru.html" title="Русский" class="active">&#x1F1F7;&#x1F1FA;</a>
+    <a href="zh.html" title="中文">&#x1F1E8;&#x1F1F3;</a>
+    <a href="ar.html" title="العربية">&#x1F1F8;&#x1F1E6;</a>
+    <a href="it.html" title="Italiano">&#x1F1EE;&#x1F1F9;</a>
+    <a href="pt.html" title="Portugues">&#x1F1E7;&#x1F1F7;</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+    <div style="margin-bottom: 16px;">
+        <img src="logo.svg" alt="Perfect DNS Manager" style="width: 140px; height: 140px; border-radius: 28px; box-shadow: 0 8px 32px rgba(255,215,0,0.2), 0 0 60px rgba(33,150,243,0.15);">
+    </div>
+    <h1>Perfect DNS Manager</h1>
+    <p class="tagline">Измените DNS в один клик. Конфиденциальность, скорость, свобода.</p>
+    <div class="version-badge">v1.0.50 — Build 50</div>
+    <br><br>
+    <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
+        ⬇️ Скачать APK
+    </a>
+    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
+        <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Код Downloader (AFTVnews) :</div>
+        <div style="font-size: 2em; font-weight: 700; font-family: monospace; color: var(--accent); letter-spacing: 3px;">2759555</div>
+        <div style="font-size: 0.95em; color: rgba(255,255,255,0.5); margin-top: 8px;">или прямая ссылка :</div>
+        <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
+    </div>
+
+    <!-- IP Lookup link -->
+    <div style="margin-top: 24px;">
+        <a href="ip.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F310; Получить общий IP-отчёт &rarr;</a>
+    </div>
+</div>
+
+<!-- Info bar -->
+<div class="info-bar">
+    <div class="container">
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="label">Платформа</div>
+                <div class="value">Android 5.0+</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Лицензия</div>
+                <div class="value">Бесплатно</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Реклама</div>
+                <div class="value">Отсутствует</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Сбор данных</div>
+                <div class="value">Отсутствует</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<section>
+    <div class="container">
+        <h2>Функции</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">&#x1F310;</div>
+                <h3>DNS DoH / DoT / Стандартный</h3>
+                <p>Поддержка DNS over HTTPS (локальный VPN), DNS over TLS (ADB/Shizuku) и классического DNS через UDP.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x26A1;</div>
+                <h3>Активация в один клик</h3>
+                <p>Выберите DNS-провайдера и мгновенно активируйте его через локальный VPN или Private DNS.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F4CA;</div>
+                <h3>DNS Speedtest</h3>
+                <p>Проверьте задержку всех ваших DNS-провайдеров и найдите самый быстрый для вас.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x2B50;</div>
+                <h3>Избранное и DNS по умолчанию</h3>
+                <p>Организуйте любимые DNS-серверы с помощью избранного и задайте DNS по умолчанию.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F500;</div>
+                <h3>URL Rewrite</h3>
+                <p>Перенаправляйте домены на другие, чтобы обойти DNS-блокировки вашего провайдера.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F504;</div>
+                <h3>Автоподключение</h3>
+                <p>Автоматическое подключение к DNS при загрузке устройства. Также поддерживает переключение IPv6.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F4BE;</div>
+                <h3>Импорт / Экспорт</h3>
+                <p>Сохраняйте и восстанавливайте полную конфигурацию. Гранулярный экспорт с выбором элементов.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F4E1;</div>
+                <h3>Shizuku / ADB</h3>
+                <p>Поддержка Shizuku для изменения Private DNS без ПК. Совместимость с Android TV и Firestick.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F30D;</div>
+                <h3>Мультиязычность</h3>
+                <p>Интерфейс доступен на французском и английском языках с мгновенным переключением.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F504;</div>
+                <h3>Автообновление</h3>
+                <p>Автоматическая проверка обновлений при запуске. Загрузка и установка прямо из приложения.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DNS Providers -->
+<section style="background: var(--surface);">
+    <div class="container">
+        <h2>Встроенные DNS-провайдеры</h2>
+        <p style="color: var(--text-dim); margin-bottom: 16px;">Более 15 предустановленных DNS-провайдеров с рейтингом скорости и конфиденциальности :</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <span class="badge">AdGuard</span>
+            <span class="badge">Cloudflare</span>
+            <span class="badge">ControlD</span>
+            <span class="badge">dns.sb</span>
+            <span class="badge">Google</span>
+            <span class="badge">Mullvad</span>
+            <span class="badge">NextDNS</span>
+            <span class="badge">Quad9</span>
+            <span class="badge">Surfshark</span>
+            <span class="badge">Yandex</span>
+            <span class="badge">+ пользовательские профили</span>
+        </div>
+    </div>
+</section>
+
+<!-- Changelog -->
+<section>
+    <div class="container">
+        <h2>Последние обновления</h2>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.50</span>
+            <span class="date">Февраль 2026</span>
+            <ul>
+                <li>Nouveau logo Switch : icône app et page GitHub redessinées</li>
+                <li>Réorganisation de la page d'accueil : bouton Tester DNS accessible, encart unifié IPs + statut</li>
+                <li>Pré-sélection du DNS par défaut à l'ouverture de l'application</li>
+                <li>Auto-reconnexion VPN après mise à jour de l'application</li>
+                <li>Affichage du nombre de profils par fournisseur DNS</li>
+                <li>Page dédiée pour la récupération des rapports IP partagés</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.46</span>
+            <span class="date">Февраль 2026</span>
+            <ul>
+                <li>Affichage IPv4 / IPv6 en temps réel sur la page d'accueil</li>
+                <li>Indicateur visuel IPv6 bloqué (vert ✓) ou actif (rouge)</li>
+                <li>Partage des IPs via tmpfiles.org (numéro + presse-papier)</li>
+                <li>Fix changement de profil DNS avec VPN actif (reconnexion visible)</li>
+                <li>Mise à jour automatique in-app au lancement</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.45</span>
+            <span class="date">Февраль 2026</span>
+            <ul>
+                <li>Highlights focus unifiés sur toute l'application (compatibilité Android TV D-pad)</li>
+                <li>Correction speedtest DNS (latence réaliste avec réutilisation de connexion)</li>
+                <li>Code Downloader AFTVnews intégré dans la page À propos</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.40</span>
+            <span class="date">Февраль 2026</span>
+            <ul>
+                <li>Indicateurs <strong style="color: #FFD700;">1|</strong> et <strong style="color: #FFD700;">2|</strong> en jaune doré sur la page d'accueil</li>
+                <li>Affichage du type DNS (DoH/DoT/Standard) et méthode (VPN/ADB) dans l'info auto-reconnect</li>
+                <li>Export granulaire : choix de ce qu'on exporte (profils, favoris, règles rewrite, paramètres…)</li>
+                <li>DNS Speedtest intégré : testez la latence de tous vos fournisseurs</li>
+                <li>Auto-reconnexion VPN au toggle IPv6</li>
+                <li>Mise à jour automatique via GitHub Releases</li>
+                <li>Nettoyage du code et traductions</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.39</span>
+            <span class="date">Февраль 2026</span>
+            <ul>
+                <li>Classement DNS par étoiles (vitesse & vie privée)</li>
+                <li>Simplification import/export (tmpfiles.org)</li>
+                <li>Restriction ajout profil selon mode avancé</li>
+                <li>Fix partage VPN (FLAG_ACTIVITY_NEW_TASK)</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.38</span>
+            <span class="date">Февраль 2026</span>
+            <ul>
+                <li>Intégration Shizuku pour modifier Private DNS sans PC</li>
+                <li>Support ADB sans fil amélioré</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Community -->
+<section style="background: var(--surface);">
+    <div class="container">
+        <h2>Сообщество</h2>
+        <div class="community-badges">
+            <div class="badge">&#x1F6AB; Без рекламы</div>
+            <div class="badge">&#x1F4CA; Без сбора данных</div>
+            <div class="badge">&#x1F193; Бесплатно для использования и распространения</div>
+            <div class="badge">&#x1F49C; Создано для сообщества</div>
+        </div>
+        <p style="margin-top: 20px; color: var(--text-dim);">
+            Разработано <strong>AppstoreFR</strong> — Контакт : <a href="mailto:contact@appstorefr.net">contact@appstorefr.net</a>
+        </p>
+        <p style="margin-top: 8px; color: var(--text-dim);">
+            Исходный код : <a href="https://github.com/appstorefr/PerfectDNSManager">github.com/appstorefr/PerfectDNSManager</a>
+        </p>
+    </div>
+</section>
+
+<!-- Support -->
+<section id="support">
+    <div class="container">
+        <h2>&#x2764;&#xFE0F; Поддержать проект</h2>
+        <p style="color: var(--text-dim); margin-bottom: 24px;">
+            Вам нравится приложение? Оно вам помогло? Не стесняйтесь сделать небольшой вклад!<br>
+            Нажмите на адрес, чтобы скопировать его.
+        </p>
+
+        <div class="crypto-grid">
+            <div class="crypto-card" onclick="copyAddr('bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz')">
+                <h3 style="color: #F7931A;">&#x20BF; Bitcoin (BTC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz" alt="BTC QR">
+                </div>
+                <div class="addr">bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('0x71528115FA8aee4D9420F6caDEBfD0C043a316f7')">
+                <h3 style="color: #627EEA;">&#x2B21; EVM (ETH / BNB / USDT / USDC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x71528115FA8aee4D9420F6caDEBfD0C043a316f7" alt="EVM QR">
+                </div>
+                <div class="addr">0x71528115FA8aee4D9420F6caDEBfD0C043a316f7</div>
+                <div class="networks">Base · Polygon · Ethereum · BNB · Gnosis</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu')">
+                <h3 style="color: #FF4444;">&#x26A1; TRON (USDT / USDC / TRX)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu" alt="TRON QR">
+                </div>
+                <div class="addr">TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_')">
+                <h3 style="color: #0088CC;">&#x1F48E; TON (USDT / TON)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_" alt="TON QR">
+                </div>
+                <div class="addr">UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y')">
+                <h3 style="color: #9945FF;">&#x25CE; Solana (USDT / USDC / SOL)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y" alt="SOL QR">
+                </div>
+                <div class="addr">34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr')">
+                <h3 style="color: #BFBBBB;">&#x141; Litecoin (LTC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr" alt="LTC QR">
+                </div>
+                <div class="addr">ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g')">
+                <h3 style="color: #F4B728;">&#x1F6E1; Zcash (ZEC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g" alt="ZEC QR">
+                </div>
+                <div class="addr">t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g</div>
+            </div>
+
+            <div class="crypto-card" onclick="copyAddr('rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM')">
+                <h3 style="color: #00AAE4;">&#x2715; XRP (XRP / RLUSD)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM" alt="XRP QR">
+                </div>
+                <div class="addr">rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Perfect DNS Manager &copy; 2026 AppstoreFR — Сделано с &#x2764;&#xFE0F; для сообщества</p>
+    <p style="margin-top: 6px;">ИИ : Claude Opus 4.6 (Anthropic)</p>
+</footer>
+
+<!-- Copy toast -->
+<div class="copy-toast" id="copyToast">Адрес скопирован!</div>
+
+<script>
+function copyAddr(addr) {
+    navigator.clipboard.writeText(addr).then(() => {
+        const toast = document.getElementById('copyToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    });
+}
+</script>
+
+</body>
+</html>

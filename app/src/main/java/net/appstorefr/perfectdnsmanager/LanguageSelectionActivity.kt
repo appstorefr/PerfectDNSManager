@@ -31,12 +31,17 @@ class LanguageSelectionActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_language_selection)
 
-        val btnFrancais: Button = findViewById(R.id.btnFrancais)
-        val btnEnglish: Button = findViewById(R.id.btnEnglish)
-
-        btnFrancais.requestFocus()
-        btnFrancais.setOnClickListener { saveLanguageAndStart("fr") }
-        btnEnglish.setOnClickListener { saveLanguageAndStart("en") }
+        findViewById<Button>(R.id.btnFrancais).apply {
+            requestFocus()
+            setOnClickListener { saveLanguageAndStart("fr") }
+        }
+        findViewById<Button>(R.id.btnEnglish).setOnClickListener { saveLanguageAndStart("en") }
+        findViewById<Button>(R.id.btnEspanol).setOnClickListener { saveLanguageAndStart("es") }
+        findViewById<Button>(R.id.btnItaliano).setOnClickListener { saveLanguageAndStart("it") }
+        findViewById<Button>(R.id.btnPortugues).setOnClickListener { saveLanguageAndStart("pt") }
+        findViewById<Button>(R.id.btnRussian).setOnClickListener { saveLanguageAndStart("ru") }
+        findViewById<Button>(R.id.btnChinese).setOnClickListener { saveLanguageAndStart("zh") }
+        findViewById<Button>(R.id.btnArabic).setOnClickListener { saveLanguageAndStart("ar") }
     }
 
     private fun saveLanguageAndStart(langCode: String) {

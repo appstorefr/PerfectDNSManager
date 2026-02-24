@@ -1,42 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="#1E1E1E"
-    android:padding="32dp">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_language_title"
-        android:textColor="#FFFFFF"
-        android:textSize="22sp"
-        android:gravity="center"
-        android:layout_marginBottom="32dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="32dp">
 
-    <Button
-        android:id="@+id/btnFrancais"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:text="@string/lang_francais"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/focusable_item_background"
-        android:layout_marginBottom="16dp"
-        android:focusable="true"
-        android:nextFocusDown="@id/btnEnglish" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_language_title"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
 
-    <Button
-        android:id="@+id/btnEnglish"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:text="@string/lang_english"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/focusable_item_background"
-        android:focusable="true"
-        android:nextFocusUp="@id/btnFrancais" />
+        <Button
+            android:id="@+id/btnFrancais"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_francais"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusDown="@id/btnEnglish" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnEnglish"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_english"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnFrancais"
+            android:nextFocusDown="@id/btnEspanol" />
+
+        <Button
+            android:id="@+id/btnEspanol"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_espanol"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnEnglish"
+            android:nextFocusDown="@id/btnItaliano" />
+
+        <Button
+            android:id="@+id/btnItaliano"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_italiano"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnEspanol"
+            android:nextFocusDown="@id/btnPortugues" />
+
+        <Button
+            android:id="@+id/btnPortugues"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_portugues"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnItaliano"
+            android:nextFocusDown="@id/btnRussian" />
+
+        <Button
+            android:id="@+id/btnRussian"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_russian"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnPortugues"
+            android:nextFocusDown="@id/btnChinese" />
+
+        <Button
+            android:id="@+id/btnChinese"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_chinese"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnRussian"
+            android:nextFocusDown="@id/btnArabic" />
+
+        <Button
+            android:id="@+id/btnArabic"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_arabic"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnChinese" />
+
+    </LinearLayout>
+</ScrollView>

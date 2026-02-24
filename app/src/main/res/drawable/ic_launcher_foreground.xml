@@ -5,161 +5,42 @@
     android:viewportWidth="512"
     android:viewportHeight="512">
 
-    <!-- Ambient glow behind switch -->
+    <!-- Outer gold glow -->
     <path
-        android:pathData="M340,225 m-80,0 a80,80 0 1,0 160,0 a80,80 0 1,0 -160,0"
+        android:pathData="M256,256 m-148,0 a148,148 0 1,0 296,0 a148,148 0 1,0 -296,0"
         android:fillColor="#FFD700"
-        android:fillAlpha="0.04"/>
-    <path
-        android:pathData="M340,225 m-50,0 a50,50 0 1,0 100,0 a50,50 0 1,0 -100,0"
-        android:fillColor="#FFD700"
-        android:fillAlpha="0.06"/>
+        android:fillAlpha="0.05"/>
 
-    <!-- Switch track -->
+    <!-- Shadow -->
     <path
-        android:pathData="M140,185 L370,185 a45,45 0 0,1 0,90 L140,275 a45,45 0 0,1 0,-90 Z"
+        android:pathData="M256,264 m-130,0 a130,130 0 1,0 260,0 a130,130 0 1,0 -260,0"
+        android:fillColor="#000000"
+        android:fillAlpha="0.3"/>
+
+    <!-- Main blue circle -->
+    <path
+        android:pathData="M256,256 m-125,0 a125,125 0 1,0 250,0 a125,125 0 1,0 -250,0"
         android:fillColor="#0D47A1"/>
-    <!-- Track inner border -->
+
+    <!-- Inner highlight -->
     <path
-        android:pathData="M145,190 L365,190 a40,40 0 0,1 0,80 L145,270 a40,40 0 0,1 0,-80 Z"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="1"
-        android:strokeAlpha="0.08"
-        android:fillColor="#00000000"/>
-    <!-- Track highlight -->
-    <path
-        android:pathData="M145,190 L365,190 a40,40 0 0,1 0,80 L145,270 a40,40 0 0,1 0,-80 Z"
+        android:pathData="M256,250 m-116,0 a116,116 0 1,0 232,0 a116,116 0 1,0 -232,0"
         android:fillColor="#1565C0"
         android:fillAlpha="0.3"/>
 
-    <!-- ON glow on track -->
+    <!-- Power icon — vertical line -->
     <path
-        android:pathData="M340,230 m-25,0 a25,25 0 1,0 50,0 a25,25 0 1,0 -50,0"
-        android:fillColor="#4CAF50"
-        android:fillAlpha="0.2"/>
-
-    <!-- LED indicator (green dot) -->
-    <path
-        android:pathData="M340,188 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
-        android:fillColor="#4CAF50"
-        android:fillAlpha="0.9"/>
-
-    <!-- Knob outer glow (gold) -->
-    <path
-        android:pathData="M340,230 m-48,0 a48,48 0 1,0 96,0 a48,48 0 1,0 -96,0"
-        android:fillColor="#FFD700"
-        android:fillAlpha="0.08"/>
-
-    <!-- Knob shadow -->
-    <path
-        android:pathData="M340,234 m-38,0 a38,38 0 1,0 76,0 a38,38 0 1,0 -76,0"
-        android:fillColor="#000000"
-        android:fillAlpha="0.25"/>
-
-    <!-- Knob (white, ON position right side) -->
-    <path
-        android:pathData="M340,230 m-36,0 a36,36 0 1,0 72,0 a36,36 0 1,0 -72,0"
-        android:fillColor="#E8EAF6"/>
-    <!-- Knob highlight -->
-    <path
-        android:pathData="M330,218 m-12,0 a12,8 0 1,0 24,0 a12,8 0 1,0 -24,0"
-        android:fillColor="#FFFFFF"
-        android:fillAlpha="0.3"/>
-
-    <!-- Power icon on knob - vertical line -->
-    <path
-        android:pathData="M340,216 L340,226"
-        android:strokeColor="#0D47A1"
-        android:strokeWidth="4"
+        android:pathData="M256,186 L256,268"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="22"
         android:strokeLineCap="round"/>
-    <!-- Power icon on knob - arc -->
-    <path
-        android:pathData="M327,222 C320,232 322,246 332,252 C338,256 343,256 349,252 C359,246 361,232 354,222"
-        android:strokeColor="#0D47A1"
-        android:strokeWidth="3"
-        android:strokeLineCap="round"
-        android:fillColor="#00000000"/>
 
-    <!-- Electric arc 1 (top-right from knob) -->
+    <!-- Power icon — arc (gap at top) -->
     <path
-        android:pathData="M372,205 Q388,188 384,168 Q400,174 404,156"
+        android:pathData="M297,227 A58,58 0 1,1 215,227"
         android:strokeColor="#FFD700"
-        android:strokeWidth="2.5"
+        android:strokeWidth="20"
         android:strokeLineCap="round"
-        android:strokeAlpha="0.8"
-        android:fillColor="#00000000"/>
-    <!-- Arc 1 spark -->
-    <path
-        android:pathData="M404,156 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
-        android:fillColor="#FFD700"
-        android:fillAlpha="0.9"/>
-
-    <!-- Electric arc 2 (right from knob) -->
-    <path
-        android:pathData="M378,230 Q396,226 408,218 Q412,234 428,230"
-        android:strokeColor="#FFD700"
-        android:strokeWidth="2"
-        android:strokeLineCap="round"
-        android:strokeAlpha="0.7"
-        android:fillColor="#00000000"/>
-    <!-- Arc 2 spark -->
-    <path
-        android:pathData="M428,230 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0"
-        android:fillColor="#FFD700"
-        android:fillAlpha="0.8"/>
-
-    <!-- Electric arc 3 (bottom-right from knob) -->
-    <path
-        android:pathData="M372,258 Q384,272 378,290 Q396,282 400,300"
-        android:strokeColor="#FFA000"
-        android:strokeWidth="2"
-        android:strokeLineCap="round"
-        android:strokeAlpha="0.6"
-        android:fillColor="#00000000"/>
-    <!-- Arc 3 spark -->
-    <path
-        android:pathData="M400,300 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0"
-        android:fillColor="#FFA000"
-        android:fillAlpha="0.7"/>
-
-    <!-- Small spark particles scattered -->
-    <path android:pathData="M420,170 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" android:fillColor="#FFD700" android:fillAlpha="0.5"/>
-    <path android:pathData="M440,245 m-1.5,0 a1.5,1.5 0 1,0 3,0 a1.5,1.5 0 1,0 -3,0" android:fillColor="#FFD700" android:fillAlpha="0.4"/>
-    <path android:pathData="M390,310 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" android:fillColor="#FFA000" android:fillAlpha="0.45"/>
-
-    <!-- Data stream flowing through track -->
-    <path
-        android:pathData="M155,280 L365,280"
-        android:strokeColor="#2196F3"
-        android:strokeWidth="2"
-        android:strokeAlpha="0.15"/>
-    <path
-        android:pathData="M200,280 L260,280"
-        android:strokeColor="#4FC3F7"
-        android:strokeWidth="2"
-        android:strokeAlpha="0.3"/>
-
-    <!-- "PDM" text below -->
-    <path
-        android:pathData="M179,340 L179,370 M179,340 L199,340 Q209,340 209,350 Q209,355 199,355 L179,355"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="4"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:fillColor="#00000000"/>
-    <path
-        android:pathData="M222,340 L222,370 M222,340 L242,340 Q258,340 258,355 Q258,370 242,370 L222,370"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="4"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:fillColor="#00000000"/>
-    <path
-        android:pathData="M271,340 L271,370 M271,340 L291,370 M291,340 L291,370 M311,340 L311,370 M311,340 L331,370 M331,340 L331,370"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="3.5"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
         android:fillColor="#00000000"/>
 
 </vector>

@@ -10,7 +10,12 @@ object LocaleHelper {
     fun applyLocale(context: Context): Context {
         val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val langCode = prefs.getString("language", null) ?: return context
-        val locale = Locale(langCode)
+
+        val locale = when (langCode) {
+            "zh" -> Locale("zh", "CN")
+            "pt" -> Locale("pt", "BR")
+            else -> Locale(langCode)
+        }
         Locale.setDefault(locale)
 
         val config = Configuration(context.resources.configuration)
