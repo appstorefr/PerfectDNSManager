@@ -319,6 +319,24 @@ class MainActivity : AppCompatActivity() {
                 try { selectedProfile = Gson().fromJson(profileJson, DnsProfile::class.java) }
                 catch (_: Exception) {}
             }
+        } else if (vpnSavedActive && !vpnReallyActive) {
+            // VPN était actif mais le service a été tué (mise à jour, kill…)
+            // → auto-reconnexion
+            val selectedJson = prefs.getString("selected_profile_json", null)
+            if (selectedJson != null) {
+                try {
+                    val profile = Gson().fromJson(selectedJson, DnsProfile::class.java)
+                    selectedProfile = profile
+                    updateSelectButtonText()
+                    if (methodForProfile(profile) == "VPN") {
+                        applyDnsViaVpn(profile)
+                    }
+                    return
+                } catch (_: Exception) {
+                    selectedProfile = null
+                }
+            }
+            prefs.edit().putBoolean("vpn_active", false).apply()
         } else {
             // Pré-sélectionner le DNS par défaut, sinon le dernier sélectionné
             val defaultJson = prefs.getString("default_profile_json", null)
@@ -334,7 +352,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 selectedProfile = null
             }
-            prefs.edit().putBoolean("vpn_active", false).apply()
         }
         updateSelectButtonText()
     }

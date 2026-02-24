@@ -52,7 +52,7 @@ class ProviderAdapter(
         }
         holder.ivProviderIcon.setImageResource(iconRes)
 
-        // Compter les types disponibles
+        // Compter les types disponibles + nombre de profils
         val types = profiles.map { it.type }.distinct()
         val typeStr = types.joinToString(" · ") {
             when (it) {
@@ -61,7 +61,8 @@ class ProviderAdapter(
                 DnsType.DEFAULT -> "Standard"
             }
         }
-        holder.tvProfileCount.text = typeStr
+        val count = profiles.size
+        holder.tvProfileCount.text = if (count > 1) "$count profils · $typeStr" else typeStr
 
         // Afficher le meilleur profil (DoH en priorité)
         // Pour les favoris, afficher les noms des fournisseurs
