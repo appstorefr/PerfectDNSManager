@@ -58,32 +58,28 @@ class ProviderAdapter(
             when (it) {
                 DnsType.DOH -> "DoH"
                 DnsType.DOT -> "DoT"
+                DnsType.DOQ -> "DoQ"
                 DnsType.DEFAULT -> "Standard"
             }
         }
         val count = profiles.size
         holder.tvProfileCount.text = if (count > 1) "$count profils · $typeStr" else typeStr
 
-        // Afficher le meilleur profil (DoH en priorité)
-        // Pour les favoris, afficher les noms des fournisseurs
-        val isFavGroup = profiles.any { it.isFavorite } && profiles.map { it.providerName }.distinct().size > 1
-        if (isFavGroup) {
-            holder.tvBestProfile.text = profiles.map { it.providerName }.distinct().joinToString(", ")
-        } else {
-            val best = profiles.minByOrNull {
-                when (it.type) {
-                    DnsType.DOH -> 0
-                    DnsType.DOT -> 1
-                    DnsType.DEFAULT -> 2
-                }
+        // Afficher le meilleur profil (DoQ > DoH > DoT > Standard)
+        val best = profiles.minByOrNull {
+            when (it.type) {
+                DnsType.DOQ -> 0
+                DnsType.DOH -> 1
+                DnsType.DOT -> 2
+                DnsType.DEFAULT -> 3
             }
-            holder.tvBestProfile.text = best?.let { "${it.primary}" } ?: ""
         }
+        holder.tvBestProfile.text = best?.let { "${it.primary}" } ?: ""
 
         // Étoiles vitesse/vie privée
         val actualProvider = firstProfile?.providerName ?: providerName
         val rating = DnsProfile.providerRatings[actualProvider]
-        if (rating != null && !isFavGroup && firstProfile?.isOperatorDns != true && firstProfile?.isCustom != true) {
+        if (rating != null && firstProfile?.isOperatorDns != true && firstProfile?.isCustom != true) {
             holder.layoutRatings.visibility = View.VISIBLE
             val ctx = holder.itemView.context
             holder.tvSpeedLabel.text = ctx.getString(R.string.speed_label) + ": "

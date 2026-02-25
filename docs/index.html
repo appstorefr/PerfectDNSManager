@@ -240,6 +240,10 @@
             <span class="lang-flag">&#x1F1EF;&#x1F1F5;</span>
             <span class="lang-name">&#x65E5;&#x672C;&#x8A9E;</span>
         </a>
+        <a href="de.html" class="lang-card">
+            <span class="lang-flag">&#x1F1E9;&#x1F1EA;</span>
+            <span class="lang-name">Deutsch</span>
+        </a>
     </div>
 
     <div id="version-badge" style="display:inline-block;background:var(--accent);color:#000;padding:6px 18px;border-radius:20px;font-weight:700;font-size:0.95em;margin-bottom:16px;"></div>
@@ -251,11 +255,50 @@
         Download APK / T&eacute;l&eacute;charger l'APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
     </a>
 
-    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 48px;">
+    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 16px;">
         <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Code Downloader (AFTVnews):</div>
         <div style="font-size: 2em; font-weight: 700; font-family: monospace; color: var(--accent); letter-spacing: 3px;">2759555</div>
         <div style="font-size: 0.95em; color: rgba(255,255,255,0.5); margin-top: 8px;">Direct URL:</div>
         <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+        <a href="dns-providers.html" style="color: var(--primary); font-size: 0.95em;">&#x1F310; DNS Providers / Fournisseurs DNS &rarr;</a>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <a href="ip.html" style="color: var(--primary); font-size: 0.95em;">&#x1F4CB; View a shared report / Consulter un rapport partag&eacute; &rarr;</a>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <a href="support.html" style="color: var(--accent); font-size: 0.95em; font-weight: 600;">&#x2764;&#xFE0F; Support / Me soutenir (Crypto) &rarr;</a>
+    </div>
+    <div style="margin-bottom: 48px; color: var(--text-dim); font-size: 0.85em;">
+        &#x1F513; Licence GPL v3 &mdash; Open source &amp; free
+    </div>
+
+    <!-- Share section -->
+    <div style="max-width: 600px; width: 100%; margin: 0 auto 48px; background: var(--card); border-radius: 14px; padding: 24px; border: 1px solid #333;">
+        <h2 style="font-size: 1.2em; color: var(--accent); margin-bottom: 12px; text-align: center;">&#x1F4E2; Partagez l'application !</h2>
+        <p style="color: var(--text-dim); font-size: 0.85em; text-align: center; margin-bottom: 16px;">
+            Aidez-nous &agrave; faire conna&icirc;tre Perfect DNS Manager. Copiez le texte ci-dessous et partagez-le !
+        </p>
+        <div id="shareText" style="background: var(--surface); border: 1px solid #444; border-radius: 8px; padding: 14px; font-size: 0.85em; color: var(--text-dim); line-height: 1.6; cursor: text; user-select: all; margin-bottom: 12px;">
+&#x1F510; Perfect DNS Manager &mdash; Prot&eacute;gez votre vie priv&eacute;e DNS !<br><br>
+&#x2705; DNS chiffr&eacute; (DoH / DoT / DoQ)<br>
+&#x2705; Compatible Android, Fire TV, Android TV<br>
+&#x2705; 12 langues, open source, gratuit<br>
+&#x2705; Speedtest DNS, test de fuite DNS, test de blocage<br>
+&#x2705; Split tunneling par application<br><br>
+&#x1F4F2; T&eacute;l&eacute;charger : https://pdm.appstorefr.net<br>
+&#x1F4E5; Code Downloader (AFTVnews) : 2759555<br><br>
+&#x1F4B0; Soutenir le projet : https://pdm.appstorefr.net/support.html<br><br>
+&#x2764;&#xFE0F; Soutenez le projet en partageant ! Chaque partage compte.
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="copyShareText()" style="padding: 10px 20px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 0.9em; font-weight: 600; cursor: pointer; transition: 0.2s;">&#x1F4CB; Copier le texte</button>
+            <a href="" id="whatsappBtn" target="_blank" style="padding: 10px 20px; border-radius: 8px; background: #25D366; color: white; font-size: 0.9em; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;">&#x1F4AC; WhatsApp</a>
+            <a href="" id="telegramBtn" target="_blank" style="padding: 10px 20px; border-radius: 8px; background: #0088cc; color: white; font-size: 0.9em; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;">&#x2708;&#xFE0F; Telegram</a>
+        </div>
+        <p id="copyFeedback" style="color: var(--green); font-size: 0.8em; text-align: center; margin-top: 8px; opacity: 0; transition: opacity 0.3s;"></p>
     </div>
 
     <footer>
@@ -279,6 +322,21 @@ fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest
       badge.textContent = ver + size;
     }
   }).catch(() => {});
+
+// Share text
+const shareMsg = "\uD83D\uDD10 Perfect DNS Manager v1.0.67 \u2014 Prot\u00E9gez votre vie priv\u00E9e DNS !\n\n\u2705 DNS chiffr\u00E9 (DoH / DoT / DoQ)\n\u2705 Compatible Android, Fire TV, Android TV\n\u2705 12 langues, open source, gratuit\n\u2705 Speedtest DNS, test de fuite DNS, test de blocage\n\u2705 Split tunneling par application\n\n\u26A0\uFE0F Bug connu : quelques petits bugs d'interface UI\n\n\uD83D\uDCF2 T\u00E9l\u00E9charger : https://pdm.appstorefr.net\n\uD83D\uDCE5 Code Downloader (AFTVnews) : 2759555\n\n\uD83D\uDCB0 Soutenir le projet : https://pdm.appstorefr.net/support.html\n\n\u2764\uFE0F Soutenez le projet en partageant ! Chaque partage compte.";
+
+document.getElementById('whatsappBtn').href = 'https://wa.me/?text=' + encodeURIComponent(shareMsg);
+document.getElementById('telegramBtn').href = 'https://t.me/share/url?url=' + encodeURIComponent('https://pdm.appstorefr.net') + '&text=' + encodeURIComponent(shareMsg);
+
+function copyShareText() {
+    navigator.clipboard.writeText(shareMsg).then(() => {
+        const fb = document.getElementById('copyFeedback');
+        fb.textContent = '\u2705 Texte copi\u00E9 !';
+        fb.style.opacity = '1';
+        setTimeout(() => { fb.style.opacity = '0'; }, 2000);
+    });
+}
 </script>
 
 </body>

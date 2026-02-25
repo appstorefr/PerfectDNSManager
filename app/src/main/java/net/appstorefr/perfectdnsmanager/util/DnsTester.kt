@@ -139,6 +139,105 @@ object DnsTester {
         }
     }
 
+    /**
+     * Mesure la latence d'un serveur DNS over QUIC (DoQ).
+     * Connexion éphémère (pas de pool).
+     * @return latence en millisecondes, ou null si erreur
+     */
+    fun measureDoqLatency(url: String, domain: String = "google.com"): Long? {
+        return try {
+            val uri = java.net.URI(url.replace("quic://", "https://"))
+            val host = uri.host
+            val port = if (uri.port > 0) uri.port else 853
+
+            // Résoudre le host
+            val resolved = InetAddress.getByName(host)
+
+            val queryBuffer = buildQuery(domain)
+            val queryBytes = queryBuffer.array().copyOf(queryBuffer.limit())
+
+            // Mettre l'ID à 0 (RFC 9250)
+            queryBytes[0] = 0; queryBytes[1] = 0
+
+            // Préparer le message DoQ : 2 octets longueur + payload
+            val wireMsg = java.nio.ByteBuffer.allocate(2 + queryBytes.size)
+            wireMsg.putShort(queryBytes.size.toShort())
+            wireMsg.put(queryBytes)
+            val wireMsgBytes = wireMsg.array()
+
+            val conn = tech.kwik.core.QuicClientConnection.newBuilder()
+                .uri(java.net.URI("https://$host:$port"))
+                .host(resolved.hostAddress)
+                .port(port)
+                .applicationProtocol("doq")
+                .connectTimeout(java.time.Duration.ofMillis(5000))
+                .noServerCertificateCheck()
+                .build()
+
+            val start = System.currentTimeMillis()
+            conn.connect()
+            val stream = conn.createStream(true)
+            stream.outputStream.write(wireMsgBytes)
+            stream.outputStream.close()
+
+            // Lire la réponse
+            val buf = ByteArray(4096)
+            val n = stream.inputStream.read(buf)
+            val elapsed = System.currentTimeMillis() - start
+
+            try { conn.close() } catch (_: Exception) {}
+
+            if (n > 12) elapsed else null
+        } catch (e: Exception) {
+            Log.e(TAG, "DoQ latency test failed for $url", e)
+            null
+        }
+    }
+
+    /**
+     * Mesure la latence d'un serveur DNS over TLS (DoT, port 853).
+     * Connexion TLS éphémère.
+     * @return latence en millisecondes, ou null si erreur
+     */
+    fun measureDotLatency(hostname: String, domain: String = "google.com"): Long? {
+        return try {
+            val queryBuffer = buildQuery(domain)
+            val queryBytes = queryBuffer.array().copyOf(queryBuffer.limit())
+
+            // DoT : 2 octets longueur + payload DNS (RFC 7858)
+            val wireMsg = java.nio.ByteBuffer.allocate(2 + queryBytes.size)
+            wireMsg.putShort(queryBytes.size.toShort())
+            wireMsg.put(queryBytes)
+            val wireMsgBytes = wireMsg.array()
+
+            val sslFactory = javax.net.ssl.SSLSocketFactory.getDefault() as javax.net.ssl.SSLSocketFactory
+            val start = System.currentTimeMillis()
+            val socket = sslFactory.createSocket(hostname, 853) as javax.net.ssl.SSLSocket
+            socket.soTimeout = 5000
+            socket.startHandshake()
+
+            socket.outputStream.write(wireMsgBytes)
+            socket.outputStream.flush()
+
+            // Lire la réponse (2 octets longueur + payload)
+            val lenBuf = ByteArray(2)
+            val inp = socket.inputStream
+            var read = 0
+            while (read < 2) { val n = inp.read(lenBuf, read, 2 - read); if (n < 0) break; read += n }
+            val respLen = ((lenBuf[0].toInt() and 0xFF) shl 8) or (lenBuf[1].toInt() and 0xFF)
+            val resp = ByteArray(respLen)
+            read = 0
+            while (read < respLen) { val n = inp.read(resp, read, respLen - read); if (n < 0) break; read += n }
+            val elapsed = System.currentTimeMillis() - start
+
+            socket.close()
+            if (read >= 12) elapsed else null
+        } catch (e: Exception) {
+            Log.e(TAG, "DoT latency test failed for $hostname", e)
+            null
+        }
+    }
+
     private fun parseResponse(data: ByteArray, length: Int): String? {
         try {
             val buffer = ByteBuffer.wrap(data, 0, length)

@@ -280,6 +280,7 @@
     <a href="hi.html" title="&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;">&#x1F1EE;&#x1F1F3;</a>
     <a href="bn.html" title="&#x09AC;&#x09BE;&#x0982;&#x09B2;&#x09BE;">&#x1F1E7;&#x1F1E9;</a>
     <a href="ja.html" title="&#x65E5;&#x672C;&#x8A9E;">&#x1F1EF;&#x1F1F5;</a>
+    <a href="de.html" title="Deutsch">&#x1F1E9;&#x1F1EA;</a>
 </div>
 
 <!-- Hero -->
@@ -289,7 +290,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">غيّر DNS بنقرة واحدة. خصوصية، أداء، حرية.</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.52 — Build 52</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.67 &mdash; Build 67</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         ⬇️ تحميل APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -379,12 +380,17 @@
             <div class="feature-card">
                 <div class="icon">&#x1F30D;</div>
                 <h3>متعدد اللغات</h3>
-                <p>واجهة متوفرة بـ 11 لغة: الفرنسية والإنجليزية والإسبانية والإيطالية والبرتغالية والروسية والصينية والعربية والهندية والبنغالية واليابانية.</p>
+                <p>واجهة متوفرة بـ 12 لغة: الفرنسية والإنجليزية والإسبانية والإيطالية والبرتغالية والروسية والصينية والعربية والهندية والبنغالية واليابانية.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F504;</div>
                 <h3>تحديث تلقائي</h3>
                 <p>فحص تلقائي للتحديثات عند التشغيل. تنزيل وتثبيت من داخل التطبيق.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F6E1;</div>
+                <h3>Split Tunneling</h3>
+                <p>&#x0627;&#x0633;&#x062A;&#x0628;&#x0639;&#x062F; &#x062A;&#x0637;&#x0628;&#x064A;&#x0642;&#x0627;&#x062A; &#x0645;&#x062D;&#x062F;&#x062F;&#x0629; &#x0645;&#x0646; DNS VPN. &#x0645;&#x0641;&#x064A;&#x062F; &#x0644;&#x0644;&#x062A;&#x0637;&#x0628;&#x064A;&#x0642;&#x0627;&#x062A; &#x063A;&#x064A;&#x0631; &#x0627;&#x0644;&#x0645;&#x062A;&#x0648;&#x0627;&#x0641;&#x0642;&#x0629;.</p>
             </div>
         </div>
     </div>
@@ -405,6 +411,7 @@
             <span class="badge">NextDNS</span>
             <span class="badge">Quad9</span>
             <span class="badge">Surfshark</span>
+            <span class="badge">FDN</span>
             <span class="badge">Yandex</span>
             <span class="badge">+ ملفات تعريف مخصصة</span>
         </div>
@@ -415,6 +422,44 @@
 <section id="changelog">
     <div class="container">
         <h2>آخر التحديثات</h2>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.67</span>
+            <span class="date">2026</span>
+            <ul>
+                <li>DNS provider detail page redesigned: expandable categories</li>
+                <li>Custom NextDNS profiles from detail page</li>
+                <li>Dedicated crypto support page</li>
+                <li>DNS speedtest UI fixes</li>
+                <li>GPL v3 license on homepage</li>
+                <li style="color: #FF9800;">Known bug: some minor UI glitches</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.57</span>
+            <span class="date">&#x0641;&#x0628;&#x0631;&#x0627;&#x064A;&#x0631; 2026</span>
+            <ul>
+                <li>&#x0645;&#x0632;&#x0648;&#x062F; DNS &#x062C;&#x062F;&#x064A;&#x062F;: FDN (French Data Network, DoH + DoT)</li>
+                <li>Split tunneling: &#x062A;&#x062C;&#x0627;&#x0648;&#x0632; VPN &#x0644;&#x0643;&#x0644; &#x062A;&#x0637;&#x0628;&#x064A;&#x0642;</li>
+                <li>&#x0625;&#x0636;&#x0627;&#x0641;&#x0629; DNS over QUIC (DoQ) &#x0644;&#x0640; ControlD, NextDNS, AdGuard, Surfshark, Mullvad</li>
+                <li>&#x062A;&#x062D;&#x0633;&#x064A;&#x0646; &#x0627;&#x062E;&#x062A;&#x0628;&#x0627;&#x0631; &#x0633;&#x0631;&#x0639;&#x0629; DNS: &#x062F;&#x0639;&#x0645; DoQ, DoT, DNS &#x0627;&#x0644;&#x0645;&#x0634;&#x063A;&#x0644;</li>
+                <li>&#x0625;&#x0635;&#x0644;&#x0627;&#x062D; &#x0627;&#x062E;&#x062A;&#x0628;&#x0627;&#x0631; &#x062D;&#x0638;&#x0631; URL (Google DoH API)</li>
+                <li>&#x062A;&#x0642;&#x0631;&#x064A;&#x0631; &#x0645;&#x0639;&#x0632;&#x0632; &#x0645;&#x0639; &#x0625;&#x0635;&#x062F;&#x0627;&#x0631; &#x0627;&#x0644;&#x062A;&#x0637;&#x0628;&#x064A;&#x0642;</li>
+                <li>&#x0625;&#x0635;&#x0644;&#x0627;&#x062D;&#x0627;&#x062A; &#x0627;&#x0633;&#x062A;&#x0642;&#x0631;&#x0627;&#x0631; &#x0639;&#x062F;&#x064A;&#x062F;&#x0629;</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.55</span>
+            <span class="date">فبراير 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 7.1 MB</span>
+            <ul>
+                <li>لغة جديدة: الألمانية (12 لغة إجمالاً)</li>
+                <li>تحسين استقرار VPN وإصلاح الأخطاء</li>
+                <li>تحديث صفحة GitHub لجميع اللغات</li>
+            </ul>
+        </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.52</span>
@@ -550,79 +595,12 @@
 
 <!-- Support -->
 <section id="support">
-    <div class="container">
-        <h2>&#x2764;&#xFE0F; ادعمني</h2>
+    <div class="container" style="text-align: center;">
+        <h2>&#x2764;&#xFE0F; &#x0627;&#x062F;&#x0639;&#x0645;&#x0646;&#x064A;</h2>
         <p style="color: var(--text-dim); margin-bottom: 24px;">
-            أعجبك التطبيق؟ ساعدك؟ لا تتردد في تقديم مساهمة صغيرة!<br>
-            انقر على العنوان لنسخه.
+            &#x0647;&#x0644; &#x0623;&#x0639;&#x062C;&#x0628;&#x0643; &#x0627;&#x0644;&#x062A;&#x0637;&#x0628;&#x064A;&#x0642;&#x061F; &#x0627;&#x062F;&#x0639;&#x0645; &#x0627;&#x0644;&#x0645;&#x0634;&#x0631;&#x0648;&#x0639;!
         </p>
-
-        <div class="crypto-grid">
-            <div class="crypto-card" onclick="copyAddr('bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz')">
-                <h3 style="color: #F7931A;">&#x20BF; Bitcoin (BTC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz" alt="BTC QR">
-                </div>
-                <div class="addr">bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('0x71528115FA8aee4D9420F6caDEBfD0C043a316f7')">
-                <h3 style="color: #627EEA;">&#x2B21; EVM (ETH / BNB / USDT / USDC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x71528115FA8aee4D9420F6caDEBfD0C043a316f7" alt="EVM QR">
-                </div>
-                <div class="addr">0x71528115FA8aee4D9420F6caDEBfD0C043a316f7</div>
-                <div class="networks">Base · Polygon · Ethereum · BNB · Gnosis</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu')">
-                <h3 style="color: #FF4444;">&#x26A1; TRON (USDT / USDC / TRX)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu" alt="TRON QR">
-                </div>
-                <div class="addr">TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_')">
-                <h3 style="color: #0088CC;">&#x1F48E; TON (USDT / TON)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_" alt="TON QR">
-                </div>
-                <div class="addr">UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y')">
-                <h3 style="color: #9945FF;">&#x25CE; Solana (USDT / USDC / SOL)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y" alt="SOL QR">
-                </div>
-                <div class="addr">34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr')">
-                <h3 style="color: #BFBBBB;">&#x141; Litecoin (LTC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr" alt="LTC QR">
-                </div>
-                <div class="addr">ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g')">
-                <h3 style="color: #F4B728;">&#x1F6E1; Zcash (ZEC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g" alt="ZEC QR">
-                </div>
-                <div class="addr">t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM')">
-                <h3 style="color: #00AAE4;">&#x2715; XRP (XRP / RLUSD)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM" alt="XRP QR">
-                </div>
-                <div class="addr">rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM</div>
-            </div>
-        </div>
+        <a href="support.html" style="display: inline-block; background: var(--accent); color: #000; padding: 14px 36px; border-radius: 8px; font-size: 1.1em; font-weight: 600; text-decoration: none; transition: transform 0.15s; box-shadow: 0 4px 15px rgba(255,215,0,0.3);">&#x1F4B0; &#x062F;&#x0639;&#x0645; (Crypto)</a>
     </div>
 </section>
 
@@ -635,24 +613,20 @@
     </p>
 </section>
 
+<section class="card" style="border-left: 3px solid #4CAF50; margin-top: 24px;">
+    <h2 style="color: #4CAF50;">&#x1F513; رخصة GPL v3</h2>
+    <p style="font-style: italic; color: #81C784;">هذا التطبيق حر. لا شيء يمكن أن يمنع تطبيقاً حراً.</p>
+    <p>الشفرة المصدرية مفتوحة &mdash; أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.</p>
+    <p><a href="https://github.com/appstorefr/PerfectDNSManager" style="color: #4CAF50;">&#x1F4E6; الشفرة المصدرية على GitHub</a></p>
+</section>
+
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR — صُنع بـ &#x2764;&#xFE0F; للمجتمع</p>
     <p style="margin-top: 6px;">الذكاء الاصطناعي : Claude Opus 4.6 (Anthropic)</p>
 </footer>
 
-<!-- Copy toast -->
-<div class="copy-toast" id="copyToast">تم نسخ العنوان!</div>
 
-<script>
-function copyAddr(addr) {
-    navigator.clipboard.writeText(addr).then(() => {
-        const toast = document.getElementById('copyToast');
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-    });
-}
-</script>
 
 <script>
 fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')

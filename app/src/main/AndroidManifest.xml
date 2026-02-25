@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission" />
 
     <!-- Shizuku provider exige minSdk 23, mais on ne l'utilise que sur Android 11+ (API 30) -->
     <uses-sdk tools:overrideLibrary="rikka.shizuku.provider,rikka.shizuku.api,rikka.shizuku.aidl,rikka.shizuku.shared" />
@@ -94,6 +95,11 @@
         <activity android:name=".HowToActivity" android:exported="false" />
         <activity android:name=".SupportActivity" android:exported="false" />
         <activity android:name=".DnsRewriteActivity" android:exported="false" />
+        <activity android:name=".DnsSpeedtestActivity" android:exported="false" />
+        <activity
+            android:name=".DnsProviderDetailActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
 
     </application>
 </manifest>

@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import net.appstorefr.perfectdnsmanager.data.ProfileManager
+import net.appstorefr.perfectdnsmanager.service.AdbDnsManager
 import net.appstorefr.perfectdnsmanager.service.ShizukuManager
 import net.appstorefr.perfectdnsmanager.util.LocaleHelper
 import okhttp3.MediaType.Companion.toMediaType
@@ -30,10 +31,13 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private lateinit var prefs: SharedPreferences
+    private lateinit var adbDnsManager: AdbDnsManager
     private var shizukuManager: ShizukuManager? = null
     private var layoutShizukuSection: LinearLayout? = null
     private var tvShizukuStatus: TextView? = null
     private var btnShizukuAction: Button? = null
+    private var tvPermissionStatus: TextView? = null
+    private var btnSelfGrant: Button? = null
 
     private val binderReceivedListener = Shizuku.OnBinderReceivedListener { updateShizukuUI() }
     private val binderDeadListener = Shizuku.OnBinderDeadListener { updateShizukuUI() }
@@ -51,6 +55,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+        adbDnsManager = AdbDnsManager(this)
 
         val btnBack: Button = findViewById(R.id.btnBack)
         val btnAbout: Button = findViewById(R.id.btnAbout)
@@ -114,6 +119,7 @@ class SettingsActivity : AppCompatActivity() {
                     val typeLabel = when (profile.type) {
                         net.appstorefr.perfectdnsmanager.data.DnsType.DOH -> "DoH"
                         net.appstorefr.perfectdnsmanager.data.DnsType.DOT -> "DoT"
+                        net.appstorefr.perfectdnsmanager.data.DnsType.DOQ -> "DoQ"
                         net.appstorefr.perfectdnsmanager.data.DnsType.DEFAULT -> "Standard"
                     }
                     val methodLabel = if (profile.type == net.appstorefr.perfectdnsmanager.data.DnsType.DOT) "ADB" else "VPN"
@@ -237,6 +243,67 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        // ── Self-grant ADB permission ──
+        tvPermissionStatus = findViewById(R.id.tvPermissionStatus)
+        btnSelfGrant = findViewById(R.id.btnSelfGrant)
+        updatePermissionUI()
+
+        btnSelfGrant?.setOnClickListener {
+            btnSelfGrant?.isEnabled = false
+            btnSelfGrant?.text = getString(R.string.self_grant_connecting)
+            tvPermissionStatus?.text = getString(R.string.self_grant_progress)
+            tvPermissionStatus?.setTextColor(0xFFFFD54F.toInt())
+
+            Thread {
+                adbDnsManager.selfGrantPermission(object : AdbDnsManager.SelfGrantCallback {
+                    override fun onProgress(step: String) {
+                        runOnUiThread {
+                            tvPermissionStatus?.text = when {
+                                step == "crypto" -> getString(R.string.self_grant_step_crypto)
+                                step == "connecting" -> getString(R.string.self_grant_step_connecting)
+                                step.startsWith("port:") -> getString(R.string.self_grant_step_port, step.substringAfter(":"))
+                                step == "granting" -> getString(R.string.self_grant_step_granting)
+                                else -> step
+                            }
+                        }
+                    }
+
+                    override fun onSuccess() {
+                        runOnUiThread {
+                            updatePermissionUI()
+                            Toast.makeText(this@SettingsActivity, getString(R.string.self_grant_success), Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onError(error: String) {
+                        runOnUiThread {
+                            btnSelfGrant?.isEnabled = true
+                            btnSelfGrant?.text = getString(R.string.self_grant_retry)
+                            when {
+                                error == "ADB_NOT_REACHABLE" -> {
+                                    tvPermissionStatus?.text = getString(R.string.self_grant_adb_unreachable)
+                                    tvPermissionStatus?.setTextColor(getColor(android.R.color.holo_red_light))
+                                    showAdbUnreachableHelp()
+                                }
+                                error.startsWith("GRANT_FAILED:") -> {
+                                    tvPermissionStatus?.text = getString(R.string.self_grant_failed)
+                                    tvPermissionStatus?.setTextColor(getColor(android.R.color.holo_red_light))
+                                }
+                                error == "GRANT_NOT_EFFECTIVE" -> {
+                                    tvPermissionStatus?.text = getString(R.string.self_grant_not_effective)
+                                    tvPermissionStatus?.setTextColor(0xFFFF9800.toInt())
+                                }
+                                else -> {
+                                    tvPermissionStatus?.text = getString(R.string.self_grant_error, error)
+                                    tvPermissionStatus?.setTextColor(getColor(android.R.color.holo_red_light))
+                                }
+                            }
+                        }
+                    }
+                })
+            }.start()
+        }
+
         // ── Fonctions avancées : toggle cache/montre la section ──
         val advancedEnabled = prefs.getBoolean("advanced_features_enabled", false)
         switchAdvanced.isChecked = advancedEnabled
@@ -293,15 +360,22 @@ class SettingsActivity : AppCompatActivity() {
         // URL Rewrite (fonction avancée)
         btnUrlRewrite.setOnClickListener { showUrlRewriteDialog() }
 
+        // Domaines de test (dans section avancée)
+        findViewById<Button>(R.id.btnTestDomains).setOnClickListener { showTestDomainsDialog() }
+
+        // Split tunneling (bypass VPN per-app)
+        findViewById<Button>(R.id.btnSplitTunnel).setOnClickListener { showSplitTunnelDialog() }
+
         // Import / Export configuration (collapsible)
-        val switchImportExport: Switch = findViewById(R.id.switchImportExport)
         val layoutImportExportContent: LinearLayout = findViewById(R.id.layoutImportExportContent)
         val rowImportExport: LinearLayout = findViewById(R.id.rowImportExport)
+        val tvArrow: TextView = findViewById(R.id.tvImportExportArrow)
 
-        switchImportExport.setOnCheckedChangeListener { _, isChecked ->
-            layoutImportExportContent.visibility = if (isChecked) View.VISIBLE else View.GONE
+        rowImportExport.setOnClickListener {
+            val expanded = layoutImportExportContent.visibility == View.VISIBLE
+            layoutImportExportContent.visibility = if (expanded) View.GONE else View.VISIBLE
+            tvArrow.text = if (expanded) "▶" else "▼"
         }
-        rowImportExport.setOnClickListener { switchImportExport.isChecked = !switchImportExport.isChecked }
 
         val btnExportConfig: Button = findViewById(R.id.btnExportConfig)
         val btnImportConfig: Button = findViewById(R.id.btnImportConfig)
@@ -339,6 +413,607 @@ class SettingsActivity : AppCompatActivity() {
         btnAbout.setOnClickListener { startActivity(Intent(this, AboutActivity::class.java)) }
         btnHowTo.setOnClickListener { startActivity(Intent(this, HowToActivity::class.java)) }
         btnSupport.setOnClickListener { startActivity(Intent(this, SupportActivity::class.java)) }
+    }
+
+    // ── Domaines de test ──────────────────────────────────────────
+
+    private data class TestDomainEntry(val domain: String, val enabled: Boolean)
+
+    private fun loadTestDomainEntries(): MutableList<TestDomainEntry> {
+        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+        val json = prefs.getString("test_domains_json", null)
+        if (json != null) {
+            try {
+                val arr = org.json.JSONArray(json)
+                val list = mutableListOf<TestDomainEntry>()
+                for (i in 0 until arr.length()) {
+                    val obj = arr.getJSONObject(i)
+                    list.add(TestDomainEntry(obj.getString("domain"), obj.optBoolean("enabled", true)))
+                }
+                return list
+            } catch (_: Exception) {}
+        }
+        // Default
+        return mutableListOf(TestDomainEntry("ygg.re", true))
+    }
+
+    private fun saveTestDomainEntries(entries: List<TestDomainEntry>) {
+        val arr = org.json.JSONArray()
+        for (e in entries) {
+            val obj = org.json.JSONObject()
+            obj.put("domain", e.domain)
+            obj.put("enabled", e.enabled)
+            arr.put(obj)
+        }
+        getSharedPreferences("prefs", MODE_PRIVATE).edit()
+            .putString("test_domains_json", arr.toString()).apply()
+    }
+
+    private fun showTestDomainsDialog() {
+        val entries = loadTestDomainEntries()
+        refreshTestDomainsDialog(entries)
+    }
+
+    private fun refreshTestDomainsDialog(entries: MutableList<TestDomainEntry>) {
+        val layout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(50, 20, 50, 10)
+        }
+
+        if (entries.isEmpty()) {
+            layout.addView(android.widget.TextView(this).apply {
+                text = getString(R.string.test_domains_empty)
+                setTextColor(0xFF888888.toInt()); textSize = 14f
+                setPadding(0, 10, 0, 10)
+            })
+        }
+
+        for ((index, entry) in entries.withIndex()) {
+            val row = android.widget.LinearLayout(this).apply {
+                orientation = android.widget.LinearLayout.HORIZONTAL
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                setPadding(0, 4, 0, 4)
+            }
+            val sw = android.widget.Switch(this).apply {
+                isChecked = entry.enabled
+                setOnCheckedChangeListener { _, checked ->
+                    entries[index] = entries[index].copy(enabled = checked)
+                    saveTestDomainEntries(entries)
+                }
+            }
+            val tv = android.widget.TextView(this).apply {
+                text = entry.domain
+                setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
+                layoutParams = android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                setPadding(16, 0, 8, 0)
+            }
+            val btnDel = android.widget.Button(this).apply {
+                text = "\u2716"
+                setTextColor(0xFFFF5555.toInt()); textSize = 12f
+                background = null; minWidth = 0; minimumWidth = 0
+                setPadding(16, 0, 0, 0)
+                setOnClickListener {
+                    entries.removeAt(index)
+                    saveTestDomainEntries(entries)
+                    // Refresh dialog
+                    (layout.parent as? android.view.ViewGroup)?.let { parent ->
+                        try {
+                            // Close current dialog and reopen
+                        } catch (_: Exception) {}
+                    }
+                }
+            }
+            row.addView(sw)
+            row.addView(tv)
+            row.addView(btnDel)
+            layout.addView(row)
+        }
+
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.test_domains_button))
+            .setView(layout)
+            .setPositiveButton(getString(R.string.test_domains_add)) { dlg, _ ->
+                dlg.dismiss()
+                showAddTestDomainDialog(entries)
+            }
+            .setNegativeButton("OK", null)
+            .show()
+
+        // Wire delete buttons to close and reopen
+        for (i in 0 until layout.childCount) {
+            val row = layout.getChildAt(i) as? android.widget.LinearLayout ?: continue
+            for (j in 0 until row.childCount) {
+                val btn = row.getChildAt(j) as? android.widget.Button ?: continue
+                if (btn.text == "\u2716") {
+                    val idx = i
+                    btn.setOnClickListener {
+                        if (idx < entries.size) {
+                            entries.removeAt(idx)
+                            saveTestDomainEntries(entries)
+                            dialog.dismiss()
+                            refreshTestDomainsDialog(entries)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showAddTestDomainDialog(entries: MutableList<TestDomainEntry>) {
+        val input = android.widget.EditText(this).apply {
+            hint = "example.com"
+            setTextColor(0xFFFFFFFF.toInt()); setHintTextColor(0xFF666666.toInt())
+            textSize = 16f; setPadding(50, 30, 50, 30)
+        }
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.test_domains_add))
+            .setView(input)
+            .setPositiveButton("OK") { _, _ ->
+                val domain = input.text.toString().trim().lowercase()
+                if (domain.isNotEmpty() && domain.contains(".")) {
+                    entries.add(TestDomainEntry(domain, true))
+                    saveTestDomainEntries(entries)
+                }
+                refreshTestDomainsDialog(entries)
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    // ── Split tunneling (bypass VPN per-app) ─────────────────────
+
+    private fun loadExcludedApps(): MutableSet<String> {
+        val json = prefs.getString("excluded_apps_json", null) ?: return mutableSetOf()
+        return try {
+            val arr = org.json.JSONArray(json)
+            val set = mutableSetOf<String>()
+            for (i in 0 until arr.length()) set.add(arr.getString(i))
+            set
+        } catch (_: Exception) { mutableSetOf() }
+    }
+
+    private fun saveExcludedApps(apps: Set<String>) {
+        val arr = org.json.JSONArray()
+        apps.sorted().forEach { arr.put(it) }
+        prefs.edit().putString("excluded_apps_json", arr.toString()).apply()
+    }
+
+    private fun showSplitTunnelDialog() {
+        val loadingDialog = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.split_tunnel_title))
+            .setMessage(getString(R.string.split_tunnel_loading))
+            .setCancelable(false)
+            .show()
+
+        Thread {
+            val pm = packageManager
+            val installedApps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
+                .filter { it.packageName != packageName } // exclude ourselves
+                .sortedBy { pm.getApplicationLabel(it).toString().lowercase() }
+
+            val excluded = loadExcludedApps()
+            val labels = installedApps.map { pm.getApplicationLabel(it).toString() }.toTypedArray()
+            val packages = installedApps.map { it.packageName }
+            val checked = BooleanArray(installedApps.size) { packages[it] in excluded }
+
+            runOnUiThread {
+                loadingDialog.dismiss()
+                showSplitTunnelListDialog(labels, packages, checked)
+            }
+        }.start()
+    }
+
+    private fun showSplitTunnelListDialog(
+        labels: Array<String>,
+        packages: List<String>,
+        checked: BooleanArray
+    ) {
+        // Data model for filtered list
+        data class AppItem(val index: Int, val label: String, val pkg: String)
+        val allItems = labels.indices.map { AppItem(it, labels[it], packages[it]) }
+        val filteredItems = mutableListOf<AppItem>().apply { addAll(allItems) }
+
+        // Popular apps by category (multiple package variants for mobile/TV)
+        data class PopularApp(val name: String, val pkgs: List<String>)
+        val streamingApps = listOf(
+            PopularApp("Netflix", listOf("com.netflix.ninja", "com.netflix.mediaclient")),
+            PopularApp("Amazon Prime Video", listOf("com.amazon.avod", "com.amazon.avod.thirdpartyclient")),
+            PopularApp("Disney+", listOf("com.disney.disneyplus")),
+            PopularApp("YouTube", listOf("com.google.android.youtube", "com.google.android.youtube.tv", "com.google.android.youtube.tvmusic")),
+            PopularApp("Apple TV", listOf("com.apple.atve.androidtv.appletv")),
+            PopularApp("Twitch", listOf("tv.twitch.android.app", "tv.twitch.android.viewer")),
+            PopularApp("Kick", listOf("com.kick.mobile", "com.kick.app")),
+            PopularApp("Paramount+", listOf("com.cbs.ca", "com.cbs.ott")),
+            PopularApp("Crunchyroll", listOf("com.crunchyroll.crunchyroid")),
+            PopularApp("Max (HBO)", listOf("com.wbd.stream", "com.hbo.hbonow")),
+            PopularApp("Plex", listOf("com.plexapp.android")),
+            PopularApp("SmartTube", listOf("org.smarttube.stable", "com.liskovsoft.smarttubetv.beta")),
+        )
+        val vodFrApps = listOf(
+            PopularApp("Canal+ / myCANAL", listOf("com.mycanal", "com.canal.android.canal")),
+            PopularApp("Molotov", listOf("tv.molotov.app")),
+            PopularApp("France TV", listOf("fr.francetv.pluzz", "fr.francetv.ftvinforeplay")),
+            PopularApp("Arte", listOf("tv.arte.plus7")),
+            PopularApp("TF1+", listOf("fr.tf1.mytf1")),
+            PopularApp("6play (M6)", listOf("fr.m6.m6replay")),
+            PopularApp("OCS / Max", listOf("com.orange.ocsgo")),
+            PopularApp("Orange TV", listOf("com.orange.owtv.tv", "com.orange.owtv")),
+            PopularApp("Free TV (Oqee)", listOf("net.oqee.androidtv.store", "net.oqee.androidtv")),
+            PopularApp("SFR Play", listOf("fr.sfr.tv", "com.sfr.tv")),
+        )
+        val speedtestApps = listOf(
+            PopularApp("Analiti", listOf("com.analiti.fastest.android", "com.analiti.fastest.speedtest")),
+            PopularApp("Fast.com", listOf("com.netflix.Speedtest")),
+            PopularApp("Speedtest (Ookla)", listOf("org.zwanoo.android.speedtest")),
+            PopularApp("nPerf", listOf("com.nperf.tester")),
+        )
+
+        // Flatten all popular packages
+        val allPopularPkgs = (streamingApps + vodFrApps + speedtestApps).flatMap { it.pkgs }.toSet()
+
+        // Build index: packageName → index in the main list
+        val pkgIndex = mutableMapOf<String, Int>()
+        for (i in packages.indices) pkgIndex[packages[i]] = i
+
+        // Track popular apps not in installed list
+        val excluded = loadExcludedApps()
+        val extraPopularChecked = mutableMapOf<String, Boolean>()
+        for (pkg in allPopularPkgs) {
+            if (!pkgIndex.containsKey(pkg)) {
+                extraPopularChecked[pkg] = pkg in excluded
+            }
+        }
+
+        // Resolve best package for a PopularApp (first installed, or first in list)
+        fun resolveApp(app: PopularApp): Pair<String, Boolean> {
+            for (pkg in app.pkgs) {
+                if (pkgIndex.containsKey(pkg)) return pkg to true
+            }
+            return app.pkgs.first() to false
+        }
+
+        val rootLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(40, 20, 40, 10)
+        }
+
+        // Description
+        rootLayout.addView(TextView(this).apply {
+            text = getString(R.string.split_tunnel_desc)
+            setTextColor(0xFFAAAAAA.toInt()); textSize = 12f
+            setPadding(0, 0, 0, 12)
+        })
+
+        // Counter function
+        fun countChecked(): Int = checked.count { it } + extraPopularChecked.values.count { it }
+
+        val tvCount = TextView(this).apply {
+            text = getString(R.string.split_tunnel_apps_count, countChecked())
+            setTextColor(0xFFFFD700.toInt()); textSize = 13f
+            setPadding(0, 8, 0, 8)
+        }
+        rootLayout.addView(tvCount)
+
+        // ── Collapsible category builder ──
+        fun makeFocusBg(normalColor: Int): android.graphics.drawable.StateListDrawable {
+            val focused = android.graphics.drawable.GradientDrawable().apply {
+                setColor(0xFF3A3A5A.toInt()); cornerRadius = 8f
+                setStroke(2, 0xFFFFD700.toInt())
+            }
+            val normal = android.graphics.drawable.GradientDrawable().apply {
+                setColor(normalColor); cornerRadius = 8f
+            }
+            return android.graphics.drawable.StateListDrawable().apply {
+                addState(intArrayOf(android.R.attr.state_focused), focused)
+                addState(intArrayOf(), normal)
+            }
+        }
+
+        // Categories container (in its own ScrollView)
+        val categoriesLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+
+        // Temporarily redirect addCollapsibleCategory to categoriesLayout
+        val catTarget = categoriesLayout
+        fun addCat(title: String, unsortedApps: List<PopularApp>) {
+            // Installed apps first
+            val apps = unsortedApps.sortedBy { app -> if (app.pkgs.any { pkgIndex.containsKey(it) }) 0 else 1 }
+            val headerRef = arrayOfNulls<TextView>(1)
+            val contentRef = arrayOfNulls<LinearLayout>(1)
+
+            val header = TextView(this).apply {
+                text = "\u25B6 $title"
+                setTextColor(0xFFFFD700.toInt()); textSize = 14f
+                setTypeface(null, android.graphics.Typeface.BOLD)
+                setPadding(16, 16, 16, 16)
+                isFocusable = true
+                isClickable = true
+                background = makeFocusBg(0xFF1E1E2E.toInt())
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = 8 }
+            }
+            headerRef[0] = header
+
+            val content = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                visibility = View.GONE
+                setPadding(16, 4, 8, 8)
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(0xFF1A1A2A.toInt())
+                    cornerRadius = 0f
+                }
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { bottomMargin = 4 }
+            }
+            contentRef[0] = content
+
+            for (app in apps) {
+                val (pkg, isInstalled) = resolveApp(app)
+                val installedIdx = pkgIndex[pkg]
+                val row = LinearLayout(this).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    gravity = android.view.Gravity.CENTER_VERTICAL
+                    setPadding(12, 6, 12, 6)
+                    isFocusable = true
+                    isClickable = true
+                    background = makeFocusBg(0xFF1A1A2A.toInt())
+                }
+                val cb = android.widget.CheckBox(this).apply {
+                    isFocusable = false
+                    isChecked = if (isInstalled && installedIdx != null) checked[installedIdx] else (extraPopularChecked[pkg] == true)
+                    setOnCheckedChangeListener { _, isChk ->
+                        if (isInstalled && installedIdx != null) {
+                            checked[installedIdx] = isChk
+                        } else {
+                            extraPopularChecked[pkg] = isChk
+                        }
+                        tvCount.text = getString(R.string.split_tunnel_apps_count, countChecked())
+                    }
+                }
+                row.addView(cb)
+                val label = if (isInstalled) app.name else "${app.name} (non install\u00e9)"
+                row.addView(TextView(this).apply {
+                    text = label
+                    setTextColor(if (isInstalled) 0xFFDDDDDD.toInt() else 0xFF666666.toInt())
+                    textSize = 13f
+                    setPadding(8, 0, 0, 0)
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                })
+                row.setOnClickListener { cb.isChecked = !cb.isChecked }
+                content.addView(row)
+            }
+
+            header.setOnClickListener {
+                if (content.visibility == View.GONE) {
+                    content.visibility = View.VISIBLE
+                    header.text = "\u25BC $title"
+                } else {
+                    content.visibility = View.GONE
+                    header.text = "\u25B6 $title"
+                }
+            }
+
+            catTarget.addView(header)
+            catTarget.addView(content)
+        }
+
+        addCat("\uD83C\uDFAC Streaming", streamingApps)
+        addCat("\uD83C\uDDEB\uD83C\uDDF7 VOD France", vodFrApps)
+        addCat("\uD83D\uDCF6 Speedtest", speedtestApps)
+
+        rootLayout.addView(categoriesLayout)
+
+        // ── Collapsible "All apps" section ──
+        val allAppsHeader = TextView(this).apply {
+            text = "\u25B6 \uD83D\uDCF1 Toutes les applications"
+            setTextColor(0xFFFFD700.toInt()); textSize = 14f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setPadding(16, 16, 16, 16)
+            isFocusable = true
+            isClickable = true
+            background = makeFocusBg(0xFF1E1E2E.toInt())
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { topMargin = 8 }
+        }
+        rootLayout.addView(allAppsHeader)
+
+        val allAppsContent = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            visibility = View.GONE
+            setPadding(0, 8, 0, 0)
+        }
+
+        // Search bar
+        val searchInput = android.widget.EditText(this).apply {
+            hint = getString(R.string.split_tunnel_search)
+            setTextColor(0xFFFFFFFF.toInt()); setHintTextColor(0xFF666666.toInt())
+            textSize = 14f; setPadding(20, 12, 20, 12)
+            isFocusable = true
+            isFocusableInTouchMode = true
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(0xFF333333.toInt())
+                cornerRadius = 8f
+                setStroke(1, 0xFF555555.toInt())
+            }
+        }
+        allAppsContent.addView(searchInput)
+
+        // Hint text
+        val searchHint = TextView(this).apply {
+            text = "Tapez pour rechercher parmi ${allItems.size} applications..."
+            setTextColor(0xFF888888.toInt()); textSize = 12f
+            setPadding(8, 8, 0, 8)
+        }
+        allAppsContent.addView(searchHint)
+
+        // Dynamic results container (no ListView = no scroll conflict)
+        val resultsContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        allAppsContent.addView(resultsContainer)
+
+        rootLayout.addView(allAppsContent)
+
+        // Build search result row
+        fun makeAppRow(item: AppItem): View {
+            val row = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                setPadding(12, 6, 12, 6)
+                isFocusable = true
+                isClickable = true
+                background = makeFocusBg(0xFF1A1A2A.toInt())
+            }
+            val cb = android.widget.CheckBox(this).apply {
+                isFocusable = false
+                isChecked = checked[item.index]
+                setOnCheckedChangeListener { _, isChk ->
+                    checked[item.index] = isChk
+                    tvCount.text = getString(R.string.split_tunnel_apps_count, countChecked())
+                }
+            }
+            row.addView(cb)
+            val col = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            }
+            col.addView(TextView(this).apply {
+                text = item.label
+                setTextColor(0xFFDDDDDD.toInt()); textSize = 13f
+                setPadding(12, 0, 0, 0)
+            })
+            col.addView(TextView(this).apply {
+                text = item.pkg
+                setTextColor(0xFF777777.toInt()); textSize = 10f
+                setPadding(12, 0, 0, 0)
+            })
+            row.addView(col)
+            row.setOnClickListener { cb.isChecked = !cb.isChecked }
+            return row
+        }
+
+        allAppsHeader.setOnClickListener {
+            if (allAppsContent.visibility == View.GONE) {
+                allAppsContent.visibility = View.VISIBLE
+                allAppsHeader.text = "\u25BC \uD83D\uDCF1 Toutes les applications"
+            } else {
+                allAppsContent.visibility = View.GONE
+                allAppsHeader.text = "\u25B6 \uD83D\uDCF1 Toutes les applications"
+            }
+        }
+
+        // Search filter — populates results dynamically (max 30 results)
+        searchInput.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                val query = s?.toString()?.lowercase()?.trim() ?: ""
+                resultsContainer.removeAllViews()
+                if (query.length < 2) {
+                    searchHint.visibility = View.VISIBLE
+                    searchHint.text = if (query.isEmpty()) "Tapez pour rechercher parmi ${allItems.size} applications..."
+                                      else "Tapez au moins 2 caract\u00e8res..."
+                    return
+                }
+                searchHint.visibility = View.GONE
+                val results = allItems.filter {
+                    it.label.lowercase().contains(query) || it.pkg.lowercase().contains(query)
+                }.take(30)
+                if (results.isEmpty()) {
+                    searchHint.visibility = View.VISIBLE
+                    searchHint.text = "Aucun r\u00e9sultat pour \"$query\""
+                } else {
+                    for (item in results) {
+                        resultsContainer.addView(makeAppRow(item))
+                    }
+                    if (results.size == 30) {
+                        resultsContainer.addView(TextView(this@SettingsActivity).apply {
+                            text = "... affinez votre recherche"
+                            setTextColor(0xFF888888.toInt()); textSize = 11f
+                            setPadding(12, 8, 0, 4)
+                        })
+                    }
+                }
+            }
+        })
+
+        // Wrap everything in NestedScrollView — single scrollable container, no conflicts
+        val scrollWrapper = androidx.core.widget.NestedScrollView(this).apply {
+            addView(rootLayout)
+        }
+
+        val dlg = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.split_tunnel_title))
+            .setView(scrollWrapper)
+            .setPositiveButton(getString(R.string.split_tunnel_save)) { _, _ ->
+                val selected = mutableSetOf<String>()
+                for (i in packages.indices) {
+                    if (checked[i]) selected.add(packages[i])
+                }
+                for ((pkg, isChk) in extraPopularChecked) {
+                    if (isChk) selected.add(pkg)
+                }
+                saveExcludedApps(selected)
+                Toast.makeText(this, getString(R.string.split_tunnel_saved), Toast.LENGTH_SHORT).show()
+
+                if (net.appstorefr.perfectdnsmanager.service.DnsVpnService.isVpnRunning) {
+                    val profileJson = prefs.getString("selected_profile_json", null)
+                    if (profileJson != null) {
+                        try {
+                            val profile = com.google.gson.Gson().fromJson(profileJson, net.appstorefr.perfectdnsmanager.data.DnsProfile::class.java)
+                            if (profile.type != net.appstorefr.perfectdnsmanager.data.DnsType.DOT) {
+                                val intent = Intent(this, net.appstorefr.perfectdnsmanager.service.DnsVpnService::class.java).apply {
+                                    action = net.appstorefr.perfectdnsmanager.service.DnsVpnService.ACTION_START
+                                    putExtra(net.appstorefr.perfectdnsmanager.service.DnsVpnService.EXTRA_DNS_PRIMARY, profile.primary)
+                                    profile.secondary?.let { putExtra(net.appstorefr.perfectdnsmanager.service.DnsVpnService.EXTRA_DNS_SECONDARY, it) }
+                                }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent)
+                                else startService(intent)
+                                Toast.makeText(this, getString(R.string.split_tunnel_restart_vpn), Toast.LENGTH_SHORT).show()
+                            }
+                        } catch (_: Exception) {}
+                    }
+                }
+            }
+            .setNegativeButton("Tout d\u00e9cocher") { _, _ ->
+                for (i in checked.indices) checked[i] = false
+                for (key in extraPopularChecked.keys) extraPopularChecked[key] = false
+                saveExcludedApps(emptySet())
+                Toast.makeText(this, "Toutes les applications ont \u00e9t\u00e9 d\u00e9coch\u00e9es", Toast.LENGTH_SHORT).show()
+
+                if (net.appstorefr.perfectdnsmanager.service.DnsVpnService.isVpnRunning) {
+                    val profileJson = prefs.getString("selected_profile_json", null)
+                    if (profileJson != null) {
+                        try {
+                            val profile = com.google.gson.Gson().fromJson(profileJson, net.appstorefr.perfectdnsmanager.data.DnsProfile::class.java)
+                            if (profile.type != net.appstorefr.perfectdnsmanager.data.DnsType.DOT) {
+                                val intent = Intent(this, net.appstorefr.perfectdnsmanager.service.DnsVpnService::class.java).apply {
+                                    action = net.appstorefr.perfectdnsmanager.service.DnsVpnService.ACTION_START
+                                    putExtra(net.appstorefr.perfectdnsmanager.service.DnsVpnService.EXTRA_DNS_PRIMARY, profile.primary)
+                                    profile.secondary?.let { putExtra(net.appstorefr.perfectdnsmanager.service.DnsVpnService.EXTRA_DNS_SECONDARY, it) }
+                                }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent)
+                                else startService(intent)
+                            }
+                        } catch (_: Exception) {}
+                    }
+                }
+            }
+            .create()
+
+        dlg.show()
+
+        dlg.window?.setLayout(
+            android.view.WindowManager.LayoutParams.MATCH_PARENT,
+            (resources.displayMetrics.heightPixels * 0.9).toInt()
+        )
     }
 
     private fun showUrlRewriteDialog() {
@@ -478,10 +1153,6 @@ class SettingsActivity : AppCompatActivity() {
             isChecked = true; isEnabled = false
             setTextColor(0xFFCCCCCC.toInt())
         }
-        val cbFavorites = android.widget.CheckBox(this).apply {
-            text = getString(R.string.export_toggle_favorites); isChecked = true
-            setTextColor(0xFFFFFFFF.toInt())
-        }
         val cbDefault = android.widget.CheckBox(this).apply {
             text = getString(R.string.export_toggle_default_dns); isChecked = true
             setTextColor(0xFFFFFFFF.toInt())
@@ -500,7 +1171,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         layout.addView(cbProfiles)
-        layout.addView(cbFavorites)
         layout.addView(cbDefault)
         layout.addView(cbNextDns)
         layout.addView(cbRewrite)
@@ -512,7 +1182,6 @@ class SettingsActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.export_button)) { _, _ ->
                 performExport(
                     includeProfiles = true,
-                    includeFavorites = cbFavorites.isChecked,
                     includeDefaultProfile = cbDefault.isChecked,
                     includeNextDnsProfiles = cbNextDns.isChecked,
                     includeRewriteRules = cbRewrite.isChecked,
@@ -525,7 +1194,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun performExport(
         includeProfiles: Boolean,
-        includeFavorites: Boolean,
         includeDefaultProfile: Boolean,
         includeNextDnsProfiles: Boolean,
         includeRewriteRules: Boolean,
@@ -534,7 +1202,7 @@ class SettingsActivity : AppCompatActivity() {
         try {
             val configManager = net.appstorefr.perfectdnsmanager.data.ConfigManager(this)
             val json = configManager.exportConfigSelective(
-                includeProfiles, includeFavorites, includeDefaultProfile,
+                includeProfiles, includeDefaultProfile,
                 includeNextDnsProfiles, includeRewriteRules, includeSettings
             )
 
@@ -551,8 +1219,8 @@ class SettingsActivity : AppCompatActivity() {
                 .setPositiveButton(getString(R.string.export_save_local)) { _, _ ->
                     Toast.makeText(this, getString(R.string.export_saved_locally, file.absolutePath), Toast.LENGTH_LONG).show()
                 }
-                .setNeutralButton(getString(R.string.upload_to_tmpfiles)) { _, _ ->
-                    uploadToTmpfiles(file)
+                .setNeutralButton(getString(R.string.upload_encrypted)) { _, _ ->
+                    showExpirationAndUpload(json)
                 }
                 .show()
         } catch (e: Exception) {
@@ -560,36 +1228,34 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadToTmpfiles(file: java.io.File) {
+    private fun showExpirationAndUpload(content: String) {
+        encryptAndUpload(content)
+    }
+
+    private fun encryptAndUpload(content: String, expiresIn: String = "1h") {
         Toast.makeText(this, getString(R.string.uploading), Toast.LENGTH_SHORT).show()
         Thread {
             try {
-                val client = okhttp3.OkHttpClient.Builder()
-                    .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    .build()
-                val body = okhttp3.MultipartBody.Builder()
-                    .setType(okhttp3.MultipartBody.FORM)
-                    .addFormDataPart("file", file.name,
-                        file.asRequestBody("application/json".toMediaType()))
-                    .build()
-                val request = okhttp3.Request.Builder()
-                    .url("https://tmpfiles.org/api/v1/upload")
-                    .post(body)
-                    .build()
-                val response = client.newCall(request).execute()
-                val responseBody = response.body?.string() ?: ""
-                response.close()
-                // Response: {"status":"success","data":{"url":"https://tmpfiles.org/12345/file.json"}}
-                // Need to insert /dl/ for direct download: https://tmpfiles.org/dl/12345/file.json
-                val jsonObj = org.json.JSONObject(responseBody)
-                if (jsonObj.optString("status") == "success") {
-                    val pageUrl = jsonObj.getJSONObject("data").getString("url")
-                    val directUrl = pageUrl.replace("tmpfiles.org/", "tmpfiles.org/dl/")
-                    runOnUiThread { showUploadSuccess(directUrl) }
-                } else {
-                    runOnUiThread { Toast.makeText(this, getString(R.string.upload_error, responseBody), Toast.LENGTH_LONG).show() }
+                val result = net.appstorefr.perfectdnsmanager.util.EncryptedSharer.encryptAndUpload(
+                    content, "PerfectDNS-config.enc", expiresIn
+                )
+                runOnUiThread {
+                    val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                    clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Share Code", result.shortCode))
+                    val msg = android.text.SpannableString(
+                        "Code : ${result.shortCode}\n\nOuvrir la configuration :\npdm.appstorefr.net/decrypt.html\n\nEntrez le code ${result.shortCode} pour importer.\n\n(code copié dans le presse-papier)"
+                    )
+                    val code = result.shortCode
+                    val greenColor = android.graphics.Color.parseColor("#4CAF50")
+                    val idx1 = msg.indexOf(code)
+                    if (idx1 >= 0) msg.setSpan(android.text.style.ForegroundColorSpan(greenColor), idx1, idx1 + code.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    val idx2 = msg.indexOf(code, idx1 + code.length)
+                    if (idx2 >= 0) msg.setSpan(android.text.style.ForegroundColorSpan(greenColor), idx2, idx2 + code.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.upload_success_title))
+                        .setMessage(msg)
+                        .setPositiveButton("OK", null)
+                        .show()
                 }
             } catch (e: Exception) {
                 runOnUiThread { Toast.makeText(this, getString(R.string.upload_error, e.message ?: ""), Toast.LENGTH_LONG).show() }
@@ -597,34 +1263,21 @@ class SettingsActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun showUploadSuccess(url: String) {
-        // Extract tmpfiles number from URL: https://tmpfiles.org/dl/12345/file.json → 12345
-        val numberRegex = Regex("tmpfiles\\.org/dl/(\\d+)/")
-        val number = numberRegex.find(url)?.groupValues?.get(1) ?: ""
-        val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
-        clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Config Number", number))
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.upload_success_title))
-            .setMessage(getString(R.string.upload_success_message_with_number, number, url))
-            .setPositiveButton("OK", null)
-            .show()
-    }
-
     private fun showImportOptions() {
         val options = arrayOf(
+            getString(R.string.import_from_code),
             getString(R.string.import_from_clipboard),
             getString(R.string.import_from_url),
-            getString(R.string.import_from_file),
-            getString(R.string.import_from_tmpfiles)
+            getString(R.string.import_from_file)
         )
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.import_config_button))
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> importFromClipboard()
-                    1 -> showImportFromUrlDialog()
-                    2 -> importFromLocalFile()
-                    3 -> showImportFromTmpfilesDialog()
+                    0 -> showImportFromCodeDialog()
+                    1 -> importFromClipboard()
+                    2 -> showImportFromUrlDialog()
+                    3 -> importFromLocalFile()
                 }
             }
             .setNegativeButton(getString(R.string.cancel), null)
@@ -701,45 +1354,40 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun showImportFromTmpfilesDialog() {
+    private fun showImportFromCodeDialog() {
         val layout = android.widget.LinearLayout(this).apply {
             orientation = android.widget.LinearLayout.VERTICAL
             setPadding(60, 40, 60, 20)
         }
         val tvExplain = TextView(this).apply {
-            text = getString(R.string.enter_tmpfiles_number)
+            text = getString(R.string.enter_share_code)
             setTextColor(0xFFCCCCCC.toInt()); textSize = 13f
         }
         layout.addView(tvExplain)
-        val editNumber = android.widget.EditText(this).apply {
-            hint = getString(R.string.tmpfiles_number_hint)
+        val editCode = android.widget.EditText(this).apply {
+            hint = getString(R.string.share_code_hint)
             setTextColor(0xFFFFFFFF.toInt()); setHintTextColor(0xFF888888.toInt())
             setBackgroundColor(0xFF333333.toInt()); setPadding(20, 15, 20, 15)
-            isSingleLine = true; inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            isSingleLine = true
         }
-        layout.addView(editNumber)
+        layout.addView(editCode)
+        val tvInfo = TextView(this).apply {
+            text = getString(R.string.import_code_explain)
+            setTextColor(0xFF888888.toInt()); textSize = 11f
+            setPadding(0, 16, 0, 0)
+        }
+        layout.addView(tvInfo)
 
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.import_from_tmpfiles_title))
+            .setTitle(getString(R.string.import_from_code_title))
             .setView(layout)
             .setPositiveButton(getString(R.string.download_button)) { _, _ ->
-                val number = editNumber.text.toString().trim()
-                if (number.isNotEmpty()) {
+                val code = editCode.text.toString().trim()
+                if (code.isNotEmpty()) {
                     Toast.makeText(this, getString(R.string.downloading), Toast.LENGTH_SHORT).show()
                     Thread {
                         try {
-                            val client = okhttp3.OkHttpClient.Builder()
-                                .followRedirects(true)
-                                .followSslRedirects(true)
-                                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                                .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                                .build()
-                            val request = okhttp3.Request.Builder()
-                                .url("https://tmpfiles.org/dl/$number/PerfectDNS-config.json")
-                                .build()
-                            val response = client.newCall(request).execute()
-                            val json = response.body?.string() ?: ""
-                            response.close()
+                            val json = net.appstorefr.perfectdnsmanager.util.EncryptedSharer.downloadAndDecrypt(code)
                             if (json.isNotBlank()) {
                                 runOnUiThread { confirmAndImport(json) }
                             } else {
@@ -782,6 +1430,38 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    private fun updatePermissionUI() {
+        val granted = adbDnsManager.isPermissionGranted()
+        if (granted) {
+            tvPermissionStatus?.text = getString(R.string.permission_granted)
+            tvPermissionStatus?.setTextColor(getColor(android.R.color.holo_green_light))
+            btnSelfGrant?.text = getString(R.string.permission_already_granted)
+            btnSelfGrant?.isEnabled = false
+            btnSelfGrant?.alpha = 0.5f
+        } else {
+            tvPermissionStatus?.text = getString(R.string.permission_not_granted)
+            tvPermissionStatus?.setTextColor(getColor(android.R.color.holo_red_light))
+            btnSelfGrant?.text = getString(R.string.self_grant_button)
+            btnSelfGrant?.isEnabled = true
+            btnSelfGrant?.alpha = 1f
+        }
+    }
+
+    private fun showAdbUnreachableHelp() {
+        val isFireTv = Build.MANUFACTURER.equals("Amazon", ignoreCase = true) ||
+            packageManager.hasSystemFeature("amazon.hardware.fire_tv")
+        val msg = if (isFireTv) {
+            getString(R.string.self_grant_help_firetv)
+        } else {
+            getString(R.string.self_grant_help_phone)
+        }
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.self_grant_help_title))
+            .setMessage(msg)
+            .setPositiveButton("OK", null)
+            .show()
+    }
+
     private fun updateShizukuUI() {
         val mgr = shizukuManager ?: return
         val tv = tvShizukuStatus ?: return
@@ -815,6 +1495,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        updatePermissionUI()
         updateShizukuUI()
     }
 
@@ -830,7 +1511,6 @@ class SettingsActivity : AppCompatActivity() {
         msg.appendLine(getString(R.string.import_done))
         msg.appendLine()
         msg.appendLine(getString(R.string.import_profiles_count, result.profileCount))
-        msg.appendLine(getString(R.string.import_favorites_count, result.favoriteCount))
         msg.appendLine(getString(R.string.import_rewrite_count, result.rewriteRuleCount))
         msg.appendLine(getString(R.string.import_nextdns_count, result.nextDnsProfileCount))
         if (result.hasDefaultProfile) msg.appendLine(getString(R.string.import_default_restored))

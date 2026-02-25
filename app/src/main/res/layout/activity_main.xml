@@ -5,19 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#1E1E1E"
-    android:padding="24dp"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
     <!-- En-tete -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="6dp">
 
         <Button
             android:id="@+id/btnLanguage"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="@drawable/focusable_item_background"
@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="@string/dns_switcher"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-medium"
             android:layout_marginStart="8dp"
@@ -48,8 +48,8 @@
 
         <ImageButton
             android:id="@+id/btnSettings"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@drawable/focusable_item_background"
@@ -68,30 +68,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dns_provider_label"
-        android:textSize="16sp"
+        android:textSize="13sp"
         android:textColor="#CCCCCC"
-        android:layout_marginBottom="6dp" />
+        android:layout_marginBottom="3dp" />
 
     <LinearLayout
         android:id="@+id/layoutSelectDns"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="44dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/focusable_item_background"
         android:focusable="true"
         android:clickable="true"
-        android:nextFocusUp="@id/btnSettings"
+        android:nextFocusUp="@id/btnLanguage"
         android:nextFocusDown="@id/btnToggle">
 
         <ImageView
             android:id="@+id/ivSelectedDnsIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="10dp"
             android:scaleType="fitCenter"
             android:visibility="gone"
             android:contentDescription="DNS icon" />
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/dns_select_button"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:textColor="#FFFFFF"
             android:gravity="center"
             android:textAllCaps="false" />
@@ -114,146 +114,126 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/activation_label"
-        android:textSize="16sp"
+        android:textSize="13sp"
         android:textColor="#CCCCCC"
-        android:layout_marginBottom="6dp" />
+        android:layout_marginBottom="3dp" />
 
     <Button
         android:id="@+id/btnToggle"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="44dp"
         android:text="@string/activate"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_activate_background"
         android:focusable="true"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="4dp"
         android:nextFocusUp="@id/layoutSelectDns"
-        android:nextFocusDown="@id/btnTestDns" />
+        android:nextFocusDown="@id/btnGenerateReport" />
 
-    <!-- Bouton Tester le DNS -->
-    <Button
-        android:id="@+id/btnTestDns"
+    <!-- 3| Outils de test -->
+    <TextView
+        android:id="@+id/tvToolsLabel"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="@string/test_dns"
-        android:textSize="14sp"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#1B5E20"
-        android:foreground="@drawable/btn_focus_foreground"
-        android:focusable="true"
-        android:textAllCaps="false"
-        android:layout_marginBottom="12dp"
-        android:nextFocusUp="@id/btnToggle"
-        android:nextFocusDown="@id/tvStatus" />
+        android:layout_height="wrap_content"
+        android:text="@string/tools_section_label"
+        android:textSize="13sp"
+        android:textColor="#CCCCCC"
+        android:layout_marginBottom="3dp" />
 
-    <!-- Encart unifié : Statut + IPs + Partage -->
+    <!-- Module outils -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:background="#12FFFFFF"
-        android:padding="12dp">
+        android:padding="8dp">
 
-        <!-- DNS actif -->
+        <!-- DNS actif (bandeau statut) -->
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_active_dns"
             android:textSize="13sp"
-            android:textColor="#888888"
+            android:textColor="#FF5555"
+            android:textStyle="bold"
             android:gravity="center"
-            android:padding="8dp"
+            android:padding="6dp"
             android:background="@drawable/focusable_item_background"
             android:focusable="true"
-            android:nextFocusUp="@id/btnTestDns"
-            android:nextFocusDown="@id/btnShareIp" />
+            android:nextFocusUp="@id/btnToggle"
+            android:nextFocusDown="@id/btnGenerateReport" />
 
-        <!-- Séparateur -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#18FFFFFF"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
-
-        <!-- IPv4 -->
+        <!-- Boutons Generer / Partager cote a cote -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/wan_ipv4_label"
-                android:textSize="13sp"
-                android:textColor="#AAAAAA" />
-
-            <TextView
-                android:id="@+id/tvWanIp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/wan_ip_loading"
-                android:textSize="13sp"
-                android:textColor="#FFD700"
-                android:fontFamily="monospace"
-                android:gravity="end" />
-        </LinearLayout>
-
-        <!-- IPv6 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_marginTop="4dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/wan_ipv6_label"
-                android:textSize="13sp"
-                android:textColor="#AAAAAA" />
-
-            <TextView
-                android:id="@+id/tvWanIpv6"
+            <Button
+                android:id="@+id/btnGenerateReport"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="34dp"
                 android:layout_weight="1"
-                android:text="@string/wan_ip_loading"
-                android:textSize="13sp"
-                android:textColor="#FFD700"
-                android:fontFamily="monospace"
-                android:gravity="end" />
+                android:layout_marginEnd="4dp"
+                android:text="@string/generate_report_button"
+                android:textSize="11sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#1B5E20"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:focusable="true"
+                android:textAllCaps="false"
+                android:nextFocusUp="@id/tvStatus"
+                android:nextFocusRight="@id/btnShareReport"
+                android:nextFocusDown="@id/scrollReport" />
+
+            <Button
+                android:id="@+id/btnShareReport"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/share_report_button"
+                android:textSize="11sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#B71C1C"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:focusable="true"
+                android:textAllCaps="false"
+                android:nextFocusUp="@id/tvStatus"
+                android:nextFocusLeft="@id/btnGenerateReport"
+                android:nextFocusDown="@id/scrollReport" />
         </LinearLayout>
 
-        <!-- Espace flexible -->
-        <View
+        <!-- Zone resultats (scrollable) -->
+        <ScrollView
+            android:id="@+id/scrollReport"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <!-- Bouton Partager IPs -->
-        <Button
-            android:id="@+id/btnShareIp"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/share_ip_button"
-            android:textSize="11sp"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#37474F"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:fillViewport="true"
+            android:background="#121212"
             android:foreground="@drawable/btn_focus_foreground"
             android:focusable="true"
-            android:clickable="true"
-            android:textAllCaps="false"
-            android:nextFocusUp="@id/tvStatus" />
+            android:nextFocusUp="@id/btnGenerateReport">
+
+            <TextView
+                android:id="@+id/tvReportContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_report_yet"
+                android:textSize="11sp"
+                android:textColor="#AAAAAA"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="2dp"
+                android:padding="6dp" />
+        </ScrollView>
     </LinearLayout>
 
 </LinearLayout>

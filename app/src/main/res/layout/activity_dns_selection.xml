@@ -21,7 +21,7 @@
             android:textColor="#FFFFFF"
             android:background="@drawable/focusable_item_background"
             android:focusable="true"
-            android:nextFocusDown="@id/btnAddProfile" />
+            android:nextFocusDown="@id/btnSpeedtest" />
 
         <TextView
             android:layout_width="match_parent"
@@ -53,29 +53,31 @@
         android:layout_marginBottom="12dp">
 
         <Button
+            android:id="@+id/btnSpeedtest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dns_speedtest_button"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1565C0"
+            android:foreground="@drawable/btn_focus_foreground"
+            android:focusable="true"
+            android:layout_marginEnd="8dp"
+            android:nextFocusRight="@id/btnAddProfile"
+            android:nextFocusUp="@id/btnBack"
+            android:nextFocusDown="@id/rvDnsList" />
+
+        <Button
             android:id="@+id/btnAddProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/add_new_profile"
             android:textColor="#FFFFFF"
-            android:background="@drawable/focusable_item_background"
-            android:focusable="true"
-            android:layout_marginEnd="8dp"
-            android:nextFocusUp="@id/btnBack"
-            android:nextFocusDown="@id/rvDnsList"
-            android:nextFocusRight="@id/btnSpeedtest" />
-
-        <Button
-            android:id="@+id/btnSpeedtest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dns_speedtest_button"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#1565C0"
+            android:backgroundTint="#4CAF50"
             android:foreground="@drawable/btn_focus_foreground"
             android:focusable="true"
-            android:nextFocusLeft="@id/btnAddProfile"
+            android:nextFocusLeft="@id/btnSpeedtest"
             android:nextFocusUp="@id/btnBack"
             android:nextFocusDown="@id/rvDnsList" />
     </LinearLayout>

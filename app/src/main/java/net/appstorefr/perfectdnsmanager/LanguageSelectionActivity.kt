@@ -42,6 +42,10 @@ class LanguageSelectionActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnRussian).setOnClickListener { saveLanguageAndStart("ru") }
         findViewById<Button>(R.id.btnChinese).setOnClickListener { saveLanguageAndStart("zh") }
         findViewById<Button>(R.id.btnArabic).setOnClickListener { saveLanguageAndStart("ar") }
+        findViewById<Button>(R.id.btnHindi).setOnClickListener { saveLanguageAndStart("hi") }
+        findViewById<Button>(R.id.btnBengali).setOnClickListener { saveLanguageAndStart("bn") }
+        findViewById<Button>(R.id.btnJapanese).setOnClickListener { saveLanguageAndStart("ja") }
+        findViewById<Button>(R.id.btnDeutsch).setOnClickListener { saveLanguageAndStart("de") }
     }
 
     private fun saveLanguageAndStart(langCode: String) {

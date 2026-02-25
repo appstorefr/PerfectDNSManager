@@ -26,7 +26,29 @@ class ProfileManager(private val context: Context) {
             return defaults
         }
         val type = object : TypeToken<List<DnsProfile>>() {}.type
-        return gson.fromJson<List<DnsProfile>>(json, type) ?: DnsProfile.getDefaultPresets()
+        val saved = gson.fromJson<List<DnsProfile>>(json, type) ?: return DnsProfile.getDefaultPresets()
+
+        // Auto-sync presets : mettre à jour les existants + injecter les manquants
+        val defaults = DnsProfile.getDefaultPresets()
+        val defaultsById = defaults.associateBy { it.id }
+        val savedIds = saved.map { it.id }.toSet()
+
+        // Mettre à jour les presets non-custom existants avec les valeurs actuelles
+        val updated = saved.map { profile ->
+            if (!profile.isCustom && profile.id in defaultsById) {
+                defaultsById[profile.id]!!
+            } else {
+                profile
+            }
+        }
+        // Ajouter les presets manquants
+        val missing = defaults.filter { it.id !in savedIds }
+        val merged = updated + missing
+
+        if (merged != saved) {
+            saveProfiles(merged)
+        }
+        return merged
     }
 
     fun addProfile(profile: DnsProfile) {
@@ -46,15 +68,6 @@ class ProfileManager(private val context: Context) {
         val index = all.indexOfFirst { it.id == updated.id }
         if (index >= 0) {
             all[index] = updated
-            saveProfiles(all)
-        }
-    }
-
-    fun toggleFavorite(profileId: Long) {
-        val all = loadProfiles().toMutableList()
-        val index = all.indexOfFirst { it.id == profileId }
-        if (index >= 0) {
-            all[index] = all[index].copy(isFavorite = !all[index].isFavorite)
             saveProfiles(all)
         }
     }

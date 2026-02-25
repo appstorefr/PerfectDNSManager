@@ -49,6 +49,7 @@ class DnsVpnService : VpnService() {
     private val tunOutLock = Any()
 
     private var dnsSocket: DatagramSocket? = null
+    private var doqClient: DoQClient? = null
     private val upstreamMap = ConcurrentHashMap<String, String>()
 
     /** OkHttpClient with protected sockets (bypass VPN) and custom DNS resolver */
@@ -99,6 +100,14 @@ class DnsVpnService : VpnService() {
         private const val NOTIF_ID = 1001
         private const val T = "DnsVPN"
         @Volatile var isVpnRunning = false; private set
+
+        /** Instance statique pour accéder à protect() depuis l'extérieur */
+        @Volatile var instance: DnsVpnService? = null; private set
+
+        /** Protège un DatagramSocket pour qu'il bypass le VPN tunnel */
+        fun protectSocket(socket: java.net.DatagramSocket): Boolean {
+            return instance?.protect(socket) ?: false
+        }
 
         /** Map of IP-based DoH endpoints to their correct TLS/SNI hostname */
         private val DOH_SNI_MAP = mapOf(
@@ -174,6 +183,7 @@ class DnsVpnService : VpnService() {
     }
 
     private fun isDoH(s: String) = s.startsWith("https://")
+    private fun isDoQ(s: String) = s.startsWith("quic://")
 
     private fun startVpn() {
         try {
@@ -189,17 +199,44 @@ class DnsVpnService : VpnService() {
                 .addAddress("192.168.50.1", 24)
                 .setBlocking(true)
 
+            val disableIpv6 = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                .getBoolean("disable_ipv6", false)
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder.allowBypass()
                 try { builder.allowFamily(OsConstants.AF_INET) } catch (_: Exception) {}
+                // Pour bloquer IPv6, il faut aussi capturer la famille AF_INET6
+                if (disableIpv6) {
+                    try { builder.allowFamily(OsConstants.AF_INET6) } catch (_: Exception) {}
+                }
+
+                // Split tunneling : exclure certaines apps du VPN
+                val excludedAppsJson = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                    .getString("excluded_apps_json", null)
+                if (!excludedAppsJson.isNullOrEmpty()) {
+                    try {
+                        val arr = org.json.JSONArray(excludedAppsJson)
+                        for (i in 0 until arr.length()) {
+                            val pkg = arr.getString(i)
+                            try {
+                                builder.addDisallowedApplication(pkg)
+                                Log.i(T, "Split tunnel: excluded $pkg")
+                            } catch (e: Exception) {
+                                Log.w(T, "Split tunnel: cannot exclude $pkg: ${e.message}")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.w(T, "Split tunnel parse error: ${e.message}")
+                    }
+                }
             }
 
-            // IPv6 disable
-            if (getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("disable_ipv6", false)) {
+            // IPv6 disable : capturer tout le trafic IPv6 dans le VPN (qui ne le transmet pas)
+            if (disableIpv6) {
                 try {
                     builder.addAddress("fdfe:dcba:9876::1", 126)
                     builder.addRoute("::", 0)
-                    Log.i(T, "IPv6 DISABLED")
+                    Log.i(T, "IPv6 DISABLED (route ::/0 + AF_INET6)")
                 } catch (e: Exception) { Log.w(T, "IPv6 block err: ${e.message}") }
             }
 
@@ -228,8 +265,9 @@ class DnsVpnService : VpnService() {
                 return
             }
             dnsSocket = DatagramSocket().also { protect(it) }
+            doqClient = DoQClient(this)
             tunOut = FileOutputStream(vpnInterface!!.fileDescriptor)
-            isRunning = true; isVpnRunning = true
+            isRunning = true; isVpnRunning = true; instance = this
 
             tunReaderThread = Thread({
                 val input = FileInputStream(vpnInterface!!.fileDescriptor)
@@ -313,6 +351,15 @@ class DnsVpnService : VpnService() {
             val q = query
             Thread {
                 val resp = doH(q, real)
+                if (resp != null) {
+                    val p = pending.remove(id)
+                    if (p != null) writeTun(p, resp)
+                }
+            }.start()
+        } else if (isDoQ(real)) {
+            val q = query
+            Thread {
+                val resp = doqClient?.query(q, real)
                 if (resp != null) {
                     val p = pending.remove(id)
                     if (p != null) writeTun(p, resp)
@@ -620,11 +667,12 @@ class DnsVpnService : VpnService() {
     private fun stopVpn() {
         if (!isRunning) return
         Log.i(T, "=== STOP VPN v34 ===")
-        isRunning = false; isVpnRunning = false
+        isRunning = false; isVpnRunning = false; instance = null
         tunReaderThread?.interrupt(); dnsReceiverThread?.interrupt()
         try { tunReaderThread?.join(1000) } catch (_: InterruptedException) {}
         try { dnsReceiverThread?.join(1000) } catch (_: InterruptedException) {}
         pending.clear(); rewriteRules = emptyList()
+        try { doqClient?.closeAll() } catch (_: Exception) {}; doqClient = null
         try { dnsSocket?.close() } catch (_: Exception) {}
         synchronized(tunOutLock) { try { tunOut?.close() } catch (_: Exception) {} }
         try { vpnInterface?.close() } catch (_: Exception) {}

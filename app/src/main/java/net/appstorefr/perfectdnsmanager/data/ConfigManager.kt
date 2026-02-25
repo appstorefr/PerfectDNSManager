@@ -16,7 +16,6 @@ class ConfigManager(private val context: Context) {
 
     data class ImportResult(
         val profileCount: Int,
-        val favoriteCount: Int,
         val rewriteRuleCount: Int,
         val nextDnsProfileCount: Int,
         val hasDefaultProfile: Boolean,
@@ -29,7 +28,6 @@ class ConfigManager(private val context: Context) {
 
     fun exportConfigSelective(
         includeProfiles: Boolean = true,
-        includeFavorites: Boolean = true,
         includeDefaultProfile: Boolean = true,
         includeNextDnsProfiles: Boolean = true,
         includeRewriteRules: Boolean = true,
@@ -45,11 +43,6 @@ class ConfigManager(private val context: Context) {
 
         if (includeProfiles) {
             root.add("profiles", gson.toJsonTree(profiles))
-        }
-
-        if (includeFavorites) {
-            val favoriteIds = profiles.filter { it.isFavorite }.map { it.id }
-            root.add("favorites", gson.toJsonTree(favoriteIds))
         }
 
         val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
@@ -85,7 +78,20 @@ class ConfigManager(private val context: Context) {
             settings.addProperty("adb_dot_enabled", prefs.getBoolean("adb_dot_enabled", false))
             settings.addProperty("operator_dns_enabled", prefs.getBoolean("operator_dns_enabled", false))
             settings.addProperty("advanced_features_enabled", prefs.getBoolean("advanced_features_enabled", false))
+            settings.addProperty("show_doq_dns", prefs.getBoolean("show_doq_dns", false))
             root.add("settings", settings)
+        }
+
+        // Test domains
+        val testDomainsJson = prefs.getString("test_domains_json", null)
+        if (testDomainsJson != null) {
+            root.add("testDomains", JsonParser.parseString(testDomainsJson))
+        }
+
+        // Excluded apps (split tunneling)
+        val excludedAppsJson = prefs.getString("excluded_apps_json", null)
+        if (excludedAppsJson != null) {
+            root.add("excludedApps", JsonParser.parseString(excludedAppsJson))
         }
 
         return gson.newBuilder().setPrettyPrinting().create().toJson(root)
@@ -102,10 +108,6 @@ class ConfigManager(private val context: Context) {
         val profileManager = ProfileManager(context)
         val profiles = profileManager.loadProfiles()
         root.add("profiles", gson.toJsonTree(profiles))
-
-        // Favorites: list of profile IDs where isFavorite == true
-        val favoriteIds = profiles.filter { it.isFavorite }.map { it.id }
-        root.add("favorites", gson.toJsonTree(favoriteIds))
 
         // Default and selected profile from SharedPrefs "prefs"
         val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
@@ -143,6 +145,18 @@ class ConfigManager(private val context: Context) {
         settings.addProperty("advanced_features_enabled", prefs.getBoolean("advanced_features_enabled", false))
         root.add("settings", settings)
 
+        // Test domains
+        val testDomainsJson = prefs.getString("test_domains_json", null)
+        if (testDomainsJson != null) {
+            root.add("testDomains", JsonParser.parseString(testDomainsJson))
+        }
+
+        // Excluded apps (split tunneling)
+        val excludedAppsJson = prefs.getString("excluded_apps_json", null)
+        if (excludedAppsJson != null) {
+            root.add("excludedApps", JsonParser.parseString(excludedAppsJson))
+        }
+
         return gson.newBuilder().setPrettyPrinting().create().toJson(root)
     }
 
@@ -155,28 +169,14 @@ class ConfigManager(private val context: Context) {
 
         // ── Profiles ──
         var profileCount = 0
-        var favoriteCount = 0
         if (root.has("profiles") && !root.get("profiles").isJsonNull) {
             val profileType = object : TypeToken<List<DnsProfile>>() {}.type
             val profiles: List<DnsProfile> = gson.fromJson(root.get("profiles"), profileType)
             profileCount = profiles.size
 
-            // Restore favorites: if the export includes a favorites list, apply it
-            val restoredProfiles = if (root.has("favorites") && !root.get("favorites").isJsonNull) {
-                val favType = object : TypeToken<List<Long>>() {}.type
-                val favoriteIds: List<Long> = gson.fromJson(root.get("favorites"), favType)
-                favoriteCount = favoriteIds.size
-                profiles.map { profile ->
-                    profile.copy(isFavorite = profile.id in favoriteIds)
-                }
-            } else {
-                favoriteCount = profiles.count { it.isFavorite }
-                profiles
-            }
-
             // Save via ProfileManager (SharedPrefs "dns_profiles_v2", key "profiles")
             val profileManager = ProfileManager(context)
-            profileManager.saveProfiles(restoredProfiles)
+            profileManager.saveProfiles(profiles)
         }
 
         // ── Default profile ──
@@ -222,6 +222,16 @@ class ConfigManager(private val context: Context) {
             nextDnsPrefs.edit().putStringSet("profile_ids", ids.toSet()).apply()
         }
 
+        // ── Test domains ──
+        if (root.has("testDomains") && !root.get("testDomains").isJsonNull) {
+            prefs.edit().putString("test_domains_json", root.get("testDomains").toString()).apply()
+        }
+
+        // ── Excluded apps (split tunneling) ──
+        if (root.has("excludedApps") && !root.get("excludedApps").isJsonNull) {
+            prefs.edit().putString("excluded_apps_json", root.get("excludedApps").toString()).apply()
+        }
+
         // ── Settings ──
         var settingsRestored = false
         if (importSettings && root.has("settings") && !root.get("settings").isJsonNull) {
@@ -246,6 +256,9 @@ class ConfigManager(private val context: Context) {
             if (settings.has("advanced_features_enabled")) {
                 editor.putBoolean("advanced_features_enabled", settings.get("advanced_features_enabled").asBoolean)
             }
+            if (settings.has("show_doq_dns")) {
+                editor.putBoolean("show_doq_dns", settings.get("show_doq_dns").asBoolean)
+            }
 
             editor.apply()
             settingsRestored = true
@@ -253,7 +266,6 @@ class ConfigManager(private val context: Context) {
 
         return ImportResult(
             profileCount = profileCount,
-            favoriteCount = favoriteCount,
             rewriteRuleCount = rewriteRuleCount,
             nextDnsProfileCount = nextDnsProfileCount,
             hasDefaultProfile = hasDefaultProfile,
@@ -295,11 +307,6 @@ class ConfigManager(private val context: Context) {
                 sb.appendLine("Profiles: 0")
             }
 
-            // Favorites
-            if (root.has("favorites") && !root.get("favorites").isJsonNull) {
-                sb.appendLine("Favorites: ${root.getAsJsonArray("favorites").size()}")
-            }
-
             // Default profile
             if (root.has("defaultProfile") && !root.get("defaultProfile").isJsonNull) {
                 try {
@@ -337,6 +344,27 @@ class ConfigManager(private val context: Context) {
                     sb.appendLine("NextDNS profiles: ${ids.joinToString(", ")}")
                 } else {
                     sb.appendLine("NextDNS profiles: none")
+                }
+            }
+
+            // Test domains
+            if (root.has("testDomains") && !root.get("testDomains").isJsonNull) {
+                val domainsArray = root.getAsJsonArray("testDomains")
+                val enabledCount = domainsArray.count { element ->
+                    try {
+                        element.asJsonObject.get("enabled")?.asBoolean == true
+                    } catch (_: Exception) {
+                        false
+                    }
+                }
+                sb.appendLine("Test domains: ${domainsArray.size()} ($enabledCount enabled)")
+            }
+
+            // Excluded apps (split tunneling)
+            if (root.has("excludedApps") && !root.get("excludedApps").isJsonNull) {
+                val appsArray = root.getAsJsonArray("excludedApps")
+                if (appsArray.size() > 0) {
+                    sb.appendLine("Excluded apps (split tunnel): ${appsArray.size()}")
                 }
             }
 

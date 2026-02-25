@@ -280,6 +280,7 @@
     <a href="hi.html"><span class="flag">&#x1F1EE;&#x1F1F3;</span> HI</a>
     <a href="bn.html"><span class="flag">&#x1F1E7;&#x1F1E9;</span> BN</a>
     <a href="ja.html"><span class="flag">&#x1F1EF;&#x1F1F5;</span> JA</a>
+    <a href="de.html"><span class="flag">&#x1F1E9;&#x1F1EA;</span> DE</a>
 </div>
 
 <!-- Hero -->
@@ -289,7 +290,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">Change your DNS in one click. Privacy, performance, freedom.</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.52 &mdash; Build 52</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.67 &mdash; Build 67</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         &#x2B07;&#xFE0F; Download APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -379,12 +380,17 @@
             <div class="feature-card">
                 <div class="icon">&#x1F30D;</div>
                 <h3>Multilingual</h3>
-                <p>Interface available in 11 languages: French, English, Spanish, Italian, Portuguese, Russian, Chinese, Arabic, Hindi, Bengali and Japanese.</p>
+                <p>Interface available in 12 languages: French, English, Spanish, Italian, Portuguese, Russian, Chinese, Arabic, Hindi, Bengali, Japanese and German.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F504;</div>
                 <h3>Auto-update</h3>
                 <p>Automatic update check on launch. In-app download and installation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F6E1;</div>
+                <h3>Split Tunneling</h3>
+                <p>Exclude specific apps from the DNS VPN. Useful for incompatible applications.</p>
             </div>
         </div>
     </div>
@@ -405,6 +411,7 @@
             <span class="badge">NextDNS</span>
             <span class="badge">Quad9</span>
             <span class="badge">Surfshark</span>
+            <span class="badge">FDN</span>
             <span class="badge">Yandex</span>
             <span class="badge">+ custom profiles</span>
         </div>
@@ -415,6 +422,32 @@
 <section id="changelog">
     <div class="container">
         <h2>Latest Updates</h2>
+<div class="changelog-item">            <span class="ver">v1.0.67</span>            <span class="date">February 2026</span>            <ul>                <li>Redesigned DNS provider detail page: expandable categories by type (DoQ/DoH/DoT/Standard)</li>                <li>Add custom NextDNS profiles from detail page</li>                <li>Dedicated crypto support page</li>                <li>DNS speedtest UI fixes (focus, selectable zones)</li>                <li>GPL v3 license added to homepage</li>                <li>Code cleanup and dead code removal</li>                <li style="color: #FF9800;">Known bug: some minor UI glitches</li>            </ul>        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.57</span>
+            <span class="date">February 2026</span>
+            <ul>
+                <li>New DNS provider: FDN (French Data Network, DoH + DoT)</li>
+                <li>Split tunneling: per-app VPN bypass</li>
+                <li>Added DNS over QUIC (DoQ) for ControlD, NextDNS, AdGuard, Surfshark, Mullvad</li>
+                <li>Improved DNS speedtest: DoQ, DoT, operator DNS support</li>
+                <li>URL blocking test fixed (Google DoH API)</li>
+                <li>Enhanced report with app version</li>
+                <li>Many stability fixes</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.55</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 7.1 MB</span>
+            <ul>
+                <li>New language: German (12 languages total)</li>
+                <li>VPN stability improvements and bug fixes</li>
+                <li>GitHub page updated for all languages</li>
+            </ul>
+        </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.52</span>
@@ -550,79 +583,12 @@
 
 <!-- Support -->
 <section id="support">
-    <div class="container">
-        <h2>&#x2764;&#xFE0F; Support Me</h2>
+    <div class="container" style="text-align: center;">
+        <h2>&#x2764;&#xFE0F; Support me</h2>
         <p style="color: var(--text-dim); margin-bottom: 24px;">
-            Do you like the app? Has it helped you? Feel free to make a small contribution!<br>
-            Click on an address to copy it.
+            Enjoy the app? Support the project!
         </p>
-
-        <div class="crypto-grid">
-            <div class="crypto-card" onclick="copyAddr('bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz')">
-                <h3 style="color: #F7931A;">&#x20BF; Bitcoin (BTC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz" alt="BTC QR">
-                </div>
-                <div class="addr">bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('0x71528115FA8aee4D9420F6caDEBfD0C043a316f7')">
-                <h3 style="color: #627EEA;">&#x2B21; EVM (ETH / BNB / USDT / USDC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x71528115FA8aee4D9420F6caDEBfD0C043a316f7" alt="EVM QR">
-                </div>
-                <div class="addr">0x71528115FA8aee4D9420F6caDEBfD0C043a316f7</div>
-                <div class="networks">Base &middot; Polygon &middot; Ethereum &middot; BNB &middot; Gnosis</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu')">
-                <h3 style="color: #FF4444;">&#x26A1; TRON (USDT / USDC / TRX)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu" alt="TRON QR">
-                </div>
-                <div class="addr">TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_')">
-                <h3 style="color: #0088CC;">&#x1F48E; TON (USDT / TON)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_" alt="TON QR">
-                </div>
-                <div class="addr">UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y')">
-                <h3 style="color: #9945FF;">&#x25CE; Solana (USDT / USDC / SOL)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y" alt="SOL QR">
-                </div>
-                <div class="addr">34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr')">
-                <h3 style="color: #BFBBBB;">&#x141; Litecoin (LTC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr" alt="LTC QR">
-                </div>
-                <div class="addr">ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g')">
-                <h3 style="color: #F4B728;">&#x1F6E1; Zcash (ZEC)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g" alt="ZEC QR">
-                </div>
-                <div class="addr">t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g</div>
-            </div>
-
-            <div class="crypto-card" onclick="copyAddr('rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM')">
-                <h3 style="color: #00AAE4;">&#x2715; XRP (XRP / RLUSD)</h3>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM" alt="XRP QR">
-                </div>
-                <div class="addr">rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM</div>
-            </div>
-        </div>
+        <a href="support.html" style="display: inline-block; background: var(--accent); color: #000; padding: 14px 36px; border-radius: 8px; font-size: 1.1em; font-weight: 600; text-decoration: none; transition: transform 0.15s; box-shadow: 0 4px 15px rgba(255,215,0,0.3);">&#x1F4B0; Support me (Crypto)</a>
     </div>
 </section>
 
@@ -635,25 +601,20 @@
     </p>
 </section>
 
+<section class="card" style="border-left: 3px solid #4CAF50; margin-top: 24px;">
+    <h2 style="color: #4CAF50;">&#x1F513; GPL v3 License</h2>
+    <p style="font-style: italic; color: #81C784;">This application is free. Nothing can prohibit a free application.</p>
+    <p>The source code is open &mdash; any redistribution must remain open source.</p>
+    <p><a href="https://github.com/appstorefr/PerfectDNSManager" style="color: #4CAF50;">&#x1F4E6; Source code on GitHub</a></p>
+</section>
+
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR &mdash; Made with &#x2764;&#xFE0F; for the community</p>
     <p style="margin-top: 6px;">AI: Claude Opus 4.6 (Anthropic)</p>
 </footer>
 
-<!-- Copy toast -->
-<div class="copy-toast" id="copyToast">Address copied!</div>
 
-<script>
-function copyAddr(addr) {
-    navigator.clipboard.writeText(addr).then(() => {
-        const toast = document.getElementById('copyToast');
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-    });
-}
-
-</script>
 
 <script>
 fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')

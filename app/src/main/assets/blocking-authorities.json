@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "authorities": [
+    {"ip": "127.0.0.1", "type": "ISP", "label": "Blocage FAI (Fournisseur d'accès)", "country": "ALL"},
+    {"ip": "0.0.0.0", "type": "ISP", "label": "Blocage FAI (Fournisseur d'accès)", "country": "ALL"},
+    {"ip": "::1", "type": "ISP", "label": "Blocage FAI (Fournisseur d'accès)", "country": "ALL"},
+    {"ip": "::0", "type": "ISP", "label": "Blocage FAI (Fournisseur d'accès)", "country": "ALL"},
+    {"ip": "90.85.16.52", "type": "ISP", "label": "Blocage FAI Orange/SFR", "country": "FR"},
+    {"ip": "194.6.135.126", "type": "ISP", "label": "Blocage FAI (redirection)", "country": "FR"},
+    {"ip": "54.246.190.12", "type": "ARCOM", "label": "Blocage ARCOM (Autorité française)", "country": "FR"}
+  ]
+}

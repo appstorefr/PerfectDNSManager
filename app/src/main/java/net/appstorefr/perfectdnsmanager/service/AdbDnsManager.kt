@@ -1,6 +1,7 @@
 package net.appstorefr.perfectdnsmanager.service
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.provider.Settings
 import android.util.Log
 import net.appstorefr.perfectdnsmanager.adblib.AndroidBase64
@@ -12,7 +13,6 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
 class AdbDnsManager(private val context: Context) {
@@ -122,6 +122,137 @@ class AdbDnsManager(private val context: Context) {
         Log.i(TAG, "Clés ADB et permission réinitialisées")
     }
 
+    // ─── Vérification permission ─────────────────────────────────────────────
+
+    /** Vérifie si WRITE_SECURE_SETTINGS est déjà accordée (sans réseau) */
+    fun isPermissionGranted(): Boolean {
+        return try {
+            val result = context.checkCallingOrSelfPermission("android.permission.WRITE_SECURE_SETTINGS")
+            result == PackageManager.PERMISSION_GRANTED
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    // ─── Self-grant ADB (API publique pour UI) ──────────────────────────────
+
+    interface SelfGrantCallback {
+        fun onProgress(step: String)
+        fun onSuccess()
+        fun onError(error: String)
+    }
+
+    /**
+     * Tente de se connecter en ADB localhost et de s'auto-accorder WRITE_SECURE_SETTINGS.
+     * Appeler depuis un Thread dédié (cette méthode est bloquante).
+     * @param callback callback sur le thread appelant (NON sur le UI thread)
+     */
+    fun selfGrantPermission(callback: SelfGrantCallback) {
+        Log.i(TAG, "=== SELF-GRANT PERMISSION ===")
+
+        // Déjà accordée ?
+        if (isPermissionGranted()) {
+            callback.onSuccess()
+            return
+        }
+
+        callback.onProgress("crypto")
+
+        val crypto = readOrCreateCrypto()
+        if (crypto == null) {
+            callback.onError("Impossible de créer les clés ADB")
+            return
+        }
+
+        callback.onProgress("connecting")
+
+        val prefs = context.getSharedPreferences("adb_prefs", Context.MODE_PRIVATE)
+        val lastPort = prefs.getInt(PREF_LAST_ADB_PORT, 5555)
+        val portsToTry = listOf(lastPort) + ADB_PORTS.filter { it != lastPort }
+
+        var socket: Socket? = null
+        var connection: AdbConnection? = null
+
+        try {
+            var connected = false
+            for (port in portsToTry) {
+                try {
+                    Log.i(TAG, "Self-grant: tentative $ADB_HOST:$port...")
+                    callback.onProgress("port:$port")
+                    socket = Socket()
+                    socket.soTimeout = CONN_TIMEOUT
+                    socket.connect(InetSocketAddress(ADB_HOST, port), CONN_TIMEOUT)
+
+                    connection = AdbConnection.create(socket, crypto)
+                    connection.connect()
+                    Log.i(TAG, "Self-grant: connecté sur port $port")
+                    prefs.edit().putInt(PREF_LAST_ADB_PORT, port).apply()
+                    connected = true
+                    break
+                } catch (e: Exception) {
+                    Log.w(TAG, "Self-grant port $port: ${e.message}")
+                    try { socket?.close() } catch (_: Exception) {}
+                    socket = null
+                    connection = null
+                }
+            }
+
+            if (!connected || connection == null) {
+                callback.onError("ADB_NOT_REACHABLE")
+                return
+            }
+
+            callback.onProgress("granting")
+
+            // Exécuter pm grant
+            val grantResult = execShellCommand(
+                connection,
+                "pm grant ${context.packageName} android.permission.WRITE_SECURE_SETTINGS"
+            )
+            Log.i(TAG, "Self-grant result: '$grantResult'")
+
+            if (grantResult.contains("Exception", ignoreCase = true) ||
+                grantResult.contains("error", ignoreCase = true) ||
+                grantResult.contains("denied", ignoreCase = true)) {
+                callback.onError("GRANT_FAILED:$grantResult")
+                return
+            }
+
+            // Vérifier que la permission est bien accordée
+            Thread.sleep(500)
+            if (isPermissionGranted()) {
+                prefs.edit().putBoolean(PREF_PERMISSION_GRANTED, true).apply()
+                Log.i(TAG, "Self-grant: permission accordée avec succès !")
+                callback.onSuccess()
+            } else {
+                // La commande n'a pas retourné d'erreur mais la permission n'est pas là
+                // Essayer une seconde fois
+                Log.w(TAG, "Self-grant: pm grant OK mais permission pas encore effective, retry...")
+                val retryResult = execShellCommand(
+                    connection,
+                    "pm grant ${context.packageName} android.permission.WRITE_SECURE_SETTINGS"
+                )
+                Thread.sleep(500)
+                if (isPermissionGranted()) {
+                    prefs.edit().putBoolean(PREF_PERMISSION_GRANTED, true).apply()
+                    callback.onSuccess()
+                } else {
+                    callback.onError("GRANT_NOT_EFFECTIVE")
+                }
+            }
+
+        } catch (e: IOException) {
+            Log.e(TAG, "Self-grant IOException: ${e.message}")
+            callback.onError("IO:${e.message}")
+        } catch (e: Exception) {
+            Log.e(TAG, "Self-grant error: ${e.message}")
+            callback.onError("${e.javaClass.simpleName}:${e.message}")
+        } finally {
+            try { connection?.close() } catch (_: Exception) {}
+            try { socket?.close() } catch (_: Exception) {}
+        }
+    }
+
     // ─── Méthode 1 : Settings.Global ─────────────────────────────────────────
 
     private fun trySettingsEnable(hostname: String): Boolean {
@@ -187,11 +318,12 @@ class AdbDnsManager(private val context: Context) {
                     try {
                         Log.i(TAG, "Tentative ADB $ADB_HOST:$port (timeout ${CONN_TIMEOUT}ms)...")
                         socket = Socket()
+                        socket.soTimeout = CONN_TIMEOUT
                         socket.connect(InetSocketAddress(ADB_HOST, port), CONN_TIMEOUT)
 
                         connection = AdbConnection.create(socket, crypto)
                         connection.connect()
-                        Log.i(TAG, "✓ Connexion ADB établie sur port $port !")
+                        Log.i(TAG, "Connexion ADB établie sur port $port")
                         prefs.edit().putInt(PREF_LAST_ADB_PORT, port).apply()
                         connected = true
                         break
@@ -243,7 +375,7 @@ class AdbDnsManager(private val context: Context) {
                         if (hostname.isNotEmpty()) trySettingsEnable(hostname) else false
                     }
                     if (apiOk) {
-                        Log.i(TAG, "✓ Settings API réussie après grant !"  )
+                        Log.i(TAG, "Settings API réussie après grant")
                         success = true
                         return@Thread
                     }
@@ -258,7 +390,7 @@ class AdbDnsManager(private val context: Context) {
                 }
                 success = true
                 lastError = ""
-                Log.i(TAG, "✓ Commandes ADB envoyées avec succès")
+                Log.i(TAG, "Commandes ADB envoyées avec succès")
 
             } catch (e: IOException) {
                 lastError = "Erreur connexion ADB: ${e.message}"
@@ -318,7 +450,7 @@ class AdbDnsManager(private val context: Context) {
                 Log.i(TAG, "Génération nouvelle paire de clés ADB...")
                 val crypto = AdbCrypto.generateAdbKeyPair(AndroidBase64())
                 crypto.saveAdbKeyPair(privFile, pubFile)
-                Log.i(TAG, "✓ Clés ADB générées et sauvegardées")
+                Log.i(TAG, "Clés ADB générées et sauvegardées")
                 crypto
             }
         } catch (e: Exception) {

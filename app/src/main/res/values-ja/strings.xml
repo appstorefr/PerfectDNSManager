@@ -35,10 +35,10 @@
     <string name="wan_ip_loading">読み込み中…</string>
     <string name="wan_ip_error">利用不可</string>
     <string name="wan_ipv6_blocked">ブロック済み ✓</string>
-    <string name="share_ip_button">📤 tmpfiles.org で IP を共有</string>
+    <string name="share_ip_button">📤 レポートを共有</string>
     <string name="share_ip_uploading">IP をアップロード中…</string>
     <string name="share_ip_success_title">IP を共有しました</string>
-    <string name="share_ip_success_message">tmpfiles 番号: %1$s\n\n番号はクリップボードにコピーされました。\n\nURL: %2$s\n（60分で期限切れ）</string>
+    <string name="share_ip_success_message">コード: %1$s\n\nコードはクリップボードにコピーされました。\n\nリンク: %2$s\n（AES-256 暗号化ファイル）</string>
     <string name="share_ip_error">IP の共有中にエラーが発生しました</string>
 
     <!-- Navigation -->
@@ -53,14 +53,14 @@
     <string name="adb_status_inactive">🔴 ADB デバッグ：無効</string>
     <string name="advanced_features_title">⚙️ 高度な機能</string>
     <string name="advanced_features_desc">以下の機能を有効にします：ADB 経由の DNS DoT、URL リライト、キャリア DNS。</string>
-    <string name="url_rewrite_warning">⚠️ URL リライトは DNS DoH または Standard モードでのみ動作します（DoT/ADB では動作しません）</string>
+    <string name="url_rewrite_warning">URL リライトは DNS DoH または Standard モードでのみ動作します（DoT/ADB では動作しません）</string>
     <string name="url_rewrite_button">🔀 URL リライト</string>
     <string name="restore_dns_button">🔄 初期 DNS を復元</string>
-    <string name="show_operator_dns">🇫🇷 フランスのキャリア DNS を表示（Orange/Bouygues/SFR/Free）</string>
-    <string name="show_standard_dns">📋 クラシック DNS（Standard）を表示</string>
+    <string name="show_operator_dns">🇫🇷 フランスのキャリア DNS を表示（Orange/Bouygues/SFR/Free/OVH）</string>
+    <string name="show_standard_dns">📋 クラシック DNS（暗号化なし）を表示</string>
     <string name="show_profile_variants">📋 DNS プロバイダーの各種プロファイルを表示（unfiltered、noads、kids など）</string>
     <string name="dns_dot_adb">📡 ADB 経由の DNS DoT</string>
-    <string name="adb_warning">⚠️ ADB メソッドはシステム設定を変更します。接続に問題が発生した場合は、このオプションを無効にして VPN メソッドを使用してください。</string>
+    <string name="adb_warning">ADB メソッドはシステム設定を変更します。接続に問題が発生した場合は、このオプションを無効にして VPN メソッドを使用してください。</string>
     <string name="disable_ipv6_label">IPv6 を無効にする / IPv4 を強制</string>
 
     <!-- Auto-start / Auto-reconnect -->
@@ -75,28 +75,32 @@
 
     <!-- Import / Export -->
     <string name="import_export_title">💾 設定ファイル</string>
-    <string name="import_export_desc">完全な設定をバックアップまたは復元します（プロファイル、お気に入り、デフォルト DNS、リライトルール、設定）。</string>
+    <string name="import_export_desc">完全な設定をバックアップまたは復元します（プロファイル、デフォルト DNS、リライトルール、設定）。</string>
     <string name="export_config_button">📤 設定をエクスポート</string>
     <string name="import_config_button">📥 設定をインポート</string>
     <string name="config_exported_title">📤 設定をエクスポートしました</string>
     <string name="config_exported_message">ファイル: %1$s\n\nJSON はクリップボードにもコピーされました。\n\n共有または保存できます。</string>
     <string name="share_button">共有</string>
-    <string name="upload_to_tmpfiles">☁️ tmpfiles.org に送信（60分）</string>
-    <string name="tmpfiles_temporary">tmpfiles.org（60分）</string>
-    <string name="uploading">送信中…</string>
-    <string name="upload_success_title">☁️ ファイルを送信しました！</string>
-    <string name="upload_success_message">URL:\n%1$s\n\nリンクはクリップボードにコピーされました。</string>
-    <string name="upload_success_message_with_number">インポート番号: %1$s\n\n別のデバイスにこの設定をインポートするには、この番号だけを伝えてください。\n\n完全な URL:\n%2$s\n\n番号はクリップボードにコピーされました。</string>
+    <string name="upload_encrypted">🔒 暗号化して送信 (is.gd)</string>
+    <string name="uploading">暗号化して送信中…</string>
+    <string name="upload_success_title">🔒 暗号化ファイルを送信しました！</string>
+    <string name="upload_success_message_with_number">インポートコード: %1$s\n\n別のデバイスにインポートするには、このコードを入力してください。\n\n完全なリンク:\n%2$s\n\nコードはクリップボードにコピーされました。\n\n🔒 AES-256 暗号化 — 鍵はリンクに含まれています。</string>
     <string name="upload_error">送信エラー: %1$s</string>
     <string name="share_config">設定を共有</string>
     <string name="export_error">エクスポートエラー: %1$s</string>
     <string name="import_from_clipboard">📋 クリップボードから貼り付け</string>
     <string name="import_from_url">🌐 URL からインポート</string>
     <string name="import_from_file">📁 ローカルファイルからインポート</string>
-    <string name="import_from_tmpfiles">📦 tmpfiles.org から</string>
-    <string name="import_from_tmpfiles_title">📦 tmpfiles.org からインポート</string>
-    <string name="enter_tmpfiles_number">tmpfiles.org のファイル番号を入力してください：</string>
-    <string name="tmpfiles_number_hint">例: 19637359</string>
+    <string name="import_from_code">🔒 暗号化コードから</string>
+    <string name="import_from_code_title">🔒 暗号化インポート</string>
+    <string name="enter_share_code">is.gd コードを入力してください：</string>
+    <string name="share_code_hint">例: aB3kL9</string>
+    <string name="import_code_explain">ファイルは自動的にダウンロードされ、復号されます。\n\n検証: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="choose_expiration">ファイルの有効期限：</string>
+    <string name="expiration_1h">1 時間</string>
+    <string name="expiration_12h">12 時間</string>
+    <string name="expiration_24h">24 時間</string>
+    <string name="expiration_72h">72 時間（3 日）</string>
     <string name="clipboard_empty">クリップボードが空です</string>
     <string name="enter_config_url">設定 JSON ファイルの URL を入力してください：</string>
     <string name="import_from_url_title">🌐 URL からインポート</string>
@@ -105,14 +109,14 @@
     <string name="no_file_found">ファイルが見つかりません: %1$s</string>
     <string name="read_error">読み取りエラー: %1$s</string>
     <string name="confirm_import_title">📥 インポートの確認</string>
-    <string name="confirm_import_message">設定の内容:\n\n%1$s\n\n⚠️ 現在の設定が上書きされます。</string>
+    <string name="confirm_import_message">設定の内容:\n\n%1$s\n\n現在の設定が上書きされます。</string>
     <string name="import_with_settings">インポート（設定を含む）</string>
     <string name="import_without_settings">インポート（設定を除く）</string>
     <string name="invalid_json">無効な JSON: %1$s</string>
     <string name="import_done_title">インポート完了</string>
     <string name="import_done">✅ インポート完了！</string>
     <string name="import_profiles_count">• %1$d 件の DNS プロファイル</string>
-    <string name="import_favorites_count">• %1$d 件のお気に入り</string>
+
     <string name="import_rewrite_count">• %1$d 件のリライトルール</string>
     <string name="import_nextdns_count">• %1$d 件のカスタム NextDNS プロファイル</string>
     <string name="import_default_restored">• デフォルト DNS を復元しました</string>
@@ -165,6 +169,7 @@
     <string name="lang_hindi">🇮🇳 हिन्दी</string>
     <string name="lang_bengali">🇧🇩 বাংলা</string>
     <string name="lang_japanese">🇯🇵 日本語</string>
+    <string name="lang_deutsch">🇩🇪 Deutsch</string>
 
     <!-- Support -->
     <string name="support_us_button">❤️ 開発者を支援</string>
@@ -221,7 +226,7 @@
     <string name="test_no_connection_msg">何も名前解決できません。\nインターネット接続を確認してください。</string>
     <string name="test_blocked_title">🔒 ドメインがブロックされています</string>
     <string name="test_blocked_msg">%1$s → %2$s\n\nこの IP はブロック用アドレスです。\n%3$s</string>
-    <string name="test_blocked_dns_bad">⚠️ DNS が正常に動作していません。</string>
+    <string name="test_blocked_dns_bad">DNS が正常に動作していません。</string>
     <string name="test_blocked_activate">代替 DNS を有効にして再テストしてください！</string>
     <string name="test_accessible_title">✅ ドメインはアクセス可能</string>
     <string name="test_accessible_msg_active">%1$s → %2$s\n\nDNS は正常に動作しています！</string>
@@ -253,11 +258,6 @@
     <string name="method_doh_vpn_dot_adb">DoH / Standard → VPN   |   DoT → プライベート DNS (ADB)</string>
     <string name="method_vpn_only">VPN 経由の DNS — DoH および Standard</string>
     <string name="long_press_edit">（長押しで編集）</string>
-    <string name="favorites_label">★ お気に入り</string>
-    <string name="removed_from_favorites">お気に入りから削除しました</string>
-    <string name="added_to_favorites">お気に入りに追加しました</string>
-    <string name="remove_from_favorites">★ お気に入りから削除</string>
-    <string name="add_to_favorites">☆ お気に入りに追加</string>
     <string name="remove_default_dns">⭐ デフォルト DNS から削除</string>
     <string name="set_default_dns">⭐ デフォルト DNS に設定</string>
     <string name="default_dns_removed">デフォルト DNS を削除しました</string>
@@ -319,13 +319,36 @@
     <string name="presets_updated_toast">DNS プロファイルをバージョン %1$s に更新しました</string>
 
     <!-- ADB Compatibility -->
-    <string name="adb_requires_android9">⚠️ DoT/ADB メソッドには Android 9（Pie）以上が必要です。お使いのデバイスは対応していません。</string>
+    <string name="adb_requires_android9">DoT/ADB メソッドには Android 9（Pie）以上が必要です。お使いのデバイスは対応していません。</string>
 
     <!-- HowTo Compatibility -->
-    <string name="howto_compat_title">⚠️ Android の互換性</string>
+    <string name="howto_compat_title">Android の互換性</string>
     <string name="howto_compat_desc">プライベート DNS（ADB 経由の DoT）メソッドには Android 9（Pie）以上（API 28+）が必要です。\n\nAndroid 8 以前のデバイスはこのメソッドに対応していません。代わりに VPN（DoH）メソッドを使用してください。</string>
-    <string name="howto_android11_title">⚠️ Android 11 以上 — ワイヤレス ADB</string>
+    <string name="howto_android11_title">Android 11 以上 — ワイヤレス ADB</string>
     <string name="howto_android11_desc">Android 11 以降、ワイヤレス ADB サービスはランダムなポートを使用し、TLS ペアリングが必要です。\n\n最近のスマートフォンでは、ADB ローカル自動接続が機能しない場合があります。これらのデバイスでは VPN メソッドを推奨します。\n\nAndroid TV ボックスでは、ポート 5555 は通常アクセス可能です。</string>
+
+    <!-- Self-grant ADB permission -->
+    <string name="self_grant_section_title">ADB 自動権限</string>
+    <string name="self_grant_section_desc">Fire TV や Android TV では、ローカル ADB 経由で必要な権限を自動的に付与します。先にデバイス設定で ADB デバッグを有効にしてください。</string>
+    <string name="permission_granted">権限付与済み</string>
+    <string name="permission_not_granted">権限未付与</string>
+    <string name="permission_already_granted">付与済み</string>
+    <string name="self_grant_button">自動で権限を付与</string>
+    <string name="self_grant_retry">再試行</string>
+    <string name="self_grant_connecting">接続中…</string>
+    <string name="self_grant_progress">接続中…</string>
+    <string name="self_grant_step_crypto">鍵を準備中…</string>
+    <string name="self_grant_step_connecting">ADB に接続中…</string>
+    <string name="self_grant_step_port">ポート %1$s を試行中…</string>
+    <string name="self_grant_step_granting">権限を付与中…</string>
+    <string name="self_grant_success">権限が正常に付与されました！プライベート DNS は Shizuku なしで動作します。</string>
+    <string name="self_grant_adb_unreachable">ADB に接続できません。ADB デバッグを有効にしてください。</string>
+    <string name="self_grant_failed">権限の付与に失敗しました。</string>
+    <string name="self_grant_not_effective">コマンドは成功しましたが権限が有効になっていません。デバイスを再起動してください。</string>
+    <string name="self_grant_error">エラー: %1$s</string>
+    <string name="self_grant_help_title">ヘルプ — ADB に接続できません</string>
+    <string name="self_grant_help_firetv">Fire TV / Fire Stick の場合:\n\n1. 設定 → マイ Fire TV → 開発者オプション に移動\n2. 「ADB デバッグ」を有効にする\n3. 「不明なソースからのアプリ」を有効にする\n4. ここに戻って「自動で権限を付与」をタップ\n\n開発者メニューが表示されない場合、設定 → マイ Fire TV → バージョン情報 → 「シリアルナンバー」を 7 回タップ。</string>
+    <string name="self_grant_help_phone">Android スマートフォン/タブレットの場合:\n\n1. 設定 → 端末情報 → 「ビルド番号」を 7 回タップ\n2. 開発者オプションで「USB デバッグ」を有効にする\n3. 「ワイヤレスデバッグ」を有効にする（Android 11+）\n4. ここに戻って「自動で権限を付与」をタップ\n\n注: 一部のスマートフォンでは自動権限が機能しない場合があります。Shizuku または PC の ADB を使用してください。</string>
 
     <!-- Shizuku -->
     <string name="shizuku_section_title">Shizuku（Android 11 以上）</string>
@@ -354,7 +377,7 @@
     <!-- Export granulaire -->
     <string name="export_select_title">📤 エクスポートする内容を選択してください</string>
     <string name="export_toggle_profiles">DNS プロファイル</string>
-    <string name="export_toggle_favorites">お気に入り</string>
+
     <string name="export_toggle_default_dns">デフォルト DNS</string>
     <string name="export_toggle_nextdns">カスタム NextDNS プロファイル</string>
     <string name="export_toggle_rewrite">URL リライトルール</string>
@@ -376,4 +399,115 @@
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS リライト（Rewriting）</string>
+    <string name="show_doq_dns">⚡ DNS over QUIC (DoQ) プロファイルを表示</string>
+    <string name="gpl_license_text">このアプリケーションは自由です。自由なアプリケーションを禁止することは何もできません。\nGPL v3 ライセンス — ソースコードは公開されており、再配布はオープンソースのままでなければなりません。\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+
+    <!-- Speedtest Internet -->
+    <string name="speedtest_button">🌐 インターネット速度テスト</string>
+    <string name="speedtest_title">インターネット速度テスト</string>
+    <string name="speedtest_running">速度テスト実行中…</string>
+    <string name="speedtest_result_ping">Ping: %1$d ミリ秒</string>
+    <string name="speedtest_result_download">ダウンロード: %1$s Mbps</string>
+    <string name="speedtest_result_upload">アップロード: %1$s Mbps</string>
+    <string name="speedtest_error">速度テスト失敗</string>
+
+    <!-- DNS Leak Test -->
+    <string name="dns_leak_button">🔒 DNSリークテスト</string>
+    <string name="dns_leak_title">DNSリークテスト</string>
+    <string name="dns_leak_running">DNSリークテスト実行中…</string>
+    <string name="dns_leak_result_title">DNSリーク結果</string>
+    <string name="dns_leak_no_leak">✅ リークなし — DNSは安全です！</string>
+    <string name="dns_leak_resolvers_found">%1$d個のDNSリゾルバが見つかりました：</string>
+    <string name="dns_leak_error">DNSリークテスト失敗</string>
+
+    <!-- Rapport enrichi -->
+    <string name="report_generating">レポート生成中…</string>
+    <string name="report_blocking_test_before">DNS前 (8.8.8.8)</string>
+    <string name="report_blocking_test_after">DNS後（アクティブ）</string>
+
+    <!-- テストツール（統合モジュール） -->
+    <string name="tools_section_label">3| テストツール：</string>
+    <string name="generate_report_button">▶ レポート生成</string>
+    <string name="no_report_yet">レポートが生成されていません。\n上のボタンを押してテストを実行してください。</string>
+    <string name="share_report_button">📤 レポートを共有</string>
+    <string name="share_toggle_network">ネットワーク情報（IP、DNS）</string>
+    <string name="share_toggle_speedtest">インターネット速度テスト</string>
+    <string name="share_toggle_leak">DNS Leak Test</string>
+    <string name="share_toggle_blocking">URLブロッキングテスト</string>
+    <string name="report_progress_ip">⏳ IPを取得中…</string>
+    <string name="report_progress_speedtest">⏳ 速度テスト中…</string>
+    <string name="report_progress_leak">⏳ DNS Leakテスト中…</string>
+    <string name="report_progress_blocking">⏳ ブロッキングテスト中…</string>
+    <string name="report_complete">✅ レポート生成完了</string>
+    <string name="no_report_to_share">先にレポートを生成してください</string>
+    <string name="test_domains_button">テストドメイン</string>
+    <string name="test_domains_add">ドメインを追加</string>
+    <string name="test_domains_empty">ドメインが設定されていません</string>
+
+    <!-- Split tunneling -->
+    <string name="split_tunnel_button">アプリケーションを除外</string>
+    <string name="split_tunnel_title">VPN からアプリケーションを除外</string>
+    <string name="split_tunnel_desc">選択したアプリはDNS VPNを経由しません。VPNが有効な状態で動作しないアプリに便利です。</string>
+    <string name="split_tunnel_no_apps">除外アプリなし</string>
+    <string name="split_tunnel_apps_count">%d 個のアプリを除外</string>
+    <string name="split_tunnel_loading">アプリを読み込み中…</string>
+    <string name="split_tunnel_search">検索…</string>
+    <string name="split_tunnel_save">保存</string>
+    <string name="split_tunnel_saved">除外アプリを更新しました</string>
+    <string name="split_tunnel_restart_vpn">変更を適用するためVPNを再起動します。</string>
+    <string name="vpn_required_for_report">レポートを生成するには、まずVPNを接続してください</string>
+    <string name="dns_leak_isp_label">ISP DNS（VPNなし）</string>
+    <string name="dns_leak_vpn_label">アクティブDNS（VPNあり）</string>
+
+    <!-- Report content strings -->
+    <string name="report_label_profile">プロファイル</string>
+    <string name="report_label_none">なし</string>
+    <string name="report_no_leak">リゾルバが変更 → DNSリークなし！</string>
+    <string name="report_leak_detected">同じリゾルバ → DNSリークの可能性！</string>
+    <string name="report_isp_dns_label">ISP DNS（VPNなし）</string>
+    <string name="report_active_dns_label">アクティブDNS（VPN使用）</string>
+    <string name="report_dns_unblocks">アクティブDNSがこのドメインのブロックを解除！</string>
+    <string name="report_conn_unknown">不明</string>
+    <string name="report_blocked">ブロック済み</string>
+    <string name="report_accessible">アクセス可能</string>
+    <string name="report_testing_blocking">ブロックテスト中…</string>
+
+    <!-- Markdown report strings -->
+    <string name="md_report_title">レポート</string>
+    <string name="md_network_info">ネットワーク情報</string>
+    <string name="md_local_ip">ローカルIP</string>
+    <string name="md_active_dns">アクティブDNS</string>
+    <string name="md_date">日付</string>
+    <string name="md_field">項目</string>
+    <string name="md_value">値</string>
+    <string name="md_measure">測定</string>
+    <string name="md_result">結果</string>
+    <string name="md_resolver_ip">リゾルバIP</string>
+    <string name="md_country">国</string>
+    <string name="md_isp">ISP</string>
+    <string name="md_url_blocking_test">URLブロックテスト</string>
+    <string name="md_tested_domain">テスト済みドメイン</string>
+    <string name="md_step">ステップ</string>
+    <string name="md_authority">権威</string>
+    <string name="md_isp_dns_no_vpn">ISP DNS（VPNなし）</string>
+    <string name="md_active_dns_with_vpn">アクティブDNS（VPN使用）</string>
+    <string name="md_dns_unblocks_success">アクティブDNSがこのドメインのブロックを正常に解除しました。</string>
+    <string name="md_domain_accessible_both">ドメインはどちらの場合でもアクセス可能です。</string>
+    <string name="md_domain_still_blocked">アクティブDNSを使用してもドメインはブロックされたままです。</string>
+    <string name="md_generated_by">生成ツール</string>
+
+    <!-- Device info -->
+    <string name="share_toggle_device">デバイス情報</string>
+    <string name="md_device_info">デバイス情報</string>
+    <string name="md_device_name">デバイス</string>
+    <string name="md_device_type">タイプ</string>
+    <string name="md_device_model">モデル</string>
+    <string name="md_device_manufacturer">メーカー</string>
+    <string name="md_android_version">Androidバージョン</string>
+    <string name="md_api_level">APIレベル</string>
+    <string name="md_app_version">アプリバージョン</string>
+    <string name="device_type_tv">Android TV / ボックス</string>
+    <string name="device_type_phone">電話</string>
+    <string name="device_type_tablet">タブレット</string>
+    <string name="device_type_unknown">不明</string>
 </resources>

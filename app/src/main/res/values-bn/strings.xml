@@ -35,10 +35,10 @@
     <string name="wan_ip_loading">লোড হচ্ছে…</string>
     <string name="wan_ip_error">অনুপলব্ধ</string>
     <string name="wan_ipv6_blocked">ব্লক করা হয়েছে ✓</string>
-    <string name="share_ip_button">📤 tmpfiles.org এর মাধ্যমে আমার IP শেয়ার করুন</string>
+    <string name="share_ip_button">📤 রিপোর্ট শেয়ার করুন</string>
     <string name="share_ip_uploading">IP আপলোড হচ্ছে…</string>
     <string name="share_ip_success_title">IP শেয়ার করা হয়েছে</string>
-    <string name="share_ip_success_message">tmpfiles নম্বর: %1$s\n\nনম্বরটি ক্লিপবোর্ডে কপি করা হয়েছে।\n\nURL: %2$s\n(৬০ মিনিটে মেয়াদ শেষ হবে)</string>
+    <string name="share_ip_success_message">কোড: %1$s\n\nকোডটি ক্লিপবোর্ডে কপি করা হয়েছে।\n\nলিঙ্ক: %2$s\n(AES-256 এনক্রিপ্টেড ফাইল)</string>
     <string name="share_ip_error">IP শেয়ার করতে ত্রুটি হয়েছে</string>
 
     <!-- Navigation -->
@@ -53,14 +53,14 @@
     <string name="adb_status_inactive">🔴 ADB ডিবাগিং: নিষ্ক্রিয়</string>
     <string name="advanced_features_title">⚙️ উন্নত বৈশিষ্ট্য</string>
     <string name="advanced_features_desc">বৈশিষ্ট্য সক্রিয় করুন: ADB এর মাধ্যমে DNS DoT, URL Rewrite এবং অপারেটর DNS।</string>
-    <string name="url_rewrite_warning">⚠️ URL Rewrite শুধুমাত্র DNS DoH বা Standard এ কাজ করে (DoT/ADB তে নয়)</string>
+    <string name="url_rewrite_warning">URL Rewrite শুধুমাত্র DNS DoH বা Standard এ কাজ করে (DoT/ADB তে নয়)</string>
     <string name="url_rewrite_button">🔀 URL Rewrite</string>
     <string name="restore_dns_button">🔄 প্রাথমিক DNS পুনরুদ্ধার করুন</string>
-    <string name="show_operator_dns">🇫🇷 ফ্রান্স অপারেটর DNS দেখান (Orange/Bouygues/SFR/Free)</string>
-    <string name="show_standard_dns">📋 ক্লাসিক DNS দেখান (Standard)</string>
+    <string name="show_operator_dns">🇫🇷 ফ্রান্স অপারেটর DNS দেখান (Orange/Bouygues/SFR/Free/OVH)</string>
+    <string name="show_standard_dns">📋 ক্লাসিক DNS দেখান (এনক্রিপ্ট করা নয়)</string>
     <string name="show_profile_variants">📋 DNS প্রদানকারীদের বিভিন্ন প্রোফাইল দেখান (unfiltered, noads, kids ইত্যাদি…)</string>
     <string name="dns_dot_adb">📡 ADB এর মাধ্যমে DNS DoT</string>
-    <string name="adb_warning">⚠️ ADB পদ্ধতি সিস্টেম সেটিংস পরিবর্তন করে। সংযোগ সমস্যা হলে, এই বিকল্পটি নিষ্ক্রিয় করুন এবং VPN পদ্ধতি ব্যবহার করুন।</string>
+    <string name="adb_warning">ADB পদ্ধতি সিস্টেম সেটিংস পরিবর্তন করে। সংযোগ সমস্যা হলে, এই বিকল্পটি নিষ্ক্রিয় করুন এবং VPN পদ্ধতি ব্যবহার করুন।</string>
     <string name="disable_ipv6_label">IPv6 নিষ্ক্রিয় করুন / IPv4 জোর করুন</string>
 
     <!-- Auto-start / Auto-reconnect -->
@@ -75,28 +75,32 @@
 
     <!-- Import / Export -->
     <string name="import_export_title">💾 কনফিগারেশন ফাইল</string>
-    <string name="import_export_desc">আপনার সম্পূর্ণ কনফিগারেশন সংরক্ষণ বা পুনরুদ্ধার করুন (প্রোফাইল, পছন্দসই, ডিফল্ট DNS, rewrite নিয়ম, সেটিংস)।</string>
+    <string name="import_export_desc">আপনার সম্পূর্ণ কনফিগারেশন সংরক্ষণ বা পুনরুদ্ধার করুন (প্রোফাইল, ডিফল্ট DNS, rewrite নিয়ম, সেটিংস)।</string>
     <string name="export_config_button">📤 কনফিগারেশন রপ্তানি করুন</string>
     <string name="import_config_button">📥 কনফিগারেশন আমদানি করুন</string>
     <string name="config_exported_title">📤 কনফিগারেশন রপ্তানি হয়েছে</string>
     <string name="config_exported_message">ফাইল: %1$s\n\nJSON ক্লিপবোর্ডেও কপি করা হয়েছে।\n\nআপনি এটি শেয়ার বা সংরক্ষণ করতে পারেন।</string>
     <string name="share_button">শেয়ার করুন</string>
-    <string name="upload_to_tmpfiles">☁️ tmpfiles.org এ পাঠান (৬০ মিনিট)</string>
-    <string name="tmpfiles_temporary">tmpfiles.org (৬০ মিনিট)</string>
-    <string name="uploading">পাঠানো হচ্ছে…</string>
-    <string name="upload_success_title">☁️ ফাইল পাঠানো হয়েছে!</string>
-    <string name="upload_success_message">URL:\n%1$s\n\nলিঙ্ক ক্লিপবোর্ডে কপি করা হয়েছে।</string>
-    <string name="upload_success_message_with_number">আমদানি নম্বর: %1$s\n\nঅন্য ডিভাইসে এই কনফিগারেশন আমদানি করতে, শুধুমাত্র এই নম্বরটি দিন।\n\nসম্পূর্ণ URL:\n%2$s\n\nনম্বর ক্লিপবোর্ডে কপি করা হয়েছে।</string>
+    <string name="upload_encrypted">🔒 এনক্রিপ্টেড পাঠান (is.gd)</string>
+    <string name="uploading">এনক্রিপ্ট এবং পাঠানো হচ্ছে…</string>
+    <string name="upload_success_title">🔒 এনক্রিপ্টেড ফাইল পাঠানো হয়েছে!</string>
+    <string name="upload_success_message_with_number">আমদানি কোড: %1$s\n\nঅন্য ডিভাইসে আমদানি করতে, এই কোডটি লিখুন।\n\nসম্পূর্ণ লিঙ্ক:\n%2$s\n\nকোড ক্লিপবোর্ডে কপি করা হয়েছে।\n\n🔒 AES-256 এনক্রিপ্টেড — কী লিঙ্কে আছে।</string>
     <string name="upload_error">পাঠাতে ত্রুটি: %1$s</string>
     <string name="share_config">কনফিগারেশন শেয়ার করুন</string>
     <string name="export_error">রপ্তানিতে ত্রুটি: %1$s</string>
     <string name="import_from_clipboard">📋 ক্লিপবোর্ড থেকে পেস্ট করুন</string>
     <string name="import_from_url">🌐 URL থেকে আমদানি করুন</string>
     <string name="import_from_file">📁 স্থানীয় ফাইল থেকে আমদানি করুন</string>
-    <string name="import_from_tmpfiles">📦 tmpfiles.org থেকে</string>
-    <string name="import_from_tmpfiles_title">📦 tmpfiles.org আমদানি</string>
-    <string name="enter_tmpfiles_number">tmpfiles.org ফোল্ডার নম্বর লিখুন:</string>
-    <string name="tmpfiles_number_hint">উদাহরণ: 19637359</string>
+    <string name="import_from_code">🔒 একটি এনক্রিপ্টেড কোড থেকে</string>
+    <string name="import_from_code_title">🔒 এনক্রিপ্টেড আমদানি</string>
+    <string name="enter_share_code">is.gd কোড লিখুন:</string>
+    <string name="share_code_hint">উদাহরণ: aB3kL9</string>
+    <string name="import_code_explain">ফাইলটি স্বয়ংক্রিয়ভাবে ডাউনলোড এবং ডিক্রিপ্ট হবে।\n\nযাচাইকরণ: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="choose_expiration">ফাইলের মেয়াদ:</string>
+    <string name="expiration_1h">১ ঘণ্টা</string>
+    <string name="expiration_12h">১২ ঘণ্টা</string>
+    <string name="expiration_24h">২৪ ঘণ্টা</string>
+    <string name="expiration_72h">৭২ ঘণ্টা (৩ দিন)</string>
     <string name="clipboard_empty">ক্লিপবোর্ড খালি</string>
     <string name="enter_config_url">JSON কনফিগারেশন ফাইলের URL লিখুন:</string>
     <string name="import_from_url_title">🌐 URL থেকে আমদানি</string>
@@ -105,14 +109,14 @@
     <string name="no_file_found">কোনো ফাইল পাওয়া যায়নি: %1$s</string>
     <string name="read_error">পড়তে ত্রুটি: %1$s</string>
     <string name="confirm_import_title">📥 আমদানি নিশ্চিত করুন</string>
-    <string name="confirm_import_message">কনফিগারেশনের বিষয়বস্তু:\n\n%1$s\n\n⚠️ এটি আপনার বর্তমান কনফিগারেশন প্রতিস্থাপন করবে।</string>
+    <string name="confirm_import_message">কনফিগারেশনের বিষয়বস্তু:\n\n%1$s\n\nএটি আপনার বর্তমান কনফিগারেশন প্রতিস্থাপন করবে।</string>
     <string name="import_with_settings">আমদানি করুন (সেটিংস সহ)</string>
     <string name="import_without_settings">আমদানি করুন (সেটিংস ছাড়া)</string>
     <string name="invalid_json">অবৈধ JSON: %1$s</string>
     <string name="import_done_title">আমদানি সম্পন্ন</string>
     <string name="import_done">✅ আমদানি সম্পন্ন!</string>
     <string name="import_profiles_count">• %1$d টি DNS প্রোফাইল</string>
-    <string name="import_favorites_count">• %1$d টি পছন্দসই</string>
+
     <string name="import_rewrite_count">• %1$d টি rewrite নিয়ম</string>
     <string name="import_nextdns_count">• %1$d টি কাস্টম NextDNS প্রোফাইল</string>
     <string name="import_default_restored">• ডিফল্ট DNS পুনরুদ্ধার করা হয়েছে</string>
@@ -164,6 +168,7 @@
     <string name="lang_hindi">🇮🇳 हिन्दी</string>
     <string name="lang_bengali">🇧🇩 বাংলা</string>
     <string name="lang_japanese">🇯🇵 日本語</string>
+    <string name="lang_deutsch">🇩🇪 Deutsch</string>
     <string name="lang_arabic">🇸🇦 العربية</string>
 
     <!-- Support -->
@@ -221,7 +226,7 @@
     <string name="test_no_connection_msg">কিছুই সমাধান করা সম্ভব হচ্ছে না।\nআপনার ইন্টারনেট সংযোগ পরীক্ষা করুন।</string>
     <string name="test_blocked_title">🔒 ডোমেইন ব্লক করা হয়েছে</string>
     <string name="test_blocked_msg">%1$s → %2$s\n\nএই IP একটি ব্লকিং ঠিকানা।\n%3$s</string>
-    <string name="test_blocked_dns_bad">⚠️ DNS সঠিকভাবে কাজ করছে না।</string>
+    <string name="test_blocked_dns_bad">DNS সঠিকভাবে কাজ করছে না।</string>
     <string name="test_blocked_activate">একটি বিকল্প DNS সক্রিয় করুন তারপর আবার পরীক্ষা করুন!</string>
     <string name="test_accessible_title">✅ ডোমেইন অ্যাক্সেসযোগ্য</string>
     <string name="test_accessible_msg_active">%1$s → %2$s\n\nDNS কাজ করছে!</string>
@@ -253,11 +258,6 @@
     <string name="method_doh_vpn_dot_adb">DoH / Standard → VPN   |   DoT → Private DNS (ADB)</string>
     <string name="method_vpn_only">VPN এর মাধ্যমে DNS — DoH এবং Standard</string>
     <string name="long_press_edit">(দীর্ঘ চাপ = সম্পাদনা)</string>
-    <string name="favorites_label">★ পছন্দসই</string>
-    <string name="removed_from_favorites">পছন্দসই থেকে সরানো হয়েছে</string>
-    <string name="added_to_favorites">পছন্দসইতে যোগ করা হয়েছে</string>
-    <string name="remove_from_favorites">★ পছন্দসই থেকে সরান</string>
-    <string name="add_to_favorites">☆ পছন্দসইতে যোগ করুন</string>
     <string name="remove_default_dns">⭐ ডিফল্ট DNS থেকে সরান</string>
     <string name="set_default_dns">⭐ ডিফল্ট DNS হিসেবে সেট করুন</string>
     <string name="default_dns_removed">ডিফল্ট DNS সরানো হয়েছে</string>
@@ -319,13 +319,36 @@
     <string name="presets_updated_toast">সংস্করণ %1$s এর জন্য DNS প্রোফাইল আপডেট করা হয়েছে</string>
 
     <!-- ADB Compatibility -->
-    <string name="adb_requires_android9">⚠️ DoT/ADB পদ্ধতির জন্য Android 9 (Pie) বা তার উপরে প্রয়োজন। আপনার ডিভাইস সামঞ্জস্যপূর্ণ নয়।</string>
+    <string name="adb_requires_android9">DoT/ADB পদ্ধতির জন্য Android 9 (Pie) বা তার উপরে প্রয়োজন। আপনার ডিভাইস সামঞ্জস্যপূর্ণ নয়।</string>
 
     <!-- HowTo Compatibility -->
-    <string name="howto_compat_title">⚠️ Android সামঞ্জস্যতা</string>
+    <string name="howto_compat_title">Android সামঞ্জস্যতা</string>
     <string name="howto_compat_desc">Private DNS (ADB এর মাধ্যমে DoT) পদ্ধতির জন্য Android 9 (Pie) বা তার উপরে (API 28+) প্রয়োজন।\n\nAndroid 8 বা তার নিচের ডিভাইসগুলি এই পদ্ধতির সাথে সামঞ্জস্যপূর্ণ নয়। এর পরিবর্তে VPN (DoH) পদ্ধতি ব্যবহার করুন।</string>
-    <string name="howto_android11_title">⚠️ Android 11+ — ওয়্যারলেস ADB</string>
+    <string name="howto_android11_title">Android 11+ — ওয়্যারলেস ADB</string>
     <string name="howto_android11_desc">Android 11 থেকে, ওয়্যারলেস ADB সেবা একটি এলোমেলো পোর্ট ব্যবহার করে এবং TLS পেয়ারিং প্রয়োজন।\n\nসাম্প্রতিক ফোনে, স্থানীয় ADB স্বয়ংক্রিয়-সংযোগ কাজ নাও করতে পারে। এই ডিভাইসগুলিতে VPN পদ্ধতি সুপারিশ করা হচ্ছে।\n\nAndroid TV বক্সে, পোর্ট 5555 সাধারণত অ্যাক্সেসযোগ্য থাকে।</string>
+
+    <!-- Self-grant ADB permission -->
+    <string name="self_grant_section_title">ADB স্বয়ংক্রিয় অনুমতি</string>
+    <string name="self_grant_section_desc">Fire TV এবং Android TV-তে, এই বিকল্পটি স্থানীয় ADB-এর মাধ্যমে স্বয়ংক্রিয়ভাবে প্রয়োজনীয় অনুমতি দেয়। প্রথমে ডিভাইস সেটিংসে ADB ডিবাগিং সক্ষম করুন।</string>
+    <string name="permission_granted">অনুমতি দেওয়া হয়েছে</string>
+    <string name="permission_not_granted">অনুমতি দেওয়া হয়নি</string>
+    <string name="permission_already_granted">ইতিমধ্যে দেওয়া হয়েছে</string>
+    <string name="self_grant_button">স্বয়ংক্রিয়ভাবে দিন</string>
+    <string name="self_grant_retry">পুনরায় চেষ্টা</string>
+    <string name="self_grant_connecting">সংযোগ হচ্ছে…</string>
+    <string name="self_grant_progress">সংযোগ চলছে…</string>
+    <string name="self_grant_step_crypto">কী প্রস্তুত হচ্ছে…</string>
+    <string name="self_grant_step_connecting">ADB-তে সংযোগ হচ্ছে…</string>
+    <string name="self_grant_step_port">পোর্ট %1$s চেষ্টা করছে…</string>
+    <string name="self_grant_step_granting">অনুমতি দেওয়া হচ্ছে…</string>
+    <string name="self_grant_success">অনুমতি সফলভাবে দেওয়া হয়েছে! প্রাইভেট DNS এখন Shizuku ছাড়াই কাজ করে।</string>
+    <string name="self_grant_adb_unreachable">ADB অ্যাক্সেসযোগ্য নয়। ADB ডিবাগিং সক্ষম করুন।</string>
+    <string name="self_grant_failed">অনুমতি দেওয়া ব্যর্থ।</string>
+    <string name="self_grant_not_effective">কমান্ড সফল কিন্তু অনুমতি কার্যকর নয়। ডিভাইস পুনরায় চালু করুন।</string>
+    <string name="self_grant_error">ত্রুটি: %1$s</string>
+    <string name="self_grant_help_title">সাহায্য — ADB অ্যাক্সেসযোগ্য নয়</string>
+    <string name="self_grant_help_firetv">Fire TV / Fire Stick-এ:\n\n1. সেটিংস → My Fire TV → ডেভেলপার অপশন-এ যান\n2. \"ADB ডিবাগিং\" সক্ষম করুন\n3. \"অজানা উৎস থেকে অ্যাপ\" সক্ষম করুন\n4. এখানে ফিরে আসুন এবং \"স্বয়ংক্রিয়ভাবে দিন\" টিপুন\n\nডেভেলপার মেনু না দেখালে, সেটিংস → My Fire TV → সম্পর্কে → \"সিরিয়াল নম্বর\" ৭ বার টিপুন।</string>
+    <string name="self_grant_help_phone">Android ফোন/ট্যাবলেটে:\n\n1. সেটিংস → সম্পর্কে → \"বিল্ড নম্বর\" ৭ বার টিপুন\n2. ডেভেলপার অপশনে \"USB ডিবাগিং\" সক্ষম করুন\n3. \"ওয়্যারলেস ডিবাগিং\" সক্ষম করুন (Android 11+)\n4. এখানে ফিরে আসুন এবং \"স্বয়ংক্রিয়ভাবে দিন\" টিপুন\n\nদ্রষ্টব্য: কিছু ফোনে স্বয়ংক্রিয় অনুমতি কাজ নাও করতে পারে। Shizuku বা ADB সহ PC ব্যবহার করুন।</string>
 
     <!-- Shizuku -->
     <string name="shizuku_section_title">Shizuku (Android 11+)</string>
@@ -354,7 +377,7 @@
     <!-- Export granulaire -->
     <string name="export_select_title">📤 আপনি কী রপ্তানি করতে চান?</string>
     <string name="export_toggle_profiles">DNS প্রোফাইল</string>
-    <string name="export_toggle_favorites">পছন্দসই</string>
+
     <string name="export_toggle_default_dns">ডিফল্ট DNS</string>
     <string name="export_toggle_nextdns">কাস্টম NextDNS প্রোফাইল</string>
     <string name="export_toggle_rewrite">URL Rewrite নিয়ম</string>
@@ -376,4 +399,115 @@
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS পুনর্লিখন (Rewriting)</string>
+    <string name="show_doq_dns">⚡ DNS over QUIC (DoQ) প্রোফাইল দেখান</string>
+    <string name="gpl_license_text">এই অ্যাপ্লিকেশনটি মুক্ত। কিছুই একটি মুক্ত অ্যাপ্লিকেশন নিষিদ্ধ করতে পারে না।\nGPL v3 লাইসেন্স — সোর্স কোড উন্মুক্ত, যেকোনো পুনর্বিতরণ ওপেন সোর্স থাকতে হবে।\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+
+    <!-- Speedtest Internet -->
+    <string name="speedtest_button">🌐 ইন্টারনেট স্পিডটেস্ট</string>
+    <string name="speedtest_title">ইন্টারনেট স্পিডটেস্ট</string>
+    <string name="speedtest_running">স্পিডটেস্ট চলছে…</string>
+    <string name="speedtest_result_ping">পিং: %1$d মি.সে.</string>
+    <string name="speedtest_result_download">ডাউনলোড: %1$s Mbps</string>
+    <string name="speedtest_result_upload">আপলোড: %1$s Mbps</string>
+    <string name="speedtest_error">স্পিডটেস্ট ব্যর্থ</string>
+
+    <!-- DNS Leak Test -->
+    <string name="dns_leak_button">🔒 DNS লিক টেস্ট</string>
+    <string name="dns_leak_title">DNS লিক টেস্ট</string>
+    <string name="dns_leak_running">DNS লিক টেস্ট চলছে…</string>
+    <string name="dns_leak_result_title">DNS লিক ফলাফল</string>
+    <string name="dns_leak_no_leak">✅ কোনো লিক পাওয়া যায়নি — আপনার DNS সুরক্ষিত!</string>
+    <string name="dns_leak_resolvers_found">%1$d DNS রিজলভার পাওয়া গেছে:</string>
+    <string name="dns_leak_error">DNS লিক টেস্ট ব্যর্থ</string>
+
+    <!-- Rapport enrichi -->
+    <string name="report_generating">রিপোর্ট তৈরি হচ্ছে…</string>
+    <string name="report_blocking_test_before">DNS-এর আগে (8.8.8.8)</string>
+    <string name="report_blocking_test_after">DNS-এর পরে (সক্রিয়)</string>
+
+    <!-- পরীক্ষার সরঞ্জাম (একীভূত মডিউল) -->
+    <string name="tools_section_label">3| পরীক্ষার সরঞ্জাম:</string>
+    <string name="generate_report_button">▶ রিপোর্ট তৈরি করুন</string>
+    <string name="no_report_yet">কোনো রিপোর্ট তৈরি হয়নি।\nপরীক্ষা চালাতে উপরের বোতাম চাপুন।</string>
+    <string name="share_report_button">📤 রিপোর্ট শেয়ার করুন</string>
+    <string name="share_toggle_network">নেটওয়ার্ক তথ্য (IP, DNS)</string>
+    <string name="share_toggle_speedtest">ইন্টারনেট স্পিডটেস্ট</string>
+    <string name="share_toggle_leak">DNS Leak Test</string>
+    <string name="share_toggle_blocking">URL ব্লকিং টেস্ট</string>
+    <string name="report_progress_ip">⏳ IP পাওয়া যাচ্ছে…</string>
+    <string name="report_progress_speedtest">⏳ স্পিডটেস্ট চলছে…</string>
+    <string name="report_progress_leak">⏳ DNS Leak টেস্ট চলছে…</string>
+    <string name="report_progress_blocking">⏳ ব্লকিং টেস্ট চলছে…</string>
+    <string name="report_complete">✅ রিপোর্ট তৈরি হয়েছে</string>
+    <string name="no_report_to_share">আগে একটি রিপোর্ট তৈরি করুন</string>
+    <string name="test_domains_button">পরীক্ষার ডোমেন</string>
+    <string name="test_domains_add">ডোমেন যোগ করুন</string>
+    <string name="test_domains_empty">কোনো ডোমেন কনফিগার করা হয়নি</string>
+
+    <!-- Split tunneling -->
+    <string name="split_tunnel_button">অ্যাপ্লিকেশন বাদ দিন</string>
+    <string name="split_tunnel_title">VPN থেকে অ্যাপ্লিকেশন বাদ দিন</string>
+    <string name="split_tunnel_desc">নির্বাচিত অ্যাপগুলি DNS VPN এর মধ্য দিয়ে যাবে না। VPN সক্রিয় থাকলে যেসব অ্যাপ কাজ করে না তাদের জন্য উপযোগী।</string>
+    <string name="split_tunnel_no_apps">কোনো বাদ দেওয়া অ্যাপ নেই</string>
+    <string name="split_tunnel_apps_count">%d টি অ্যাপ বাদ দেওয়া হয়েছে</string>
+    <string name="split_tunnel_loading">অ্যাপ লোড হচ্ছে…</string>
+    <string name="split_tunnel_search">অনুসন্ধান…</string>
+    <string name="split_tunnel_save">সংরক্ষণ</string>
+    <string name="split_tunnel_saved">বাদ দেওয়া অ্যাপ আপডেট হয়েছে</string>
+    <string name="split_tunnel_restart_vpn">পরিবর্তন প্রয়োগ করতে VPN পুনরায় চালু হবে।</string>
+    <string name="vpn_required_for_report">রিপোর্ট তৈরি করতে প্রথমে VPN সংযোগ করুন</string>
+    <string name="dns_leak_isp_label">ISP DNS (VPN ছাড়া)</string>
+    <string name="dns_leak_vpn_label">সক্রিয় DNS (VPN সহ)</string>
+
+    <!-- Report content strings -->
+    <string name="report_label_profile">প্রোফাইল</string>
+    <string name="report_label_none">নেই</string>
+    <string name="report_no_leak">রিজলভার পরিবর্তিত → DNS লিক নেই!</string>
+    <string name="report_leak_detected">একই রিজলভার → সম্ভাব্য DNS লিক!</string>
+    <string name="report_isp_dns_label">ISP DNS (VPN ছাড়া)</string>
+    <string name="report_active_dns_label">সক্রিয় DNS (VPN সহ)</string>
+    <string name="report_dns_unblocks">সক্রিয় DNS এই ডোমেইন আনব্লক করে!</string>
+    <string name="report_conn_unknown">অজানা</string>
+    <string name="report_blocked">ব্লক করা</string>
+    <string name="report_accessible">অ্যাক্সেসযোগ্য</string>
+    <string name="report_testing_blocking">ব্লকিং পরীক্ষা…</string>
+
+    <!-- Markdown report strings -->
+    <string name="md_report_title">রিপোর্ট</string>
+    <string name="md_network_info">নেটওয়ার্ক তথ্য</string>
+    <string name="md_local_ip">স্থানীয় IP</string>
+    <string name="md_active_dns">সক্রিয় DNS</string>
+    <string name="md_date">তারিখ</string>
+    <string name="md_field">ক্ষেত্র</string>
+    <string name="md_value">মান</string>
+    <string name="md_measure">পরিমাপ</string>
+    <string name="md_result">ফলাফল</string>
+    <string name="md_resolver_ip">রিজলভার IP</string>
+    <string name="md_country">দেশ</string>
+    <string name="md_isp">ISP</string>
+    <string name="md_url_blocking_test">URL ব্লকিং পরীক্ষা</string>
+    <string name="md_tested_domain">পরীক্ষিত ডোমেইন</string>
+    <string name="md_step">ধাপ</string>
+    <string name="md_authority">কর্তৃপক্ষ</string>
+    <string name="md_isp_dns_no_vpn">ISP DNS (VPN ছাড়া)</string>
+    <string name="md_active_dns_with_vpn">সক্রিয় DNS (VPN সহ)</string>
+    <string name="md_dns_unblocks_success">সক্রিয় DNS সফলভাবে এই ডোমেইন আনব্লক করে।</string>
+    <string name="md_domain_accessible_both">ডোমেইন উভয় ক্ষেত্রে অ্যাক্সেসযোগ্য।</string>
+    <string name="md_domain_still_blocked">সক্রিয় DNS সহও ডোমেইন ব্লক থাকে।</string>
+    <string name="md_generated_by">দ্বারা তৈরি</string>
+
+    <!-- Device info -->
+    <string name="share_toggle_device">ডিভাইস তথ্য</string>
+    <string name="md_device_info">ডিভাইস তথ্য</string>
+    <string name="md_device_name">ডিভাইস</string>
+    <string name="md_device_type">ধরন</string>
+    <string name="md_device_model">মডেল</string>
+    <string name="md_device_manufacturer">প্রস্তুতকারক</string>
+    <string name="md_android_version">Android সংস্করণ</string>
+    <string name="md_api_level">API স্তর</string>
+    <string name="md_app_version">অ্যাপ সংস্করণ</string>
+    <string name="device_type_tv">Android TV / বক্স</string>
+    <string name="device_type_phone">ফোন</string>
+    <string name="device_type_tablet">ট্যাবলেট</string>
+    <string name="device_type_unknown">অজানা</string>
 </resources>

@@ -21,14 +21,30 @@ class UpdateManager(private val context: Context) {
     }
 
     /**
+     * Compare deux versions sémantiques (ex: "1.0.52" vs "1.0.55").
+     * @return positif si remote > local, 0 si égales, négatif si remote < local
+     */
+    private fun compareVersions(remote: String, local: String): Int {
+        val r = remote.removePrefix("v").split(".").map { it.toIntOrNull() ?: 0 }
+        val l = local.removePrefix("v").split(".").map { it.toIntOrNull() ?: 0 }
+        val maxLen = maxOf(r.size, l.size)
+        for (i in 0 until maxLen) {
+            val rp = r.getOrElse(i) { 0 }
+            val lp = l.getOrElse(i) { 0 }
+            if (rp != lp) return rp - lp
+        }
+        return 0
+    }
+
+    /**
      * Vérification manuelle (About) : affiche Toast "à jour" ou télécharge directement.
      */
     fun checkForUpdateGitHub(githubRepo: String, currentVersion: String) {
         fetchLatestRelease(githubRepo) { tagName, apkUrl ->
-            if (tagName != null && tagName != currentVersion && apkUrl != null) {
+            if (tagName != null && apkUrl != null && compareVersions(tagName, currentVersion) > 0) {
                 showToastOnMainThread(context.getString(R.string.update_available, tagName))
                 downloadAndInstallUpdate(apkUrl)
-            } else if (tagName == currentVersion) {
+            } else if (tagName != null) {
                 showToastOnMainThread(context.getString(R.string.app_up_to_date))
             }
         }
@@ -43,7 +59,7 @@ class UpdateManager(private val context: Context) {
         val dismissedVersion = prefs.getString("dismissed_version", null)
 
         fetchLatestRelease(GITHUB_REPO) { tagName, apkUrl ->
-            if (tagName != null && tagName != currentVersion && apkUrl != null) {
+            if (tagName != null && apkUrl != null && compareVersions(tagName, currentVersion) > 0) {
                 // Ne pas re-proposer une version déjà refusée
                 if (tagName == dismissedVersion) return@fetchLatestRelease
 

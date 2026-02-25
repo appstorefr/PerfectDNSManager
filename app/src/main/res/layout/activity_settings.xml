@@ -300,6 +300,52 @@
                     android:background="#22FF0000"
                     android:padding="8dp"/>
 
+                <!-- Section Auto-permission ADB -->
+                <LinearLayout
+                    android:id="@+id/layoutSelfGrantSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:background="#22388E3C"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/self_grant_section_title"
+                        android:textColor="#81C784"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/self_grant_section_desc"
+                        android:textColor="#AAAAAA"
+                        android:textSize="11sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvPermissionStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnSelfGrant"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#388E3C"
+                        android:foreground="@drawable/btn_focus_foreground"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:focusable="true" />
+                </LinearLayout>
+
                 <!-- Section Shizuku (Android 11+) -->
                 <LinearLayout
                     android:id="@+id/layoutShizukuSection"
@@ -371,6 +417,31 @@
                 android:foreground="@drawable/btn_focus_foreground"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnTestDomains"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/test_domains_button"
+                android:backgroundTint="#00695C"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:focusable="true" />
+
+            <!-- Split tunneling (bypass VPN per-app) -->
+            <Button
+                android:id="@+id/btnSplitTunnel"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/split_tunnel_button"
+                android:backgroundTint="#0277BD"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
                 android:focusable="true" />
 
         </LinearLayout>
@@ -402,11 +473,13 @@
                 android:textColor="#42A5F5"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
-            <Switch
-                android:id="@+id/switchImportExport"
+            <TextView
+                android:id="@+id/tvImportExportArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="true" />
+                android:text="▶"
+                android:textColor="#42A5F5"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout

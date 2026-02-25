@@ -80,6 +80,17 @@
                 android:focusable="true" />
 
             <RadioButton
+                android:id="@+id/rbDoq"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="DNS over QUIC (DoQ)"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#9C27B0"
+                android:background="@drawable/focusable_item_background"
+                android:padding="8dp"
+                android:focusable="true" />
+
+            <RadioButton
                 android:id="@+id/rbStandard"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -90,56 +101,6 @@
                 android:padding="8dp"
                 android:focusable="true" />
         </RadioGroup>
-
-        <!-- NextDNS checkbox -->
-        <CheckBox
-            android:id="@+id/cbNextDns"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Utiliser un profil NextDNS"
-            android:textColor="#00AAFF"
-            android:textSize="14sp"
-            android:buttonTint="#00AAFF"
-            android:layout_marginBottom="8dp"
-            android:focusable="true"
-            android:visibility="visible" />
-
-        <!-- NextDNS Profile ID -->
-        <LinearLayout
-            android:id="@+id/llNextDns"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Identifiant NextDNS (ex: 92ff5b)"
-                android:textColor="#CCCCCC"
-                android:textSize="13sp"
-                android:layout_marginBottom="4dp" />
-
-            <EditText
-                android:id="@+id/etNextDnsId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ex: 92ff5b"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#888888"
-                android:background="#444444"
-                android:padding="10dp"
-                android:focusable="true" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="DoH → https://dns.nextdns.io/{id}\nDoT → {id}.dns.nextdns.io"
-                android:textColor="#666688"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
 
         <!-- DNS Primaire -->
         <TextView
