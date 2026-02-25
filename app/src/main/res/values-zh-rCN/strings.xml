@@ -1,0 +1,515 @@
+<resources>
+    <string name="app_name">Perfect DNS Manager</string>
+
+    <!-- MainActivity -->
+    <string name="dns_switcher">Perfect DNS Manager</string>
+    <string name="dns_profile">DNS 配置文件</string>
+    <string name="add_new_profile">➕ 新建配置</string>
+    <string name="application_method">应用方式</string>
+    <string name="private_dns_adb">Private DNS (ADB)</string>
+    <string name="local_vpn_all_types">本地 VPN</string>
+    <string name="activate">启用</string>
+    <string name="deactivate">停用</string>
+    <string name="no_active_dns">无活动 DNS</string>
+    <string name="about">关于</string>
+    <string name="select_a_profile">选择一个配置</string>
+    <string name="click_to_select_dns">点击此处选择 DNS</string>
+    <string name="profile_added">配置已添加：%1$s</string>
+    <string name="private_dns_supports_only_dot">Private DNS 仅支持 DoT</string>
+    <string name="adb_requires_root_or_pc">无法修改设置。\n\n请确保您已通过电脑授予权限：\n\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\n（或您的设备已 Root）</string>
+    <string name="error_activating_adb">ADB 激活错误</string>
+    <string name="dns_activated_via_adb">DNS 已通过 ADB 激活</string>
+    <string name="vpn_permission_denied">VPN 权限被拒绝</string>
+    <string name="vpn_activated">VPN 已启用：%1$s</string>
+    <string name="dns_disabled">DNS 已停用</string>
+    <string name="firestick_warning_title">Firestick 警告</string>
+    <string name="firestick_warning_message">在 Firestick 设备上使用 ADB 方式可能导致网络连接中断。建议使用 VPN 方式。</string>
+    <string name="continue_anyway">继续</string>
+    <string name="dns_provider_label">1| 选择 DNS 提供商：</string>
+    <string name="dns_select_button">👉 选择 DNS 提供商 👈</string>
+    <string name="activation_label">2| 激活：</string>
+    <string name="dns_service_used">正在使用的 DNS 服务：</string>
+    <string name="settings_content_description">设置</string>
+    <string name="wan_ipv4_label">IPv4: </string>
+    <string name="wan_ipv6_label">IPv6: </string>
+    <string name="wan_ip_loading">加载中…</string>
+    <string name="wan_ip_error">不可用</string>
+    <string name="wan_ipv6_blocked">已阻止 ✓</string>
+    <string name="share_ip_button">📤 分享报告</string>
+    <string name="share_ip_uploading">正在上传 IP…</string>
+    <string name="share_ip_success_title">IP 已分享</string>
+    <string name="share_ip_success_message">代码：%1$s\n\n代码已复制到剪贴板。\n\n链接：%2$s\n（AES-256 加密文件）</string>
+    <string name="share_ip_error">分享 IP 时出错</string>
+
+    <!-- Navigation -->
+    <string name="back">返回</string>
+    <string name="back_arrow">← 返回</string>
+
+    <!-- Settings -->
+    <string name="settings_title">设置</string>
+    <string name="language_select_button">语言 / Language</string>
+    <string name="how_to_adb">🛠 如何启用 ADB</string>
+    <string name="adb_status_active">🟢 ADB 调试：已启用</string>
+    <string name="adb_status_inactive">🔴 ADB 调试：未启用</string>
+    <string name="advanced_features_title">⚙️ 高级功能</string>
+    <string name="advanced_features_desc">启用功能：通过 ADB 使用 DNS DoT、URL Rewrite 和运营商 DNS。</string>
+    <string name="url_rewrite_warning">URL Rewrite 仅适用于 DoH 或标准 DNS（不适用于 DoT/ADB）</string>
+    <string name="url_rewrite_button">🔀 URL Rewrite</string>
+    <string name="restore_dns_button">🔄 恢复初始 DNS</string>
+    <string name="show_operator_dns">🇫🇷 显示法国运营商 DNS（Orange/Bouygues/SFR/Free/OVH）</string>
+    <string name="show_standard_dns">📋 显示经典 DNS（未加密）</string>
+    <string name="show_profile_variants">📋 显示 DNS 提供商的不同配置（无过滤、无广告、儿童等）</string>
+    <string name="dns_dot_adb">📡 通过 ADB 使用 DNS DoT</string>
+    <string name="adb_warning">ADB 方式会修改系统设置。如遇网络连接问题，请禁用此选项并使用 VPN 方式。</string>
+    <string name="disable_ipv6_label">禁用 IPv6 / 强制 IPv4</string>
+
+    <!-- Auto-start / Auto-reconnect -->
+    <string name="auto_settings_title">自动启动</string>
+    <string name="auto_start_label">开机启动</string>
+    <string name="auto_start_description">设备启动时自动运行应用</string>
+    <string name="auto_reconnect_label">自动连接 DNS</string>
+    <string name="auto_reconnect_description">自动重新连接到默认 DNS 或上次使用的 DNS</string>
+    <string name="auto_reconnect_dns_info">→ %1$s</string>
+    <string name="auto_reconnect_no_dns">→ 未配置 DNS</string>
+    <string name="auto_reconnect_default_prefix">（默认）</string>
+
+    <!-- Import / Export -->
+    <string name="import_export_title">💾 配置文件</string>
+    <string name="import_export_desc">保存或恢复您的完整配置（配置文件、默认 DNS、重写规则、设置）。</string>
+    <string name="export_config_button">📤 导出配置</string>
+    <string name="import_config_button">📥 导入配置</string>
+    <string name="config_exported_title">📤 配置已导出</string>
+    <string name="config_exported_message">文件：%1$s\n\nJSON 也已复制到剪贴板。\n\n您可以分享或保存它。</string>
+    <string name="share_button">分享</string>
+    <string name="upload_encrypted">🔒 加密发送 (is.gd)</string>
+    <string name="uploading">加密并发送中…</string>
+    <string name="upload_success_title">🔒 加密文件已发送！</string>
+    <string name="upload_success_message_with_number">导入代码：%1$s\n\n在其他设备上导入时，请输入此代码。\n\n完整链接：\n%2$s\n\n代码已复制到剪贴板。\n\n🔒 AES-256 加密 — 密钥包含在链接中。</string>
+    <string name="upload_error">上传错误：%1$s</string>
+    <string name="share_config">分享配置</string>
+    <string name="export_error">导出错误：%1$s</string>
+    <string name="import_from_clipboard">📋 从剪贴板粘贴</string>
+    <string name="import_from_url">🌐 从 URL 导入</string>
+    <string name="import_from_file">📁 从本地文件导入</string>
+    <string name="import_from_code">🔒 从加密代码导入</string>
+    <string name="import_from_code_title">🔒 加密导入</string>
+    <string name="enter_share_code">输入 is.gd 代码：</string>
+    <string name="share_code_hint">例如：aB3kL9</string>
+    <string name="import_code_explain">文件将自动下载并解密。\n\n验证：https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="choose_expiration">文件有效期：</string>
+    <string name="expiration_1h">1 小时</string>
+    <string name="expiration_12h">12 小时</string>
+    <string name="expiration_24h">24 小时</string>
+    <string name="expiration_72h">72 小时（3 天）</string>
+    <string name="clipboard_empty">剪贴板为空</string>
+    <string name="enter_config_url">输入 JSON 配置文件的 URL：</string>
+    <string name="import_from_url_title">🌐 从 URL 导入</string>
+    <string name="download_button">下载</string>
+    <string name="downloading">正在下载…</string>
+    <string name="no_file_found">未找到文件：%1$s</string>
+    <string name="read_error">读取错误：%1$s</string>
+    <string name="confirm_import_title">📥 确认导入</string>
+    <string name="confirm_import_message">配置内容：\n\n%1$s\n\n这将替换您当前的配置。</string>
+    <string name="import_with_settings">导入（含设置）</string>
+    <string name="import_without_settings">导入（不含设置）</string>
+    <string name="invalid_json">无效的 JSON：%1$s</string>
+    <string name="import_done_title">导入完成</string>
+    <string name="import_done">✅ 导入完成！</string>
+    <string name="import_profiles_count">• %1$d 个 DNS 配置</string>
+
+    <string name="import_rewrite_count">• %1$d 条重写规则</string>
+    <string name="import_nextdns_count">• %1$d 个自定义 NextDNS 配置</string>
+    <string name="import_default_restored">• 默认 DNS 已恢复</string>
+    <string name="import_settings_restored">• 设置已恢复</string>
+
+    <!-- Restore DNS -->
+    <string name="restore_dns_title">恢复 DNS</string>
+    <string name="restore_dns_message">请选择一个选项：</string>
+    <string name="restore_defaults">恢复默认\n（保留自定义）</string>
+    <string name="reset_all">全部重置</string>
+    <string name="confirm_title">确认</string>
+    <string name="reset_all_confirm">这将删除您所有的自定义配置。继续吗？</string>
+    <string name="yes_reset_all">是的，全部重置</string>
+    <string name="defaults_restored">默认 DNS 已恢复！</string>
+    <string name="all_reset">已全部重置！</string>
+
+    <!-- URL Rewrite -->
+    <string name="url_rewrite_title">🔀 URL Rewrite</string>
+    <string name="add_new_rule">➕ 添加新规则</string>
+    <string name="close">关闭</string>
+    <string name="new_rewrite_rule_title">➕ 新建重写规则</string>
+    <string name="rewrite_explain">将一个域名重定向到另一个域名。\n适用于绕过运营商 DNS 封锁。</string>
+    <string name="source_domain">源域名：</string>
+    <string name="source_domain_hint">例如：ygg.re</string>
+    <string name="dest_domain">目标域名：</string>
+    <string name="dest_domain_hint">例如：ygg.unblocked.re</string>
+    <string name="add_button">添加</string>
+    <string name="rewrite_added">重写已添加：%1$s → %2$s</string>
+    <string name="status_label">状态：%1$s</string>
+    <string name="enabled">已启用</string>
+    <string name="disabled">已停用</string>
+    <string name="enable_button">启用</string>
+    <string name="disable_button">停用</string>
+    <string name="rule_enabled">规则已启用</string>
+    <string name="rule_disabled">规则已停用</string>
+    <string name="delete_rule_confirm">删除规则 %1$s → %2$s？</string>
+    <string name="rule_deleted">规则已删除</string>
+    <string name="add_rewrite_rule_title">添加重写规则</string>
+
+    <!-- Language dialog -->
+    <string name="choose_language_title">Choose your language / Choisissez votre langue</string>
+    <string name="lang_francais">🇫🇷 Français</string>
+    <string name="lang_english">🇬🇧 English</string>
+    <string name="lang_espanol">🇪🇸 Español</string>
+    <string name="lang_italiano">🇮🇹 Italiano</string>
+    <string name="lang_portugues">🇧🇷 Português</string>
+    <string name="lang_russian">🇷🇺 Русский</string>
+    <string name="lang_chinese">🇨🇳 中文</string>
+    <string name="lang_arabic">🇸🇦 العربية</string>
+    <string name="lang_hindi">🇮🇳 हिन्दी</string>
+    <string name="lang_bengali">🇧🇩 বাংলা</string>
+    <string name="lang_japanese">🇯🇵 日本語</string>
+    <string name="lang_deutsch">🇩🇪 Deutsch</string>
+
+    <!-- Support -->
+    <string name="support_us_button">❤️ 支持我</string>
+    <string name="support_us_title">支持我 ❤️</string>
+    <string name="support_us_message">您喜欢这个应用吗？它对您有帮助吗？\n欢迎为开发者做一个小小的支持！</string>
+    <string name="select_crypto_button">👉 点击此处选择要发送的加密货币 👈</string>
+    <string name="choose_crypto_title">选择加密货币</string>
+
+    <!-- AboutActivity -->
+    <string name="about_title">关于 Perfect DNS Manager</string>
+    <string name="version">版本 %1$s</string>
+    <string name="about_community_text">🚫 无广告\n📊 无数据收集\n🆓 免费使用和分享\n💜 为社区而做 ❤️</string>
+    <string name="check_for_updates">检查更新</string>
+    <string name="checking_for_updates">正在检查更新…</string>
+    <string name="credits">致谢</string>
+    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
+    <string name="appstorefr">AppstoreFR</string>
+    <string name="contact_email">contact@appstorefr.net</string>
+    <string name="support_about_button">❤️ 支持我</string>
+    <string name="ia_credit">AI：Claude Opus 4.6 (Anthropic)</string>
+
+    <!-- DNS Deletion -->
+    <string name="cannot_delete">无法删除</string>
+    <string name="cannot_delete_predefined">您无法删除预设配置。</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="delete_profile_message">您确定要删除配置 &quot;%1$s&quot; 吗？</string>
+    <string name="delete">删除</string>
+
+    <!-- AddProfileDialog -->
+    <string name="new_dns_profile">新建 DNS 配置</string>
+    <string name="profile_name">配置名称</string>
+    <string name="profile_name_hint">例如：我的 DNS</string>
+    <string name="dns_type">DNS 类型</string>
+    <string name="primary_dns">主 DNS</string>
+    <string name="primary_dns_hint">例如：8.8.8.8 或 dns.google</string>
+    <string name="secondary_dns_optional">备用 DNS（可选）</string>
+    <string name="secondary_dns_hint">例如：8.8.4.4</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="name_required">需要名称</string>
+    <string name="primary_dns_required">需要主 DNS</string>
+
+    <!-- DNS Test -->
+    <string name="test_dns">🔍 测试 DNS</string>
+    <string name="test_dns_title">DNS 测试</string>
+    <string name="test_dns_running">正在测试…</string>
+    <string name="test_dns_success">✅ DNS 正常工作！\n\n%1$s 解析成功。\nDNS 更改已生效。</string>
+    <string name="test_dns_fail">❌ DNS 解析失败。\n\n域名 %1$s 无法解析。\n请检查您的 DNS 配置。</string>
+    <string name="test_dns_no_dns">请先启用 DNS 再进行测试。</string>
+    <string name="test_domain_label">要测试的域名：</string>
+    <string name="test_button">测试</string>
+    <string name="test_flushing">正在刷新 DNS 缓存并测试…</string>
+    <string name="test_no_connection_title">❌ 无网络连接</string>
+    <string name="test_no_connection_msg">无法解析任何内容。\n请检查您的网络连接。</string>
+    <string name="test_blocked_title">🔒 域名已被封锁</string>
+    <string name="test_blocked_msg">%1$s → %2$s\n\n此 IP 是封锁地址。\n%3$s</string>
+    <string name="test_blocked_dns_bad">DNS 未正常工作。</string>
+    <string name="test_blocked_activate">请启用替代 DNS 后重试！</string>
+    <string name="test_accessible_title">✅ 域名可访问</string>
+    <string name="test_accessible_msg_active">%1$s → %2$s\n\nDNS 正常工作！</string>
+    <string name="test_accessible_msg_inactive">%1$s → %2$s\n\n此域名无需替代 DNS 即可访问。</string>
+    <string name="test_unresolved_title">❓ 未解析</string>
+    <string name="test_unresolved_msg_active">%1$s：%2$s\n\nDNS 服务器可能不识别此域名。</string>
+    <string name="test_unresolved_msg_inactive">%1$s：%2$s\n\n您的运营商可能封锁了此域名。</string>
+
+    <!-- VPN Report -->
+    <string name="dns_report_title">DNS 报告</string>
+    <string name="report_private_dns_header">── Private DNS (ADB) ──</string>
+    <string name="report_vpn_header">── VPN DNS ──</string>
+    <string name="report_vpn_active">状态：活动</string>
+    <string name="report_vpn_inactive">状态：未活动</string>
+    <string name="report_vpn_server">服务器：%1$s</string>
+    <string name="report_selected_header">── 已选配置 ──</string>
+    <string name="report_method">方式：%1$s</string>
+    <string name="report_primary">主 DNS：%1$s</string>
+    <string name="report_secondary">备用 DNS：%1$s</string>
+    <string name="ok">确定</string>
+
+    <!-- ADB Error -->
+    <string name="adb_error_title">ADB 错误 / 权限</string>
+    <string name="reset_adb_keys">重置 ADB 密钥</string>
+    <string name="adb_keys_reset">ADB 密钥已重置。请重试。</string>
+
+    <!-- DnsSelection -->
+    <string name="choose_dns_server">选择 DNS 服务器</string>
+    <string name="method_doh_vpn_dot_adb">DoH / 标准 → VPN   |   DoT → Private DNS (ADB)</string>
+    <string name="method_vpn_only">通过 VPN 使用 DNS — DoH 和标准</string>
+    <string name="long_press_edit">（长按 = 编辑）</string>
+    <string name="remove_default_dns">⭐ 取消默认 DNS</string>
+    <string name="set_default_dns">⭐ 设为默认 DNS</string>
+    <string name="default_dns_removed">默认 DNS 已移除</string>
+    <string name="default_dns_set">⭐ %1$s 已设为默认 DNS</string>
+    <string name="edit_button">✏️ 编辑</string>
+    <string name="delete_button">🗑️ 删除</string>
+    <string name="delete_profile_title">删除此配置？</string>
+    <string name="profile_deleted">配置已删除</string>
+    <string name="edit_profile_title">编辑配置</string>
+    <string name="name_label">名称：</string>
+    <string name="primary_dns_label">主 DNS：</string>
+    <string name="secondary_dns_label">备用 DNS：</string>
+    <string name="save_button">保存</string>
+    <string name="profile_updated">配置已更新</string>
+
+    <!-- NextDNS -->
+    <string name="add_nextdns_profile">➕ 添加自定义 NextDNS 配置</string>
+    <string name="nextdns_explain">输入您的 NextDNS 配置 ID。\nhttps://my.nextdns.io/XXXXXX/setup</string>
+    <string name="nextdns_add_title">添加 NextDNS 配置</string>
+    <string name="nextdns_add_select">添加并选择（DoH）</string>
+    <string name="nextdns_id_required">需要 ID</string>
+
+    <!-- HowTo -->
+    <string name="howto_title">🛠 如何启用 ADB 调试</string>
+    <string name="howto_adb_active">✅ ADB 调试：已启用 — 准备就绪！</string>
+    <string name="howto_adb_inactive">❌ ADB 调试：未启用 — 请按照以下指南操作</string>
+    <string name="howto_open_dev_options">打开开发者选项</string>
+    <string name="howto_check_dev_options">检查开发者选项</string>
+    <string name="howto_step1_title">步骤 1 — 启用开发者选项</string>
+    <string name="howto_step1_desc">前往：设置 → 关于手机\n→ 连续点击「版本号」7 次\n\n将显示「您现在已是开发者！」消息。</string>
+    <string name="howto_step2_title">步骤 2 — 启用 ADB 调试</string>
+    <string name="howto_step2_desc">前往：设置 → 开发者选项\n→ 启用「ADB 调试」\n\n或使用上方按钮直接进入。</string>
+    <string name="howto_step3_title">步骤 3 — 授权连接</string>
+    <string name="howto_step3_desc">首次通过 ADB 激活 DNS 时，可能会弹出「允许 USB 调试？」窗口。\n\n→ 勾选「始终允许从此设备连接」\n→ 点击确定\n\n应用将自动记住此连接。</string>
+    <string name="howto_note_tv_title">💡 Thomson 电视盒子 / Android TV 注意事项</string>
+    <string name="howto_note_tv_desc">在大多数 Android TV 盒子上，ADB 端口 5555 可在本地访问。只需在开发者选项中启用 ADB 调试 — 无需 USB 线缆或电脑。</string>
+    <string name="howto_firestick_title">🔥 Firestick / Fire TV</string>
+    <string name="howto_firestick_desc">在 Firestick 上，ADB 自动连接方式通常无法使用。建议使用 VPN 方式，无需任何配置即可使用。\n\n如果您仍想使用 ADB：\n1. 在电脑上安装 ADB（platform-tools）\n2. 连接到 Firestick：\n   adb connect FIRESTICK_IP:5555\n3. 授予权限：\n   adb shell pm grant net.appstorefr.perfectdnsmanager android.permission.WRITE_SECURE_SETTINGS\n4. 之后应用即可直接更改 DNS。</string>
+    <string name="howto_recommendation_title">✅ 建议</string>
+    <string name="howto_recommendation_desc">VPN 方式最为简单：无需任何特殊配置即可在所有设备上使用。它创建一个本地 VPN，仅将 DNS 请求重定向到您选择的服务器。</string>
+
+    <!-- Notification -->
+    <string name="notif_starting">DNS：正在启动…</string>
+    <string name="notif_open_app_vpn">打开应用以重新启用 VPN DNS</string>
+
+    <!-- UpdateManager -->
+    <string name="update_available">有可用更新：v%1$s</string>
+    <string name="app_up_to_date">应用已是最新版 ✓</string>
+    <string name="update_check_error">无法检查更新</string>
+    <string name="update_downloading">正在下载…</string>
+    <string name="update_download_error">下载错误</string>
+    <string name="update_install_error">安装错误</string>
+    <string name="update_dialog_title">有可用更新</string>
+    <string name="update_dialog_message">有新版本（v%1$s）可用。\n是否下载并安装？</string>
+    <string name="update_dialog_install">安装</string>
+    <string name="update_dialog_later">稍后</string>
+
+    <!-- Version migration -->
+    <string name="presets_updated_toast">DNS 配置已更新至版本 %1$s</string>
+
+    <!-- ADB Compatibility -->
+    <string name="adb_requires_android9">DoT/ADB 方式需要 Android 9 (Pie) 或更高版本。您的设备不兼容。</string>
+
+    <!-- HowTo Compatibility -->
+    <string name="howto_compat_title">Android 兼容性</string>
+    <string name="howto_compat_desc">Private DNS 方式（通过 ADB 使用 DoT）需要 Android 9 (Pie) 或更高版本（API 28+）。\n\n运行 Android 8 或更低版本的设备不兼容此方式。请改用 VPN 方式（DoH）。</string>
+    <string name="howto_android11_title">Android 11+ — 无线 ADB</string>
+    <string name="howto_android11_desc">从 Android 11 起，无线 ADB 服务使用随机端口并需要 TLS 配对。\n\n在较新的手机上，本地 ADB 自动连接可能无法使用。建议在这些设备上使用 VPN 方式。\n\n在 Android TV 盒子上，端口 5555 通常仍然可用。</string>
+
+    <!-- Self-grant ADB permission -->
+    <string name="self_grant_section_title">ADB 自动授权</string>
+    <string name="self_grant_section_desc">在 Fire TV 和 Android TV 上，此选项通过本地 ADB 自动授予所需权限。请先在设备设置中启用 ADB 调试。</string>
+    <string name="permission_granted">已授权</string>
+    <string name="permission_not_granted">未授权</string>
+    <string name="permission_already_granted">已授权</string>
+    <string name="self_grant_button">自动授权</string>
+    <string name="self_grant_retry">重试</string>
+    <string name="self_grant_connecting">连接中…</string>
+    <string name="self_grant_progress">连接中…</string>
+    <string name="self_grant_step_crypto">准备密钥…</string>
+    <string name="self_grant_step_connecting">连接 ADB…</string>
+    <string name="self_grant_step_port">尝试端口 %1$s…</string>
+    <string name="self_grant_step_granting">授予权限…</string>
+    <string name="self_grant_success">权限授予成功！私有 DNS 现在无需 Shizuku 即可工作。</string>
+    <string name="self_grant_adb_unreachable">ADB 不可达。请启用 ADB 调试。</string>
+    <string name="self_grant_failed">权限授予失败。</string>
+    <string name="self_grant_not_effective">命令执行成功但权限未生效。请重启设备。</string>
+    <string name="self_grant_error">错误：%1$s</string>
+    <string name="self_grant_help_title">帮助 — ADB 不可达</string>
+    <string name="self_grant_help_firetv">在 Fire TV / Fire Stick 上：\n\n1. 前往 设置 → 我的 Fire TV → 开发者选项\n2. 启用「ADB 调试」\n3. 启用「来自未知来源的应用」\n4. 返回此处点击「自动授权」\n\n如果开发者菜单未出现，请前往 设置 → 我的 Fire TV → 关于 → 点击「序列号」7 次。</string>
+    <string name="self_grant_help_phone">在 Android 手机/平板上：\n\n1. 前往 设置 → 关于手机 → 点击「版本号」7 次\n2. 在开发者选项中启用「USB 调试」\n3. 启用「无线调试」（Android 11+）\n4. 返回此处点击「自动授权」\n\n注意：在部分手机上，自动授权可能无法使用。请使用 Shizuku 或电脑通过 ADB 操作。</string>
+
+    <!-- Shizuku -->
+    <string name="shizuku_section_title">Shizuku（Android 11+）</string>
+    <string name="shizuku_section_desc">Shizuku 允许在不使用有线 ADB 连接的情况下修改 Private DNS。适用于需要 TLS 配对的 Android 11+ 无线 ADB。</string>
+    <string name="shizuku_not_installed">未安装</string>
+    <string name="shizuku_not_running">已安装但未运行</string>
+    <string name="shizuku_no_permission">权限未授予</string>
+    <string name="shizuku_ready">就绪</string>
+    <string name="shizuku_install">安装 Shizuku</string>
+    <string name="shizuku_open">打开 Shizuku</string>
+    <string name="shizuku_grant_permission">授予权限</string>
+    <string name="shizuku_permission_granted">Shizuku 权限已授予！</string>
+
+    <!-- DNS Ratings -->
+    <string name="speed_label">速度</string>
+    <string name="privacy_label">隐私</string>
+
+    <!-- DNS Speedtest -->
+    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
+    <string name="dns_speedtest_running">正在测试 DNS 延迟…</string>
+    <string name="dns_speedtest_result">%1$s（%2$s）：%3$s</string>
+    <string name="dns_speedtest_error">错误</string>
+    <string name="dns_speedtest_ms">%1$d 毫秒</string>
+
+    <!-- Export granulaire -->
+    <string name="export_select_title">📤 您要导出什么？</string>
+    <string name="export_toggle_profiles">DNS 配置</string>
+
+    <string name="export_toggle_default_dns">默认 DNS</string>
+    <string name="export_toggle_nextdns">自定义 NextDNS 配置</string>
+    <string name="export_toggle_rewrite">URL Rewrite 规则</string>
+    <string name="export_toggle_settings">设置</string>
+    <string name="export_button">导出</string>
+    <string name="export_choose_dest">文件已生成：%1$s\n\nJSON 已复制到剪贴板。\n\n选择目标位置：</string>
+    <string name="export_save_local">💾 本地保存</string>
+    <string name="export_saved_locally">💾 文件已保存：\n%1$s</string>
+
+    <!-- IPv6 VPN reconnect -->
+    <string name="vpn_reconnecting_ipv6">VPN 已重连（IPv6 已更改）</string>
+
+    <!-- Shizuku hardcoded fix -->
+    <string name="shizuku_cannot_open">无法打开 Shizuku</string>
+
+    <!-- Downloader code -->
+    <string name="downloader_code_label">Downloader 代码（AFTVnews）：</string>
+    <string name="downloader_code_value">2759555</string>
+
+    <!-- DNS Rewrite screen -->
+    <string name="dns_rewrite_screen_title">DNS 重写（Rewriting）</string>
+    <string name="show_doq_dns">⚡ 显示 DNS over QUIC (DoQ) 配置</string>
+    <string name="gpl_license_text">此应用程序是自由的。没有任何事物能禁止一个自由的应用程序。\nGPL v3 许可证 — 源代码开放，任何再发布必须保持开源。\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+
+    <!-- Speedtest Internet -->
+    <string name="speedtest_button">🌐 网络测速</string>
+    <string name="speedtest_title">网络测速</string>
+    <string name="speedtest_running">测速进行中…</string>
+    <string name="speedtest_result_ping">延迟：%1$d 毫秒</string>
+    <string name="speedtest_result_download">下载：%1$s Mbps</string>
+    <string name="speedtest_result_upload">上传：%1$s Mbps</string>
+    <string name="speedtest_error">测速失败</string>
+
+    <!-- DNS Leak Test -->
+    <string name="dns_leak_button">🔒 DNS泄漏测试</string>
+    <string name="dns_leak_title">DNS泄漏测试</string>
+    <string name="dns_leak_running">DNS泄漏测试进行中…</string>
+    <string name="dns_leak_result_title">DNS泄漏结果</string>
+    <string name="dns_leak_no_leak">✅ 未检测到泄漏 — 您的DNS是安全的！</string>
+    <string name="dns_leak_resolvers_found">发现 %1$d 个DNS解析器：</string>
+    <string name="dns_leak_error">DNS泄漏测试失败</string>
+
+    <!-- Rapport enrichi -->
+    <string name="report_generating">正在生成报告…</string>
+    <string name="report_blocking_test_before">DNS之前 (8.8.8.8)</string>
+    <string name="report_blocking_test_after">DNS之后（活跃）</string>
+
+    <!-- 测试工具（统一模块） -->
+    <string name="tools_section_label">3| 测试工具：</string>
+    <string name="generate_report_button">▶ 开始测试</string>
+    <string name="quick_dns_test_button">🔍 快速DNS测试</string>
+    <string name="quick_dns_test_running">DNS测试进行中...</string>
+    <string name="no_report_yet">未生成报告。\n按上方按钮运行测试。</string>
+    <string name="share_report_button">📤 分享报告</string>
+    <string name="share_toggle_network">网络信息（IP、DNS）</string>
+    <string name="share_toggle_speedtest">网速测试</string>
+    <string name="share_toggle_leak">DNS 泄漏测试</string>
+    <string name="share_toggle_blocking">URL 屏蔽测试</string>
+    <string name="report_progress_ip">⏳ 获取IP中…</string>
+    <string name="report_progress_speedtest">⏳ 网速测试中…</string>
+    <string name="report_progress_leak">⏳ DNS泄漏测试中…</string>
+    <string name="report_progress_blocking">⏳ 屏蔽测试中…</string>
+    <string name="report_complete">✅ 报告已生成</string>
+    <string name="no_report_to_share">请先生成报告</string>
+    <string name="test_domains_button">域名测试</string>
+    <string name="test_domains_add">添加域名</string>
+    <string name="test_domains_empty">未配置域名</string>
+
+    <!-- Split tunneling -->
+    <string name="split_tunnel_button">排除应用程序</string>
+    <string name="split_tunnel_title">从 VPN 中排除应用程序</string>
+    <string name="split_tunnel_desc">选定的应用将不通过 DNS VPN。适用于 VPN 激活时无法正常工作的应用。</string>
+    <string name="split_tunnel_no_apps">无排除的应用</string>
+    <string name="split_tunnel_apps_count">已排除 %d 个应用</string>
+    <string name="split_tunnel_loading">正在加载应用…</string>
+    <string name="split_tunnel_search">搜索…</string>
+    <string name="split_tunnel_save">保存</string>
+    <string name="split_tunnel_saved">排除的应用已更新</string>
+    <string name="split_tunnel_restart_vpn">VPN 将重新启动以应用更改。</string>
+    <string name="vpn_required_for_report">请先连接 VPN 以生成报告</string>
+    <string name="dns_leak_isp_label">运营商 DNS（无 VPN）</string>
+    <string name="dns_leak_vpn_label">活跃 DNS（有 VPN）</string>
+
+    <!-- Report content strings -->
+    <string name="report_label_profile">配置</string>
+    <string name="report_label_none">无</string>
+    <string name="report_no_leak">解析器已更改 → 无 DNS 泄漏！</string>
+    <string name="report_leak_detected">相同解析器 → 可能存在 DNS 泄漏！</string>
+    <string name="report_isp_dns_label">运营商 DNS（无 VPN）</string>
+    <string name="report_active_dns_label">活动 DNS（使用 VPN）</string>
+    <string name="report_dns_unblocks">活动 DNS 成功解锁此域名！</string>
+    <string name="report_conn_unknown">未知</string>
+    <string name="report_blocked">已屏蔽</string>
+    <string name="report_accessible">可访问</string>
+    <string name="report_testing_blocking">正在测试屏蔽…</string>
+
+    <!-- Markdown report strings -->
+    <string name="md_report_title">报告</string>
+    <string name="md_network_info">网络信息</string>
+    <string name="md_local_ip">本地 IP</string>
+    <string name="md_active_dns">活动 DNS</string>
+    <string name="md_date">日期</string>
+    <string name="md_field">字段</string>
+    <string name="md_value">值</string>
+    <string name="md_measure">测量</string>
+    <string name="md_result">结果</string>
+    <string name="md_resolver_ip">解析器 IP</string>
+    <string name="md_country">国家</string>
+    <string name="md_isp">运营商</string>
+    <string name="md_url_blocking_test">URL 屏蔽测试</string>
+    <string name="md_tested_domain">测试域名</string>
+    <string name="md_step">步骤</string>
+    <string name="md_authority">权威</string>
+    <string name="md_isp_dns_no_vpn">运营商 DNS（无 VPN）</string>
+    <string name="md_active_dns_with_vpn">活动 DNS（使用 VPN）</string>
+    <string name="md_dns_unblocks_success">活动 DNS 成功解锁此域名。</string>
+    <string name="md_domain_accessible_both">该域名在两种情况下均可访问。</string>
+    <string name="md_domain_still_blocked">即使使用活动 DNS，该域名仍被屏蔽。</string>
+    <string name="md_generated_by">由以下工具生成</string>
+
+    <!-- Device info -->
+    <string name="share_toggle_device">设备信息</string>
+    <string name="md_device_info">设备信息</string>
+    <string name="md_device_name">设备</string>
+    <string name="md_device_type">类型</string>
+    <string name="md_device_model">型号</string>
+    <string name="md_device_manufacturer">制造商</string>
+    <string name="md_android_version">Android 版本</string>
+    <string name="md_api_level">API 级别</string>
+    <string name="md_app_version">应用版本</string>
+    <string name="device_type_tv">Android TV / 机顶盒</string>
+    <string name="device_type_phone">手机</string>
+    <string name="device_type_tablet">平板</string>
+    <string name="device_type_unknown">未知</string>
+</resources>

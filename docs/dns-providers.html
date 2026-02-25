@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Providers | Perfect DNS Manager</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --card: #252525;
+            --primary: #2196F3;
+            --accent: #FFD700;
+            --text: #FFFFFF;
+            --text-dim: #BBBBBB;
+            --green: #4CAF50;
+            --red: #FF5252;
+            --doq: #E040FB;
+            --doh: #2196F3;
+            --dot: #FF9800;
+            --standard: #78909C;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Decorative background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(33,150,243,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            padding: 48px 20px 40px;
+            text-align: center;
+        }
+        .header img.logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(255,215,0,0.2), 0 0 60px rgba(33,150,243,0.15);
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header .subtitle {
+            font-size: 1.05em;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 16px;
+        }
+        .header .back-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+        .header .back-link:hover { color: #fff; text-decoration: none; }
+
+        /* Legend */
+        .legend {
+            background: var(--surface);
+            border-bottom: 1px solid #333;
+            padding: 16px 20px;
+        }
+        .legend-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .legend-title {
+            font-size: 0.85em;
+            color: var(--text-dim);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85em;
+            color: var(--text-dim);
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        /* Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 20px;
+            flex: 1;
+        }
+
+        /* Provider Card */
+        .provider-card {
+            background: var(--card);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #333;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .provider-card:hover {
+            border-color: var(--primary);
+        }
+        .provider-card summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .provider-card summary:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .provider-card summary::-webkit-details-marker { display: none; }
+        .provider-card summary::before {
+            content: '\25B6';
+            font-size: 0.7em;
+            color: var(--primary);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        .provider-card[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .provider-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
+        .provider-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .provider-name {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .provider-ratings {
+            display: flex;
+            gap: 16px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+        .rating {
+            font-size: 0.82em;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .rating-label {
+            font-weight: 600;
+            margin-right: 2px;
+        }
+        .stars {
+            display: inline-flex;
+            gap: 1px;
+        }
+        .star-filled {
+            color: var(--accent);
+        }
+        .star-empty {
+            color: #555;
+        }
+
+        .protocol-count {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        /* Protocol badge */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .badge-doq { background: rgba(224,64,251,0.15); color: #E040FB; border: 1px solid rgba(224,64,251,0.3); }
+        .badge-doh { background: rgba(33,150,243,0.15); color: #2196F3; border: 1px solid rgba(33,150,243,0.3); }
+        .badge-dot { background: rgba(255,152,0,0.15); color: #FF9800; border: 1px solid rgba(255,152,0,0.3); }
+        .badge-standard { background: rgba(120,144,156,0.15); color: #90A4AE; border: 1px solid rgba(120,144,156,0.3); }
+        .badge-unfiltered { background: rgba(76,175,80,0.15); color: #4CAF50; border: 1px solid rgba(76,175,80,0.3); }
+        .badge-family { background: rgba(255,82,82,0.15); color: #FF5252; border: 1px solid rgba(255,82,82,0.3); }
+
+        /* Card body */
+        .provider-body {
+            padding: 0 24px 24px;
+        }
+
+        .protocol-section {
+            margin-bottom: 16px;
+        }
+        .protocol-section:last-child {
+            margin-bottom: 0;
+        }
+        .protocol-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #333;
+        }
+        .protocol-header .badge {
+            font-size: 0.8em;
+            padding: 4px 12px;
+        }
+        .protocol-desc {
+            font-size: 0.78em;
+            color: var(--text-dim);
+        }
+
+        .profile-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            transition: background 0.15s;
+        }
+        .profile-row:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        .profile-name {
+            font-size: 0.9em;
+            font-weight: 600;
+            min-width: 120px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .profile-address {
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 0.82em;
+            color: var(--primary);
+            background: rgba(33,150,243,0.08);
+            padding: 4px 10px;
+            border-radius: 6px;
+            word-break: break-all;
+            user-select: all;
+            cursor: text;
+            flex: 1;
+        }
+
+        /* Copy toast */
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .copy-toast.show { opacity: 1; }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85em;
+            border-top: 1px solid #333;
+            margin-top: auto;
+        }
+        footer a { color: var(--primary); }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.6em; }
+            .header .subtitle { font-size: 0.9em; }
+            .header img.logo { width: 80px; height: 80px; border-radius: 18px; }
+            .provider-card summary {
+                padding: 14px 16px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .provider-name { font-size: 1em; }
+            .provider-ratings { gap: 10px; }
+            .protocol-count { display: none; }
+            .profile-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .profile-name { min-width: auto; }
+            .legend-inner { gap: 12px; }
+            .provider-body { padding: 0 16px 16px; }
+        }
+
+        /* Expand/collapse all */
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .controls button {
+            background: var(--card);
+            border: 1px solid #444;
+            color: var(--text-dim);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .controls button:hover {
+            background: #333;
+            color: var(--text);
+            border-color: var(--primary);
+        }
+
+        /* Search bar */
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 1em;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-bar input:focus {
+            border-color: var(--primary);
+        }
+        .search-bar input::placeholder {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <img src="logo.svg" alt="Perfect DNS Manager" class="logo">
+    <h1>Fournisseurs DNS / DNS Providers</h1>
+    <p class="subtitle">All built-in DNS providers available in Perfect DNS Manager</p>
+    <a href="index.html" class="back-link">&larr; Back to homepage / Retour &agrave; l'accueil</a>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+    <div class="legend-inner">
+        <span class="legend-title">Protocols:</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#E040FB;"></span> DoQ (DNS over QUIC)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#2196F3;"></span> DoH (DNS over HTTPS)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#FF9800;"></span> DoT (DNS over TLS)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#90A4AE;"></span> Standard (UDP)</span>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="container">
+
+    <!-- Search -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search a provider... / Rechercher un fournisseur..." oninput="filterProviders()">
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button onclick="expandAll()">Expand all</button>
+        <button onclick="collapseAll()">Collapse all</button>
+    </div>
+
+    <!-- 1. ControlD -->
+    <details class="provider-card" data-name="ControlD">
+        <summary>
+            <span class="provider-index">1</span>
+            <div class="provider-info">
+                <div class="provider-name">ControlD</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doq">DoQ</span>
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoQ -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doq">DoQ</span>
+                    <span class="protocol-desc">DNS over QUIC &mdash; encrypted, low latency</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">quic://freedns.controld.com/p0</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Malware</span>
+                    <span class="profile-address">quic://freedns.controld.com/p1</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Ads &amp; Tracking</span>
+                    <span class="profile-address">quic://freedns.controld.com/p2</span>
+                </div>
+            </div>
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">https://freedns.controld.com/p0</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Malware</span>
+                    <span class="profile-address">https://freedns.controld.com/p1</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Ads &amp; Tracking</span>
+                    <span class="profile-address">https://freedns.controld.com/p2</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">p0.freedns.controld.com</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Malware</span>
+                    <span class="profile-address">p1.freedns.controld.com</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Ads &amp; Tracking</span>
+                    <span class="profile-address">p2.freedns.controld.com</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">76.76.2.0 / 76.76.10.0</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Malware</span>
+                    <span class="profile-address">76.76.2.1 / 76.76.10.1</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Ads &amp; Tracking</span>
+                    <span class="profile-address">76.76.2.2 / 76.76.10.2</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 2. NextDNS -->
+    <details class="provider-card" data-name="NextDNS">
+        <summary>
+            <span class="provider-index">2</span>
+            <div class="provider-info">
+                <div class="provider-name">NextDNS</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doq">DoQ</span>
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoQ -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doq">DoQ</span>
+                    <span class="protocol-desc">DNS over QUIC &mdash; encrypted, low latency</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">quic://dns.nextdns.io</span>
+                </div>
+            </div>
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://dns.nextdns.io</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dns.nextdns.io</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">45.90.28.0 / 45.90.30.0</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 3. AdGuard -->
+    <details class="provider-card" data-name="AdGuard">
+        <summary>
+            <span class="provider-index">3</span>
+            <div class="provider-info">
+                <div class="provider-name">AdGuard</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doq">DoQ</span>
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoQ -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doq">DoQ</span>
+                    <span class="protocol-desc">DNS over QUIC &mdash; encrypted, low latency</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">quic://unfiltered.adguard-dns.com</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">quic://dns.adguard-dns.com</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-family">Family</span></span>
+                    <span class="profile-address">quic://family.adguard-dns.com</span>
+                </div>
+            </div>
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">https://unfiltered.adguard-dns.com/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://dns.adguard-dns.com/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">unfiltered.adguard-dns.com</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dns.adguard-dns.com</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unfiltered</span></span>
+                    <span class="profile-address">94.140.14.140 / 94.140.14.141</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">94.140.14.14 / 94.140.15.15</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-family">Family</span></span>
+                    <span class="profile-address">94.140.14.15 / 94.140.15.16</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 4. Surfshark -->
+    <details class="provider-card" data-name="Surfshark">
+        <summary>
+            <span class="provider-index">4</span>
+            <div class="provider-info">
+                <div class="provider-name">Surfshark</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doq">DoQ</span>
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoQ -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doq">DoQ</span>
+                    <span class="protocol-desc">DNS over QUIC &mdash; encrypted, low latency</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">quic://dns.surfshark.com</span>
+                </div>
+            </div>
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://dns.surfsharkdns.com/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dns.surfsharkdns.com</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">194.169.169.169</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 5. Mullvad -->
+    <details class="provider-card" data-name="Mullvad">
+        <summary>
+            <span class="provider-index">5</span>
+            <div class="provider-info">
+                <div class="provider-name">Mullvad</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doq">DoQ</span>
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoQ -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doq">DoQ</span>
+                    <span class="protocol-desc">DNS over QUIC &mdash; encrypted, low latency</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">quic://dns.mullvad.net</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Adblock</span>
+                    <span class="profile-address">quic://adblock.dns.mullvad.net</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Base</span>
+                    <span class="profile-address">quic://base.dns.mullvad.net</span>
+                </div>
+            </div>
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://dns.mullvad.net/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Adblock</span>
+                    <span class="profile-address">https://adblock.dns.mullvad.net/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Base</span>
+                    <span class="profile-address">https://base.dns.mullvad.net/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dns.mullvad.net</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Base</span>
+                    <span class="profile-address">base.dns.mullvad.net</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 6. Cloudflare -->
+    <details class="provider-card" data-name="Cloudflare">
+        <summary>
+            <span class="provider-index">6</span>
+            <div class="provider-info">
+                <div class="provider-name">Cloudflare</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://one.one.one.one/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">one.one.one.one</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">1.1.1.1 / 1.0.0.1</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Malware Blocking</span>
+                    <span class="profile-address">1.1.1.2 / 1.0.0.2</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-family">Family</span></span>
+                    <span class="profile-address">1.1.1.3 / 1.0.0.3</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 7. Quad9 -->
+    <details class="provider-card" data-name="Quad9">
+        <summary>
+            <span class="provider-index">7</span>
+            <div class="provider-info">
+                <div class="provider-name">Quad9</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unsecured</span></span>
+                    <span class="profile-address">https://dns10.quad9.net/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://dns.quad9.net/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unsecured</span></span>
+                    <span class="profile-address">dns10.quad9.net</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dns.quad9.net</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-unfiltered">Unsecured</span></span>
+                    <span class="profile-address">9.9.9.10 / 149.112.112.10</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">9.9.9.9 / 149.112.112.112</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 8. FDN -->
+    <details class="provider-card" data-name="FDN French Data Network">
+        <summary>
+            <span class="provider-index">8</span>
+            <div class="provider-info">
+                <div class="provider-name">FDN &mdash; French Data Network</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-standard">Standard</span>
+                <span class="badge badge-dot">DoT</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">ns0</span>
+                    <span class="profile-address">https://ns0.fdn.fr/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">ns1</span>
+                    <span class="profile-address">https://ns1.fdn.fr/dns-query</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic DNS &mdash; IPv4 + IPv6, DNSSEC</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">ns0</span>
+                    <span class="profile-address">80.67.169.12</span>
+                    <span class="profile-address" style="margin-left:8px;opacity:0.7;">IPv6: 2001:910:800::12</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">ns1</span>
+                    <span class="profile-address">80.67.169.40</span>
+                    <span class="profile-address" style="margin-left:8px;opacity:0.7;">IPv6: 2001:910:800::40</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">ns0</span>
+                    <span class="profile-address">ns0.fdn.fr</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">ns1</span>
+                    <span class="profile-address">ns1.fdn.fr</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 9. dns.sb -->
+    <details class="provider-card" data-name="dns.sb">
+        <summary>
+            <span class="provider-index">9</span>
+            <div class="provider-info">
+                <div class="provider-name">dns.sb</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://doh.dns.sb/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dot.sb</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">185.222.222.222 / 45.11.45.11</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 10. Yandex -->
+    <details class="provider-card" data-name="Yandex">
+        <summary>
+            <span class="provider-index">10</span>
+            <div class="provider-info">
+                <div class="provider-name">Yandex</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Basic</span>
+                    <span class="profile-address">https://common.dot.dns.yandex.net/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Safe</span>
+                    <span class="profile-address">https://safe.dot.dns.yandex.net/dns-query</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-family">Family</span></span>
+                    <span class="profile-address">https://family.dot.dns.yandex.net/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Basic</span>
+                    <span class="profile-address">common.dot.dns.yandex.net</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Safe</span>
+                    <span class="profile-address">safe.dot.dns.yandex.net</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-family">Family</span></span>
+                    <span class="profile-address">family.dot.dns.yandex.net</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Basic</span>
+                    <span class="profile-address">77.88.8.8 / 77.88.8.1</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Safe</span>
+                    <span class="profile-address">77.88.8.88 / 77.88.8.2</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name"><span class="badge badge-family">Family</span></span>
+                    <span class="profile-address">77.88.8.7 / 77.88.8.3</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- 11. Google -->
+    <details class="provider-card" data-name="Google">
+        <summary>
+            <span class="provider-index">11</span>
+            <div class="provider-info">
+                <div class="provider-name">Google</div>
+                <div class="provider-ratings">
+                    <span class="rating">
+                        <span class="rating-label">Speed:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span><span class="star-filled">&#x2605;</span></span>
+                    </span>
+                    <span class="rating">
+                        <span class="rating-label">Privacy:</span>
+                        <span class="stars"><span class="star-filled">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span><span class="star-empty">&#x2605;</span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="protocol-count">
+                <span class="badge badge-doh">DoH</span>
+                <span class="badge badge-dot">DoT</span>
+                <span class="badge badge-standard">Std</span>
+            </div>
+        </summary>
+        <div class="provider-body">
+            <!-- DoH -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-doh">DoH</span>
+                    <span class="protocol-desc">DNS over HTTPS &mdash; encrypted, firewall-friendly</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">https://dns.google/dns-query</span>
+                </div>
+            </div>
+            <!-- DoT -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-dot">DoT</span>
+                    <span class="protocol-desc">DNS over TLS &mdash; Private DNS (Android 9+)</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">dns.google</span>
+                </div>
+            </div>
+            <!-- Standard -->
+            <div class="protocol-section">
+                <div class="protocol-header">
+                    <span class="badge badge-standard">Standard</span>
+                    <span class="protocol-desc">Classic UDP DNS &mdash; unencrypted</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-name">Standard</span>
+                    <span class="profile-address">8.8.8.8 / 8.8.4.4</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>Perfect DNS Manager &copy; 2026 AppstoreFR</p>
+    <p style="margin-top: 6px;">
+        <a href="index.html">Homepage</a> &middot;
+        <a href="https://github.com/appstorefr/PerfectDNSManager">GitHub</a> &middot;
+        <a href="mailto:contact@appstorefr.net">Contact</a>
+    </p>
+</footer>
+
+<!-- Copy toast -->
+<div class="copy-toast" id="copyToast">Address copied!</div>
+
+<script>
+// Click to copy addresses
+document.querySelectorAll('.profile-address').forEach(function(el) {
+    el.style.cursor = 'pointer';
+    el.title = 'Click to copy';
+    el.addEventListener('click', function() {
+        var text = el.textContent.trim();
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast();
+            });
+        } else {
+            // Fallback
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand('copy');
+            showToast();
+        }
+    });
+});
+
+function showToast() {
+    var toast = document.getElementById('copyToast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2000);
+}
+
+// Expand / collapse all
+function expandAll() {
+    document.querySelectorAll('.provider-card').forEach(function(d) {
+        if (d.style.display !== 'none') d.open = true;
+    });
+}
+function collapseAll() {
+    document.querySelectorAll('.provider-card').forEach(function(d) {
+        d.open = false;
+    });
+}
+
+// Search / filter
+function filterProviders() {
+    var query = document.getElementById('searchInput').value.toLowerCase().trim();
+    document.querySelectorAll('.provider-card').forEach(function(card) {
+        var name = (card.getAttribute('data-name') || '').toLowerCase();
+        var content = card.textContent.toLowerCase();
+        if (query === '' || name.indexOf(query) !== -1 || content.indexOf(query) !== -1) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+
+</body>
+</html>

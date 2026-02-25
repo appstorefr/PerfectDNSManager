@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect DNS Manager</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --card: #252525;
+            --primary: #2196F3;
+            --accent: #FFD700;
+            --text: #FFFFFF;
+            --text-dim: #BBBBBB;
+            --green: #4CAF50;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        .logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(255,215,0,0.2), 0 0 60px rgba(33,150,243,0.15);
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 2.6em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.15em;
+            color: var(--text-dim);
+            margin-bottom: 48px;
+        }
+
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 720px;
+            width: 100%;
+            margin-bottom: 48px;
+        }
+
+        .lang-card {
+            background: var(--card);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .lang-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(33,150,243,0.25);
+            background: #2a2a2a;
+        }
+        .lang-card:active {
+            transform: translateY(-1px);
+        }
+
+        .lang-flag {
+            font-size: 2.4em;
+            line-height: 1;
+        }
+
+        .lang-name {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--green);
+            color: #fff;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 1.15em;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 20px rgba(76,175,80,0.4);
+            margin-bottom: 48px;
+        }
+        .dl-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(76,175,80,0.55);
+        }
+        .dl-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .dl-icon {
+            font-size: 1.3em;
+        }
+
+        footer {
+            color: var(--text-dim);
+            font-size: 0.85em;
+            text-align: center;
+            margin-top: auto;
+            padding-top: 24px;
+        }
+
+        /* Decorative background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(33,150,243,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @media (max-width: 700px) {
+            .lang-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .subtitle {
+                font-size: 1em;
+                margin-bottom: 32px;
+            }
+            .lang-card {
+                padding: 18px 12px;
+            }
+            .lang-flag {
+                font-size: 2em;
+            }
+        }
+
+        @media (min-width: 701px) and (max-width: 900px) {
+            .lang-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <img src="logo.svg" alt="Perfect DNS Manager" class="logo">
+
+    <h1>Perfect DNS Manager</h1>
+    <p class="subtitle">Choose your language / Choisissez votre langue</p>
+
+    <p style="color: var(--text-dim); font-size: 0.9em; margin-bottom: 16px; max-width: 600px; text-align: center;">
+        Missing your language? Help us translate! / Votre langue manque ? Aidez-nous &agrave; traduire !<br>
+        <a href="mailto:contact@appstorefr.net" style="color: #2196F3;">contact@appstorefr.net</a> &middot; <a href="https://github.com/appstorefr/PerfectDNSManager" style="color: #2196F3;">GitHub</a>
+    </p>
+
+    <div class="lang-grid">
+        <a href="fr.html" class="lang-card">
+            <span class="lang-flag">&#x1F1EB;&#x1F1F7;</span>
+            <span class="lang-name">Fran&ccedil;ais</span>
+        </a>
+        <a href="en.html" class="lang-card">
+            <span class="lang-flag">&#x1F1EC;&#x1F1E7;</span>
+            <span class="lang-name">English</span>
+        </a>
+        <a href="es.html" class="lang-card">
+            <span class="lang-flag">&#x1F1EA;&#x1F1F8;</span>
+            <span class="lang-name">Espa&ntilde;ol</span>
+        </a>
+        <a href="ru.html" class="lang-card">
+            <span class="lang-flag">&#x1F1F7;&#x1F1FA;</span>
+            <span class="lang-name">&#x0420;&#x0443;&#x0441;&#x0441;&#x043A;&#x0438;&#x0439;</span>
+        </a>
+        <a href="zh.html" class="lang-card">
+            <span class="lang-flag">&#x1F1E8;&#x1F1F3;</span>
+            <span class="lang-name">&#x4E2D;&#x6587;</span>
+        </a>
+        <a href="ar.html" class="lang-card">
+            <span class="lang-flag">&#x1F1F8;&#x1F1E6;</span>
+            <span class="lang-name">&#x0627;&#x0644;&#x0639;&#x0631;&#x0628;&#x064A;&#x0629;</span>
+        </a>
+        <a href="it.html" class="lang-card">
+            <span class="lang-flag">&#x1F1EE;&#x1F1F9;</span>
+            <span class="lang-name">Italiano</span>
+        </a>
+        <a href="pt.html" class="lang-card">
+            <span class="lang-flag">&#x1F1E7;&#x1F1F7;</span>
+            <span class="lang-name">Portugu&ecirc;s</span>
+        </a>
+        <a href="hi.html" class="lang-card">
+            <span class="lang-flag">&#x1F1EE;&#x1F1F3;</span>
+            <span class="lang-name">&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;</span>
+        </a>
+        <a href="bn.html" class="lang-card">
+            <span class="lang-flag">&#x1F1E7;&#x1F1E9;</span>
+            <span class="lang-name">&#x09AC;&#x09BE;&#x0982;&#x09B2;&#x09BE;</span>
+        </a>
+        <a href="ja.html" class="lang-card">
+            <span class="lang-flag">&#x1F1EF;&#x1F1F5;</span>
+            <span class="lang-name">&#x65E5;&#x672C;&#x8A9E;</span>
+        </a>
+        <a href="de.html" class="lang-card">
+            <span class="lang-flag">&#x1F1E9;&#x1F1EA;</span>
+            <span class="lang-name">Deutsch</span>
+        </a>
+    </div>
+
+    <div id="version-badge" style="display:inline-block;background:var(--accent);color:#000;padding:6px 18px;border-radius:20px;font-weight:700;font-size:0.95em;margin-bottom:16px;"></div>
+
+    <br>
+
+    <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
+        <span class="dl-icon">&#x2B07;&#xFE0F;</span>
+        Download APK / T&eacute;l&eacute;charger l'APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
+    </a>
+
+    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 16px;">
+        <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Code Downloader (AFTVnews):</div>
+        <div style="font-size: 2em; font-weight: 700; font-family: monospace; color: var(--accent); letter-spacing: 3px;">2759555</div>
+        <div style="font-size: 0.95em; color: rgba(255,255,255,0.5); margin-top: 8px;">Direct URL:</div>
+        <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+        <a href="dns-providers.html" style="color: var(--primary); font-size: 0.95em;">&#x1F310; DNS Providers / Fournisseurs DNS &rarr;</a>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <a href="decrypt.html" style="color: var(--primary); font-size: 0.95em;">&#x1F512; Protected Report / Rapport prot&eacute;g&eacute; &rarr;</a>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <a href="support.html" style="color: var(--accent); font-size: 0.95em; font-weight: 600;">&#x2764;&#xFE0F; Support / Me soutenir (Crypto) &rarr;</a>
+    </div>
+    <div style="margin-bottom: 48px; color: var(--text-dim); font-size: 0.85em;">
+        &#x1F513; Licence GPL v3 &mdash; Open source &amp; free
+    </div>
+
+    <!-- Share section -->
+    <div style="max-width: 600px; width: 100%; margin: 0 auto 48px; background: var(--card); border-radius: 14px; padding: 24px; border: 1px solid #333;">
+        <h2 style="font-size: 1.2em; color: var(--accent); margin-bottom: 12px; text-align: center;">&#x1F4E2; Partagez l'application !</h2>
+        <p style="color: var(--text-dim); font-size: 0.85em; text-align: center; margin-bottom: 16px;">
+            Aidez-nous &agrave; faire conna&icirc;tre Perfect DNS Manager. Copiez le texte ci-dessous et partagez-le !
+        </p>
+        <div id="shareText" style="background: var(--surface); border: 1px solid #444; border-radius: 8px; padding: 14px; font-size: 0.85em; color: var(--text-dim); line-height: 1.6; cursor: text; user-select: all; margin-bottom: 12px;">
+&#x1F510; Perfect DNS Manager &mdash; Prot&eacute;gez votre vie priv&eacute;e DNS !<br><br>
+&#x2705; DNS chiffr&eacute; (DoH / DoT / DoQ)<br>
+&#x2705; Compatible Android, Fire TV, Android TV<br>
+&#x2705; 12 langues, open source, gratuit<br>
+&#x2705; Speedtest DNS, test de fuite DNS, test de blocage<br>
+&#x2705; Split tunneling par application<br><br>
+&#x1F4F2; T&eacute;l&eacute;charger : https://appstorefr.github.io/PerfectDNSManager<br>
+&#x1F4E5; Code Downloader (AFTVnews) : 2759555<br><br>
+&#x1F4B0; Soutenir le projet : https://appstorefr.github.io/PerfectDNSManager/support.html<br><br>
+&#x2764;&#xFE0F; Soutenez le projet en partageant ! Chaque partage compte.
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="copyShareText()" style="padding: 10px 20px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 0.9em; font-weight: 600; cursor: pointer; transition: 0.2s;">&#x1F4CB; Copier le texte</button>
+            <a href="" id="whatsappBtn" target="_blank" style="padding: 10px 20px; border-radius: 8px; background: #25D366; color: white; font-size: 0.9em; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;">&#x1F4AC; WhatsApp</a>
+            <a href="" id="telegramBtn" target="_blank" style="padding: 10px 20px; border-radius: 8px; background: #0088cc; color: white; font-size: 0.9em; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;">&#x2708;&#xFE0F; Telegram</a>
+        </div>
+        <p id="copyFeedback" style="color: var(--green); font-size: 0.8em; text-align: center; margin-top: 8px; opacity: 0; transition: opacity 0.3s;"></p>
+    </div>
+
+    <footer>
+        <p>Perfect DNS Manager &copy; 2026 AppstoreFR</p>
+    </footer>
+
+<script>
+fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const apk = data.assets && data.assets.find(a => a.name === 'latest.apk');
+    if (apk) {
+      const sizeMB = (apk.size / 1048576).toFixed(1);
+      const el = document.getElementById('apk-size');
+      if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+    const badge = document.getElementById('version-badge');
+    if (badge && data.tag_name) {
+      const ver = data.tag_name;
+      const size = apk ? ' \u2014 ' + (apk.size / 1048576).toFixed(1) + ' MB' : '';
+      badge.textContent = ver + size;
+    }
+  }).catch(() => {});
+
+// Share text
+const shareMsg = "\uD83D\uDD10 Perfect DNS Manager v1.0.67 \u2014 Prot\u00E9gez votre vie priv\u00E9e DNS !\n\n\u2705 DNS chiffr\u00E9 (DoH / DoT / DoQ)\n\u2705 Compatible Android, Fire TV, Android TV\n\u2705 12 langues, open source, gratuit\n\u2705 Speedtest DNS, test de fuite DNS, test de blocage\n\u2705 Split tunneling par application\n\n\u26A0\uFE0F Bug connu : quelques petits bugs d'interface UI\n\n\uD83D\uDCF2 T\u00E9l\u00E9charger : https://appstorefr.github.io/PerfectDNSManager\n\uD83D\uDCE5 Code Downloader (AFTVnews) : 2759555\n\n\uD83D\uDCB0 Soutenir le projet : https://appstorefr.github.io/PerfectDNSManager/support.html\n\n\u2764\uFE0F Soutenez le projet en partageant ! Chaque partage compte.";
+
+document.getElementById('whatsappBtn').href = 'https://wa.me/?text=' + encodeURIComponent(shareMsg);
+document.getElementById('telegramBtn').href = 'https://t.me/share/url?url=' + encodeURIComponent('https://appstorefr.github.io/PerfectDNSManager') + '&text=' + encodeURIComponent(shareMsg);
+
+function copyShareText() {
+    navigator.clipboard.writeText(shareMsg).then(() => {
+        const fb = document.getElementById('copyFeedback');
+        fb.textContent = '\u2705 Texte copi\u00E9 !';
+        fb.style.opacity = '1';
+        setTimeout(() => { fb.style.opacity = '0'; }, 2000);
+    });
+}
+</script>
+
+</body>
+</html>

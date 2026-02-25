@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Outer gold glow -->
+    <path
+        android:pathData="M256,256 m-148,0 a148,148 0 1,0 296,0 a148,148 0 1,0 -296,0"
+        android:fillColor="#FFD700"
+        android:fillAlpha="0.08"/>
+
+    <!-- Shadow -->
+    <path
+        android:pathData="M256,264 m-130,0 a130,130 0 1,0 260,0 a130,130 0 1,0 -260,0"
+        android:fillColor="#000000"
+        android:fillAlpha="0.3"/>
+
+    <!-- Main blue circle -->
+    <path
+        android:pathData="M256,256 m-125,0 a125,125 0 1,0 250,0 a125,125 0 1,0 -250,0"
+        android:fillColor="#0D47A1"/>
+
+    <!-- Inner highlight -->
+    <path
+        android:pathData="M256,250 m-116,0 a116,116 0 1,0 232,0 a116,116 0 1,0 -232,0"
+        android:fillColor="#1565C0"
+        android:fillAlpha="0.3"/>
+
+    <!-- Lightning bolt — main shape -->
+    <path
+        android:pathData="M280,148 L218,264 L258,264 L232,372 L310,240 L266,240 L296,148 Z"
+        android:fillColor="#FFD700"/>
+
+    <!-- Lightning bolt — bright highlight -->
+    <path
+        android:pathData="M276,158 L224,262 L254,262 L242,332 L298,246 L268,246 L290,158 Z"
+        android:fillColor="#FFEA00"
+        android:fillAlpha="0.4"/>
+
+    <!-- Small spark top-right -->
+    <path
+        android:pathData="M320,180 L328,168 L324,182 L336,178 Z"
+        android:fillColor="#FFD700"
+        android:fillAlpha="0.6"/>
+
+    <!-- Small spark bottom-left -->
+    <path
+        android:pathData="M196,330 L188,342 L192,328 L180,332 Z"
+        android:fillColor="#FFD700"
+        android:fillAlpha="0.5"/>
+
+</vector>

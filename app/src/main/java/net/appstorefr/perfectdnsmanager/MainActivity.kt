@@ -1,0 +1,1230 @@
+package net.appstorefr.perfectdnsmanager
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.VpnService
+import android.os.Bundle
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import net.appstorefr.perfectdnsmanager.data.DnsProfile
+import net.appstorefr.perfectdnsmanager.data.DnsType
+import net.appstorefr.perfectdnsmanager.service.AdbDnsManager
+import net.appstorefr.perfectdnsmanager.service.DnsVpnService
+import net.appstorefr.perfectdnsmanager.service.UpdateManager
+import net.appstorefr.perfectdnsmanager.util.DnsLeakTester
+import net.appstorefr.perfectdnsmanager.util.LocaleHelper
+import net.appstorefr.perfectdnsmanager.util.SpeedTester
+import net.appstorefr.perfectdnsmanager.util.UrlBlockingTester
+import com.google.gson.Gson
+
+class MainActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.applyLocale(newBase))
+    }
+
+    private lateinit var btnToggle: Button
+    private lateinit var btnLanguage: Button
+    private lateinit var layoutSelectDns: LinearLayout
+    private lateinit var ivSelectedDnsIcon: ImageView
+    private lateinit var tvSelectDns: TextView
+    private lateinit var btnSettings: ImageButton
+    private lateinit var tvStatus: TextView
+    private lateinit var btnQuickDnsTest: Button
+    private lateinit var btnGenerateReport: Button
+    private lateinit var tvReportContent: TextView
+    private lateinit var btnShareReport: Button
+    private lateinit var adbManager: AdbDnsManager
+    private lateinit var prefs: SharedPreferences
+
+    private var selectedProfile: DnsProfile? = null
+    private var pendingVpnProfile: DnsProfile? = null
+    private var isActive = false
+    private var isActivating = false
+    private var isGenerating = false
+    private var generatingThread: Thread? = null
+    private var lastSpeedResult: SpeedTester.SpeedResult? = null
+    private var lastLeakResult: DnsLeakTester.LeakResult? = null
+    private var lastBlockingResult: UrlBlockingTester.BlockingResult? = null
+    private var lastIpv4: String? = null
+    private var lastIpv6: String? = null
+    private var reportGenerated = false
+
+    /** Détermine la méthode d'application depuis le type de profil. DoT → ADB, sinon → VPN */
+    private fun methodForProfile(profile: DnsProfile?): String {
+        return if (profile?.type == DnsType.DOT) "ADB" else "VPN"
+    }
+
+    private fun typeLabelFor(type: DnsType) = when (type) {
+        DnsType.DOH -> "DoH"; DnsType.DOT -> "DoT"; DnsType.DOQ -> "DoQ"; DnsType.DEFAULT -> "Standard"
+    }
+
+    private val vpnPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { _ ->
+        val profile = pendingVpnProfile ?: selectedProfile
+        if (profile != null && VpnService.prepare(this) == null) {
+            startVpnService(profile)
+        } else if (profile != null) {
+            isActivating = false
+            btnToggle.isEnabled = true
+            btnToggle.requestFocus()
+            Toast.makeText(this, getString(R.string.vpn_permission_denied), Toast.LENGTH_SHORT).show()
+        } else {
+            isActivating = false
+            btnToggle.isEnabled = true
+            btnToggle.requestFocus()
+        }
+        pendingVpnProfile = null
+    }
+
+    private val dnsSelectionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val profileJson = result.data?.getStringExtra("SELECTED_PROFILE_JSON")
+            if (profileJson != null) {
+                val newProfile = Gson().fromJson(profileJson, DnsProfile::class.java)
+                val wasActive = isActive
+                selectedProfile = newProfile
+                prefs.edit().putString("selected_profile_json", profileJson).apply()
+                updateSelectButtonText()
+                // Auto-reconnexion : si DNS était actif, reconnecter avec le nouveau profil
+                if (wasActive) {
+                    val adbWasActive = adbManager.getCurrentPrivateDnsMode()?.contains("hostname") == true
+                    val vpnWasActive = DnsVpnService.isVpnRunning || prefs.getBoolean("vpn_active", false)
+                    val newMethod = methodForProfile(newProfile)  // "VPN" ou "ADB"
+
+                    // D'abord, stopper l'ancienne méthode proprement
+                    if (adbWasActive) {
+                        Thread {
+                            adbManager.disablePrivateDns()
+                            runOnUiThread { setInactiveStatus(); applyDns() }
+                        }.start()
+                    } else if (vpnWasActive && newMethod == "ADB") {
+                        // VPN→DoT : stopper le VPN, puis appliquer en ADB
+                        startService(Intent(this@MainActivity, DnsVpnService::class.java).apply {
+                            action = DnsVpnService.ACTION_STOP
+                        })
+                        prefs.edit().putBoolean("vpn_active", false).putString("vpn_label", "").apply()
+                        setInactiveStatus()
+                        applyDns()
+                    } else if (vpnWasActive && newMethod == "VPN") {
+                        // VPN→VPN : restart le VPN avec le nouveau profil
+                        val svcIntent = Intent(this@MainActivity, DnsVpnService::class.java).apply {
+                            action = DnsVpnService.ACTION_RESTART
+                            putExtra(DnsVpnService.EXTRA_DNS_PRIMARY, newProfile.primary)
+                            newProfile.secondary?.let { putExtra(DnsVpnService.EXTRA_DNS_SECONDARY, it) }
+                        }
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                            startForegroundService(svcIntent) else startService(svcIntent)
+                        val label = "DNS via VPN: ${newProfile.providerName}\n${newProfile.primary}"
+                        prefs.edit()
+                            .putBoolean("vpn_active", true)
+                            .putString("vpn_label", label)
+                            .putString("last_method", "VPN")
+                            .apply()
+                        setActiveStatus(true, label)
+                    } else {
+                        // Aucune méthode active détectée, appliquer normalement
+                        applyDns()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+        adbManager = AdbDnsManager(this)
+
+        // Premier lancement : si pas de langue choisie, définir la langue du système
+        if (prefs.getString("language", null) == null) {
+            val sysLang = java.util.Locale.getDefault().language
+            val supported = listOf("fr", "en", "es", "it", "pt", "ru", "zh", "ar", "hi", "bn", "ja", "de")
+            val lang = if (sysLang in supported) sysLang else "en"
+            prefs.edit().putString("language", lang).apply()
+        }
+
+        // Migration de version : rafraîchir les presets DNS si la version a changé
+        checkVersionMigration()
+
+        initViews()
+        applyGoldenIndicators()
+        restoreState()
+        setupUI()
+
+        // Vérification auto des mises à jour au lancement
+        checkForAppUpdate()
+    }
+
+    private fun checkForAppUpdate() {
+        val currentVersion = try {
+            packageManager.getPackageInfo(packageName, 0).versionName ?: "1.0"
+        } catch (_: Exception) { "1.0" }
+        UpdateManager(this).checkOnLaunch(currentVersion)
+        // Sync blocking authorities list in background
+        Thread {
+            net.appstorefr.perfectdnsmanager.util.BlockingAuthoritiesManager.syncFromRemote(this)
+        }.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isActivating) {
+            // Gestion AUTO_RECONNECT (notification boot)
+            // Priorité : DNS par défaut > dernier DNS sélectionné
+            if (intent?.getBooleanExtra("AUTO_RECONNECT", false) == true) {
+                intent?.removeExtra("AUTO_RECONNECT")
+                val defaultJson = prefs.getString("default_profile_json", null)
+                val selectedJson = prefs.getString("selected_profile_json", null)
+                val profileJson = defaultJson ?: selectedJson
+                if (profileJson != null && !DnsVpnService.isVpnRunning) {
+                    try {
+                        val profile = Gson().fromJson(profileJson, DnsProfile::class.java)
+                        selectedProfile = profile
+                        prefs.edit().putString("selected_profile_json", profileJson).apply()
+                        updateSelectButtonText()
+                        if (methodForProfile(profile) == "VPN") applyDnsViaVpn(profile)
+                    } catch (_: Exception) {}
+                }
+            }
+            checkStatus()
+        }
+    }
+
+    private fun applyGoldenIndicators() {
+        val gold = Color.parseColor("#FFD700")
+        val tvProvider: TextView = findViewById(R.id.tvDnsProviderLabel)
+        val tvActivation: TextView = findViewById(R.id.tvActivationLabel)
+        val tvTools: TextView = findViewById(R.id.tvToolsLabel)
+        for (tv in listOf(tvProvider, tvActivation, tvTools)) {
+            val text = tv.text.toString()
+            val span = SpannableString(text)
+            span.setSpan(ForegroundColorSpan(gold), 0, 2, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+            tv.text = span
+        }
+    }
+
+    private fun initViews() {
+        btnToggle = findViewById(R.id.btnToggle)
+        btnLanguage = findViewById(R.id.btnLanguage)
+        layoutSelectDns = findViewById(R.id.layoutSelectDns)
+        ivSelectedDnsIcon = findViewById(R.id.ivSelectedDnsIcon)
+        tvSelectDns = findViewById(R.id.tvSelectDns)
+        btnSettings = findViewById(R.id.btnSettings)
+        tvStatus = findViewById(R.id.tvStatus)
+        btnQuickDnsTest = findViewById(R.id.btnQuickDnsTest)
+        btnGenerateReport = findViewById(R.id.btnGenerateReport)
+        tvReportContent = findViewById(R.id.tvReportContent)
+        btnShareReport = findViewById(R.id.btnShareReport)
+        btnQuickDnsTest.setOnClickListener { runQuickDnsTest() }
+        btnGenerateReport.setOnClickListener { generateReport() }
+        btnShareReport.setOnClickListener { shareReport() }
+
+        // Report scroll zone - click to enter, back to exit
+        val scrollReport: ScrollView = findViewById(R.id.scrollReport)
+        scrollReport.setOnKeyListener { _, keyCode, event ->
+            if (event.action == android.view.KeyEvent.ACTION_DOWN &&
+                (keyCode == android.view.KeyEvent.KEYCODE_DPAD_CENTER || keyCode == android.view.KeyEvent.KEYCODE_ENTER)) {
+                tvReportContent.isFocusable = true
+                tvReportContent.requestFocus()
+                true
+            } else false
+        }
+        tvReportContent.setOnKeyListener { _, keyCode, event ->
+            if (event.action == android.view.KeyEvent.ACTION_DOWN && keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+                tvReportContent.isFocusable = false
+                scrollReport.requestFocus()
+                true
+            } else false
+        }
+    }
+
+    private var quickTestThread: Thread? = null
+
+    private fun runQuickDnsTest() {
+        if (quickTestThread?.isAlive == true) {
+            quickTestThread?.interrupt()
+            quickTestThread = null
+            btnQuickDnsTest.text = getString(R.string.quick_dns_test_button)
+            btnQuickDnsTest.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#0D47A1"))
+            return
+        }
+        if (!DnsVpnService.isVpnRunning) {
+            Toast.makeText(this, getString(R.string.vpn_required_for_report), Toast.LENGTH_LONG).show()
+            return
+        }
+        btnQuickDnsTest.text = "\u23F9 Stop"
+        btnQuickDnsTest.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#B71C1C"))
+        tvReportContent.setTextColor(Color.parseColor("#AAAAAA"))
+        tvReportContent.text = getString(R.string.quick_dns_test_running)
+
+        quickTestThread = Thread {
+            val t = Thread.currentThread()
+            val display = StringBuilder()
+
+            // 1. DNS Leak test
+            try {
+                val leakComparison = DnsLeakTester.runLeakTestComparison(this@MainActivity)
+                display.appendLine("\u2501\u2501\u2501 DNS Leak Test \u2501\u2501\u2501")
+                display.appendLine("  ${getString(R.string.dns_leak_isp_label)} :")
+                if (leakComparison.ispResult.error != null) {
+                    display.appendLine("    \u274c ${leakComparison.ispResult.error}")
+                } else {
+                    for (r in leakComparison.ispResult.resolverIps) {
+                        display.appendLine("    \u2022 ${r.ip}${r.country?.let { " \u2014 $it" } ?: ""}${r.isp?.let { " ($it)" } ?: ""}")
+                    }
+                }
+                display.appendLine("  ${getString(R.string.dns_leak_vpn_label)} :")
+                if (leakComparison.vpnResult.error != null) {
+                    display.appendLine("    \u274c ${leakComparison.vpnResult.error}")
+                } else {
+                    for (r in leakComparison.vpnResult.resolverIps) {
+                        display.appendLine("    \u2022 ${r.ip}${r.country?.let { " \u2014 $it" } ?: ""}${r.isp?.let { " ($it)" } ?: ""}")
+                    }
+                }
+                val ispIps = leakComparison.ispResult.resolverIps.map { it.ip }.toSet()
+                val vpnIps = leakComparison.vpnResult.resolverIps.map { it.ip }.toSet()
+                if (ispIps.isNotEmpty() && vpnIps.isNotEmpty() && ispIps != vpnIps) {
+                    display.appendLine("  \u2705 ${getString(R.string.report_no_leak)}")
+                } else if (ispIps.isNotEmpty() && ispIps == vpnIps) {
+                    display.appendLine("  \u26a0\ufe0f ${getString(R.string.report_leak_detected)}")
+                }
+                display.appendLine()
+            } catch (e: Exception) {
+                display.appendLine("\u2501\u2501\u2501 DNS Leak Test \u2501\u2501\u2501")
+                display.appendLine("\u274c ${e.message}")
+                display.appendLine()
+            }
+
+            if (t.isInterrupted) return@Thread
+            runOnUiThread { tvReportContent.text = display.toString() + "\u23F3 ${getString(R.string.report_testing_blocking)}" }
+
+            // 2. URL Blocking test (multi-domain)
+            val testDomains = loadTestDomains()
+            display.appendLine("\u2501\u2501\u2501 ${getString(R.string.share_toggle_blocking)} \u2501\u2501\u2501")
+            for (domain in testDomains) {
+                if (t.isInterrupted) break
+                try {
+                    val blocking = UrlBlockingTester.testBeforeAfter(this@MainActivity, domain)
+                    display.appendLine("  ${blocking.domain} :")
+                    val ispIcon = if (blocking.ispDns.isBlocked) "\u274c" else "\u2705"
+                    val ispIp = blocking.ispDns.ip ?: blocking.ispDns.error ?: "N/A"
+                    val ispAuth = blocking.ispDns.authorityLabel?.let { " \u2014 $it" } ?: ""
+                    display.appendLine("    ${getString(R.string.report_isp_dns_label)}   : $ispIcon $ispIp$ispAuth")
+                    val activeIcon = if (blocking.activeDns.isBlocked) "\u274c" else "\u2705"
+                    val activeIp = blocking.activeDns.ip ?: blocking.activeDns.error ?: "N/A"
+                    val activeAuth = blocking.activeDns.authorityLabel?.let { " \u2014 $it" } ?: ""
+                    display.appendLine("    ${getString(R.string.report_active_dns_label)} : $activeIcon $activeIp$activeAuth")
+                    if (blocking.ispDns.isBlocked && !blocking.activeDns.isBlocked) {
+                        display.appendLine("    \u2192 ${getString(R.string.report_dns_unblocks)}")
+                    }
+                } catch (e: Exception) {
+                    display.appendLine("  $domain : \u274c ${e.message}")
+                }
+                runOnUiThread { tvReportContent.text = display.toString() + "\n\u23F3 ${getString(R.string.report_testing_blocking)}" }
+            }
+
+            if (t.isInterrupted) return@Thread
+            runOnUiThread {
+                quickTestThread = null
+                btnQuickDnsTest.text = getString(R.string.quick_dns_test_button)
+                btnQuickDnsTest.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#0D47A1"))
+                tvReportContent.setTextColor(Color.parseColor("#CCCCCC"))
+                tvReportContent.text = display.toString().trimEnd()
+            }
+        }
+        quickTestThread!!.start()
+    }
+
+    /** Charge la liste des domaines de test activés depuis les prefs */
+    private fun loadTestDomains(): List<String> {
+        val json = prefs.getString("test_domains_json", null)
+        if (json != null) {
+            try {
+                val arr = org.json.JSONArray(json)
+                val result = mutableListOf<String>()
+                for (i in 0 until arr.length()) {
+                    val obj = arr.getJSONObject(i)
+                    if (obj.optBoolean("enabled", true)) {
+                        result.add(obj.getString("domain"))
+                    }
+                }
+                if (result.isNotEmpty()) return result
+            } catch (_: Exception) {}
+        }
+        // Fallback : ancien format mono-domaine ou défaut
+        val single = prefs.getString("test_dns_domain", "ygg.re") ?: "ygg.re"
+        return listOf(single)
+    }
+
+    private fun cancelGeneration() {
+        generatingThread?.interrupt()
+        generatingThread = null
+        isGenerating = false
+        btnGenerateReport.text = getString(R.string.generate_report_button)
+        btnGenerateReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#1B5E20"))
+        tvReportContent.setTextColor(Color.parseColor("#AAAAAA"))
+        tvReportContent.text = getString(R.string.no_report_yet)
+        btnShareReport.isEnabled = reportGenerated
+        btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor(if (reportGenerated) "#4CAF50" else "#B71C1C"))
+    }
+
+    private fun generateReport() {
+        if (isGenerating) {
+            cancelGeneration()
+            return
+        }
+        // Vérifier que le VPN est actif
+        if (!DnsVpnService.isVpnRunning) {
+            Toast.makeText(this, getString(R.string.vpn_required_for_report), Toast.LENGTH_LONG).show()
+            return
+        }
+        isGenerating = true
+        reportGenerated = false
+        btnGenerateReport.text = "\u23F9 Stop"
+        btnGenerateReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#B71C1C"))
+        btnShareReport.isEnabled = false
+        btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#B71C1C"))
+        lastSpeedResult = null
+        lastLeakResult = null
+        lastBlockingResult = null
+        lastIpv4 = null
+        lastIpv6 = null
+
+        val display = StringBuilder()
+        tvReportContent.setTextColor(Color.parseColor("#AAAAAA"))
+        tvReportContent.text = getString(R.string.report_progress_ip)
+
+        generatingThread = Thread {
+            val t = Thread.currentThread()
+            val httpClient = okhttp3.OkHttpClient.Builder()
+                .connectTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+                .build()
+            fun quickGet(url: String): String? = try {
+                val req = okhttp3.Request.Builder().url(url).build()
+                val resp = httpClient.newCall(req).execute()
+                val body = resp.body?.string()?.trim()
+                resp.close()
+                if (resp.isSuccessful && !body.isNullOrEmpty()) body else null
+            } catch (_: Exception) { null }
+
+            // 1. IPv4/IPv6
+            lastIpv4 = quickGet("https://api4.ipify.org")
+                ?: quickGet("https://ipv4.icanhazip.com")
+            lastIpv6 = run {
+                val v6 = quickGet("https://api6.ipify.org")
+                    ?: quickGet("https://ipv6.icanhazip.com")
+                if (v6 != null && v6.contains(":")) v6 else null
+            }
+
+            // IP locale + type connexion
+            val localIpDisplay = try {
+                java.net.NetworkInterface.getNetworkInterfaces()?.toList()
+                    ?.flatMap { it.inetAddresses.toList() }
+                    ?.firstOrNull { !it.isLoopbackAddress && it is java.net.Inet4Address }
+                    ?.hostAddress ?: "N/A"
+            } catch (_: Exception) { "N/A" }
+            val connTypeDisplay = try {
+                val cm = getSystemService(CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    val nc = cm.getNetworkCapabilities(cm.activeNetwork)
+                    when {
+                        nc?.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) == true -> "Ethernet"
+                        nc?.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) == true -> "WiFi"
+                        nc?.hasTransport(android.net.NetworkCapabilities.TRANSPORT_CELLULAR) == true -> "4G/5G"
+                        else -> getString(R.string.report_conn_unknown)
+                    }
+                } else {
+                    @Suppress("DEPRECATION")
+                    when (cm.activeNetworkInfo?.type) {
+                        android.net.ConnectivityManager.TYPE_ETHERNET -> "Ethernet"
+                        android.net.ConnectivityManager.TYPE_WIFI -> "WiFi"
+                        android.net.ConnectivityManager.TYPE_MOBILE -> "4G/5G"
+                        else -> getString(R.string.report_conn_unknown)
+                    }
+                }
+            } catch (_: Exception) { getString(R.string.report_conn_unknown) }
+
+            display.appendLine("\u2501\u2501\u2501 ${getString(R.string.share_toggle_network)} \u2501\u2501\u2501")
+            display.appendLine("${getString(R.string.md_local_ip)} : $localIpDisplay ($connTypeDisplay)")
+            display.appendLine("IPv4 : ${lastIpv4 ?: getString(R.string.wan_ip_error)}")
+            val ipv6Display = if (lastIpv6 != null) lastIpv6 else getString(R.string.wan_ipv6_blocked)
+            display.appendLine("IPv6 : $ipv6Display")
+            display.appendLine("DNS : ${tvStatus.text}")
+            selectedProfile?.let {
+                display.appendLine("${getString(R.string.report_label_profile)} : ${it.providerName} - ${it.name}")
+            }
+            display.appendLine()
+
+            // 2. Device info
+            val deviceType = if (packageManager.hasSystemFeature("android.software.leanback")) {
+                getString(R.string.device_type_tv)
+            } else if (resources.configuration.smallestScreenWidthDp >= 600) {
+                getString(R.string.device_type_tablet)
+            } else {
+                getString(R.string.device_type_phone)
+            }
+            val appVer = try { packageManager.getPackageInfo(packageName, 0).versionName ?: "?" } catch (_: Exception) { "?" }
+            display.appendLine("\u2501\u2501\u2501 ${getString(R.string.share_toggle_device)} \u2501\u2501\u2501")
+            display.appendLine("${getString(R.string.md_device_name)} : ${android.os.Build.DEVICE}")
+            display.appendLine("${getString(R.string.md_device_model)} : ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}")
+            display.appendLine("${getString(R.string.md_device_type)} : $deviceType")
+            display.appendLine("Android : ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})")
+            display.appendLine("${getString(R.string.md_app_version)} : $appVer")
+            display.appendLine()
+
+            if (t.isInterrupted) return@Thread
+            runOnUiThread {
+                tvReportContent.text = display.toString() + getString(R.string.report_progress_speedtest)
+            }
+
+            // 3. Speedtest
+            try {
+                val speed = SpeedTester.runFullTest { progress ->
+                    runOnUiThread {
+                        tvReportContent.text = display.toString() + "\u23F3 $progress"
+                    }
+                }
+                lastSpeedResult = speed
+                display.appendLine("\u2501\u2501\u2501 ${getString(R.string.share_toggle_speedtest)} \u2501\u2501\u2501")
+                if (speed.pingMs >= 0) display.appendLine("Ping : ${speed.pingMs} ms")
+                display.appendLine("\u2193 Download : ${String.format("%.1f", speed.downloadMbps)} Mbps")
+                display.appendLine("\u2191 Upload : ${String.format("%.1f", speed.uploadMbps)} Mbps")
+                display.appendLine()
+            } catch (e: Exception) {
+                display.appendLine("\u2501\u2501\u2501 ${getString(R.string.share_toggle_speedtest)} \u2501\u2501\u2501")
+                display.appendLine("\u274c ${e.message}")
+                display.appendLine()
+            }
+
+            if (t.isInterrupted) return@Thread
+            runOnUiThread {
+                tvReportContent.text = display.toString() + getString(R.string.report_progress_leak)
+            }
+
+            // 4. DNS Leak test — comparaison avant/après
+            try {
+                val leakComparison = DnsLeakTester.runLeakTestComparison(this@MainActivity)
+                lastLeakResult = leakComparison.vpnResult
+                display.appendLine("\u2501\u2501\u2501 DNS Leak Test \u2501\u2501\u2501")
+
+                // ISP DNS (sans VPN)
+                display.appendLine("  ${getString(R.string.dns_leak_isp_label)} :")
+                if (leakComparison.ispResult.error != null) {
+                    display.appendLine("    \u274c ${leakComparison.ispResult.error}")
+                } else {
+                    for (r in leakComparison.ispResult.resolverIps) {
+                        val info = buildString {
+                            append("    \u2022 ${r.ip}")
+                            if (r.country != null) append(" \u2014 ${r.country}")
+                            if (r.isp != null) append(" (${r.isp})")
+                        }
+                        display.appendLine(info)
+                    }
+                }
+
+                // VPN DNS (avec VPN)
+                display.appendLine("  ${getString(R.string.dns_leak_vpn_label)} :")
+                if (leakComparison.vpnResult.error != null) {
+                    display.appendLine("    \u274c ${leakComparison.vpnResult.error}")
+                } else {
+                    for (r in leakComparison.vpnResult.resolverIps) {
+                        val info = buildString {
+                            append("    \u2022 ${r.ip}")
+                            if (r.country != null) append(" \u2014 ${r.country}")
+                            if (r.isp != null) append(" (${r.isp})")
+                        }
+                        display.appendLine(info)
+                    }
+                }
+
+                // Comparaison
+                val ispIps = leakComparison.ispResult.resolverIps.map { it.ip }.toSet()
+                val vpnIps = leakComparison.vpnResult.resolverIps.map { it.ip }.toSet()
+                if (ispIps.isNotEmpty() && vpnIps.isNotEmpty() && ispIps != vpnIps) {
+                    display.appendLine("  \u2705 ${getString(R.string.report_no_leak)}")
+                } else if (ispIps.isNotEmpty() && ispIps == vpnIps) {
+                    display.appendLine("  \u26a0\ufe0f ${getString(R.string.report_leak_detected)}")
+                }
+
+                display.appendLine()
+            } catch (e: Exception) {
+                display.appendLine("\u2501\u2501\u2501 DNS Leak Test \u2501\u2501\u2501")
+                display.appendLine("\u274c ${e.message}")
+                display.appendLine()
+            }
+
+            if (t.isInterrupted) return@Thread
+            runOnUiThread {
+                tvReportContent.text = display.toString() + getString(R.string.report_progress_blocking)
+            }
+
+            // 5. URL Blocking test (multi-domain)
+            val testDomains = loadTestDomains()
+            val allBlockingResults = mutableListOf<UrlBlockingTester.BlockingResult>()
+            display.appendLine("\u2501\u2501\u2501 ${getString(R.string.share_toggle_blocking)} \u2501\u2501\u2501")
+            for (domain in testDomains) {
+                if (t.isInterrupted) break
+                try {
+                    val blocking = UrlBlockingTester.testBeforeAfter(this@MainActivity, domain)
+                    allBlockingResults.add(blocking)
+                    display.appendLine("  ${blocking.domain} :")
+                    val ispIcon = if (blocking.ispDns.isBlocked) "\u274c" else "\u2705"
+                    val ispIp = blocking.ispDns.ip ?: blocking.ispDns.error ?: "N/A"
+                    val ispAuth = blocking.ispDns.authorityLabel?.let { " \u2014 $it" } ?: ""
+                    display.appendLine("    ${getString(R.string.report_isp_dns_label)}   : $ispIcon $ispIp$ispAuth")
+                    val activeIcon = if (blocking.activeDns.isBlocked) "\u274c" else "\u2705"
+                    val activeIp = blocking.activeDns.ip ?: blocking.activeDns.error ?: "N/A"
+                    val activeAuth = blocking.activeDns.authorityLabel?.let { " \u2014 $it" } ?: ""
+                    display.appendLine("    ${getString(R.string.report_active_dns_label)} : $activeIcon $activeIp$activeAuth")
+                    if (blocking.ispDns.isBlocked && !blocking.activeDns.isBlocked) {
+                        display.appendLine("    \u2192 ${getString(R.string.report_dns_unblocks)}")
+                    }
+                } catch (e: Exception) {
+                    display.appendLine("  $domain : \u274c ${e.message}")
+                }
+                runOnUiThread {
+                    tvReportContent.text = display.toString() + "\n\u23F3 ${getString(R.string.report_testing_blocking)}"
+                }
+            }
+            lastBlockingResult = allBlockingResults.firstOrNull()
+            display.appendLine()
+
+            if (t.isInterrupted) return@Thread
+            reportGenerated = true
+
+            runOnUiThread {
+                isGenerating = false
+                generatingThread = null
+                btnGenerateReport.text = getString(R.string.generate_report_button)
+                btnGenerateReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#1B5E20"))
+                btnShareReport.isEnabled = true
+                btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#4CAF50"))
+                tvReportContent.setTextColor(Color.parseColor("#CCCCCC"))
+                tvReportContent.text = display.toString().trimEnd()
+                Toast.makeText(this, getString(R.string.report_complete), Toast.LENGTH_SHORT).show()
+            }
+        }
+        generatingThread!!.start()
+    }
+
+    private fun shareReport() {
+        if (!reportGenerated) {
+            Toast.makeText(this, getString(R.string.no_report_to_share), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Dialog avec toggles pour choisir les sections à partager
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(60, 30, 60, 10)
+        }
+        val cbNetwork = android.widget.CheckBox(this).apply {
+            text = getString(R.string.share_toggle_network); isChecked = true
+            setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
+        }
+        val cbSpeedtest = android.widget.CheckBox(this).apply {
+            text = getString(R.string.share_toggle_speedtest); isChecked = lastSpeedResult != null
+            isEnabled = lastSpeedResult != null
+            setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
+        }
+        val cbLeak = android.widget.CheckBox(this).apply {
+            text = getString(R.string.share_toggle_leak); isChecked = lastLeakResult != null
+            isEnabled = lastLeakResult != null
+            setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
+        }
+        val cbBlocking = android.widget.CheckBox(this).apply {
+            text = getString(R.string.share_toggle_blocking); isChecked = lastBlockingResult != null
+            isEnabled = lastBlockingResult != null
+            setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
+        }
+        val cbDevice = android.widget.CheckBox(this).apply {
+            text = getString(R.string.share_toggle_device); isChecked = true
+            setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
+        }
+        layout.addView(cbNetwork)
+        layout.addView(cbDevice)
+        layout.addView(cbSpeedtest)
+        layout.addView(cbLeak)
+        layout.addView(cbBlocking)
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.share_report_button))
+            .setView(layout)
+            .setPositiveButton(getString(R.string.share_report_button)) { _, _ ->
+                uploadReport(cbNetwork.isChecked, cbSpeedtest.isChecked, cbLeak.isChecked, cbBlocking.isChecked, cbDevice.isChecked)
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun uploadReport(includeNetwork: Boolean, includeSpeed: Boolean, includeLeak: Boolean, includeBlocking: Boolean, includeDevice: Boolean = true) {
+        Toast.makeText(this, getString(R.string.report_generating), Toast.LENGTH_SHORT).show()
+        btnShareReport.isEnabled = false
+        btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#B71C1C"))
+        Thread {
+            try {
+                val appVersion = try {
+                    packageManager.getPackageInfo(packageName, 0).versionName ?: "?"
+                } catch (_: Exception) { "?" }
+
+                val content = buildString {
+                    appendLine("# Perfect DNS Manager \u2014 ${getString(R.string.md_report_title)}")
+                    appendLine("*Version : $appVersion*")
+                    appendLine()
+
+                    if (includeNetwork) {
+                        val localIp = try {
+                            java.net.NetworkInterface.getNetworkInterfaces()?.toList()
+                                ?.flatMap { it.inetAddresses.toList() }
+                                ?.firstOrNull { !it.isLoopbackAddress && it is java.net.Inet4Address }
+                                ?.hostAddress ?: "N/A"
+                        } catch (_: Exception) { "N/A" }
+
+                        val connType = try {
+                            val cm = getSystemService(CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                val nc = cm.getNetworkCapabilities(cm.activeNetwork)
+                                when {
+                                    nc?.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) == true -> "Ethernet"
+                                    nc?.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) == true -> "WiFi"
+                                    nc?.hasTransport(android.net.NetworkCapabilities.TRANSPORT_CELLULAR) == true -> "4G/5G"
+                                    else -> getString(R.string.report_conn_unknown)
+                                }
+                            } else {
+                                @Suppress("DEPRECATION")
+                                when (cm.activeNetworkInfo?.type) {
+                                    android.net.ConnectivityManager.TYPE_ETHERNET -> "Ethernet"
+                                    android.net.ConnectivityManager.TYPE_WIFI -> "WiFi"
+                                    android.net.ConnectivityManager.TYPE_MOBILE -> "4G/5G"
+                                    else -> getString(R.string.report_conn_unknown)
+                                }
+                            }
+                        } catch (_: Exception) { getString(R.string.report_conn_unknown) }
+
+                        appendLine("## ${getString(R.string.md_network_info)}")
+                        appendLine()
+                        appendLine("| ${getString(R.string.md_field)} | ${getString(R.string.md_value)} |")
+                        appendLine("|-------|--------|")
+                        appendLine("| **${getString(R.string.md_local_ip)}** | `$localIp` ($connType) |")
+                        appendLine("| **IPv4** | `${lastIpv4 ?: "N/A"}` |")
+                        val ipv6Status = lastIpv6 ?: "${getString(R.string.wan_ipv6_blocked)}"
+                        appendLine("| **IPv6** | `$ipv6Status` |")
+                        appendLine("| **${getString(R.string.md_active_dns)}** | ${tvStatus.text} |")
+                        appendLine("| **${getString(R.string.report_label_profile)}** | ${selectedProfile?.let { "${it.providerName} - ${it.name}" } ?: getString(R.string.report_label_none)} |")
+                        appendLine("| **${getString(R.string.md_date)}** | ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date())} |")
+                        appendLine()
+                    }
+
+                    if (includeDevice) {
+                        val devType = if (packageManager.hasSystemFeature("android.software.leanback")) {
+                            getString(R.string.device_type_tv)
+                        } else if (resources.configuration.smallestScreenWidthDp >= 600) {
+                            getString(R.string.device_type_tablet)
+                        } else {
+                            getString(R.string.device_type_phone)
+                        }
+                        appendLine("## ${getString(R.string.md_device_info)}")
+                        appendLine()
+                        appendLine("| ${getString(R.string.md_field)} | ${getString(R.string.md_value)} |")
+                        appendLine("|-------|--------|")
+                        appendLine("| **${getString(R.string.md_device_name)}** | ${android.os.Build.DEVICE} |")
+                        appendLine("| **${getString(R.string.md_device_model)}** | ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL} |")
+                        appendLine("| **${getString(R.string.md_device_type)}** | $devType |")
+                        appendLine("| **${getString(R.string.md_android_version)}** | ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT}) |")
+                        appendLine("| **${getString(R.string.md_app_version)}** | $appVersion |")
+                        appendLine()
+                    }
+
+                    if (includeSpeed && lastSpeedResult != null) {
+                        val speed = lastSpeedResult!!
+                        appendLine("## ${getString(R.string.share_toggle_speedtest)}")
+                        appendLine()
+                        appendLine("| ${getString(R.string.md_measure)} | ${getString(R.string.md_result)} |")
+                        appendLine("|--------|----------|")
+                        if (speed.pingMs >= 0) appendLine("| **Ping** | ${speed.pingMs} ms |")
+                        appendLine("| **Download** | ${String.format("%.1f", speed.downloadMbps)} Mbps |")
+                        appendLine("| **Upload** | ${String.format("%.1f", speed.uploadMbps)} Mbps |")
+                        appendLine()
+                    }
+
+                    if (includeLeak && lastLeakResult != null) {
+                        val leak = lastLeakResult!!
+                        if (leak.error == null && leak.resolverIps.isNotEmpty()) {
+                            appendLine("## DNS Leak Test")
+                            appendLine()
+                            appendLine("| ${getString(R.string.md_resolver_ip)} | ${getString(R.string.md_country)} | ${getString(R.string.md_isp)} |")
+                            appendLine("|--------------|------|-----|")
+                            for (r in leak.resolverIps) {
+                                appendLine("| `${r.ip}` | ${r.country ?: "-"} | ${r.isp ?: "-"} |")
+                            }
+                            appendLine()
+                        }
+                    }
+
+                    if (includeBlocking && lastBlockingResult != null) {
+                        val b = lastBlockingResult!!
+                        appendLine("## ${getString(R.string.md_url_blocking_test)}")
+                        appendLine()
+                        appendLine("${getString(R.string.md_tested_domain)} : `${b.domain}`")
+                        appendLine()
+                        appendLine("| ${getString(R.string.md_step)} | ${getString(R.string.md_result)} | IP | ${getString(R.string.md_authority)} |")
+                        appendLine("|-------|----------|----|----|")
+                        val beforeIcon = if (b.ispDns.isBlocked) "\u274c ${getString(R.string.report_blocked)}" else "\u2705 ${getString(R.string.report_accessible)}"
+                        val beforeIp = b.ispDns.ip ?: b.ispDns.error ?: "N/A"
+                        val beforeAuth = b.ispDns.authorityLabel ?: ""
+                        appendLine("| **${getString(R.string.md_isp_dns_no_vpn)}** | $beforeIcon | `$beforeIp` | $beforeAuth |")
+                        val afterIcon = if (b.activeDns.isBlocked) "\u274c ${getString(R.string.report_blocked)}" else "\u2705 ${getString(R.string.report_accessible)}"
+                        val afterIp = b.activeDns.ip ?: b.activeDns.error ?: "N/A"
+                        val afterAuth = b.activeDns.authorityLabel ?: ""
+                        appendLine("| **${getString(R.string.md_active_dns_with_vpn)}** | $afterIcon | `$afterIp` | $afterAuth |")
+                        appendLine()
+                        if (b.ispDns.isBlocked && !b.activeDns.isBlocked) {
+                            appendLine("> ${getString(R.string.md_dns_unblocks_success)}")
+                        } else if (!b.ispDns.isBlocked && !b.activeDns.isBlocked) {
+                            appendLine("> ${getString(R.string.md_domain_accessible_both)}")
+                        } else if (b.activeDns.isBlocked) {
+                            appendLine("> ${getString(R.string.md_domain_still_blocked)}")
+                        }
+                        appendLine()
+                    }
+                    appendLine("---")
+                    appendLine("*${getString(R.string.md_generated_by)} [Perfect DNS Manager](https://appstorefr.github.io/PerfectDNSManager/)*")
+                }
+
+                val result = net.appstorefr.perfectdnsmanager.util.EncryptedSharer.encryptAndUpload(
+                    content, "PerfectDNS-report.enc", "72h"
+                )
+                runOnUiThread {
+                    btnShareReport.isEnabled = true
+                    btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#4CAF50"))
+                    val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                    clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Report Code", result.shortCode))
+                    val msg = android.text.SpannableString(
+                        "Code : ${result.shortCode}\n\nOuvrir le rapport :\nappstorefr.github.io/PerfectDNSManager/decrypt.html\n\nEntrez le code ${result.shortCode} pour afficher le rapport.\n\n(code copié dans le presse-papier)"
+                    )
+                    val code = result.shortCode
+                    val greenColor = android.graphics.Color.parseColor("#4CAF50")
+                    // Color first occurrence of code
+                    val idx1 = msg.indexOf(code)
+                    if (idx1 >= 0) msg.setSpan(android.text.style.ForegroundColorSpan(greenColor), idx1, idx1 + code.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    // Color second occurrence of code
+                    val idx2 = msg.indexOf(code, idx1 + code.length)
+                    if (idx2 >= 0) msg.setSpan(android.text.style.ForegroundColorSpan(greenColor), idx2, idx2 + code.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.share_ip_success_title))
+                        .setMessage(msg)
+                        .setPositiveButton("OK", null)
+                        .show()
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    btnShareReport.isEnabled = true
+                    btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#4CAF50"))
+                    Toast.makeText(this, getString(R.string.share_ip_error) + ": ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }.start()
+    }
+
+    private fun restoreState() {
+        // Détecter si c'est un recreate dû à un changement de langue
+        val isLanguageChange = prefs.getBoolean("language_change_pending", false)
+        if (isLanguageChange) {
+            prefs.edit().putBoolean("language_change_pending", false).apply()
+        }
+
+        val vpnReallyActive = DnsVpnService.isVpnRunning
+        val vpnSavedActive = prefs.getBoolean("vpn_active", false)
+        val adbIsActive = adbManager.getCurrentPrivateDnsMode()?.contains("hostname") == true
+
+        if ((vpnReallyActive && vpnSavedActive) || adbIsActive) {
+            val profileJson = prefs.getString("selected_profile_json", null)
+            if (profileJson != null) {
+                try { selectedProfile = Gson().fromJson(profileJson, DnsProfile::class.java) }
+                catch (_: Exception) {}
+            }
+        } else if (vpnSavedActive && !vpnReallyActive && !isLanguageChange) {
+            // VPN était actif mais le service a été tué (mise à jour, kill…)
+            // → auto-reconnexion (sauf si c'est juste un changement de langue)
+            val selectedJson = prefs.getString("selected_profile_json", null)
+            if (selectedJson != null) {
+                try {
+                    val profile = Gson().fromJson(selectedJson, DnsProfile::class.java)
+                    selectedProfile = profile
+                    updateSelectButtonText()
+                    if (methodForProfile(profile) == "VPN") {
+                        applyDnsViaVpn(profile)
+                    }
+                    return
+                } catch (_: Exception) {
+                    selectedProfile = null
+                }
+            }
+            prefs.edit().putBoolean("vpn_active", false).apply()
+        } else {
+            // Pré-sélectionner le DNS par défaut, sinon le dernier sélectionné
+            val defaultJson = prefs.getString("default_profile_json", null)
+            val selectedJson = prefs.getString("selected_profile_json", null)
+            val profileJson = defaultJson ?: selectedJson
+            if (profileJson != null) {
+                try {
+                    selectedProfile = Gson().fromJson(profileJson, DnsProfile::class.java)
+                    prefs.edit().putString("selected_profile_json", profileJson).apply()
+                } catch (_: Exception) {
+                    selectedProfile = null
+                }
+            } else {
+                selectedProfile = null
+            }
+        }
+        updateSelectButtonText()
+    }
+
+    private fun checkStatus() {
+        val adbMode = adbManager.getCurrentPrivateDnsMode()
+        if (adbMode?.contains("hostname") == true) {
+            val host = adbManager.getCurrentPrivateDnsHost()
+            if (host.isNotEmpty()) {
+                val savedMethod = prefs.getString("last_method", "ADB") ?: "ADB"
+                val displayMethod = if (savedMethod == "Shizuku" || savedMethod == "Settings") savedMethod else "ADB"
+                prefs.edit().putString("last_method", displayMethod).apply()
+                setActiveStatus(true, "DNS via DoT ($displayMethod): $host")
+                return
+            }
+        }
+
+        val vpnReallyActive = DnsVpnService.isVpnRunning
+        val vpnSavedActive = prefs.getBoolean("vpn_active", false)
+
+        if (vpnReallyActive && vpnSavedActive) {
+            val label = prefs.getString("vpn_label", "") ?: ""
+            setActiveStatus(true, label)
+        } else {
+            if (!vpnReallyActive && vpnSavedActive) {
+                prefs.edit().putBoolean("vpn_active", false).putString("vpn_label", "").apply()
+            }
+            setInactiveStatus()
+        }
+    }
+
+    private fun updateSelectButtonText() {
+        if (selectedProfile != null) {
+            val typeLabel = typeLabelFor(selectedProfile!!.type)
+            val methodLabel = if (selectedProfile!!.type == DnsType.DOT) "ADB" else "VPN"
+            tvSelectDns.text = "${selectedProfile!!.providerName} - ${selectedProfile!!.name} ($typeLabel / $methodLabel)"
+            ivSelectedDnsIcon.setImageResource(DnsProfile.getProviderIcon(selectedProfile!!.providerName))
+            ivSelectedDnsIcon.visibility = View.VISIBLE
+        } else {
+            tvSelectDns.text = getString(R.string.dns_select_button)
+            ivSelectedDnsIcon.visibility = View.GONE
+        }
+    }
+
+    private fun clearSelectedProfile() {
+        selectedProfile = null
+        prefs.edit().remove("selected_profile_json").apply()
+        updateSelectButtonText()
+    }
+
+    private fun setupUI() {
+        layoutSelectDns.requestFocus()
+
+        btnToggle.setOnClickListener {
+            if (isActivating) return@setOnClickListener
+            if (isActive) disableDns() else applyDns()
+        }
+
+        layoutSelectDns.setOnClickListener {
+            dnsSelectionLauncher.launch(Intent(this, DnsSelectionActivity::class.java))
+        }
+
+        btnSettings.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
+        tvStatus.setOnClickListener { showDnsReport() }
+
+        // Bouton langue
+        updateLanguageButton()
+        btnLanguage.setOnClickListener { showLanguageDialog() }
+    }
+
+    private fun updateLanguageButton() {
+        val lang = prefs.getString("language", "fr") ?: "fr"
+        val flag = when (lang) {
+            "fr" -> "\uD83C\uDDEB\uD83C\uDDF7"
+            "en" -> "\uD83C\uDDEC\uD83C\uDDE7"
+            "es" -> "\uD83C\uDDEA\uD83C\uDDF8"
+            "it" -> "\uD83C\uDDEE\uD83C\uDDF9"
+            "pt" -> "\uD83C\uDDE7\uD83C\uDDF7"
+            "ru" -> "\uD83C\uDDF7\uD83C\uDDFA"
+            "zh" -> "\uD83C\uDDE8\uD83C\uDDF3"
+            "ar" -> "\uD83C\uDDF8\uD83C\uDDE6"
+            "hi" -> "\uD83C\uDDEE\uD83C\uDDF3"
+            "bn" -> "\uD83C\uDDE7\uD83C\uDDE9"
+            "ja" -> "\uD83C\uDDEF\uD83C\uDDF5"
+            "de" -> "\uD83C\uDDE9\uD83C\uDDEA"
+            else -> "\uD83C\uDDEC\uD83C\uDDE7"
+        }
+        btnLanguage.text = flag
+    }
+
+    private fun showLanguageDialog() {
+        val languages = arrayOf(
+            "\uD83C\uDDEB\uD83C\uDDF7 Fran\u00e7ais",
+            "\uD83C\uDDEC\uD83C\uDDE7 English",
+            "\uD83C\uDDE9\uD83C\uDDEA Deutsch",
+            "\uD83C\uDDEA\uD83C\uDDF8 Espa\u00f1ol",
+            "\uD83C\uDDEE\uD83C\uDDF9 Italiano",
+            "\uD83C\uDDE7\uD83C\uDDF7 Portugu\u00eas",
+            "\uD83C\uDDF7\uD83C\uDDFA \u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+            "\uD83C\uDDE8\uD83C\uDDF3 \u4e2d\u6587",
+            "\uD83C\uDDF8\uD83C\uDDE6 \u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+            "\uD83C\uDDEE\uD83C\uDDF3 \u0939\u093f\u0928\u094d\u0926\u0940",
+            "\uD83C\uDDE7\uD83C\uDDE9 \u09AC\u09BE\u0982\u09B2\u09BE",
+            "\uD83C\uDDEF\uD83C\uDDF5 \u65E5\u672C\u8A9E"
+        )
+        val codes = arrayOf("fr", "en", "de", "es", "it", "pt", "ru", "zh", "ar", "hi", "bn", "ja")
+        AlertDialog.Builder(this)
+            .setTitle("Language")
+            .setItems(languages) { _, which ->
+                prefs.edit()
+                    .putString("language", codes[which])
+                    .putBoolean("language_change_pending", true)
+                    .apply()
+                recreate()
+            }
+            .show()
+    }
+
+    private fun checkVersionMigration() {
+        try {
+            val info = packageManager.getPackageInfo(packageName, 0)
+            val currentVersionCode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                info.longVersionCode.toInt()
+            } else {
+                @Suppress("DEPRECATION") info.versionCode
+            }
+            val savedVersionCode = prefs.getInt("last_version_code", 0)
+            if (savedVersionCode != 0 && savedVersionCode != currentVersionCode) {
+                // Version changed → refresh presets (keeps custom profiles)
+                val profileManager = net.appstorefr.perfectdnsmanager.data.ProfileManager(this)
+                profileManager.restoreDefaults()
+                Toast.makeText(this, getString(R.string.presets_updated_toast, info.versionName ?: ""), Toast.LENGTH_SHORT).show()
+            }
+            prefs.edit().putInt("last_version_code", currentVersionCode).apply()
+        } catch (_: Exception) {}
+    }
+
+    private fun applyDns() {
+        val profile = selectedProfile ?: run {
+            Toast.makeText(this, getString(R.string.select_a_profile), Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (methodForProfile(profile) == "ADB") applyDnsViaAdb(profile) else applyDnsViaVpn(profile)
+    }
+
+    private fun applyDnsViaAdb(profile: DnsProfile) {
+        if (profile.type != DnsType.DOT) {
+            Toast.makeText(this, getString(R.string.private_dns_supports_only_dot), Toast.LENGTH_LONG).show()
+            return
+        }
+        if (android.os.Build.MODEL.contains("AFT")) {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.firestick_warning_title))
+                .setMessage(getString(R.string.firestick_warning_message))
+                .setPositiveButton(getString(R.string.continue_anyway)) { _, _ -> proceedWithAdb(profile) }
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show()
+        } else {
+            proceedWithAdb(profile)
+        }
+    }
+
+    private fun proceedWithAdb(profile: DnsProfile) {
+        // Stopper le VPN s'il tourne avant d'activer ADB (évite conflit DoH+DoT)
+        if (DnsVpnService.isVpnRunning) {
+            startService(Intent(this, DnsVpnService::class.java).apply { action = DnsVpnService.ACTION_STOP })
+            prefs.edit().putBoolean("vpn_active", false).putString("vpn_label", "").apply()
+        }
+        Thread {
+            val success = adbManager.enablePrivateDns(profile.primary)
+            runOnUiThread {
+                if (success) {
+                    val method = adbManager.lastMethod.ifEmpty { "ADB" }
+                    prefs.edit().putString("last_method", method).apply()
+                    setActiveStatus(true, "DNS via DoT ($method): ${profile.providerName}\n${profile.primary}")
+                } else showAdbErrorDialog()
+            }
+        }.start()
+    }
+
+    private fun applyDnsViaVpn(profile: DnsProfile) {
+        // Stopper ADB/DoT s'il est actif avant d'activer VPN (évite conflit DoT+DoH)
+        val adbIsActive = adbManager.getCurrentPrivateDnsMode()?.contains("hostname") == true
+        if (adbIsActive) {
+            Thread { adbManager.disablePrivateDns() }.start()
+        }
+        isActivating = true
+        btnToggle.text = "\u23F3"
+        btnToggle.isEnabled = false
+        pendingVpnProfile = profile
+        val intent = VpnService.prepare(this)
+        if (intent != null) vpnPermissionLauncher.launch(intent) else startVpnService(profile)
+    }
+
+    private fun startVpnService(profile: DnsProfile) {
+        // Première connexion VPN : activer auto-start, auto-reconnect et disable IPv6
+        if (!prefs.getBoolean("first_vpn_done", false)) {
+            prefs.edit()
+                .putBoolean("auto_start_enabled", true)
+                .putBoolean("auto_reconnect_dns", true)
+                .putBoolean("disable_ipv6", true)
+                .putBoolean("first_vpn_done", true)
+                .apply()
+        }
+
+        val intent = Intent(this, DnsVpnService::class.java).apply {
+            action = DnsVpnService.ACTION_START
+            putExtra(DnsVpnService.EXTRA_DNS_PRIMARY, profile.primary)
+            profile.secondary?.let { putExtra(DnsVpnService.EXTRA_DNS_SECONDARY, it) }
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) startForegroundService(intent)
+        else startService(intent)
+        val label = "DNS via VPN: ${profile.providerName}\n${profile.primary}"
+        prefs.edit()
+            .putBoolean("vpn_active", true)
+            .putString("vpn_label", label)
+            .putString("last_method", "VPN")
+            .apply()
+        setActiveStatus(true, label)
+
+        btnToggle.postDelayed({
+            isActivating = false
+            btnToggle.isEnabled = true
+            btnToggle.requestFocus()
+        }, 500)
+    }
+
+    private fun disableDnsQuiet(onDone: () -> Unit) {
+        val adbIsActive = adbManager.getCurrentPrivateDnsMode()?.contains("hostname") == true
+        val vpnIsActive = DnsVpnService.isVpnRunning || prefs.getBoolean("vpn_active", false)
+        // Stopper le VPN si actif
+        if (vpnIsActive) {
+            startService(Intent(this, DnsVpnService::class.java).apply { action = DnsVpnService.ACTION_STOP })
+            prefs.edit().putBoolean("vpn_active", false).putString("vpn_label", "").apply()
+        }
+        // Stopper ADB si actif
+        if (adbIsActive) {
+            Thread {
+                adbManager.disablePrivateDns()
+                runOnUiThread { setInactiveStatus(); onDone() }
+            }.start()
+        } else {
+            setInactiveStatus(); onDone()
+        }
+    }
+
+    private fun disableDns() { disableDnsQuiet {} }
+
+    private fun setActiveStatus(active: Boolean, statusText: String) {
+        isActive = active; tvStatus.text = statusText
+        tvStatus.setTextColor(Color.parseColor("#66BB6A"))
+        tvStatus.setTypeface(null, android.graphics.Typeface.BOLD)
+        btnToggle.text = getString(R.string.deactivate)
+        btnToggle.setBackgroundResource(R.drawable.btn_deactivate_background)
+        btnToggle.requestFocus()
+    }
+
+    private fun setInactiveStatus() {
+        isActive = false; tvStatus.text = getString(R.string.no_active_dns)
+        tvStatus.setTextColor(Color.parseColor("#FF5555"))
+        tvStatus.setTypeface(null, android.graphics.Typeface.BOLD)
+        btnToggle.text = getString(R.string.activate)
+        btnToggle.setBackgroundResource(R.drawable.btn_activate_background)
+        btnToggle.requestFocus()
+    }
+
+    private fun showDnsReport() {
+        val vpnActive = prefs.getBoolean("vpn_active", false)
+        val vpnLabel = prefs.getString("vpn_label", "") ?: ""
+        val adbReport = adbManager.getFullDnsReport()
+        val report = StringBuilder()
+        report.appendLine(getString(R.string.report_private_dns_header)); report.appendLine(adbReport); report.appendLine()
+        report.appendLine(getString(R.string.report_vpn_header))
+        if (vpnActive && vpnLabel.isNotEmpty()) { report.appendLine(getString(R.string.report_vpn_active)); report.appendLine(getString(R.string.report_vpn_server, vpnLabel.replace("DNS via VPN: ", ""))) }
+        else report.appendLine(getString(R.string.report_vpn_inactive))
+        selectedProfile?.let {
+            report.appendLine(); report.appendLine(getString(R.string.report_selected_header))
+            report.appendLine("${it.providerName} - ${it.name}"); report.appendLine("Type: ${it.type}")
+            report.appendLine(getString(R.string.report_method, methodForProfile(it)))
+            report.appendLine(getString(R.string.report_primary, it.primary)); it.secondary?.let { s -> report.appendLine(getString(R.string.report_secondary, s)) }
+        }
+        AlertDialog.Builder(this).setTitle(getString(R.string.dns_report_title)).setMessage(report.toString()).setPositiveButton("OK", null).show()
+    }
+
+    private fun showAdbErrorDialog() {
+        val msg = adbManager.lastError.ifEmpty { getString(R.string.adb_requires_root_or_pc, packageName) }
+        val builder = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.adb_error_title))
+            .setMessage(msg)
+            .setPositiveButton("OK", null)
+            .setNeutralButton(getString(R.string.reset_adb_keys)) { _, _ ->
+                adbManager.resetAdbKeys(); Toast.makeText(this, getString(R.string.adb_keys_reset), Toast.LENGTH_LONG).show()
+            }
+
+        // Sur Android 11+, proposer d'installer/ouvrir/autoriser Shizuku
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R &&
+            !adbManager.shizuku.isShizukuAvailable()) {
+            val mgr = adbManager.shizuku
+            val shizukuLabel = when {
+                !mgr.isShizukuInstalled() -> getString(R.string.shizuku_install)
+                !mgr.isShizukuRunning() -> getString(R.string.shizuku_open)
+                !mgr.isShizukuPermissionGranted() -> getString(R.string.shizuku_grant_permission)
+                else -> getString(R.string.shizuku_open)
+            }
+            builder.setNegativeButton(shizukuLabel) { _, _ ->
+                when {
+                    !mgr.isShizukuInstalled() -> {
+                        startActivity(android.content.Intent(
+                            android.content.Intent.ACTION_VIEW,
+                            android.net.Uri.parse("https://github.com/RikkaApps/Shizuku/releases/latest")
+                        ))
+                    }
+                    !mgr.isShizukuRunning() -> {
+                        val launchIntent = packageManager.getLaunchIntentForPackage("moe.shizuku.privileged.api")
+                        if (launchIntent != null) startActivity(launchIntent)
+                        else Toast.makeText(this, getString(R.string.shizuku_cannot_open), Toast.LENGTH_SHORT).show()
+                    }
+                    !mgr.isShizukuPermissionGranted() -> {
+                        mgr.requestPermission()
+                    }
+                }
+            }
+        }
+
+        builder.show()
+    }
+
+}

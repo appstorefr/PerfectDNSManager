@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Perfect DNS Manager</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --card: #252525;
+            --primary: #2196F3;
+            --accent: #FFD700;
+            --text: #FFFFFF;
+            --text-dim: #BBBBBB;
+            --green: #4CAF50;
+            --red: #FF5252;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Back link */
+        .back-bar {
+            background: #0d0d0d;
+            border-bottom: 1px solid #333;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+        }
+        .back-bar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: var(--text-dim);
+            transition: color 0.2s;
+        }
+        .back-bar a:hover { color: var(--text); text-decoration: none; }
+
+        /* Hero header */
+        .hero {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            padding: 60px 20px 50px;
+            text-align: center;
+        }
+        .hero .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(255,215,0,0.2), 0 0 60px rgba(33,150,243,0.15);
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 2.4em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .tagline {
+            font-size: 1.15em;
+            color: rgba(255,255,255,0.85);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .hero .heart-icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 12px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Container */
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+        /* Intro text */
+        .intro {
+            text-align: center;
+            padding: 40px 20px 16px;
+        }
+        .intro p {
+            color: var(--text-dim);
+            font-size: 1.05em;
+            max-width: 700px;
+            margin: 0 auto 8px;
+        }
+        .intro .hint {
+            font-size: 0.9em;
+            color: var(--primary);
+            margin-top: 12px;
+        }
+
+        /* Crypto cards */
+        .crypto-section {
+            padding: 24px 0 60px;
+        }
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .crypto-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .crypto-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(33,150,243,0.15);
+        }
+        .crypto-card.active { border-color: var(--accent); }
+        .crypto-card h3 {
+            font-size: 1.05em;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+        .crypto-card .qr-container {
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .crypto-card .qr-container img {
+            width: 160px;
+            height: 160px;
+            display: block;
+        }
+        .crypto-card .addr {
+            font-family: 'Courier New', monospace;
+            font-size: 0.72em;
+            word-break: break-all;
+            color: var(--text-dim);
+            background: #1a1a1a;
+            padding: 8px 10px;
+            border-radius: 6px;
+            cursor: text;
+            user-select: all;
+        }
+        .crypto-card .networks {
+            font-size: 0.78em;
+            color: var(--primary);
+            margin-top: 8px;
+        }
+        .crypto-card .copy-hint {
+            font-size: 0.75em;
+            color: var(--text-dim);
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .crypto-card:hover .copy-hint { opacity: 1; }
+
+        /* Toast */
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(76,175,80,0.4);
+        }
+        .copy-toast.show { opacity: 1; }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85em;
+            border-top: 1px solid #333;
+        }
+        footer a { color: var(--primary); }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.7em; }
+            .hero .logo { width: 90px; height: 90px; border-radius: 18px; }
+            .crypto-card .qr-container img { width: 130px; height: 130px; }
+            .intro p { font-size: 0.95em; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Back link -->
+<div class="back-bar">
+    <a href="index.html">&#x2190; Perfect DNS Manager</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+    <img src="logo.svg" alt="Perfect DNS Manager" class="logo">
+    <h1>Perfect DNS Manager</h1>
+    <div class="tagline">
+        Soutenez le projet / Support the project
+    </div>
+</div>
+
+<!-- Intro text (bilingual) -->
+<div class="intro">
+    <div class="container">
+        <p>
+            Vous aimez l'application ? Elle vous a aid&eacute; &agrave; prot&eacute;ger votre vie priv&eacute;e ?
+            N'h&eacute;sitez pas &agrave; faire un petit geste pour soutenir le d&eacute;veloppement !
+        </p>
+        <p style="margin-top: 8px;">
+            Do you enjoy the app? Has it helped protect your privacy?
+            Consider making a small donation to support ongoing development!
+        </p>
+        <p class="hint">
+            Cliquez sur une carte pour copier l'adresse / Click a card to copy the address
+        </p>
+    </div>
+</div>
+
+<!-- Crypto cards -->
+<section class="crypto-section">
+    <div class="container">
+        <div class="crypto-grid">
+
+            <!-- Bitcoin -->
+            <div class="crypto-card" onclick="copyAddr('bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz')">
+                <h3 style="color: #F7931A;">&#x20BF; Bitcoin (BTC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz" alt="BTC QR" loading="lazy">
+                </div>
+                <div class="addr">bc1qfaqkqzvkj2cdlqhmzkh22lm5lcuk6a5y8raulz</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- EVM -->
+            <div class="crypto-card" onclick="copyAddr('0x71528115FA8aee4D9420F6caDEBfD0C043a316f7')">
+                <h3 style="color: #627EEA;">&#x2B21; EVM (ETH / BNB / USDT / USDC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x71528115FA8aee4D9420F6caDEBfD0C043a316f7" alt="EVM QR" loading="lazy">
+                </div>
+                <div class="addr">0x71528115FA8aee4D9420F6caDEBfD0C043a316f7</div>
+                <div class="networks">Base &middot; Polygon &middot; Ethereum &middot; BNB &middot; Gnosis</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- TRON -->
+            <div class="crypto-card" onclick="copyAddr('TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu')">
+                <h3 style="color: #FF4444;">&#x26A1; TRON (USDT / USDC / TRX)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu" alt="TRON QR" loading="lazy">
+                </div>
+                <div class="addr">TV14NpEfmhz72CUBpVyYYRDrwB6hHXUQBu</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- TON -->
+            <div class="crypto-card" onclick="copyAddr('UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_')">
+                <h3 style="color: #0088CC;">&#x1F48E; TON (USDT / TON)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_" alt="TON QR" loading="lazy">
+                </div>
+                <div class="addr">UQBvUM90I_T0_e1HAtamIYyCe_bPR4IkMmhzbOMrRde-OUt_</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- Solana -->
+            <div class="crypto-card" onclick="copyAddr('34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y')">
+                <h3 style="color: #9945FF;">&#x25CE; Solana (USDT / USDC / SOL)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y" alt="SOL QR" loading="lazy">
+                </div>
+                <div class="addr">34i3oYht6hfyS6QdZbXnRZtmzQJYXqPcQtXwTmfEBM9y</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- Litecoin -->
+            <div class="crypto-card" onclick="copyAddr('ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr')">
+                <h3 style="color: #BFBBBB;">&#x141; Litecoin (LTC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr" alt="LTC QR" loading="lazy">
+                </div>
+                <div class="addr">ltc1qehl698y09u3e3p54zvuxe3d93d6tsfc0d5hdkr</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- Zcash -->
+            <div class="crypto-card" onclick="copyAddr('t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g')">
+                <h3 style="color: #F4B728;">&#x1F6E1; Zcash (ZEC)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g" alt="ZEC QR" loading="lazy">
+                </div>
+                <div class="addr">t1VbmN4XXoUZuU4BcUQLMCCaH7CrMCyVf5g</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- XRP -->
+            <div class="crypto-card" onclick="copyAddr('rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM')">
+                <h3 style="color: #00AAE4;">&#x2715; XRP (XRP / RLUSD)</h3>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM" alt="XRP QR" loading="lazy">
+                </div>
+                <div class="addr">rJcav6qAFHorerfAHFPbu8z2cLtEZGiJUM</div>
+                <div class="copy-hint">Cliquer pour copier / Click to copy</div>
+            </div>
+
+            <!-- Monero -->
+            <div class="crypto-card">
+                <h3 style="color: #FF6600;">&#x24A8; Monero (XMR)</h3>
+                <div style="padding: 20px 10px; color: var(--accent); font-size: 1.1em; font-weight: 600;">
+                    &#x1F6A7; &Agrave; venir / Coming soon
+                </div>
+                <div class="addr" style="color: #666; font-style: italic;">Wallet en cours de configuration</div>
+            </div>
+
+            <!-- BTC Lightning -->
+            <div class="crypto-card">
+                <h3 style="color: #F7931A;">&#x26A1; Bitcoin Lightning (BTC)</h3>
+                <div style="padding: 20px 10px; color: var(--accent); font-size: 1.1em; font-weight: 600;">
+                    &#x1F6A7; &Agrave; venir / Coming soon
+                </div>
+                <div class="addr" style="color: #666; font-style: italic;">Wallet en cours de configuration</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Perfect DNS Manager &copy; 2026 AppstoreFR</p>
+</footer>
+
+<!-- Copy toast -->
+<div class="copy-toast" id="copyToast">Adresse copi&eacute;e ! / Address copied!</div>
+
+<script>
+function copyAddr(addr) {
+    navigator.clipboard.writeText(addr).then(function() {
+        var toast = document.getElementById('copyToast');
+        toast.classList.add('show');
+        setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    });
+}
+</script>
+
+</body>
+</html>

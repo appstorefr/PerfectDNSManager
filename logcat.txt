@@ -1,0 +1,510 @@
+--------- beginning of main
+02-25 15:32:08.569   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :76"
+02-25 15:32:08.594   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :60"
+02-25 15:32:08.622   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:08.652   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :25"
+02-25 15:32:08.680   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :71"
+02-25 15:32:08.683 21254 21254 I cast_shell: [0225/153208.682942:INFO:service_base.h(78)] Size of the map for type AuthTokenResponse is 0
+02-25 15:32:08.708   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :75"
+02-25 15:32:08.719 21254 21254 I cast_shell: [0225/153208.719570:INFO:service_base.h(246)] Container sizes for type CloudSetting are (session_info_map: 0), (topic_info_map: 21), (pending_events: 0).
+02-25 15:32:08.732   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:08.759   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:08.770 21254 21254 I cast_shell: [0225/153208.770704:INFO:metrics_stat_logger.cc(38)] Metrics stat for the past 60 secs : total=1
+02-25 15:32:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.Discovery.Mdns.Query.Cast.Count=1
+02-25 15:32:08.783   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :83"
+02-25 15:32:08.808   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:08.834   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :65"
+02-25 15:32:08.860   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:08.884   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:08.908   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :75"
+02-25 15:32:08.933   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :59"
+02-25 15:32:08.960   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:08.983   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :74"
+02-25 15:32:09.008   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :59"
+02-25 15:32:09.032   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:09.057   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :69"
+02-25 15:32:09.081   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:09.215   459   636 I audio_hw_hal_alsamgr: alsa format =0x9000000 delay frames =6144 total frames=6458880000
+02-25 15:32:09.222  1081  1081 I ThermalService: CPU temperatures: [46.800003]
+02-25 15:32:09.317   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 137703/137705 (recycle/alloc) - 56/137703 (fetch/transfer)
+02-25 15:32:09.354   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :14"
+02-25 15:32:09.388   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:09.412   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :61"
+02-25 15:32:09.439   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:09.467   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:09.491   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :79"
+02-25 15:32:09.529   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:09.554   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:09.578   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:09.607   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :59"
+02-25 15:32:09.636   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:09.660   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:09.688   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :72"
+02-25 15:32:09.715   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :27"
+02-25 15:32:09.741   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:09.771   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:09.795   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :101"
+02-25 15:32:09.820   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :38"
+02-25 15:32:09.857   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :40"
+02-25 15:32:09.882   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:09.908   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:09.941   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:09.967   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:09.995   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :37"
+02-25 15:32:10.020   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :85"
+02-25 15:32:10.055   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :36"
+02-25 15:32:10.081   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :58"
+02-25 15:32:10.111   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :64"
+02-25 15:32:10.137   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:10.163   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:10.189   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :64"
+02-25 15:32:10.201 16478 16478 I Choreographer: Skipped 42 frames!  The application may be doing too much work on its main thread.
+02-25 15:32:10.213   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:10.240   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :78"
+02-25 15:32:10.265   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+--------- beginning of system
+02-25 15:32:10.274   677  2175 D CoreBackPreview: Window{2fe7210 u0 net.appstorefr.perfectdnsmanager/net.appstorefr.perfectdnsmanager.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@cf67f0e, mPriority=0, mIsAnimationCallback=false}
+02-25 15:32:10.292   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :44"
+02-25 15:32:10.319   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :76"
+02-25 15:32:10.348   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :64"
+02-25 15:32:10.372   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :66"
+02-25 15:32:10.400   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :29"
+02-25 15:32:10.424   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :61"
+02-25 15:32:10.454   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:10.458 16478 16548 E OpenGLRenderer: Unable to match the desired swap behavior.
+02-25 15:32:10.486   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :69"
+02-25 15:32:10.510   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:10.538   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :69"
+02-25 15:32:10.546   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6460243200
+02-25 15:32:10.570   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:10.594   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :30"
+02-25 15:32:10.625   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:10.652   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :31"
+02-25 15:32:10.661 16478 16508 I OpenGLRenderer: Davey! duration=1142ms; Flags=1, FrameTimelineVsyncId=3813967, IntendedVsync=134601290973666, Vsync=134601991673652, InputEventId=0, HandleInputStart=134602000060806, AnimationStart=134602000074181, PerformTraversalsStart=134602000881348, DrawStart=134602363135890, FrameDeadline=134601307656999, FrameInterval=134601998634848, FrameStartTime=16683333, SyncQueued=134602408734682, SyncStart=134602414930015, IssueDrawCommandsStart=134602415554348, SwapBuffers=134602437027348, FrameCompleted=134602439474057, DequeueBufferDuration=24708, QueueBufferDuration=1080000, GpuCompleted=134602439474057, SwapBuffersCompleted=134602438768015, DisplayPresentTime=0, CommandSubmissionCompleted=134602437027348, 
+02-25 15:32:10.678   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :59"
+02-25 15:32:10.703   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:10.728   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:10.758   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :32"
+02-25 15:32:10.785   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :29"
+02-25 15:32:10.823   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :61"
+02-25 15:32:10.868   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:10.898   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:10.926   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :33"
+02-25 15:32:10.953   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :30"
+02-25 15:32:10.977   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:11.001   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :21"
+02-25 15:32:11.026   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:11.051   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:11.076   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :60"
+02-25 15:32:11.101   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:11.126   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :32"
+02-25 15:32:11.152   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :44"
+02-25 15:32:11.194   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :42"
+02-25 15:32:11.225  1081  1081 I ThermalService: CPU temperatures: [47.7]
+02-25 15:32:11.236   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:11.278   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :39"
+02-25 15:32:11.321   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :20"
+02-25 15:32:11.362   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:11.387   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :32"
+02-25 15:32:11.413   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:11.439   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :32"
+02-25 15:32:11.465   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:11.625   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :27"
+02-25 15:32:11.654   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :76"
+02-25 15:32:11.678   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:11.702   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:11.726   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :80"
+02-25 15:32:11.751   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:11.794   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:11.830   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :30"
+02-25 15:32:11.854   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:11.889   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :33"
+02-25 15:32:11.915   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:11.941   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :63"
+02-25 15:32:11.969   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :47"
+02-25 15:32:11.994   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :75"
+02-25 15:32:12.020   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:12.070   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:12.096   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:12.146   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:12.178   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:12.202   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :41"
+02-25 15:32:12.226   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :37"
+02-25 15:32:12.249   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:12.273   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :66"
+02-25 15:32:12.298   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:12.322   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :64"
+02-25 15:32:12.352   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:12.378   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:12.411   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:12.435   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :15"
+02-25 15:32:12.459   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:12.487   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:12.512   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:12.560   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :32"
+02-25 15:32:12.586   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :66"
+02-25 15:32:12.602 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 137867/137872 (recycle/alloc) - 588/275735 (fetch/transfer)
+02-25 15:32:12.611   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:12.662   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :14"
+02-25 15:32:12.686   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :48"
+02-25 15:32:12.720   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :33"
+02-25 15:32:12.745   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:12.774   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :70"
+02-25 15:32:12.798   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:12.823   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :79"
+02-25 15:32:12.873   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:13.046   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :14"
+02-25 15:32:13.069   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:13.099   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :33"
+02-25 15:32:13.125   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:13.150   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :73"
+02-25 15:32:13.183   472 13660 I C2VencComponent: IDR frame produced
+02-25 15:32:13.185   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:13.228  1081  1081 I ThermalService: CPU temperatures: [47.9]
+02-25 15:32:13.262   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:13.312   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :21"
+02-25 15:32:13.337   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:13.366   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :59"
+02-25 15:32:13.419   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:13.446   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :81"
+02-25 15:32:13.478 16478 16478 I ImeTracker: net.appstorefr.perfectdnsmanager:c26cffc9: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+02-25 15:32:13.479   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:13.482   677  2175 I ImeTracker: net.appstorefr.perfectdnsmanager:c26cffc9: onCancelled at PHASE_SERVER_SHOULD_HIDE
+02-25 15:32:13.492 16478 16478 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda11@1cb10f5
+02-25 15:32:13.493   677  2175 D CoreBackPreview: Window{2fe7210 u0 net.appstorefr.perfectdnsmanager/net.appstorefr.perfectdnsmanager.MainActivity}: Setting back callback null
+02-25 15:32:13.539   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :66"
+02-25 15:32:13.576 16478 16548 D OpenGLRenderer: endAllActiveAnimators on 0xc0985c30 (RippleDrawable) with handle 0xbeaa4330
+02-25 15:32:13.578   677  1053 D CoreBackPreview: Window{86c7be u0 Toast}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@8c4e935, mPriority=0, mIsAnimationCallback=false}
+02-25 15:32:13.578   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:13.589   677  2175 W InputManager-JNI: Input channel object '2fe7210 net.appstorefr.perfectdnsmanager/net.appstorefr.perfectdnsmanager.MainActivity (client)' was disposed without first being removed with the input manager!
+02-25 15:32:13.605   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:13.610   926  1030 E OpenGLRenderer: Unable to match the desired swap behavior.
+02-25 15:32:13.613   677   727 V WindowManager: Unknown focus tokens, dropping reportFocusChanged
+02-25 15:32:13.630   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:13.675   677  1679 I ImeTracker: net.appstorefr.perfectdnsmanager:6358e13c: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_SAME_WINDOW_FOCUSED_WITHOUT_EDITOR
+02-25 15:32:13.676   677  1679 I ImeTracker: net.appstorefr.perfectdnsmanager:6358e13c: onCancelled at PHASE_SERVER_SHOULD_HIDE
+02-25 15:32:13.676   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :60"
+02-25 15:32:13.687  1367  1367 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2084 
+02-25 15:32:13.688  1367  1367 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():101 repeatCheckTimes = 0, locked = false
+02-25 15:32:13.691  1367  1367 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1345 onStartInput(EditorInfo{EditorInfo{packageName=net.appstorefr.perfectdnsmanager, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+02-25 15:32:13.694  1367  1367 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():101 repeatCheckTimes = 1, locked = false
+02-25 15:32:13.695   677  2175 W PackageConfigPersister: App-specific configuration not found for packageName: net.appstorefr.perfectdnsmanager and userId: 0
+02-25 15:32:13.712   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:13.759   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :43"
+02-25 15:32:13.769 16478 16843 D EncryptedSharer: Uploading 1736 chars to catbox (expires=72h)
+02-25 15:32:13.798   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:13.824 16478 16848 D TrafficStats: tagSocket(118) with statsTag=0xffffffff, statsUid=-1
+02-25 15:32:13.827 16478 16849 D TrafficStats: tagSocket(126) with statsTag=0xffffffff, statsUid=-1
+02-25 15:32:13.839   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :38"
+02-25 15:32:13.853 16478 16848 D TrafficStats: tagSocket(118) with statsTag=0xffffffff, statsUid=-1
+02-25 15:32:13.868 16478 16849 D TrafficStats: tagSocket(101) with statsTag=0xffffffff, statsUid=-1
+02-25 15:32:13.876   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:13.885 16478 16849 I System.out: SECURITY WARNING: INSECURE configuration! Server certificate validation is disabled; QUIC connections may be subject to man-in-the-middle attacks!
+02-25 15:32:13.892 16478 16848 I System.out: SECURITY WARNING: INSECURE configuration! Server certificate validation is disabled; QUIC connections may be subject to man-in-the-middle attacks!
+02-25 15:32:13.906   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :61"
+02-25 15:32:13.930   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :34"
+02-25 15:32:13.974   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :70"
+02-25 15:32:14.017   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :40"
+02-25 15:32:14.059   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :31"
+02-25 15:32:14.102   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :45"
+02-25 15:32:14.107 16478 16848 I DoQClient: QUIC connected: freedns.controld.com:853
+02-25 15:32:14.110 16478 16849 I DoQClient: QUIC connected: freedns.controld.com:853
+02-25 15:32:14.141   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :38"
+02-25 15:32:14.154 16478 16843 D TrafficStats: tagSocket(102) with statsTag=0xffffffff, statsUid=-1
+02-25 15:32:14.184   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:14.227   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :40"
+02-25 15:32:14.252   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :44"
+02-25 15:32:14.279   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:14.305   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:14.357   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :31"
+02-25 15:32:14.383   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :35"
+02-25 15:32:14.408   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :71"
+02-25 15:32:14.433   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:14.438   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 137959/137961 (recycle/alloc) - 56/137959 (fetch/transfer)
+02-25 15:32:15.232  1081  1081 I ThermalService: CPU temperatures: [46.9]
+02-25 15:32:15.850   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :1"
+02-25 15:32:15.880   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6460499200
+02-25 15:32:15.881   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :45"
+02-25 15:32:15.917   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:15.946   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :61"
+02-25 15:32:15.997   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:16.025   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:16.054   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:16.069   926   926 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda11@6b41b0c
+02-25 15:32:16.069   677  1679 D CoreBackPreview: Window{86c7be u0 Toast}: Setting back callback null
+02-25 15:32:16.075   677  1679 W InputManager-JNI: Input channel object '86c7be Toast (client)' was disposed without first being removed with the input manager!
+02-25 15:32:16.084   677  1679 W NotificationService: Toast already killed. pkg=net.appstorefr.perfectdnsmanager token=android.os.BinderProxy@1f46b9c
+02-25 15:32:16.085   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:16.135   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :60"
+02-25 15:32:16.184   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:16.208   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:16.235   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :63"
+02-25 15:32:16.260   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:17.234  1081  1081 I ThermalService: CPU temperatures: [46.500004]
+02-25 15:32:17.700 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 138122/138127 (recycle/alloc) - 590/276245 (fetch/transfer)
+02-25 15:32:19.237  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:19.557   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 138215/138217 (recycle/alloc) - 56/138215 (fetch/transfer)
+02-25 15:32:21.212   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6460755200
+02-25 15:32:21.241  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:22.238  1367  1367 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2084 
+02-25 15:32:22.239  1367  1367 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():101 repeatCheckTimes = 0, locked = false
+02-25 15:32:22.239  1367  1367 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1345 onStartInput(EditorInfo{EditorInfo{packageName=net.appstorefr.perfectdnsmanager, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+02-25 15:32:22.240  1367  1367 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():101 repeatCheckTimes = 1, locked = false
+02-25 15:32:22.241   677  1679 W PackageConfigPersister: App-specific configuration not found for packageName: net.appstorefr.perfectdnsmanager and userId: 0
+02-25 15:32:22.501   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :29"
+02-25 15:32:22.601   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:22.640   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :30"
+02-25 15:32:22.669   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:22.707   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :66"
+02-25 15:32:22.733   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :58"
+02-25 15:32:22.759   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :66"
+02-25 15:32:22.784   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:22.809   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :34"
+02-25 15:32:22.820 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 138378/138383 (recycle/alloc) - 590/276757 (fetch/transfer)
+02-25 15:32:22.852   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:22.878   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:22.936   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :73"
+02-25 15:32:22.961   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:22.974 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:22.986   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :72"
+02-25 15:32:23.010   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:23.036   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:23.077   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:23.088  1060  1069 W droid.bluetooth: Reducing the number of considered missed Gc histogram windows from 347 to 100
+02-25 15:32:23.118 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:23.244  1081  1081 I ThermalService: CPU temperatures: [46.600002]
+02-25 15:32:23.365 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:23.535 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:23.681 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:23.907 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:24.154 16478 16478 W View    : couldn't find view with id 2131230833
+02-25 15:32:24.187   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :4"
+02-25 15:32:24.212   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:24.239   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:24.270   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :31"
+02-25 15:32:24.301   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :73"
+02-25 15:32:24.329   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:24.355   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :47"
+02-25 15:32:24.380   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :79"
+02-25 15:32:24.406   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:24.415 16478 16478 W View    : couldn't find view with id 2131230833
+02-25 15:32:24.433   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:24.458   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:24.486   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:24.510   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :72"
+02-25 15:32:24.537   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:24.565   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :60"
+02-25 15:32:24.589   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:24.618   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :58"
+02-25 15:32:24.641   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :80"
+02-25 15:32:24.666   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:24.677   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 138471/138473 (recycle/alloc) - 56/138471 (fetch/transfer)
+02-25 15:32:24.691   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:24.719   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :72"
+02-25 15:32:24.728 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:24.747   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :63"
+02-25 15:32:24.771   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:24.795   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :69"
+02-25 15:32:24.822   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:24.845   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :43"
+02-25 15:32:24.873   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :89"
+02-25 15:32:24.904   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:24.931   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :78"
+02-25 15:32:24.955   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:24.981   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:24.991 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:25.005   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:25.036   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :63"
+02-25 15:32:25.066   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :29"
+02-25 15:32:25.090   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:25.105 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:25.116   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:25.140   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :74"
+02-25 15:32:25.164   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:25.188   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:25.216   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :74"
+02-25 15:32:25.242   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:25.248  1081  1081 I ThermalService: CPU temperatures: [47.7]
+02-25 15:32:25.268   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :71"
+02-25 15:32:25.281 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:25.294   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:25.321   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:25.347   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:25.372   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:25.398   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :30"
+02-25 15:32:25.423   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :58"
+02-25 15:32:25.450   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :28"
+02-25 15:32:25.499   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:25.507 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:25.524   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :31"
+02-25 15:32:25.558   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:25.588   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:25.632 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:25.691   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :73"
+02-25 15:32:25.721   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:25.746   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:25.760 21254 21610 I cast_shell: [0225/153225.760102:INFO:mdns_app_filter.cc(3358)] MdnsAppFilter: responses sent in 128 seconds: 2
+02-25 15:32:25.773   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :47"
+02-25 15:32:25.800   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:25.824   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:25.841 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:25.848   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:25.873   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:25.896   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:25.921   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:25.945   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:25.970   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :57"
+02-25 15:32:25.994   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:26.021   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :71"
+02-25 15:32:26.046   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:26.071   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:26.096   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:26.427 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:26.545   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6461011200
+02-25 15:32:26.709 16478 16478 W View    : couldn't find view with id 2131230848
+02-25 15:32:27.249  1081  1081 I ThermalService: CPU temperatures: [46.4]
+02-25 15:32:27.940 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 138634/138639 (recycle/alloc) - 591/277269 (fetch/transfer)
+02-25 15:32:29.252  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:29.797   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 138727/138729 (recycle/alloc) - 56/138727 (fetch/transfer)
+02-25 15:32:31.255  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:31.880   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6461267200
+02-25 15:32:33.060 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 138890/138895 (recycle/alloc) - 593/277781 (fetch/transfer)
+02-25 15:32:33.257  1081  1081 I ThermalService: CPU temperatures: [45.9]
+02-25 15:32:34.917   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 138983/138985 (recycle/alloc) - 56/138983 (fetch/transfer)
+02-25 15:32:35.258  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:37.212   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6461523200
+02-25 15:32:37.260  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:32:38.180 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 139146/139151 (recycle/alloc) - 594/278293 (fetch/transfer)
+02-25 15:32:39.263  1081  1081 I ThermalService: CPU temperatures: [45.9]
+02-25 15:32:40.037   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 139239/139241 (recycle/alloc) - 56/139239 (fetch/transfer)
+02-25 15:32:41.214   459   636 I audio_hw_hal_alsamgr: alsa format =0x9000000 delay frames =6272 total frames=6460416000
+02-25 15:32:41.264  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:32:42.080   677   677 V HotPlugDetectionAction: Poll all devices.
+02-25 15:32:42.136   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 0] len: 0, body:, result:no ack
+02-25 15:32:42.546   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6461779200
+02-25 15:32:42.692   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 1] len: 0, body:, result:no ack
+02-25 15:32:43.248   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 2] len: 0, body:, result:no ack
+02-25 15:32:43.266  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:43.300 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 139402/139407 (recycle/alloc) - 596/278805 (fetch/transfer)
+02-25 15:32:43.804   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 3] len: 0, body:, result:no ack
+02-25 15:32:44.227   677  1679 D CoreBackPreview: Window{77dcb46 u0 Toast}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@56a485d, mPriority=0, mIsAnimationCallback=false}
+02-25 15:32:44.247   926  1030 E OpenGLRenderer: Unable to match the desired swap behavior.
+02-25 15:32:44.283   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:44.313   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :47"
+02-25 15:32:44.339   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :53"
+02-25 15:32:44.360   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 4] len: 0, body:, result:no ack
+02-25 15:32:44.363   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :56"
+02-25 15:32:44.389   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:44.421   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :48"
+02-25 15:32:44.448   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :45"
+02-25 15:32:44.475   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :77"
+02-25 15:32:44.505   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :55"
+02-25 15:32:44.566   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :68"
+02-25 15:32:44.592   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:44.617   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :65"
+02-25 15:32:44.641   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :59"
+02-25 15:32:44.665   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:44.714   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :48"
+02-25 15:32:44.739   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :34"
+02-25 15:32:44.764   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :67"
+02-25 15:32:44.789   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:44.815   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :58"
+02-25 15:32:44.841   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:44.916   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 5] len: 0, body:, result:no ack
+02-25 15:32:45.157   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 139495/139497 (recycle/alloc) - 56/139495 (fetch/transfer)
+02-25 15:32:45.269  1081  1081 I ThermalService: CPU temperatures: [46.2]
+02-25 15:32:45.472   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 6] len: 0, body:, result:no ack
+02-25 15:32:46.028   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 7] len: 0, body:, result:no ack
+02-25 15:32:46.584   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> 9] len: 0, body:, result:no ack
+02-25 15:32:47.140   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> a] len: 0, body:, result:no ack
+02-25 15:32:47.272  1081  1081 I ThermalService: CPU temperatures: [45.9]
+02-25 15:32:47.696   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> b] len: 0, body:, result:no ack
+02-25 15:32:47.880   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6462035200
+02-25 15:32:48.116   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :51"
+02-25 15:32:48.147   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :62"
+02-25 15:32:48.177   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :46"
+02-25 15:32:48.204   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :60"
+02-25 15:32:48.233   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :58"
+02-25 15:32:48.252   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> c] len: 0, body:, result:no ack
+02-25 15:32:48.258   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :36"
+02-25 15:32:48.283   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :52"
+02-25 15:32:48.301   926   926 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda11@fe85ac3
+02-25 15:32:48.302   677  1679 D CoreBackPreview: Window{77dcb46 u0 Toast}: Setting back callback null
+02-25 15:32:48.310   677  1679 W InputManager-JNI: Input channel object '77dcb46 Toast (client)' was disposed without first being removed with the input manager!
+02-25 15:32:48.311   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :72"
+02-25 15:32:48.323   677  1679 W NotificationService: Toast already killed. pkg=net.appstorefr.perfectdnsmanager token=android.os.BinderProxy@db69da0
+02-25 15:32:48.335   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :50"
+02-25 15:32:48.359   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :54"
+02-25 15:32:48.386   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :76"
+02-25 15:32:48.410   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :49"
+02-25 15:32:48.420 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 139658/139663 (recycle/alloc) - 597/279317 (fetch/transfer)
+02-25 15:32:48.459   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :78"
+02-25 15:32:48.484   472 13660 E C2VencHCodec: [##1##]"frame_rate change to :10"
+02-25 15:32:48.808   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> d] len: 0, body:, result:no ack
+02-25 15:32:49.275  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:32:49.364   478   478 D hdmicecd: [CEC]:printCecMessage, [8 -> e] len: 0, body:, result:no ack
+02-25 15:32:49.364   677   677 D HDMI    : [P]:AllocatedAddress=[]
+02-25 15:32:49.364   677   677 V HotPlugDetectionAction: Finish poll all devices.
+02-25 15:32:50.277   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 139751/139753 (recycle/alloc) - 56/139751 (fetch/transfer)
+02-25 15:32:51.278  1081  1081 I ThermalService: CPU temperatures: [45.9]
+02-25 15:32:53.213   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6462291200
+02-25 15:32:53.280  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:32:53.540 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 139914/139919 (recycle/alloc) - 598/279829 (fetch/transfer)
+02-25 15:32:55.284  1081  1081 I ThermalService: CPU temperatures: [45.9]
+02-25 15:32:55.397   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 140007/140009 (recycle/alloc) - 56/140007 (fetch/transfer)
+02-25 15:32:57.286  1081  1081 I ThermalService: CPU temperatures: [45.7]
+02-25 15:32:58.546   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6462547200
+02-25 15:32:58.660 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 140170/140175 (recycle/alloc) - 599/280341 (fetch/transfer)
+02-25 15:32:59.288  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:00.517   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 140263/140265 (recycle/alloc) - 56/140263 (fetch/transfer)
+02-25 15:33:01.291  1081  1081 I ThermalService: CPU temperatures: [45.7]
+02-25 15:33:03.294  1081  1081 I ThermalService: CPU temperatures: [45.7]
+02-25 15:33:03.780 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 140426/140431 (recycle/alloc) - 601/280853 (fetch/transfer)
+02-25 15:33:03.879   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6462803200
+02-25 15:33:05.296  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:05.637   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 140519/140521 (recycle/alloc) - 56/140519 (fetch/transfer)
+02-25 15:33:07.298  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:08.447 21254 21254 I cast_shell: [0225/153308.446963:INFO:grpc_manager_impl.cc(881)] GRPC[uri=localhost:10042]: num_pending_calls=0, num_active_handlers=1, num_free_handlers=0
+02-25 15:33:08.447 21254 21254 I cast_shell: [0225/153308.447328:INFO:grpc_manager_impl.cc(881)] GRPC[uri=localhost:10042]: num_pending_calls=0, num_active_handlers=1, num_free_handlers=0
+02-25 15:33:08.493 21254 21254 I cast_shell: [0225/153308.493399:INFO:grpc_manager_impl.cc(881)] GRPC[uri=]: num_pending_calls=0, num_active_handlers=0, num_free_handlers=0
+02-25 15:33:08.493 21254 21254 I cast_shell: [0225/153308.493737:INFO:grpc_manager_impl.cc(881)] GRPC[uri=]: num_pending_calls=0, num_active_handlers=0, num_free_handlers=0
+02-25 15:33:08.542 21254  1982 I cast_CastCrashUploader: Remove crash dumps
+02-25 15:33:08.584 21254 21254 I cast_shell: [0225/153308.584416:INFO:grpc_manager_impl.cc(881)] GRPC[uri=[::]:0]: num_pending_calls=0, num_active_handlers=4, num_free_handlers=0
+02-25 15:33:08.637 21254  1982 I cast_shell: [0225/153308.637118:INFO:wifi_frame_histogram_capturer.cc(406)] No histogram or IOCTL data
+02-25 15:33:08.659 21254 21254 I cast_shell: [0225/153308.659638:INFO:metrics_recorder.cc(193)] Record action: Cast.CecHdmiInputState.Active
+02-25 15:33:08.659 21254 21254 I cast_shell: [0225/153308.659879:INFO:metrics_recorder.cc(193)] Record action: Cast.CecStandby.On
+02-25 15:33:08.683 21254 21254 I cast_shell: [0225/153308.683511:INFO:service_base.h(78)] Size of the map for type AuthTokenResponse is 0
+02-25 15:33:08.720 21254 21254 I cast_shell: [0225/153308.720073:INFO:service_base.h(246)] Container sizes for type CloudSetting are (session_info_map: 0), (topic_info_map: 21), (pending_events: 0).
+02-25 15:33:08.770 21254 21254 I cast_shell: [0225/153308.770827:INFO:metrics_stat_logger.cc(38)] Metrics stat for the past 60 secs : total=6
+02-25 15:33:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.CecHdmiInputState.Active=1
+02-25 15:33:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.CecStandby.On=1
+02-25 15:33:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.ConnectionType.Unknown=1
+02-25 15:33:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.Discovery.Mdns.Request.In=2
+02-25 15:33:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.Discovery.Mdns.Response.Out=2
+02-25 15:33:08.770 21254 21254 I cast_shell: [metrics_stat_logger] Cast.Network.CheckIn=1
+02-25 15:33:08.900 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 140682/140687 (recycle/alloc) - 601/281365 (fetch/transfer)
+--------- beginning of kernel
+02-25 15:33:09.150     0     0 I [0 T234   ..] logd: logdr: UID=2000 GID=2000 PID=16863 n tail=200 logMask=99 pid=0 start=0ns deadline=0ns
+02-25 15:33:09.212   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6463059200
+02-25 15:33:09.301  1081  1081 I ThermalService: CPU temperatures: [46.000004]
+02-25 15:33:10.757   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 140775/140777 (recycle/alloc) - 56/140775 (fetch/transfer)
+02-25 15:33:11.304  1081  1081 I ThermalService: CPU temperatures: [45.7]
+02-25 15:33:13.214   459   636 I audio_hw_hal_alsamgr: alsa format =0x9000000 delay frames =6272 total frames=6461952000
+02-25 15:33:13.307  1081  1081 I ThermalService: CPU temperatures: [45.7]
+02-25 15:33:13.839 21254 21610 I cast_shell: [0225/153313.839253:INFO:mdns_app_filter.cc(3550)] Mdns cast queries recently sent: queries=1
+02-25 15:33:14.020 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 140938/140943 (recycle/alloc) - 602/281877 (fetch/transfer)
+02-25 15:33:14.404     0     0 I [1 T234   ..] logd: logdr: UID=2000 GID=2000 PID=16866 n tail=500 logMask=99 pid=0 start=0ns deadline=0ns
+02-25 15:33:14.520     0     0 I [1 T234   ..] logd: logdr: UID=2000 GID=2000 PID=16869 n tail=500 logMask=99 pid=0 start=0ns deadline=0ns
+02-25 15:33:14.545   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6463315200
+02-25 15:33:15.310  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:15.877   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 141031/141033 (recycle/alloc) - 56/141031 (fetch/transfer)
+02-25 15:33:17.313  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:19.140 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 141194/141199 (recycle/alloc) - 603/282389 (fetch/transfer)
+02-25 15:33:19.316  1081  1081 I ThermalService: CPU temperatures: [45.600002]
+02-25 15:33:19.880   459   636 I audio_hw_hal_alsamgr: alsa format =0x1 delay frames =1024 total frames=6463571200
+02-25 15:33:20.638     0     0 I [1 T234   ..] logd: logdr: UID=2000 GID=2000 PID=16872 n tail=1000 logMask=99 pid=0 start=0ns deadline=0ns
+02-25 15:33:20.997   575 13651 D BufferPoolAccessor2.0: bufferpool2 0xea7418e8 : 2(48000 size) total buffers - 1(24000 size) used buffers - 141287/141289 (recycle/alloc) - 56/141287 (fetch/transfer)
+02-25 15:33:21.317  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:23.319  1081  1081 I ThermalService: CPU temperatures: [45.800003]
+02-25 15:33:24.260 13622 13644 D BufferPoolAccessor2.0: bufferpool2 0xf1280268 : 5(19200 size) total buffers - 4(15360 size) used buffers - 141450/141455 (recycle/alloc) - 604/282901 (fetch/transfer)
+02-25 15:33:24.950     0     0 I [1 T234   ..] logd: logdr: UID=2000 GID=2000 PID=16875 n tail=500 logMask=99 pid=0 start=0ns deadline=0ns

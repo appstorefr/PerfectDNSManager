@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect DNS Manager - Decrypt</title>
+    <style>
+        :root { --bg: #121212; --surface: #1E1E1E; --card: #252525; --primary: #2196F3; --accent: #FFD700; --text: #FFFFFF; --text-dim: #BBBBBB; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 8px; font-size: 1.5em; }
+        h1 span { color: var(--accent); }
+        .subtitle { text-align: center; color: var(--text-dim); margin-bottom: 24px; font-size: 0.9em; }
+        .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #333; }
+        .card h2 { color: var(--primary); font-size: 1.1em; margin-bottom: 12px; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
+        .input-row input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: var(--surface); color: var(--text); font-size: 16px; font-family: monospace; }
+        .input-row input:focus { outline: none; border-color: var(--primary); }
+        button { padding: 10px 20px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:hover { filter: brightness(1.2); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-accent { background: #4CAF50; }
+        #status { padding: 10px; border-radius: 8px; margin-bottom: 12px; display: none; font-size: 0.9em; }
+        .status-ok { background: #1B5E20; display: block !important; }
+        .status-err { background: #B71C1C; display: block !important; }
+        .status-info { background: #1565C0; display: block !important; }
+        #result { background: var(--surface); border-radius: 8px; padding: 16px; white-space: pre-wrap; font-family: monospace; font-size: 13px; line-height: 1.6; color: #CCCCCC; display: none; max-height: 70vh; overflow-y: auto; border: 1px solid #333; }
+        #result h1, #result h2, #result h3 { color: var(--accent); margin: 12px 0 6px; font-family: -apple-system, sans-serif; }
+        #result table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+        #result th, #result td { border: 1px solid #444; padding: 6px 10px; text-align: left; font-size: 12px; }
+        #result th { background: #333; color: var(--primary); }
+        #result blockquote { border-left: 3px solid var(--primary); padding-left: 12px; color: var(--text-dim); margin: 8px 0; }
+        #result code { background: #333; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+        #result hr { border: none; border-top: 1px solid #444; margin: 12px 0; }
+        #result em { color: var(--text-dim); }
+        #result strong { color: var(--text); }
+        .logo { text-align: center; margin-bottom: 16px; }
+        .logo img { height: 48px; }
+        .manual-section { display: none; margin-top: 12px; }
+        .manual-section textarea { width: 100%; min-height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #444; background: var(--surface); color: var(--text); font-family: monospace; font-size: 12px; resize: vertical; }
+        .lock-icon { font-size: 1.2em; }
+        a { color: var(--primary); }
+        .footer { text-align: center; margin-top: 24px; color: var(--text-dim); font-size: 0.8em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="lock-icon">&#x1F512;</span> Perfect DNS Manager <span>Decrypt</span></h1>
+        <p class="subtitle">AES-256-GCM &mdash; Client-side decryption (nothing is sent to any server)</p>
+
+        <div class="card" id="inputCard">
+            <h2>&#x1F511; Enter share code</h2>
+            <div class="input-row">
+                <input type="text" id="codeInput" placeholder="123456 or full is.gd URL" autofocus onkeydown="if(event.key==='Enter')decryptFromCode()">
+                <button onclick="decryptFromCode()" id="btnDecrypt">Decrypt</button>
+            </div>
+            <div id="status"></div>
+            <div class="manual-section" id="manualSection">
+                <p style="color: var(--text-dim); font-size: 0.85em; margin-bottom: 8px;">
+                    CORS blocked. Open the link above in a new tab, copy the content, and paste it below:
+                </p>
+                <textarea id="manualContent" placeholder="Paste encrypted content here..."></textarea>
+                <br><br>
+                <button onclick="decryptManual()" class="btn-accent">Decrypt pasted content</button>
+            </div>
+        </div>
+
+        <div id="result"></div>
+
+        <div class="footer">
+            <a href="https://appstorefr.github.io/PerfectDNSManager/">Perfect DNS Manager</a> &mdash; Open source DNS manager for Android
+        </div>
+    </div>
+
+<script>
+    let currentKey = null;
+    let currentFileUrl = null;
+
+    // Check if URL fragment contains auto-decrypt info
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && hash.includes('|')) {
+            autoDecryptFromFragment(hash);
+        }
+    });
+
+    async function autoDecryptFromFragment(hash) {
+        const parts = hash.split('|');
+        if (parts.length < 2) return;
+        currentFileUrl = decodeURIComponent(parts[0]);
+        currentKey = parts[1];
+        setStatus('info', 'Downloading and decrypting...');
+
+        // Try multiple methods to fetch the encrypted data
+        let encryptedBase64 = null;
+
+        // Method 1: Direct fetch
+        try {
+            const resp = await fetch(currentFileUrl);
+            if (resp.ok) encryptedBase64 = (await resp.text()).trim();
+        } catch (e) { /* CORS blocked, try proxy */ }
+
+        // Method 2: allorigins proxy
+        if (!encryptedBase64) {
+            try {
+                setStatus('info', 'Trying alternative download...');
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(currentFileUrl);
+                const resp = await fetch(proxyUrl);
+                if (resp.ok) encryptedBase64 = (await resp.text()).trim();
+            } catch (e) { /* proxy also failed */ }
+        }
+
+        // Method 3: corsproxy.io
+        if (!encryptedBase64) {
+            try {
+                const proxyUrl2 = 'https://corsproxy.io/?' + encodeURIComponent(currentFileUrl);
+                const resp = await fetch(proxyUrl2);
+                if (resp.ok) encryptedBase64 = (await resp.text()).trim();
+            } catch (e) { /* all methods failed */ }
+        }
+
+        if (encryptedBase64) {
+            try {
+                const plaintext = await decryptAES(encryptedBase64, currentKey);
+                showResult(plaintext);
+                setStatus('ok', 'Decrypted successfully!');
+                return;
+            } catch (e) {
+                setStatus('err', 'Decryption failed: ' + e.message);
+                return;
+            }
+        }
+
+        // All methods failed — show manual paste
+        setStatus('err', 'Cannot download file automatically. <a href="' + currentFileUrl + '" target="_blank" style="color:#FFD700">Click here to open the file</a>, then copy-paste the content below.');
+        document.getElementById('manualSection').style.display = 'block';
+    }
+
+    function decryptFromCode() {
+        const code = document.getElementById('codeInput').value.trim();
+        if (!code) return;
+
+        // Redirect to is.gd — the browser follows the redirect to
+        // decrypt.html on GitHub Pages with the correct #fragment.
+        // This avoids all CORS issues with the is.gd API.
+        setStatus('info', 'Redirecting...');
+        const isgdUrl = code.startsWith('http') ? code : 'https://is.gd/' + code;
+        window.location.href = isgdUrl;
+    }
+
+    async function decryptManual() {
+        const content = document.getElementById('manualContent').value.trim();
+        if (!content || !currentKey) {
+            setStatus('err', 'Paste the encrypted content first');
+            return;
+        }
+        try {
+            setStatus('info', 'Decrypting...');
+            const plaintext = await decryptAES(content, currentKey);
+            showResult(plaintext);
+            setStatus('ok', 'Decrypted successfully!');
+            document.getElementById('manualSection').style.display = 'none';
+        } catch (e) {
+            setStatus('err', 'Decryption failed: ' + e.message);
+        }
+    }
+
+    async function decryptAES(encryptedBase64, keyBase64) {
+        // Decode key (URL-safe base64)
+        const keyB64 = keyBase64.replace(/-/g, '+').replace(/_/g, '/');
+        const keyBytes = Uint8Array.from(atob(keyB64), c => c.charCodeAt(0));
+
+        // Decode encrypted data (standard base64)
+        const combined = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+
+        // Extract IV (first 12 bytes) and ciphertext
+        const iv = combined.slice(0, 12);
+        const ciphertext = combined.slice(12);
+
+        // Import key
+        const cryptoKey = await crypto.subtle.importKey(
+            'raw', keyBytes, { name: 'AES-GCM' }, false, ['decrypt']
+        );
+
+        // Decrypt
+        const decrypted = await crypto.subtle.decrypt(
+            { name: 'AES-GCM', iv: iv, tagLength: 128 },
+            cryptoKey,
+            ciphertext
+        );
+
+        return new TextDecoder().decode(decrypted);
+    }
+
+    function showResult(text) {
+        const el = document.getElementById('result');
+        el.style.display = 'block';
+        el.innerHTML = markdownToHtml(text);
+    }
+
+    function markdownToHtml(md) {
+        let html = md
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            // Headers
+            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+            // Bold + italic
+            .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            // Code
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            // HR
+            .replace(/^---$/gm, '<hr>')
+            // Blockquote
+            .replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
+            // Links
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+        // Tables
+        html = html.replace(/^(\|.+\|)\n(\|[-| :]+\|)\n((?:\|.+\|\n?)+)/gm, (match, header, sep, body) => {
+            const headers = header.split('|').filter(c => c.trim()).map(c => '<th>' + c.trim() + '</th>').join('');
+            const rows = body.trim().split('\n').map(row => {
+                const cells = row.split('|').filter(c => c.trim()).map(c => '<td>' + c.trim() + '</td>').join('');
+                return '<tr>' + cells + '</tr>';
+            }).join('');
+            return '<table><thead><tr>' + headers + '</tr></thead><tbody>' + rows + '</tbody></table>';
+        });
+
+        // Line breaks
+        html = html.replace(/\n/g, '<br>');
+        return html;
+    }
+
+    function setStatus(type, msg) {
+        const el = document.getElementById('status');
+        el.className = 'status-' + type;
+        el.innerHTML = msg;
+    }
+</script>
+</body>
+</html>
