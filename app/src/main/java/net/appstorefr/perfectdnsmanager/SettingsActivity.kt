@@ -1243,7 +1243,7 @@ class SettingsActivity : AppCompatActivity() {
                     val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                     clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Share Code", result.shortCode))
                     val msg = android.text.SpannableString(
-                        "Code : ${result.shortCode}\n\nOuvrir la configuration :\npdm.appstorefr.net/decrypt.html\n\nEntrez le code ${result.shortCode} pour importer.\n\n(code copié dans le presse-papier)"
+                        "Code : ${result.shortCode}\n\nOuvrir la configuration :\nappstorefr.github.io/PerfectDNSManager/decrypt.html\n\nEntrez le code ${result.shortCode} pour importer.\n\n(code copié dans le presse-papier)"
                     )
                     val code = result.shortCode
                     val greenColor = android.graphics.Color.parseColor("#4CAF50")

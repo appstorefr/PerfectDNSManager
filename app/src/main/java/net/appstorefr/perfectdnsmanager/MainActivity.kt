@@ -721,7 +721,7 @@ class MainActivity : AppCompatActivity() {
                     val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                     clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Report Code", result.shortCode))
                     val msg = android.text.SpannableString(
-                        "Code : ${result.shortCode}\n\nOuvrir le rapport :\npdm.appstorefr.net/decrypt.html\n\nEntrez le code ${result.shortCode} pour afficher le rapport.\n\n(code copié dans le presse-papier)"
+                        "Code : ${result.shortCode}\n\nOuvrir le rapport :\nappstorefr.github.io/PerfectDNSManager/decrypt.html\n\nEntrez le code ${result.shortCode} pour afficher le rapport.\n\n(code copié dans le presse-papier)"
                     )
                     val code = result.shortCode
                     val greenColor = android.graphics.Color.parseColor("#4CAF50")

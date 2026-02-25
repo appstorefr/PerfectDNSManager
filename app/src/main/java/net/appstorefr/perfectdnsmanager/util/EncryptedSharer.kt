@@ -92,7 +92,7 @@ class EncryptedSharer {
             Log.d(TAG, "tmpfiles link: $fileUrl")
 
             // 5. Build decrypt page URL with file URL + key in fragment
-            val decryptPageUrl = "https://pdm.appstorefr.net/decrypt.html#${java.net.URLEncoder.encode(fileUrl, "UTF-8")}|$keyBase64"
+            val decryptPageUrl = "https://appstorefr.github.io/PerfectDNSManager/decrypt.html#${java.net.URLEncoder.encode(fileUrl, "UTF-8")}|$keyBase64"
             Log.d(TAG, "Decrypt page URL: $decryptPageUrl")
 
             // 6. Shorten via is.gd with numeric code
