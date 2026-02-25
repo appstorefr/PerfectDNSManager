@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_language_title"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnFrancais"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_francais"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusDown="@id/btnEnglish" />
+
+        <Button
+            android:id="@+id/btnEnglish"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_english"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnFrancais"
+            android:nextFocusDown="@id/btnDeutsch" />
+
+        <Button
+            android:id="@+id/btnDeutsch"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_deutsch"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnEnglish"
+            android:nextFocusDown="@id/btnEspanol" />
+
+        <Button
+            android:id="@+id/btnEspanol"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_espanol"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnDeutsch"
+            android:nextFocusDown="@id/btnItaliano" />
+
+        <Button
+            android:id="@+id/btnItaliano"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_italiano"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnEspanol"
+            android:nextFocusDown="@id/btnPortugues" />
+
+        <Button
+            android:id="@+id/btnPortugues"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_portugues"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnItaliano"
+            android:nextFocusDown="@id/btnRussian" />
+
+        <Button
+            android:id="@+id/btnRussian"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_russian"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnPortugues"
+            android:nextFocusDown="@id/btnChinese" />
+
+        <Button
+            android:id="@+id/btnChinese"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_chinese"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnRussian"
+            android:nextFocusDown="@id/btnArabic" />
+
+        <Button
+            android:id="@+id/btnArabic"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_arabic"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnChinese"
+            android:nextFocusDown="@id/btnHindi" />
+
+        <Button
+            android:id="@+id/btnHindi"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_hindi"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnArabic"
+            android:nextFocusDown="@id/btnBengali" />
+
+        <Button
+            android:id="@+id/btnBengali"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_bengali"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnHindi"
+            android:nextFocusDown="@id/btnJapanese" />
+
+        <Button
+            android:id="@+id/btnJapanese"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:text="@string/lang_japanese"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/focusable_item_background"
+            android:layout_marginBottom="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnBengali" />
+
+    </LinearLayout>
+</ScrollView>

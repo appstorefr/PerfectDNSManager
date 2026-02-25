@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/default_background"
+    android:fillViewport="true">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_arrow"
+            android:background="@drawable/focusable_item_background"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:focusable="true" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settings_title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- Section Démarrage auto -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#22FFFFFF"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/auto_start_label"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+            <Switch
+                android:id="@+id/switchAutoStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/auto_reconnect_label"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+            <Switch
+                android:id="@+id/switchAutoReconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvAutoReconnectDns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#88FFFFFF"
+            android:textSize="13sp"
+            android:paddingStart="4dp"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/disable_ipv6_label"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+            <Switch
+                android:id="@+id/switchDisableIpv6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Section Fonctions avancées -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#22FF6F00"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/advanced_features_title"
+                android:textColor="#FF6F00"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+            <Switch
+                android:id="@+id/switchAdvanced"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
+        </LinearLayout>
+        <!-- Contenu caché par défaut -->
+        <LinearLayout
+            android:id="@+id/layoutAdvancedSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="8dp">
+
+            <!-- Sous-toggle DNS opérateur -->
+            <LinearLayout
+                android:id="@+id/rowOperatorDns"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:focusable="true" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/show_operator_dns"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchOperatorDns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- Sous-toggle DNS Standard -->
+            <LinearLayout
+                android:id="@+id/rowStandardDns"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:focusable="true" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/show_standard_dns"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchStandardDns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- Sous-toggle variantes de profils -->
+            <LinearLayout
+                android:id="@+id/rowProfileVariants"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:focusable="true" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/show_profile_variants"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchProfileVariants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- Sous-toggle DNS over QUIC -->
+            <LinearLayout
+                android:id="@+id/rowDoqDns"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:focusable="true" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/show_doq_dns"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchDoqDns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- Sous-toggle DNS DoT via ADB -->
+            <LinearLayout
+                android:id="@+id/rowAdbDot"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:focusable="true" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/dns_dot_adb"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchAdbDot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- ADB sub-section (hidden, shown when switchAdbDot ON) -->
+            <LinearLayout
+                android:id="@+id/layoutAdbDotSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:background="#11FFFFFF"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <TextView
+                        android:id="@+id/tvAdbStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/btnHowTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="@string/how_to_adb"
+                        android:background="@drawable/focusable_item_background"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:padding="8dp"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adb_warning"
+                    android:textColor="#FF8A80"
+                    android:textSize="12sp"
+                    android:background="#22FF0000"
+                    android:padding="8dp"/>
+
+                <!-- Section Auto-permission ADB -->
+                <LinearLayout
+                    android:id="@+id/layoutSelfGrantSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:background="#22388E3C"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/self_grant_section_title"
+                        android:textColor="#81C784"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/self_grant_section_desc"
+                        android:textColor="#AAAAAA"
+                        android:textSize="11sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvPermissionStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnSelfGrant"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#388E3C"
+                        android:foreground="@drawable/btn_focus_foreground"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <!-- Section Shizuku (Android 11+) -->
+                <LinearLayout
+                    android:id="@+id/layoutShizukuSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:background="#227B1FA2"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shizuku_section_title"
+                        android:textColor="#CE93D8"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shizuku_section_desc"
+                        android:textColor="#AAAAAA"
+                        android:textSize="11sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvShizukuStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnShizukuAction"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#7B1FA2"
+                        android:foreground="@drawable/btn_focus_foreground"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:focusable="true" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- URL Rewrite warning -->
+            <TextView
+                android:id="@+id/tvUrlRewriteWarning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/url_rewrite_warning"
+                android:textColor="#FFD54F"
+                android:textSize="12sp"
+                android:background="#22FFAB00"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <Button
+                android:id="@+id/btnUrlRewrite"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/url_rewrite_button"
+                android:backgroundTint="#4A148C"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:focusable="true" />
+
+            <!-- Split tunneling (bypass VPN per-app) -->
+            <Button
+                android:id="@+id/btnSplitTunnel"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/split_tunnel_button"
+                android:backgroundTint="#0277BD"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:focusable="true" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Import / Export (collapsible) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#22007FFF"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:id="@+id/rowImportExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/focusable_item_background"
+            android:focusable="true"
+            android:padding="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/import_export_title"
+                android:textColor="#42A5F5"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tvImportExportArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▶"
+                android:textColor="#42A5F5"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutImportExportContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="8dp">
+            <Button
+                android:id="@+id/btnExportConfig"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/export_config_button"
+                android:backgroundTint="#1565C0"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:focusable="true" />
+            <Button
+                android:id="@+id/btnImportConfig"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/import_config_button"
+                android:backgroundTint="#2E7D32"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:focusable="true" />
+            <Button
+                android:id="@+id/btnRestoreDns"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/restore_dns_button"
+                android:backgroundTint="#1565C0"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:focusable="true" />
+            <Button
+                android:id="@+id/btnResetApp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/reset_app_button"
+                android:backgroundTint="#B71C1C"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:drawableStart="@android:drawable/ic_dialog_alert"
+                android:drawablePadding="8dp"
+                android:layout_marginTop="12dp"
+                android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Soutenir -->
+    <Button
+        android:id="@+id/btnSupport"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/support_us_button"
+        android:backgroundTint="#B71C1C"
+        android:foreground="@drawable/btn_focus_foreground"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"
+        android:focusable="true" />
+
+    <!-- À propos (tout en bas) -->
+    <Button
+        android:id="@+id/btnAbout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/about"
+        android:backgroundTint="#333355"
+        android:foreground="@drawable/btn_focus_foreground"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:focusable="true" />
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A2E"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_arrow"
+        android:backgroundTint="#333355"
+        android:foreground="@drawable/btn_focus_foreground"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="start"
+        android:layout_marginBottom="12dp"
+        android:focusable="true"
+        android:nextFocusDown="@id/btnSelectCrypto"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/support_us_title"
+        android:textColor="#FFEB3B"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/support_us_message"
+        android:textColor="#CCCCCC"
+        android:textSize="13sp"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Bouton sélecteur de crypto — utilise AlertDialog, fonctionne au focus/télécommande -->
+    <Button
+        android:id="@+id/btnSelectCrypto"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/select_crypto_button"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:background="@drawable/focusable_item_background"
+        android:layout_marginBottom="20dp"
+        android:focusable="true"
+        android:nextFocusUp="@id/btnBack"/>
+
+    <!-- Nom de la crypto sélectionnée -->
+    <TextView
+        android:id="@+id/tvCryptoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#14B8A6"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- QR Code -->
+    <ImageView
+        android:id="@+id/ivQrCode"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#FFFFFF"
+        android:padding="8dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Adresse -->
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="11sp"
+        android:textIsSelectable="true"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Sous-titre réseaux -->
+    <TextView
+        android:id="@+id/tvNetworks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#888888"
+        android:textSize="11sp"/>
+
+</LinearLayout>

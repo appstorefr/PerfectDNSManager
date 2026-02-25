@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect DNS Manager</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --card: #252525;
+            --primary: #2196F3;
+            --accent: #FFD700;
+            --text: #FFFFFF;
+            --text-dim: #BBBBBB;
+            --green: #4CAF50;
+            --red: #FF5252;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Language bar */
+        .lang-bar {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: #0d0d0d;
+            border-bottom: 1px solid #333;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .lang-bar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82em;
+            font-weight: 500;
+            color: var(--text-dim);
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .lang-bar a:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .lang-bar a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .lang-bar .flag {
+            font-size: 1.15em;
+            line-height: 1;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero-icon { font-size: 64px; margin-bottom: 16px; }
+        .hero h1 { font-size: 2.4em; font-weight: 700; margin-bottom: 8px; }
+        .hero .tagline { font-size: 1.15em; color: rgba(255,255,255,0.85); margin-bottom: 24px; }
+        .hero .version-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95em;
+            margin-bottom: 24px;
+        }
+        .hero .dl-btn {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 8px;
+            font-size: 1.15em;
+            font-weight: 600;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+        }
+        .hero .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76,175,80,0.5); text-decoration: none; }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+        /* Sections */
+        section { padding: 48px 0; }
+        section h2 {
+            font-size: 1.6em;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        /* Info bar */
+        .info-bar {
+            background: var(--surface);
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+        .info-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .info-item { text-align: center; }
+        .info-item .label { font-size: 0.8em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .info-item .value { font-size: 1.1em; font-weight: 600; color: var(--accent); }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .feature-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 3px solid var(--primary);
+        }
+        .feature-card .icon { font-size: 1.5em; margin-bottom: 8px; }
+        .feature-card h3 { font-size: 1.05em; margin-bottom: 6px; }
+        .feature-card p { font-size: 0.9em; color: var(--text-dim); }
+
+        /* Changelog */
+        .changelog-item {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        .changelog-item .ver {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .changelog-item .date { color: var(--text-dim); font-size: 0.85em; }
+        .changelog-item ul { margin-top: 10px; padding-left: 20px; }
+        .changelog-item li { color: var(--text-dim); font-size: 0.9em; margin-bottom: 4px; }
+
+        /* Community */
+        .community-badges {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .badge {
+            background: var(--card);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        /* Support / Crypto */
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .crypto-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+            border: 2px solid transparent;
+        }
+        .crypto-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+        .crypto-card.active { border-color: var(--accent); }
+        .crypto-card h3 { font-size: 1em; margin-bottom: 10px; }
+        .crypto-card .qr-container {
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .crypto-card .qr-container img { width: 160px; height: 160px; display: block; }
+        .crypto-card .addr {
+            font-family: 'Courier New', monospace;
+            font-size: 0.72em;
+            word-break: break-all;
+            color: var(--text-dim);
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: text;
+            user-select: all;
+        }
+        .crypto-card .networks {
+            font-size: 0.78em;
+            color: var(--primary);
+            margin-top: 6px;
+        }
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .copy-toast.show { opacity: 1; }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85em;
+            border-top: 1px solid #333;
+        }
+        footer a { color: var(--primary); }
+
+        /* Screenshots placeholder */
+        .screenshots {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.7em; }
+            .info-grid { gap: 20px; }
+            .crypto-card .qr-container img { width: 130px; height: 130px; }
+            .lang-bar { gap: 2px; padding: 6px 8px; }
+            .lang-bar a { padding: 3px 6px; font-size: 0.75em; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language bar -->
+<div class="lang-bar">
+    <a href="fr.html"><span class="flag">&#x1F1EB;&#x1F1F7;</span> FR</a>
+    <a href="en.html" class="active"><span class="flag">&#x1F1EC;&#x1F1E7;</span> EN</a>
+    <a href="es.html"><span class="flag">&#x1F1EA;&#x1F1F8;</span> ES</a>
+    <a href="ru.html"><span class="flag">&#x1F1F7;&#x1F1FA;</span> RU</a>
+    <a href="zh.html"><span class="flag">&#x1F1E8;&#x1F1F3;</span> ZH</a>
+    <a href="ar.html"><span class="flag">&#x1F1F8;&#x1F1E6;</span> AR</a>
+    <a href="it.html"><span class="flag">&#x1F1EE;&#x1F1F9;</span> IT</a>
+    <a href="pt.html"><span class="flag">&#x1F1E7;&#x1F1F7;</span> PT</a>
+    <a href="hi.html"><span class="flag">&#x1F1EE;&#x1F1F3;</span> HI</a>
+    <a href="bn.html"><span class="flag">&#x1F1E7;&#x1F1E9;</span> BN</a>
+    <a href="ja.html"><span class="flag">&#x1F1EF;&#x1F1F5;</span> JA</a>
+    <a href="de.html"><span class="flag">&#x1F1E9;&#x1F1EA;</span> DE</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+    <div style="margin-bottom: 16px;">
+        <img src="logo.svg" alt="Perfect DNS Manager" style="width: 140px; height: 140px; border-radius: 28px; box-shadow: 0 8px 32px rgba(255,215,0,0.2), 0 0 60px rgba(33,150,243,0.15);">
+    </div>
+    <h1>Perfect DNS Manager</h1>
+    <p class="tagline">Change your DNS in one click. Privacy, performance, freedom.</p>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.71 &mdash; Build 71</div></a>
+    <br><br>
+    <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
+        &#x2B07;&#xFE0F; Download APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
+    </a>
+    <div style="margin-top: 24px; background: rgba(255,255,255,0.08); display: block; max-width: 500px; margin-left: auto; margin-right: auto; padding: 16px 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
+        <div style="font-size: 0.9em; color: rgba(255,255,255,0.7); margin-bottom: 6px;">Downloader Code (AFTVnews):</div>
+        <div style="font-size: 2em; font-weight: 700; font-family: monospace; color: var(--accent); letter-spacing: 3px;">2759555</div>
+        <div style="font-size: 0.95em; color: rgba(255,255,255,0.5); margin-top: 8px;">or direct URL:</div>
+        <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
+    </div>
+
+    <!-- Protected Report link -->
+    <div style="margin-top: 24px;">
+        <a href="decrypt.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F512; Protected Report &rarr;</a>
+    </div>
+</div>
+
+<!-- Info bar -->
+<div class="info-bar">
+    <div class="container">
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="label">Platform</div>
+                <div class="value">Android 5.0+</div>
+            </div>
+            <div class="info-item">
+                <div class="label">License</div>
+                <div class="value">Free</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Ads</div>
+                <div class="value">None</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Data Collection</div>
+                <div class="value">None</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<section>
+    <div class="container">
+        <h2>Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">&#x1F310;</div>
+                <h3>DNS DoH / DoQ / DoT / Standard</h3>
+                <p>Supports DNS over HTTPS, DNS over QUIC (DoQ), DNS over TLS (ADB/Shizuku), and classic UDP DNS.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x26A1;</div>
+                <h3>One-click Activation</h3>
+                <p>Select a DNS provider and activate it instantly via local VPN or Private DNS.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F4CA;</div>
+                <h3>DNS Speedtest</h3>
+                <p>Test the latency of all your DNS providers and find the fastest one for you.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x2B50;</div>
+                <h3>Favorites &amp; Default DNS</h3>
+                <p>Organize your preferred DNS servers with favorites and set a default DNS.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F500;</div>
+                <h3>URL Rewrite</h3>
+                <p>Redirect domains to others to bypass your ISP's DNS blocks.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F504;</div>
+                <h3>Auto-reconnect</h3>
+                <p>Automatic DNS reconnection on device boot. Also supports IPv6 toggle.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F4BE;</div>
+                <h3>Import / Export</h3>
+                <p>Back up and restore your configuration. End-to-end encrypted export and import (AES-256-GCM).</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F4E1;</div>
+                <h3>Shizuku / ADB</h3>
+                <p>Shizuku support to change Private DNS without a PC. Android TV &amp; Firestick compatible.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F30D;</div>
+                <h3>Multilingual</h3>
+                <p>Interface available in 12 languages: French, English, Spanish, Italian, Portuguese, Russian, Chinese, Arabic, Hindi, Bengali, Japanese and German.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F504;</div>
+                <h3>Auto-update</h3>
+                <p>Automatic update check on launch. In-app download and installation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F6E1;</div>
+                <h3>Split Tunneling</h3>
+                <p>Exclude specific apps from the DNS VPN. Useful for incompatible applications.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F50D;</div>
+                <h3>Quick DNS Test</h3>
+                <p>DNS leak test and domain name test in one click. Verify your protection in real time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Built-in DNS Providers -->
+<section style="background: var(--surface);">
+    <div class="container">
+        <a href="dns-providers.html" style="text-decoration:none;"><h2>Built-in DNS Providers &#x2192;</h2></a>
+        <p style="color: var(--text-dim); margin-bottom: 16px;">More than 15 preconfigured DNS providers, with speed and privacy rankings:</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <span class="badge">AdGuard</span>
+            <span class="badge">Cloudflare</span>
+            <span class="badge">ControlD</span>
+            <span class="badge">dns.sb</span>
+            <span class="badge">Google</span>
+            <span class="badge">Mullvad</span>
+            <span class="badge">NextDNS</span>
+            <span class="badge">Quad9</span>
+            <span class="badge">Surfshark</span>
+            <span class="badge">FDN</span>
+            <span class="badge">Yandex</span>
+            <span class="badge">+ custom profiles</span>
+        </div>
+    </div>
+</section>
+
+<!-- Changelog -->
+<section id="changelog">
+    <div class="container">
+        <h2>Latest Updates</h2>
+        <details open>
+            <summary style="cursor:pointer;color:var(--primary);font-size:1em;margin-bottom:12px;">Show / Hide changelog</summary>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.71</span>
+            <span class="date">February 26, 2026</span>
+            <ul>
+                <li>Dedicated domain tester</li>
+                <li>Report automatically generated on each activation/deactivation</li>
+                <li>Automatic IP display on startup</li>
+                <li>AES-256-GCM encrypted export/import clarified</li>
+                <li>Removed AI credits</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.70</span>
+            <span class="date">February 25, 2026</span>
+            <ul>
+                <li>Full reset button</li>
+                <li>DNS over QUIC (DoQ) toggle in advanced settings</li>
+                <li>Network operator in info section</li>
+                <li>Fix report: active DNS + before/after leak test</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.69</span>
+            <span class="date">February 2026</span>
+            <ul>
+                <li>DoH now default priority (better network compatibility)</li>
+                <li>New "Quick DNS Test" button (DNS leak + domain names)</li>
+                <li>Simplified import/export: encrypted code only</li>
+                <li>Fixed version displayed in config export</li>
+                <li>Report decryption: improved CORS proxy fallback</li>
+                <li>Added XMR and BTC Lightning on support page</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.68</span>
+            <span class="date">February 2026</span>
+            <ul>
+                <li>UI bug fixes</li>
+                <li>General stability improvements</li>
+            </ul>
+        </div>
+
+<div class="changelog-item">            <span class="ver">v1.0.67</span>            <span class="date">February 2026</span>            <ul>                <li>Redesigned DNS provider detail page: expandable categories by type (DoQ/DoH/DoT/Standard)</li>                <li>Add custom NextDNS profiles from detail page</li>                <li>Dedicated crypto support page</li>                <li>DNS speedtest UI fixes (focus, selectable zones)</li>                <li>GPL v3 license added to homepage</li>                <li>Code cleanup and dead code removal</li>            </ul>        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.57</span>
+            <span class="date">February 2026</span>
+            <ul>
+                <li>New DNS provider: FDN (French Data Network, DoH + DoT)</li>
+                <li>Split tunneling: per-app VPN bypass</li>
+                <li>Added DNS over QUIC (DoQ) for ControlD, NextDNS, AdGuard, Surfshark, Mullvad</li>
+                <li>Improved DNS speedtest: DoQ, DoT, operator DNS support</li>
+                <li>URL blocking test fixed (Google DoH API)</li>
+                <li>Enhanced report with app version</li>
+                <li>Many stability fixes</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.55</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 7.1 MB</span>
+            <ul>
+                <li>New language: German (12 languages total)</li>
+                <li>VPN stability improvements and bug fixes</li>
+                <li>GitHub page updated for all languages</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.52</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 7.0 MB</span>
+            <ul>
+                <li>New icon: golden lightning bolt (replaces power button)</li>
+                <li>11 languages: added Hindi, Bengali, Japanese</li>
+                <li>Language button enlarged for Android TV / Fire Stick</li>
+                <li>Clickable version badge (scrolls to changelog)</li>
+                <li>APK file size shown in changelog</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.51</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 7.0 MB</span>
+            <ul>
+                <li>Enlarged language button for Android TV / Fire Stick</li>
+                <li>11 languages available (added Hindi, Bengali, Japanese)</li>
+                <li>Shizuku link redirected to GitHub instead of Play Store</li>
+                <li>Auto-enable auto-start, auto-reconnect and IPv6 disable on first VPN connection</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.50</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.9 MB</span>
+            <ul>
+                <li>New logo: simplified power button icon (optimized rendering for Android TV)</li>
+                <li>8 languages available: French, English, Spanish, Russian, Chinese, Arabic, Italian, Portuguese</li>
+                <li>Multilingual GitHub homepage with language selector</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.49</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.8 MB</span>
+            <ul>
+                <li>Switch logo: app icon and GitHub page redesigned</li>
+                <li>Homepage reorganization: accessible DNS Test button, unified IP + status panel</li>
+                <li>Default DNS pre-selection on app launch</li>
+                <li>VPN auto-reconnection after app update</li>
+                <li>Profile count display per DNS provider</li>
+                <li>Dedicated page for shared IP report retrieval</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.46</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.8 MB</span>
+            <ul>
+                <li>Real-time IPv4 / IPv6 display on homepage</li>
+                <li>Visual indicator for IPv6 blocked (green &#x2713;) or active (red)</li>
+                <li>IP sharing via tmpfiles.org (number + clipboard)</li>
+                <li>Fix DNS profile change with active VPN (visible reconnection)</li>
+                <li>Automatic in-app update on launch</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.45</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.8 MB</span>
+            <ul>
+                <li>Unified focus highlights across the entire app (Android TV D-pad compatibility)</li>
+                <li>DNS speedtest fix (realistic latency with connection reuse)</li>
+                <li>AFTVnews Downloader Code integrated in About page</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.40</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.5 MB</span>
+            <ul>
+                <li>Golden <strong style="color: #FFD700;">1|</strong> and <strong style="color: #FFD700;">2|</strong> indicators on homepage</li>
+                <li>DNS type (DoH/DoT/Standard) and method (VPN/ADB) display in auto-reconnect info</li>
+                <li>Granular export: choose what to export (profiles, favorites, rewrite rules, settings&hellip;)</li>
+                <li>Built-in DNS Speedtest: test latency of all your providers</li>
+                <li>VPN auto-reconnection on IPv6 toggle</li>
+                <li>Automatic updates via GitHub Releases</li>
+                <li>Code cleanup and translations</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.39</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.4 MB</span>
+            <ul>
+                <li>Star-based DNS ranking (speed &amp; privacy)</li>
+                <li>Simplified import/export (tmpfiles.org)</li>
+                <li>Profile addition restricted by advanced mode</li>
+                <li>Fix VPN sharing (FLAG_ACTIVITY_NEW_TASK)</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.38</span>
+            <span class="date">February 2026</span>
+            <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.3 MB</span>
+            <ul>
+                <li>Shizuku integration to modify Private DNS without PC</li>
+                <li>Improved wireless ADB support</li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</section>
+
+<!-- Community -->
+<section style="background: var(--surface);">
+    <div class="container">
+        <h2>Community</h2>
+        <div class="community-badges">
+            <div class="badge">&#x1F6AB; No ads</div>
+            <div class="badge">&#x1F4CA; No data collection</div>
+            <div class="badge">&#x1F193; Free to use and share</div>
+            <div class="badge">&#x1F49C; Made for the community</div>
+        </div>
+        <p style="margin-top: 20px; color: var(--text-dim);">
+            Developed by <strong>AppstoreFR</strong> &mdash; Contact: <a href="mailto:contact@appstorefr.net">contact@appstorefr.net</a>
+        </p>
+        <p style="margin-top: 8px; color: var(--text-dim);">
+            Source code: <a href="https://github.com/appstorefr/PerfectDNSManager">github.com/appstorefr/PerfectDNSManager</a>
+        </p>
+    </div>
+</section>
+
+<!-- Support -->
+<section id="support">
+    <div class="container" style="text-align: center;">
+        <h2>&#x2764;&#xFE0F; Support me</h2>
+        <p style="color: var(--text-dim); margin-bottom: 24px;">
+            Enjoy the app? Support the project!
+        </p>
+        <a href="support.html" style="display: inline-block; background: var(--accent); color: #000; padding: 14px 36px; border-radius: 8px; font-size: 1.1em; font-weight: 600; text-decoration: none; transition: transform 0.15s; box-shadow: 0 4px 15px rgba(255,215,0,0.3);">&#x1F4B0; Support me (Crypto)</a>
+    </div>
+</section>
+
+<!-- Translation help -->
+<section style="text-align: center; padding: 32px 20px 16px;">
+    <p style="color: var(--text-dim); font-size: 0.9em;">
+        &#x1F30D; Found a translation error? Help us fix it!<br>
+        Download the <a href="https://github.com/appstorefr/PerfectDNSManager/blob/main/app/src/main/res/values-en/strings.xml">translation file</a>,
+        edit it and send it back by <a href="mailto:contact@appstorefr.net">email</a> or via <a href="https://github.com/appstorefr/PerfectDNSManager">GitHub</a>.
+    </p>
+</section>
+
+<section class="card" style="border-left: 3px solid #4CAF50; margin-top: 24px;">
+    <h2 style="color: #4CAF50;">&#x1F513; GPL v3 License</h2>
+    <p style="font-style: italic; color: #81C784;">This application is free. Nothing can prohibit a free application.</p>
+    <p>The source code is open &mdash; any redistribution must remain open source.</p>
+    <p><a href="https://github.com/appstorefr/PerfectDNSManager" style="color: #4CAF50;">&#x1F4E6; Source code on GitHub</a></p>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Perfect DNS Manager &copy; 2026 AppstoreFR &mdash; Made with &#x2764;&#xFE0F; for the community</p>
+</footer>
+
+
+
+<script>
+fetch('https://api.github.com/repos/appstorefr/PerfectDNSManager/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const apk = data.assets && data.assets.find(a => a.name === 'latest.apk');
+    if (apk) {
+      const sizeMB = (apk.size / 1048576).toFixed(1);
+      const el = document.getElementById('apk-size');
+      if (el) el.textContent = '(' + sizeMB + ' MB)';
+    }
+  }).catch(() => {});
+</script>
+
+</body>
+</html>
