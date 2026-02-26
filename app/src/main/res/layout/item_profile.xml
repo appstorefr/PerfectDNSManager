@@ -7,8 +7,7 @@
     android:layout_margin="8dp"
     android:background="@drawable/focusable_item_background"
     android:elevation="8dp"
-    android:focusable="true"
-    android:focusableInTouchMode="false"
+    android:focusable="false"
     android:longClickable="true"
     android:descendantFocusability="afterDescendants">
 
@@ -18,14 +17,6 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/ivProviderIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="10dp"
-            android:scaleType="fitCenter"
-            android:contentDescription="DNS provider icon" />
-
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
@@ -33,7 +24,12 @@
             android:layout_weight="1"
             android:textSize="18sp"
             android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/focusable_item_background"
+            android:focusable="true"
+            android:clickable="true"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="4dp" />
 
         <TextView
             android:id="@+id/tvType"
@@ -41,27 +37,15 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#FFFFFF"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:background="#4CAF50"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:background="@drawable/focusable_item_background"
             android:minWidth="50dp"
             android:gravity="center"
-            android:layout_marginStart="12dp" />
-
-        <TextView
-            android:id="@+id/tvEditButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="⚙"
-            android:textSize="20sp"
-            android:textColor="#AAAAAA"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:gravity="center"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/focusable_item_background"
+            android:layout_marginStart="12dp"
             android:focusable="true"
             android:clickable="true" />
+
     </LinearLayout>
 
     <TextView

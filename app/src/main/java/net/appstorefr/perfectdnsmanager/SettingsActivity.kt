@@ -440,7 +440,7 @@ class SettingsActivity : AppCompatActivity() {
                 .show()
         }
 
-        btnBack.requestFocus()
+        switchAdvanced.requestFocus()
         btnBack.setOnClickListener { finish() }
         btnAbout.setOnClickListener { startActivity(Intent(this, AboutActivity::class.java)) }
         btnHowTo.setOnClickListener { startActivity(Intent(this, HowToActivity::class.java)) }

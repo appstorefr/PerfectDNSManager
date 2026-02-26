@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -213,9 +212,6 @@ class DnsSelectionActivity : AppCompatActivity() {
                     putExtra("IS_NEXTDNS", isNextDns)
                 }
                 providerDetailLauncher.launch(intent)
-            },
-            onProviderEditClick = { providerName, profiles ->
-                showProviderProfileActions(providerName, profiles)
             }
         ) { _, profiles ->
             // Simple clic : sélection directe du meilleur profil (DoH > DoQ > DoT > Standard)
@@ -262,121 +258,7 @@ class DnsSelectionActivity : AppCompatActivity() {
         touchHelper.attachToRecyclerView(rvProviders)
     }
 
-    private fun showProviderProfileActions(providerName: String, profiles: List<DnsProfile>) {
-        if (profiles.size == 1) {
-            // Only one profile, go directly to actions
-            showProfileActions(profiles.first())
-            return
-        }
-        // Multiple profiles: let user pick which one to edit
-        val labels = profiles.map { p ->
-            val typeTag = when (p.type) {
-                DnsType.DOH -> "DoH"
-                DnsType.DOT -> "DoT"
-                DnsType.DOQ -> "DoQ"
-                DnsType.DEFAULT -> "Standard"
-            }
-            "${p.name} ($typeTag) — ${p.primary}"
-        }.toTypedArray()
-
-        AlertDialog.Builder(this)
-            .setTitle(providerName.replace(" \u2605", ""))
-            .setItems(labels) { _, which ->
-                showProfileActions(profiles[which])
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-
-    private fun showProfileActions(profile: DnsProfile) {
-        val isDefault = prefs().getString("default_profile_json", null)?.let {
-            try { Gson().fromJson(it, DnsProfile::class.java).id == profile.id } catch (_: Exception) { false }
-        } ?: false
-        val defaultLabel = if (isDefault) getString(R.string.remove_default_dns) else getString(R.string.set_default_dns)
-        val actions = arrayOf(defaultLabel, getString(R.string.edit_button), getString(R.string.delete_button))
-
-        AlertDialog.Builder(this)
-            .setTitle("${profile.providerName} — ${profile.name}")
-            .setItems(actions) { _, which ->
-                when (which) {
-                    0 -> {
-                        if (isDefault) {
-                            prefs().edit().remove("default_profile_json").apply()
-                            Toast.makeText(this, getString(R.string.default_dns_removed), Toast.LENGTH_SHORT).show()
-                        } else {
-                            prefs().edit().putString("default_profile_json", Gson().toJson(profile)).apply()
-                            Toast.makeText(this, getString(R.string.default_dns_set, profile.providerName), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    1 -> showEditProfileDialog(profile)
-                    2 -> confirmDeleteProfile(profile)
-                }
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-
     private fun prefs() = getSharedPreferences("prefs", MODE_PRIVATE)
-
-    private fun confirmDeleteProfile(profile: DnsProfile) {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.delete_profile_title))
-            .setMessage("${profile.providerName} — ${profile.name}\n${profile.primary}")
-            .setPositiveButton(getString(R.string.delete)) { _, _ ->
-                profileManager.deleteProfile(profile.id)
-                loadProfiles()
-                Toast.makeText(this, getString(R.string.profile_deleted), Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-
-    private fun showEditProfileDialog(profile: DnsProfile) {
-        val layout = android.widget.LinearLayout(this).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            setPadding(60, 40, 60, 20)
-        }
-
-        val etName = android.widget.EditText(this).apply {
-            setText(profile.name); setTextColor(0xFFFFFFFF.toInt())
-            setBackgroundColor(0xFF333333.toInt()); setPadding(20, 15, 20, 15)
-            hint = getString(R.string.profile_name); setHintTextColor(0xFF888888.toInt())
-        }
-        val etPrimary = android.widget.EditText(this).apply {
-            setText(profile.primary); setTextColor(0xFFFFFFFF.toInt())
-            setBackgroundColor(0xFF333333.toInt()); setPadding(20, 15, 20, 15)
-            hint = getString(R.string.primary_dns); setHintTextColor(0xFF888888.toInt())
-        }
-        val etSecondary = android.widget.EditText(this).apply {
-            setText(profile.secondary ?: ""); setTextColor(0xFFFFFFFF.toInt())
-            setBackgroundColor(0xFF333333.toInt()); setPadding(20, 15, 20, 15)
-            hint = getString(R.string.secondary_dns_optional); setHintTextColor(0xFF888888.toInt())
-        }
-
-        val lbl = { text: String -> TextView(this).apply { this.text = text; setTextColor(0xFFCCCCCC.toInt()); setPadding(0,16,0,8) } }
-
-        layout.addView(lbl(getString(R.string.name_label))); layout.addView(etName)
-        layout.addView(lbl(getString(R.string.primary_dns_label))); layout.addView(etPrimary)
-        if (profile.type == DnsType.DEFAULT) {
-            layout.addView(lbl(getString(R.string.secondary_dns_label))); layout.addView(etSecondary)
-        }
-
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.edit_profile_title))
-            .setView(layout)
-            .setPositiveButton(getString(R.string.save_button)) { _, _ ->
-                val updated = profile.copy(
-                    name = etName.text.toString().trim().ifEmpty { profile.name },
-                    primary = etPrimary.text.toString().trim().ifEmpty { profile.primary },
-                    secondary = etSecondary.text.toString().trim().takeIf { it.isNotEmpty() }
-                )
-                profileManager.updateProfile(updated)
-                loadProfiles()
-                Toast.makeText(this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
 
     private fun returnProfileToMain(profile: DnsProfile) {
         setResult(Activity.RESULT_OK, Intent().apply {

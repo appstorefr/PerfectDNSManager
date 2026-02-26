@@ -149,61 +149,7 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <!-- Sous-toggle DNS opérateur -->
-            <LinearLayout
-                android:id="@+id/rowOperatorDns"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/focusable_item_background"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:layout_marginBottom="8dp"
-                android:focusable="true" >
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/show_operator_dns"
-                    android:textColor="#CCCCCC"
-                    android:textSize="14sp"/>
-                <Switch
-                    android:id="@+id/switchOperatorDns"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"/>
-            </LinearLayout>
-
-            <!-- Sous-toggle DNS Standard -->
-            <LinearLayout
-                android:id="@+id/rowStandardDns"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/focusable_item_background"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:layout_marginBottom="8dp"
-                android:focusable="true" >
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/show_standard_dns"
-                    android:textColor="#CCCCCC"
-                    android:textSize="14sp"/>
-                <Switch
-                    android:id="@+id/switchStandardDns"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"/>
-            </LinearLayout>
-
-            <!-- Sous-toggle variantes de profils -->
+            <!-- 1. Sous-toggle variantes de profils -->
             <LinearLayout
                 android:id="@+id/rowProfileVariants"
                 android:layout_width="match_parent"
@@ -215,6 +161,13 @@
                 android:paddingEnd="12dp"
                 android:layout_marginBottom="8dp"
                 android:focusable="true" >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@android:drawable/ic_menu_sort_by_size"
+                    android:tint="#CCCCCC"
+                    android:scaleType="fitCenter"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -230,7 +183,7 @@
                     android:focusable="false"/>
             </LinearLayout>
 
-            <!-- Sous-toggle DNS over QUIC -->
+            <!-- 2. Sous-toggle DNS over QUIC -->
             <LinearLayout
                 android:id="@+id/rowDoqDns"
                 android:layout_width="match_parent"
@@ -264,7 +217,7 @@
                     android:focusable="false"/>
             </LinearLayout>
 
-            <!-- Sous-toggle DNS DoT via ADB -->
+            <!-- 3. Sous-toggle DNS DoT via ADB -->
             <LinearLayout
                 android:id="@+id/rowAdbDot"
                 android:layout_width="match_parent"
@@ -274,6 +227,7 @@
                 android:background="@drawable/focusable_item_background"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
                 android:focusable="true" >
                 <TextView
                     android:layout_width="0dp"
@@ -284,6 +238,67 @@
                     android:textSize="14sp"/>
                 <Switch
                     android:id="@+id/switchAdbDot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- 4. Sous-toggle DNS Standard -->
+            <LinearLayout
+                android:id="@+id/rowStandardDns"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:focusable="true" >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@android:drawable/ic_menu_manage"
+                    android:tint="#CCCCCC"
+                    android:scaleType="fitCenter"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/show_standard_dns"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchStandardDns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <!-- 5. Sous-toggle DNS opérateur -->
+            <LinearLayout
+                android:id="@+id/rowOperatorDns"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/focusable_item_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:focusable="true" >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/show_operator_dns"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"/>
+                <Switch
+                    android:id="@+id/switchOperatorDns"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"

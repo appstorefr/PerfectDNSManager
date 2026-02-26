@@ -53,7 +53,7 @@
     <string name="adb_status_inactive">🔴 Débogage ADB : Inactif</string>
     <string name="advanced_features_title">⚙️ Fonctions avancées</string>
     <string name="advanced_features_desc">Active les fonctions : DNS DoT via ADB, URL Rewrite et DNS opérateur.</string>
-    <string name="url_rewrite_warning">URL Rewrite fonctionne uniquement en DNS DoH ou Standard (pas en DoT/ADB)</string>
+    <string name="url_rewrite_warning">URL Rewrite fonctionne uniquement en DNS DoH, DoQ, Standard via la fonction VPN (pas en DoT/ADB)</string>
     <string name="url_rewrite_button">🔀 URL Rewrite</string>
     <string name="restore_dns_button">🔄 Restaurer les DNS initiaux</string>
     <string name="show_operator_dns">🇫🇷 Afficher les DNS op\u00e9rateurs France (Orange/Bouygues/SFR/Free/OVH)</string>
@@ -393,7 +393,7 @@
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Réécriture DNS (Rewriting)</string>
-    <string name="show_doq_dns">Afficher DNS over QUIC (DoQ)</string>
+    <string name="show_doq_dns">Afficher DNS over QUIC</string>
     <string name="gpl_license_text">Cette application est libre. Rien ne pourra interdire une application libre.\nLicence GPL v3 — Le code source est ouvert, toute redistribution doit rester open source.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->

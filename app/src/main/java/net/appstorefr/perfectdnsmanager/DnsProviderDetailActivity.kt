@@ -417,19 +417,28 @@ class DnsProviderDetailActivity : AppCompatActivity() {
             holder.tvCategoryCount.text = "${header.count} profil${if (header.count > 1) "s" else ""}"
             holder.tvCategoryCount.setTextColor(badgeColor)
 
-            holder.itemView.setOnClickListener {
+            holder.itemView.setOnClickListener { clickedView ->
                 val type = header.type
                 expandedState[type] = !(expandedState[type] ?: true)
                 rebuildItems()
+                // Temporarily prevent focus from jumping to back button during rebind
+                // by keeping focus on the clicked view until the new layout is ready
+                clickedView.requestFocus()
                 notifyDataSetChanged()
                 val headerPos = items.indexOfFirst { it is ListItem.Header && (it as ListItem.Header).type == type }
                 if (headerPos >= 0) {
                     recyclerView.post {
                         recyclerView.scrollToPosition(headerPos)
-                        recyclerView.postDelayed({
-                            val vh = recyclerView.findViewHolderForAdapterPosition(headerPos)
-                            vh?.itemView?.requestFocus()
-                        }, 100)
+                        // Use addOnLayoutChangeListener for reliable post-layout focus restore
+                        recyclerView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                            override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int,
+                                                        oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                                recyclerView.removeOnLayoutChangeListener(this)
+                                val vh = recyclerView.findViewHolderForAdapterPosition(headerPos)
+                                vh?.itemView?.requestFocus()
+                            }
+                        })
+                        recyclerView.requestLayout()
                     }
                 }
             }

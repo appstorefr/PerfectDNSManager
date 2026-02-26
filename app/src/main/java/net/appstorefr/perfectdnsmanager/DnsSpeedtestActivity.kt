@@ -102,9 +102,7 @@ class DnsSpeedtestActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus && !running) {
-            btnStartStop.requestFocus()
-        }
+        // Do not steal focus — user may be browsing results
     }
 
     private fun toggleStartStop() {
@@ -112,7 +110,6 @@ class DnsSpeedtestActivity : AppCompatActivity() {
             cancelled = true
             btnStartStop.text = "Annulation..."
             btnStartStop.isEnabled = false
-            btnStartStop.requestFocus()
         } else {
             startSpeedtest()
         }
@@ -124,7 +121,6 @@ class DnsSpeedtestActivity : AppCompatActivity() {
             btnStartStop.backgroundTintList = android.content.res.ColorStateList.valueOf(0xFF4CAF50.toInt())
             btnStartStop.isEnabled = true
             running = false
-            btnStartStop.requestFocus()
         }
     }
 
@@ -134,7 +130,6 @@ class DnsSpeedtestActivity : AppCompatActivity() {
             btnStartStop.backgroundTintList = android.content.res.ColorStateList.valueOf(0xFFF44336.toInt())
             btnStartStop.isEnabled = true
             running = true
-            btnStartStop.requestFocus()
         }
     }
 
@@ -244,9 +239,8 @@ class DnsSpeedtestActivity : AppCompatActivity() {
             // --- LEFT panel: Providers grouped ---
             buildProviderPanel(results, final)
 
-            // Restore focus to btnStartStop after panel rebuild to prevent
-            // cursor jumping back to btnBack when provider panel is updated
-            btnStartStop.post { btnStartStop.requestFocus() }
+            // Only restore focus to btnStartStop when test finishes
+            // (do NOT steal focus during test — user may be browsing results)
 
             // --- RIGHT panel: Ranking ---
             val rankingBuf = SpannableStringBuilder()
@@ -318,6 +312,16 @@ class DnsSpeedtestActivity : AppCompatActivity() {
      * Each provider is a header; clicking it expands/collapses the results underneath.
      */
     private fun buildProviderPanel(results: List<SpeedResult>, final: Boolean) {
+        // Save current focus state so we don't steal focus during rebuild
+        val focusedView = currentFocus
+        val focusInPanel = focusedView != null &&
+                (isDescendantOf(focusedView, layoutProviders) || isDescendantOf(focusedView, scrollProviders))
+        val savedFocusIndex = if (focusInPanel) {
+            (0 until layoutProviders.childCount).firstOrNull {
+                layoutProviders.getChildAt(it) == focusedView || layoutProviders.getChildAt(it).findFocus() != null
+            }
+        } else null
+
         layoutProviders.removeAllViews()
 
         // Group results by provider name (preserve order of first appearance)
@@ -474,6 +478,25 @@ class DnsSpeedtestActivity : AppCompatActivity() {
             }
             layoutProviders.addView(titleView, 0)
         }
+
+        // Restore focus: if it was inside the panel, go back to the same index
+        if (focusInPanel && savedFocusIndex != null) {
+            val targetIndex = savedFocusIndex.coerceAtMost(layoutProviders.childCount - 1)
+            if (targetIndex >= 0) {
+                layoutProviders.getChildAt(targetIndex)?.post {
+                    layoutProviders.getChildAt(targetIndex)?.requestFocus()
+                }
+            }
+        }
+    }
+
+    private fun isDescendantOf(view: View, parent: View): Boolean {
+        var v: android.view.ViewParent? = view.parent
+        while (v != null) {
+            if (v === parent) return true
+            v = v.parent
+        }
+        return false
     }
 
     private fun appendToBuf(buf: SpannableStringBuilder, text: String, color: Int) {

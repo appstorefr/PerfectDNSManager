@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -70,49 +69,12 @@ class InternetSpeedtestActivity : AppCompatActivity() {
         private const val SERVER_LIST_URL =
             "https://librespeed.org/backend-servers/servers.php"
 
-        /** Hardcoded premium servers added before the remote list. */
-        private val HARDCODED_SERVERS = listOf(
-            LibreSpeedServer(
-                id = 9001,
-                name = "\u2B50 Premium 1 (FR)",
-                server = "https://1.firstcloud.me/",
-                dlURL = "garbage.php",
-                ulURL = "empty.php",
-                pingURL = "empty.php",
-                getIpURL = "getIP.php"
-            ),
-            LibreSpeedServer(
-                id = 9002,
-                name = "\u2B50 Premium 2 (FR)",
-                server = "https://2.firstcloud.me/",
-                dlURL = "garbage.php",
-                ulURL = "empty.php",
-                pingURL = "empty.php",
-                getIpURL = "getIP.php"
-            ),
-            LibreSpeedServer(
-                id = 9003,
-                name = "\u2B50 Premium 3 (FR)",
-                server = "https://3.firstcloud.me/",
-                dlURL = "garbage.php",
-                ulURL = "empty.php",
-                pingURL = "empty.php",
-                getIpURL = "getIP.php"
-            ),
-            LibreSpeedServer(
-                id = 9004,
-                name = "\u2B50 Premium 4 (FR)",
-                server = "https://4.firstcloud.me/",
-                dlURL = "garbage.php",
-                ulURL = "empty.php",
-                pingURL = "empty.php",
-                getIpURL = "getIP.php"
-            )
-        )
+        /** No hardcoded servers — rely on remote list only. */
+        private val HARDCODED_SERVERS = emptyList<LibreSpeedServer>()
     }
 
     // ── UI widgets ───────────────────────────────────────────────────────────
-    private lateinit var spinnerServer: Spinner
+    private lateinit var btnServerPicker: Button
     private lateinit var btnStartStop: Button
     private lateinit var tvPing: TextView
     private lateinit var tvJitter: TextView
@@ -186,7 +148,7 @@ class InternetSpeedtestActivity : AppCompatActivity() {
         header.addView(btnBack)
 
         val tvTitle = TextView(this).apply {
-            text = "Testeur de d\u00e9bit (avanc\u00e9)"
+            text = "Testeur de d\u00e9bit avanc\u00e9"
             setTextColor(COLOR_WHITE)
             textSize = 20f
             setTypeface(typeface, Typeface.BOLD)
@@ -203,22 +165,19 @@ class InternetSpeedtestActivity : AppCompatActivity() {
             layoutParams = lp(matchParent, wrapContent).apply { bottomMargin = dp(12) }
         }
 
-        serverRow.addView(TextView(this).apply {
-            text = "Serveur :"
-            setTextColor(COLOR_LIGHT_GREY)
+        btnServerPicker = Button(this).apply {
+            text = "Serveur : chargement..."
+            setTextColor(COLOR_WHITE)
             textSize = 14f
-            layoutParams = LinearLayout.LayoutParams(wrapContent, wrapContent).apply {
-                marginEnd = dp(8)
-            }
-        })
-
-        spinnerServer = Spinner(this).apply {
-            layoutParams = LinearLayout.LayoutParams(0, wrapContent, 1f)
             setBackgroundResource(R.drawable.focusable_item_background)
+            foreground = resources.getDrawable(R.drawable.btn_focus_foreground, theme)
             isFocusable = true
-            setPadding(dp(8), dp(8), dp(8), dp(8))
+            setPadding(dp(16), dp(12), dp(16), dp(12))
+            layoutParams = lp(matchParent, wrapContent)
+            gravity = Gravity.START or Gravity.CENTER_VERTICAL
+            setOnClickListener { showServerPickerDialog() }
         }
-        serverRow.addView(spinnerServer)
+        serverRow.addView(btnServerPicker)
         mainColumn.addView(serverRow)
 
         // ── Start / Stop button ──────────────────────────────────────────
@@ -327,7 +286,11 @@ class InternetSpeedtestActivity : AppCompatActivity() {
         mainColumn.addView(scrollConsole)
 
         root.addView(mainColumn)
-        btnBack.requestFocus()
+        // Focus on Start button, scroll to top
+        root.post {
+            root.scrollTo(0, 0)
+            btnStartStop.requestFocus()
+        }
         return root
     }
 
@@ -420,33 +383,29 @@ class InternetSpeedtestActivity : AppCompatActivity() {
                 }
                 logConsole("${servers.size} serveur(s) charg\u00e9(s).")
 
-                val adapter = object : ArrayAdapter<LibreSpeedServer>(
-                    this@InternetSpeedtestActivity,
-                    android.R.layout.simple_spinner_item,
-                    servers
-                ) {
-                    override fun getView(pos: Int, cv: View?, parent: ViewGroup): View {
-                        val tv = super.getView(pos, cv, parent) as TextView
-                        tv.setTextColor(COLOR_WHITE); tv.textSize = 14f; return tv
-                    }
-                    override fun getDropDownView(pos: Int, cv: View?, parent: ViewGroup): View {
-                        val tv = super.getDropDownView(pos, cv, parent) as TextView
-                        tv.setTextColor(COLOR_WHITE); tv.setBackgroundColor(COLOR_BG_CARD)
-                        tv.setPadding(24, 16, 24, 16); tv.textSize = 14f; return tv
-                    }
-                }
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerServer.adapter = adapter
-                spinnerServer.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(p: AdapterView<*>?, v: View?, pos: Int, id: Long) {
-                            selectedServer = servers[pos]
-                        }
-                        override fun onNothingSelected(p: AdapterView<*>?) {}
-                    }
                 selectedServer = servers[0]
+                btnServerPicker.text = "Serveur : ${servers[0].name}"
             }
         }.start()
+    }
+
+    private fun showServerPickerDialog() {
+        if (servers.isEmpty()) {
+            logConsole("Aucun serveur disponible.")
+            return
+        }
+        val names = servers.map { it.name }.toTypedArray()
+        val currentIndex = servers.indexOf(selectedServer).coerceAtLeast(0)
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Choisir un serveur")
+            .setSingleChoiceItems(names, currentIndex) { dialog, which ->
+                selectedServer = servers[which]
+                btnServerPicker.text = "Serveur : ${servers[which].name}"
+                logConsole("Serveur : ${servers[which].name}")
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 
     // ═════════════════════════════════════════════════════════════════════════

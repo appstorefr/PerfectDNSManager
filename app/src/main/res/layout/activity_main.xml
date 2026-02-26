@@ -155,7 +155,7 @@
         android:background="#12FFFFFF"
         android:padding="8dp">
 
-        <!-- Boutons Testeur domaine + Speedtest côte à côte -->
+        <!-- Boutons Testeur domaine + Générer rapport côte à côte -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -176,40 +176,15 @@
                 android:focusable="true"
                 android:textAllCaps="false"
                 android:nextFocusUp="@id/btnToggle"
-                android:nextFocusRight="@id/btnSpeedtest"
-                android:nextFocusDown="@id/btnGenerateReport" />
-
-            <Button
-                android:id="@+id/btnSpeedtest"
-                android:layout_width="0dp"
-                android:layout_height="34dp"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:text="@string/internet_speedtest_advanced"
-                android:textSize="11sp"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#FF6F00"
-                android:foreground="@drawable/btn_focus_foreground"
-                android:focusable="true"
-                android:textAllCaps="false"
-                android:nextFocusUp="@id/btnToggle"
-                android:nextFocusLeft="@id/btnDomainTester"
-                android:nextFocusDown="@id/btnGenerateReport" />
-        </LinearLayout>
-
-        <!-- Boutons Generer / Partager cote a cote -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp">
+                android:nextFocusRight="@id/btnGenerateReport"
+                android:nextFocusDown="@id/btnSpeedtest" />
 
             <Button
                 android:id="@+id/btnGenerateReport"
                 android:layout_width="0dp"
                 android:layout_height="34dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
                 android:text="@string/generate_report_button"
                 android:textSize="11sp"
                 android:textColor="#FFFFFF"
@@ -217,9 +192,34 @@
                 android:foreground="@drawable/btn_focus_foreground"
                 android:focusable="true"
                 android:textAllCaps="false"
+                android:nextFocusUp="@id/btnToggle"
+                android:nextFocusLeft="@id/btnDomainTester"
+                android:nextFocusDown="@id/btnShareReport" />
+        </LinearLayout>
+
+        <!-- Boutons Speedtest + Partager cote a cote -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <Button
+                android:id="@+id/btnSpeedtest"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="@string/internet_speedtest_advanced"
+                android:textSize="11sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF6F00"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:focusable="true"
+                android:textAllCaps="false"
                 android:nextFocusUp="@id/btnDomainTester"
                 android:nextFocusRight="@id/btnShareReport"
-                android:nextFocusDown="@id/scrollReport" />
+                android:nextFocusDown="@id/scrollStatus" />
 
             <Button
                 android:id="@+id/btnShareReport"
@@ -234,8 +234,8 @@
                 android:foreground="@drawable/btn_focus_foreground"
                 android:focusable="true"
                 android:textAllCaps="false"
-                android:nextFocusUp="@id/btnSpeedtest"
-                android:nextFocusLeft="@id/btnGenerateReport"
+                android:nextFocusUp="@id/btnGenerateReport"
+                android:nextFocusLeft="@id/btnSpeedtest"
                 android:nextFocusDown="@id/scrollReport" />
         </LinearLayout>
 
@@ -248,9 +248,9 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp">
 
-            <!-- Left: Report -->
+            <!-- Left: Status info (DNS actif, IP, etc.) -->
             <ScrollView
-                android:id="@+id/scrollReport"
+                android:id="@+id/scrollStatus"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -259,13 +259,13 @@
                 android:background="#121212"
                 android:foreground="@drawable/btn_focus_foreground"
                 android:focusable="true"
-                android:nextFocusUp="@id/btnGenerateReport"
-                android:nextFocusRight="@id/scrollStatus">
+                android:nextFocusUp="@id/btnSpeedtest"
+                android:nextFocusRight="@id/scrollReport">
                 <TextView
-                    android:id="@+id/tvReportContent"
+                    android:id="@+id/tvStatusInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_report_yet"
+                    android:text="@string/no_active_dns"
                     android:textSize="11sp"
                     android:textColor="#AAAAAA"
                     android:fontFamily="monospace"
@@ -273,9 +273,9 @@
                     android:padding="6dp" />
             </ScrollView>
 
-            <!-- Right: Status info (DNS actif, IP, etc.) -->
+            <!-- Right: Report -->
             <ScrollView
-                android:id="@+id/scrollStatus"
+                android:id="@+id/scrollReport"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -285,12 +285,12 @@
                 android:foreground="@drawable/btn_focus_foreground"
                 android:focusable="true"
                 android:nextFocusUp="@id/btnShareReport"
-                android:nextFocusLeft="@id/scrollReport">
+                android:nextFocusLeft="@id/scrollStatus">
                 <TextView
-                    android:id="@+id/tvStatusInfo"
+                    android:id="@+id/tvReportContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_active_dns"
+                    android:text="@string/no_report_yet"
                     android:textSize="11sp"
                     android:textColor="#AAAAAA"
                     android:fontFamily="monospace"

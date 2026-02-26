@@ -6,7 +6,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import net.appstorefr.perfectdnsmanager.R
@@ -17,7 +16,6 @@ import net.appstorefr.perfectdnsmanager.util.DnsColors
 class ProviderAdapter(
     private val grouped: Map<String, List<DnsProfile>>,
     private val onProviderLongClick: ((String, List<DnsProfile>) -> Unit)? = null,
-    private val onProviderEditClick: ((String, List<DnsProfile>) -> Unit)? = null,
     private val onProviderClick: (String, List<DnsProfile>) -> Unit
 ) : RecyclerView.Adapter<ProviderAdapter.ViewHolder>() {
 
@@ -38,11 +36,9 @@ class ProviderAdapter(
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ivProviderIcon: ImageView = view.findViewById(R.id.ivProviderIcon)
         val tvProviderName: TextView = view.findViewById(R.id.tvName)
         val tvProfileCount: TextView = view.findViewById(R.id.tvType)
         val tvBestProfile: TextView = view.findViewById(R.id.tvDescription)
-        val tvEditButton: TextView = view.findViewById(R.id.tvEditButton)
         val layoutRatings: View = view.findViewById(R.id.layoutRatings)
         val tvSpeedLabel: TextView = view.findViewById(R.id.tvSpeedLabel)
         val tvSpeedStars: TextView = view.findViewById(R.id.tvSpeedStars)
@@ -53,7 +49,7 @@ class ProviderAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_profile, parent, false)
-        view.isFocusable = true
+        view.isFocusable = false
         view.isLongClickable = true
         return ViewHolder(view)
     }
@@ -64,14 +60,7 @@ class ProviderAdapter(
 
         holder.tvProviderName.text = providerName
 
-        // Icône du fournisseur (basée sur le premier profil du groupe)
         val firstProfile = profiles.firstOrNull()
-        val iconRes = if (firstProfile != null) {
-            DnsProfile.getProviderIcon(firstProfile.providerName)
-        } else {
-            DnsProfile.getProviderIcon(providerName)
-        }
-        holder.ivProviderIcon.setImageResource(iconRes)
 
         // Compter les types disponibles + nombre de profils (colored)
         val types = profiles.map { it.type }.distinct()
@@ -118,31 +107,25 @@ class ProviderAdapter(
             holder.layoutRatings.visibility = View.GONE
         }
 
-        // Green badge click -> open provider detail page
+        // Provider name click -> 1-click connect (best profile)
+        holder.tvProviderName.setOnClickListener {
+            onProviderClick(providerName, profiles)
+        }
+        holder.tvProviderName.isFocusable = true
+        holder.tvProviderName.setBackgroundResource(R.drawable.focusable_item_background)
+        holder.tvProviderName.setOnLongClickListener { false }
+
+        // Badge click -> open provider detail page
         holder.tvProfileCount.setOnClickListener {
             onProviderLongClick?.invoke(providerName, profiles)
         }
         holder.tvProfileCount.isFocusable = true
         holder.tvProfileCount.setBackgroundResource(R.drawable.focusable_item_background)
-
-        holder.itemView.setOnClickListener {
-            onProviderClick(providerName, profiles)
-        }
-        // Allow long-press to propagate to ItemTouchHelper for drag
-        holder.itemView.setOnLongClickListener { false }
-        holder.itemView.isLongClickable = true
-
-        // Edit/settings button click -> show profile actions
-        holder.tvEditButton.setOnClickListener {
-            onProviderEditClick?.invoke(providerName, profiles)
-        }
-        // Long-press on edit button should not consume event (allow drag)
-        holder.tvEditButton.setOnLongClickListener { false }
-        holder.tvEditButton.isFocusable = true
-        holder.tvEditButton.setBackgroundResource(R.drawable.focusable_item_background)
-
-        // Long-press on type badge should not consume event (allow drag)
         holder.tvProfileCount.setOnLongClickListener { false }
+
+        // Row-level: not focusable, but long-clickable for drag
+        holder.itemView.isFocusable = false
+        holder.itemView.isLongClickable = true
     }
 
     private fun starsText(count: Int): String {
