@@ -94,7 +94,7 @@
     <string name="import_from_code">🔒 暗号化コードから</string>
     <string name="import_from_code_title">🔒 暗号化された設定をインポート</string>
     <string name="enter_share_code">コードを入力してください：</string>
-    <string name="share_code_hint">例: aB3kL9</string>
+    <string name="share_code_hint">123456</string>
     <string name="import_code_explain">設定のエクスポートからこのコードを生成してください。\n\nファイルは自動的にダウンロードされ、復号されます。\n\n検証: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">ファイルの有効期限：</string>
     <string name="expiration_1h">1 時間</string>
@@ -365,7 +365,7 @@
     <string name="privacy_label">プライバシー</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ スピードテスト</string>
+    <string name="dns_speedtest_button">テスト開始</string>
     <string name="dns_speedtest_title">⚡ DNS スピードテスト</string>
     <string name="dns_speedtest_running">DNS 遅延テスト中…</string>
     <string name="dns_speedtest_result">%1$s（%2$s）: %3$s</string>
@@ -390,10 +390,6 @@
 
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Shizuku を開けません</string>
-
-    <!-- Downloader code -->
-    <string name="downloader_code_label">ダウンローダーコード（AFTVnews）：</string>
-    <string name="downloader_code_value">2759555</string>
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS リライト（Rewriting）</string>
@@ -440,7 +436,7 @@
     <string name="report_progress_blocking">⏳ ブロッキングテスト中…</string>
     <string name="report_complete">✅ レポート生成完了</string>
     <string name="no_report_to_share">先にレポートを生成してください</string>
-    <string name="test_domains_button">ドメイン名テスト</string>
+    <string name="test_domains_button">ドメインをテスト</string>
     <string name="test_domains_add">ドメインを追加</string>
     <string name="test_domains_empty">ドメインが設定されていません</string>
 
@@ -455,7 +451,7 @@
     <string name="split_tunnel_save">保存</string>
     <string name="split_tunnel_saved">除外アプリを更新しました</string>
     <string name="split_tunnel_restart_vpn">変更を適用するためVPNを再起動します。</string>
-    <string name="vpn_required_for_report">レポートを生成するには、まずVPNを接続してください</string>
+    <string name="vpn_required_for_report">まずDNSを有効にしてください（VPNまたはプライベートDNS）</string>
     <string name="dns_leak_isp_label">ISP DNS（VPNなし）</string>
     <string name="dns_leak_vpn_label">アクティブDNS（VPNあり）</string>
 
@@ -525,4 +521,7 @@
     <string name="domain_tester_testing">テスト中…</string>
     <string name="domain_tester_no_result">テスト未実行。</string>
     <string name="domain_tester_no_enabled">有効なドメインがありません。</string>
+    <string name="internet_speedtest_button">速度テスト</string>
+    <string name="internet_speedtest_advanced">速度テスト (詳細)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

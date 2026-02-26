@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
             android:background="@drawable/focusable_item_background"
+            android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:padding="10dp"
@@ -241,6 +242,13 @@
                 android:paddingEnd="12dp"
                 android:layout_marginBottom="8dp"
                 android:focusable="true" >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@android:drawable/ic_menu_compass"
+                    android:tint="#CCCCCC"
+                    android:scaleType="fitCenter"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -312,6 +320,7 @@
                         android:layout_height="40dp"
                         android:text="@string/how_to_adb"
                         android:background="@drawable/focusable_item_background"
+                        android:foreground="@drawable/btn_focus_foreground"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:padding="8dp"
@@ -478,6 +487,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:background="@drawable/focusable_item_background"
+            android:foreground="@drawable/btn_focus_foreground"
             android:focusable="true"
             android:padding="4dp">
             <TextView
@@ -559,7 +569,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="@string/support_us_button"
-        android:backgroundTint="#B71C1C"
+        android:backgroundTint="#FF6F00"
         android:foreground="@drawable/btn_focus_foreground"
         android:textColor="#FFFFFF"
         android:textSize="14sp"

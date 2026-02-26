@@ -94,7 +94,7 @@
     <string name="import_from_code">🔒 From an encrypted code</string>
     <string name="import_from_code_title">🔒 Import an encrypted configuration</string>
     <string name="enter_share_code">Enter the code:</string>
-    <string name="share_code_hint">Ex: aB3kL9</string>
+    <string name="share_code_hint">123456</string>
     <string name="import_code_explain">Generate this code via Export in settings.\n\nThe file will be downloaded and decrypted automatically.\n\nVerification: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">File expiration:</string>
     <string name="expiration_1h">1 hour</string>
@@ -367,7 +367,7 @@
     <string name="contact_email">contact@appstorefr.net</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">Start test</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">Running DNS latency test…</string>
     <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
@@ -392,10 +392,6 @@
 
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Unable to open Shizuku</string>
-
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Downloader code (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS Rewriting</string>
@@ -442,7 +438,7 @@
     <string name="report_progress_blocking">⏳ Running blocking test…</string>
     <string name="report_complete">✅ Report generated</string>
     <string name="no_report_to_share">Generate a report first</string>
-    <string name="test_domains_button">Domain NAME Test</string>
+    <string name="test_domains_button">Test domains</string>
     <string name="test_domains_add">Add a domain</string>
     <string name="test_domains_empty">No domain configured</string>
 
@@ -457,7 +453,7 @@
     <string name="split_tunnel_save">Save</string>
     <string name="split_tunnel_saved">Excluded apps updated</string>
     <string name="split_tunnel_restart_vpn">VPN will be restarted to apply changes.</string>
-    <string name="vpn_required_for_report">Connect VPN first to generate the report</string>
+    <string name="vpn_required_for_report">Enable a DNS first (VPN or Private DNS)</string>
     <string name="dns_leak_isp_label">ISP DNS (no VPN)</string>
     <string name="dns_leak_vpn_label">Active DNS (with VPN)</string>
 
@@ -527,4 +523,7 @@
     <string name="domain_tester_testing">Testing…</string>
     <string name="domain_tester_no_result">No test performed.</string>
     <string name="domain_tester_no_enabled">No domain enabled.</string>
+    <string name="internet_speedtest_button">Speed tester</string>
+    <string name="internet_speedtest_advanced">Speed test (advanced)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

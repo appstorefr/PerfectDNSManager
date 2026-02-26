@@ -290,7 +290,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">Changez vos DNS en un clic. Privacit&eacute;, performance, libert&eacute;.</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.71 &mdash; Build 71</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.74 &mdash; Build 74</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         &#x2B07;&#xFE0F; T&eacute;l&eacute;charger l'APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -352,11 +352,7 @@
                 <h3>DNS Speedtest</h3>
                 <p>Testez la latence de tous vos fournisseurs DNS et trouvez le plus rapide pour vous.</p>
             </div>
-            <div class="feature-card">
-                <div class="icon">&#x2B50;</div>
-                <h3>Favoris &amp; DNS par d&eacute;faut</h3>
-                <p>Organisez vos serveurs DNS pr&eacute;f&eacute;r&eacute;s avec les favoris et d&eacute;finissez un DNS par d&eacute;faut.</p>
-            </div>
+
             <div class="feature-card">
                 <div class="icon">&#x1F500;</div>
                 <h3>URL Rewrite</h3>
@@ -427,9 +423,46 @@
 <section id="changelog">
     <div class="container">
         <h2>Derni&egrave;res mises &agrave; jour</h2>
-        <details open>
+        <details>
             <summary style="cursor:pointer;color:var(--primary);font-size:1em;margin-bottom:12px;">Afficher / Masquer le changelog</summary>
 
+        <div class="changelog-item">
+            <span class="ver">v1.0.74</span>
+            <span class="date">26 f&eacute;vrier 2026</span>
+            <ul>
+                <li>Fix testeur de domaines : r&eacute;solution DNS sans VPN (plus de &laquo; No A record &raquo;)</li>
+                <li>Fix drag-and-drop et bouton &eacute;dition dans la s&eacute;lection DNS</li>
+                <li>4 serveurs Premium pour le speedtest avanc&eacute;</li>
+                <li>Corrections UI diverses</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.73</span>
+            <span class="date">26 f&eacute;vrier 2026</span>
+            <ul>
+                <li>Nouveau logo cyberpunk PDM (lettres n&eacute;on P/D/M avec switch ON/OFF)</li>
+                <li>Testeur de d&eacute;bit avanc&eacute; natif (protocole LibreSpeed, multi-serveurs)</li>
+                <li>Rapport disponible en DoT (DNS priv&eacute;), plus seulement VPN</li>
+                <li>Profil NextDNS personnalis&eacute; : option DNS classique ajout&eacute;e</li>
+                <li>Couleurs par protocole : <span style="color:#BF00FF">&#x25CF;</span> DoH violet, <span style="color:#2196F3">&#x25CF;</span> DoQ bleu, <span style="color:#4CAF50">&#x25CF;</span> DoT vert, <span style="color:#999">&#x25CF;</span> Standard gris</li>
+                <li>Panneau r&eacute;seau permanent sur page d&#39;accueil</li>
+                <li>Testeur de domaines : fonctionne sans VPN, indicateur d&#39;&eacute;tat DNS</li>
+                <li>Corrections focus t&eacute;l&eacute;commande Android TV</li>
+            </ul>
+        </div>
+            <span class="ver">v1.0.72</span>
+            <span class="date">26 f&eacute;vrier 2026</span>
+            <ul>
+                <li>Notes des fournisseurs mises &agrave; jour (vitesse &amp; anti-censure)</li>
+                <li>DNS Speedtest redesign&eacute; : fournisseurs d&eacute;pliables avec r&eacute;sultats par type</li>
+                <li>Page principale : testeur de domaines + speedtest internet c&ocirc;te &agrave; c&ocirc;te, console divis&eacute;e en 2</li>
+                <li>Nouvelle page Internet Speedtest (LibreSpeed WebView)</li>
+                <li>S&eacute;lection DNS : r&eacute;ordonnancement drag-and-drop, badge vert ouvre la fiche fournisseur</li>
+                <li>Fiche fournisseur : fix focus, &eacute;dition profil par appui long</li>
+                <li>Param&egrave;tres : ic&ocirc;ne DoQ, indice import 6 chiffres, bouton support jaune</li>
+                <li>Changelog ferm&eacute; par d&eacute;faut, favoris supprim&eacute;s</li>
+            </ul>
+        </div>
         <div class="changelog-item">
             <span class="ver">v1.0.71</span>
             <span class="date">26 f&eacute;vrier 2026</span>

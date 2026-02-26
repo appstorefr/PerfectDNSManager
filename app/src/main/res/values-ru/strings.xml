@@ -94,7 +94,7 @@
     <string name="import_from_code">🔒 Из зашифрованного кода</string>
     <string name="import_from_code_title">🔒 Импорт зашифрованной конфигурации</string>
     <string name="enter_share_code">Введите код:</string>
-    <string name="share_code_hint">Напр.: aB3kL9</string>
+    <string name="share_code_hint">123456</string>
     <string name="import_code_explain">Сгенерируйте этот код через Экспорт в настройках.\n\nФайл будет загружен и расшифрован автоматически.\n\nПроверка: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">Срок действия файла:</string>
     <string name="expiration_1h">1 час</string>
@@ -365,7 +365,7 @@
     <string name="privacy_label">Конфиденциальность</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">Запустить тест</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">Тестирование задержки DNS…</string>
     <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
@@ -390,10 +390,6 @@
 
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Невозможно открыть Shizuku</string>
-
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Код Downloader (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Перезапись DNS (Rewriting)</string>
@@ -440,7 +436,7 @@
     <string name="report_progress_blocking">⏳ Тест блокировки выполняется…</string>
     <string name="report_complete">✅ Отчёт создан</string>
     <string name="no_report_to_share">Сначала создайте отчёт</string>
-    <string name="test_domains_button">Тест ДОМЕННЫХ ИМЁН</string>
+    <string name="test_domains_button">Тестировать домены</string>
     <string name="test_domains_add">Добавить домен</string>
     <string name="test_domains_empty">Нет настроенных доменов</string>
 
@@ -455,7 +451,7 @@
     <string name="split_tunnel_save">Сохранить</string>
     <string name="split_tunnel_saved">Список исключённых приложений обновлён</string>
     <string name="split_tunnel_restart_vpn">VPN будет перезапущен для применения изменений.</string>
-    <string name="vpn_required_for_report">Сначала подключите VPN для создания отчёта</string>
+    <string name="vpn_required_for_report">Сначала активируйте DNS (VPN или частный DNS)</string>
     <string name="dns_leak_isp_label">DNS провайдера (без VPN)</string>
     <string name="dns_leak_vpn_label">Активный DNS (с VPN)</string>
 
@@ -525,4 +521,7 @@
     <string name="domain_tester_testing">Тестирование…</string>
     <string name="domain_tester_no_result">Тест не проведён.</string>
     <string name="domain_tester_no_enabled">Нет активных доменов.</string>
+    <string name="internet_speedtest_button">Тест скорости</string>
+    <string name="internet_speedtest_advanced">Тест скорости (расширенный)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

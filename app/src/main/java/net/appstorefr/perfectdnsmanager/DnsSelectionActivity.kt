@@ -9,8 +9,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.reflect.TypeToken
 import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.data.DnsType
 import net.appstorefr.perfectdnsmanager.data.ProfileManager
@@ -77,10 +79,24 @@ class DnsSelectionActivity : AppCompatActivity() {
         showProviders()
     }
 
-    private val providerOrder = listOf(
+    private val defaultProviderOrder = listOf(
         "ControlD", "NextDNS", "AdGuard", "Surfshark",
         "Mullvad", "Cloudflare", "Quad9", "FDN", "dns.sb", "Yandex", "Google"
     )
+
+    private fun loadProviderOrder(): List<String> {
+        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+        val json = prefs.getString("provider_order_json", null) ?: return defaultProviderOrder
+        return try {
+            Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
+        } catch (_: Exception) { defaultProviderOrder }
+    }
+
+    private fun saveProviderOrder(order: List<String>) {
+        getSharedPreferences("prefs", MODE_PRIVATE).edit()
+            .putString("provider_order_json", Gson().toJson(order))
+            .apply()
+    }
 
     private fun showProviders() {
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
@@ -135,6 +151,7 @@ class DnsSelectionActivity : AppCompatActivity() {
         }
 
         val grouped = linkedMapOf<String, List<DnsProfile>>()
+        val providerOrder = loadProviderOrder()
 
         for (providerName in providerOrder) {
             val profiles = filtered.filter { it.providerName == providerName }
@@ -196,6 +213,9 @@ class DnsSelectionActivity : AppCompatActivity() {
                     putExtra("IS_NEXTDNS", isNextDns)
                 }
                 providerDetailLauncher.launch(intent)
+            },
+            onProviderEditClick = { providerName, profiles ->
+                showProviderProfileActions(providerName, profiles)
             }
         ) { _, profiles ->
             // Simple clic : sélection directe du meilleur profil (DoH > DoQ > DoT > Standard)
@@ -209,6 +229,63 @@ class DnsSelectionActivity : AppCompatActivity() {
 
         rvProviders.layoutManager = LinearLayoutManager(this)
         rvProviders.adapter = adapter
+
+        val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+        ) {
+            override fun onMove(rv: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                val from = source.bindingAdapterPosition
+                val to = target.bindingAdapterPosition
+                if (from == RecyclerView.NO_POSITION || to == RecyclerView.NO_POSITION) return false
+                adapter.moveItem(from, to)
+                val newOrder = adapter.getProviderNames().map { it.replace(" \u2605", "") }
+                saveProviderOrder(newOrder)
+                return true
+            }
+            override fun onSwiped(holder: RecyclerView.ViewHolder, direction: Int) {}
+            override fun isLongPressDragEnabled() = true
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    viewHolder?.itemView?.elevation = 16f
+                    viewHolder?.itemView?.alpha = 0.9f
+                }
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                viewHolder.itemView.elevation = 8f
+                viewHolder.itemView.alpha = 1.0f
+            }
+        })
+        touchHelper.attachToRecyclerView(rvProviders)
+    }
+
+    private fun showProviderProfileActions(providerName: String, profiles: List<DnsProfile>) {
+        if (profiles.size == 1) {
+            // Only one profile, go directly to actions
+            showProfileActions(profiles.first())
+            return
+        }
+        // Multiple profiles: let user pick which one to edit
+        val labels = profiles.map { p ->
+            val typeTag = when (p.type) {
+                DnsType.DOH -> "DoH"
+                DnsType.DOT -> "DoT"
+                DnsType.DOQ -> "DoQ"
+                DnsType.DEFAULT -> "Standard"
+            }
+            "${p.name} ($typeTag) — ${p.primary}"
+        }.toTypedArray()
+
+        AlertDialog.Builder(this)
+            .setTitle(providerName.replace(" \u2605", ""))
+            .setItems(labels) { _, which ->
+                showProfileActions(profiles[which])
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 
     private fun showProfileActions(profile: DnsProfile) {

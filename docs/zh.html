@@ -270,7 +270,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">一键更改 DNS。隐私、性能、自由。</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.71 &mdash; Build 71</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.74 &mdash; Build 74</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         ⬇️ 下载 APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -332,11 +332,7 @@
                 <h3>DNS 速度测试</h3>
                 <p>测试所有 DNS 提供商的延迟，找到最适合您的最快服务器。</p>
             </div>
-            <div class="feature-card">
-                <div class="icon">&#x2B50;</div>
-                <h3>收藏夹和默认 DNS</h3>
-                <p>使用收藏夹整理您喜爱的 DNS 服务器，并设置默认 DNS。</p>
-            </div>
+
             <div class="feature-card">
                 <div class="icon">&#x1F500;</div>
                 <h3>URL 重写</h3>
@@ -408,8 +404,35 @@
     <div class="container">
         <h2>&#x6700;&#x8FD1;&#x66F4;&#x65B0;</h2>
 
-        <details open><summary>&#x663E;&#x793A; / &#x9690;&#x85CF;&#x66F4;&#x65B0;&#x65E5;&#x5FD7;</summary>
+        <details><summary>&#x663E;&#x793A; / &#x9690;&#x85CF;&#x66F4;&#x65B0;&#x65E5;&#x5FD7;</summary>
 
+        <div class="changelog-item">
+            <span class="ver">v1.0.73</span>
+            <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>
+            <ul>
+                <li>&#x65B0;&#x8D5B;&#x535A;&#x670B;&#x514B; PDM &#x6807;&#x5FD7;(&#x9713;&#x8679;&#x706F; P/D/M &#x5B57;&#x6BCD;&#x5E26; ON/OFF &#x5F00;&#x5173;)</li>
+                <li>&#x539F;&#x751F;&#x9AD8;&#x7EA7;&#x6D4B;&#x901F;(LibreSpeed &#x534F;&#x8BAE;&#xFF0C;&#x591A;&#x670D;&#x52A1;&#x5668;)</li>
+                <li>&#x62A5;&#x544A;&#x652F;&#x6301; DoT(&#x79C1;&#x6709; DNS)&#xFF0C;&#x4E0D;&#x518D;&#x4EC5;&#x9650; VPN</li>
+                <li>NextDNS &#x81EA;&#x5B9A;&#x4E49;&#x914D;&#x7F6E;&#xFF1A;&#x65B0;&#x589E;&#x7ECF;&#x5178; DNS &#x9009;&#x9879;</li>
+                <li>&#x534F;&#x8BAE;&#x989C;&#x8272;: <span style="color:#BF00FF">&#x25CF;</span> DoH &#x7D2B;&#x8272;, <span style="color:#2196F3">&#x25CF;</span> DoQ &#x84DD;&#x8272;, <span style="color:#4CAF50">&#x25CF;</span> DoT &#x7EFF;&#x8272;, <span style="color:#999">&#x25CF;</span> &#x6807;&#x51C6;&#x7070;&#x8272;</li>
+                <li>&#x4E3B;&#x9875;&#x6C38;&#x4E45;&#x7F51;&#x7EDC;&#x9762;&#x677F;</li>
+                <li>&#x57DF;&#x540D;&#x6D4B;&#x8BD5;&#x5668;&#xFF1A;&#x65E0;&#x9700; VPN &#x5373;&#x53EF;&#x5DE5;&#x4F5C;&#xFF0C;DNS &#x72B6;&#x6001;&#x6307;&#x793A;&#x5668;</li>
+                <li>Android TV &#x9065;&#x63A7;&#x5668;&#x7126;&#x70B9;&#x4FEE;&#x590D;</li>
+            </ul>
+        </div>
+            <span class="ver">v1.0.72</span>
+            <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>
+            <ul>
+                <li>&#x66F4;&#x65B0;&#x4F9B;&#x5E94;&#x5546;&#x661F;&#x7EA7;&#x8BC4;&#x5206;&#xFF08;&#x901F;&#x5EA6;&#x548C;&#x53CD;&#x5BA1;&#x67E5;&#xFF09;</li>
+                <li>DNS Speedtest &#x91CD;&#x65B0;&#x8BBE;&#x8BA1;&#xFF1A;&#x53EF;&#x5C55;&#x5F00;&#x7684;&#x4F9B;&#x5E94;&#x5546;&#xFF0C;&#x6309;&#x7C7B;&#x578B;&#x663E;&#x793A;&#x7ED3;&#x679C;</li>
+                <li>&#x4E3B;&#x9875;&#xFF1A;&#x57DF;&#x540D;&#x6D4B;&#x8BD5; + &#x7F51;&#x7EDC;&#x6D4B;&#x901F;&#x5E76;&#x6392;&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x4E00;&#x5206;&#x4E3A;&#x4E8C;</li>
+                <li>&#x65B0;&#x589E;&#x7F51;&#x7EDC;&#x6D4B;&#x901F;&#x9875;&#x9762;&#xFF08;LibreSpeed WebView&#xFF09;</li>
+                <li>DNS &#x9009;&#x62E9;&#xFF1A;&#x62D6;&#x62FD;&#x6392;&#x5E8F;&#xFF0C;&#x7EFF;&#x8272;&#x5FBD;&#x7AE0;&#x6253;&#x5F00;&#x4F9B;&#x5E94;&#x5546;&#x8BE6;&#x60C5;</li>
+                <li>&#x4F9B;&#x5E94;&#x5546;&#x8BE6;&#x60C5;&#xFF1A;&#x7126;&#x70B9;&#x4FEE;&#x590D;&#xFF0C;&#x957F;&#x6309;&#x7F16;&#x8F91;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</li>
+                <li>&#x8BBE;&#x7F6E;&#xFF1A;DoQ &#x56FE;&#x6807;&#xFF0C;&#x5BFC;&#x5165;&#x63D0;&#x793A;&#x6539;&#x4E3A;6&#x4F4D;&#xFF0C;&#x652F;&#x6301;&#x6309;&#x94AE;&#x9EC4;&#x8272;</li>
+                <li>&#x66F4;&#x65B0;&#x65E5;&#x5FD7;&#x9ED8;&#x8BA4;&#x6298;&#x53E0;&#xFF0C;&#x6536;&#x85CF;&#x529F;&#x80FD;&#x5DF2;&#x79FB;&#x9664;</li>
+            </ul>
+        </div>
         <div class="changelog-item">
             <span class="ver">v1.0.71</span>
             <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>

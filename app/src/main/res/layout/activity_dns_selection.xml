@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/dns_speedtest_button"
+            android:text="@string/dns_speedtest_shortcut"
             android:textColor="#FFFFFF"
             android:backgroundTint="#1565C0"
             android:foreground="@drawable/btn_focus_foreground"

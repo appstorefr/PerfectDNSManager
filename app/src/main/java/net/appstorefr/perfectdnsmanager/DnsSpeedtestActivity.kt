@@ -1,18 +1,21 @@
 package net.appstorefr.perfectdnsmanager
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
-import android.view.ViewGroup
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.data.DnsType
+import net.appstorefr.perfectdnsmanager.util.DnsColors
 import net.appstorefr.perfectdnsmanager.util.DnsTester
 import net.appstorefr.perfectdnsmanager.util.LocaleHelper
 import okhttp3.OkHttpClient
@@ -24,12 +27,11 @@ class DnsSpeedtestActivity : AppCompatActivity() {
         super.attachBaseContext(LocaleHelper.applyLocale(newBase))
     }
 
-    private lateinit var tvProgress: TextView
-    private lateinit var tvResults: TextView
-    private lateinit var tvTop5: TextView
-    private lateinit var scrollProgress: ScrollView
-    private lateinit var scrollResults: ScrollView
-    private lateinit var scrollTop5: ScrollView
+    private lateinit var tvCurrentTest: TextView
+    private lateinit var layoutProviders: LinearLayout
+    private lateinit var tvRanking: TextView
+    private lateinit var scrollProviders: ScrollView
+    private lateinit var scrollRanking: ScrollView
     private lateinit var btnStartStop: Button
     private lateinit var btnBack: Button
 
@@ -56,40 +58,46 @@ class DnsSpeedtestActivity : AppCompatActivity() {
         val type: String
     )
 
-    private val progressBuffer = SpannableStringBuilder()
-    private val resultsBuffer = SpannableStringBuilder()
-    private val top5Buffer = SpannableStringBuilder()
+    /** Recent progress lines (keep last 3 for the compact tvCurrentTest) */
+    private val recentProgressLines = mutableListOf<Pair<String, Int>>()
+
+    /** Track which providers are expanded in the left panel */
+    private val expandedProviders = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dns_speedtest)
 
-        tvProgress = findViewById(R.id.tvProgress)
-        tvResults = findViewById(R.id.tvResults)
-        tvTop5 = findViewById(R.id.tvTop5)
-        scrollProgress = findViewById(R.id.scrollProgress)
-        scrollResults = findViewById(R.id.scrollResults)
-        scrollTop5 = findViewById(R.id.scrollTop5)
+        tvCurrentTest = findViewById(R.id.tvCurrentTest)
+        layoutProviders = findViewById(R.id.layoutProviders)
+        tvRanking = findViewById(R.id.tvRanking)
+        scrollProviders = findViewById(R.id.scrollProviders)
+        scrollRanking = findViewById(R.id.scrollRanking)
         btnStartStop = findViewById(R.id.btnStartStop)
         btnBack = findViewById(R.id.btnBack)
 
         btnBack.setOnClickListener { finish() }
         btnStartStop.setOnClickListener { toggleStartStop() }
 
-        // Force focus sur btnStartStop dès que la fenêtre est prête
+        // Force focus sur btnStartStop
         btnStartStop.isFocusable = true
         btnStartStop.isFocusableInTouchMode = false
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            btnStartStop.focusable = android.view.View.FOCUSABLE
+            btnStartStop.focusable = View.FOCUSABLE
         }
 
-        appendProgress("DNS Speedtest", COLOR_CYAN)
-        appendProgress(getString(R.string.dns_speedtest_button), COLOR_WHITE)
+        tvCurrentTest.text = "DNS Speedtest"
 
-        // Setup scroll zones for Android TV D-pad navigation
-        setupScrollZone(scrollResults, tvResults)
-        setupScrollZone(scrollProgress, tvProgress)
-        setupScrollZone(scrollTop5, tvTop5)
+        // Ranking panel: D-pad UP/DOWN scrolls the content
+        scrollRanking.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                when (keyCode) {
+                    KeyEvent.KEYCODE_DPAD_DOWN -> { scrollRanking.smoothScrollBy(0, 100); true }
+                    KeyEvent.KEYCODE_DPAD_UP -> { scrollRanking.smoothScrollBy(0, -100); true }
+                    else -> false
+                }
+            } else false
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -99,40 +107,11 @@ class DnsSpeedtestActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Setup a scroll zone for Android TV D-pad navigation.
-     * When the user presses Enter/DpadCenter on a focused ScrollView,
-     * the inner TextView becomes focusable and receives focus for D-pad scrolling.
-     * Pressing Back while inside returns focus to the ScrollView itself.
-     */
-    private fun setupScrollZone(scroll: ScrollView, tv: TextView) {
-        scroll.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN &&
-                (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)) {
-                // Enter the scroll zone - allow descendants and give focus to content
-                scroll.descendantFocusability = ViewGroup.FOCUS_AFTER_DESCENDANTS
-                tv.isFocusable = true
-                tv.requestFocus()
-                true
-            } else false
-        }
-        tv.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
-                // Exit the scroll zone - block descendants and return focus to ScrollView
-                tv.isFocusable = false
-                scroll.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
-                scroll.requestFocus()
-                true
-            } else false
-        }
-    }
-
     private fun toggleStartStop() {
         if (running) {
             cancelled = true
             btnStartStop.text = "Annulation..."
             btnStartStop.isEnabled = false
-            // Garder le focus sur le bouton même désactivé
             btnStartStop.requestFocus()
         } else {
             startSpeedtest()
@@ -160,20 +139,16 @@ class DnsSpeedtestActivity : AppCompatActivity() {
     }
 
     private fun startSpeedtest() {
-        progressBuffer.clear()
-        resultsBuffer.clear()
-        top5Buffer.clear()
-        tvProgress.text = ""
-        tvResults.text = ""
-        tvTop5.text = ""
+        recentProgressLines.clear()
+        expandedProviders.clear()
+        tvCurrentTest.text = ""
+        tvRanking.text = ""
+        layoutProviders.removeAllViews()
         cancelled = false
 
         setButtonStop()
 
-        appendProgress("========================================", COLOR_CYAN)
-        appendProgress("  DNS Speedtest", COLOR_CYAN)
-        appendProgress("========================================", COLOR_CYAN)
-        appendProgress("", COLOR_WHITE)
+        appendProgress("DNS Speedtest", COLOR_CYAN)
 
         testThread = Thread {
             try {
@@ -193,7 +168,6 @@ class DnsSpeedtestActivity : AppCompatActivity() {
                 }
 
                 appendProgress("${testProfiles.size} fournisseurs", COLOR_WHITE)
-                appendProgress("", COLOR_WHITE)
 
                 val sharedClient = OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.SECONDS)
@@ -205,17 +179,11 @@ class DnsSpeedtestActivity : AppCompatActivity() {
 
                 for ((index, profile) in testProfiles.withIndex()) {
                     if (cancelled) {
-                        appendProgress("", COLOR_WHITE)
                         appendProgress(">> Annule.", COLOR_RED)
                         break
                     }
 
-                    val typeLabel = when (profile.type) {
-                        DnsType.DOH -> "DoH"
-                        DnsType.DOQ -> "DoQ"
-                        DnsType.DOT -> "DoT"
-                        else -> "UDP"
-                    }
+                    val typeLabel = DnsColors.labelForType(profile.type)
 
                     appendProgress("[${index + 1}/${testProfiles.size}] ${profile.providerName} ($typeLabel)...", COLOR_WHITE)
 
@@ -254,7 +222,6 @@ class DnsSpeedtestActivity : AppCompatActivity() {
                 try { sharedClient.connectionPool.evictAll() } catch (_: Exception) {}
 
                 if (!cancelled) {
-                    appendProgress("", COLOR_WHITE)
                     appendProgress("Termine.", COLOR_GREEN)
                     updatePanels(results, final = true)
                 } else {
@@ -274,14 +241,57 @@ class DnsSpeedtestActivity : AppCompatActivity() {
         runOnUiThread {
             val sorted = results.sortedWith(compareBy(nullsLast()) { it.latency })
 
-            // --- Panel classement (gauche) ---
-            resultsBuffer.clear()
-            if (final) {
-                appendToBuf(resultsBuffer, "Classement complet", COLOR_CYAN)
-            } else {
-                appendToBuf(resultsBuffer, "Classement provisoire", COLOR_CYAN)
+            // --- LEFT panel: Providers grouped ---
+            buildProviderPanel(results, final)
+
+            // Restore focus to btnStartStop after panel rebuild to prevent
+            // cursor jumping back to btnBack when provider panel is updated
+            btnStartStop.post { btnStartStop.requestFocus() }
+
+            // --- RIGHT panel: Ranking ---
+            val rankingBuf = SpannableStringBuilder()
+
+            // Top 5 with medals
+            val podiumEmojis = listOf("\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49", "4.", "5.")
+            val top5 = sorted.filter { it.latency != null }.take(5)
+
+            if (top5.isNotEmpty()) {
+                appendToBuf(rankingBuf, "Meilleurs DNS", COLOR_GOLD)
+                appendToBuf(rankingBuf, "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", COLOR_GOLD)
+                appendToBuf(rankingBuf, "", COLOR_WHITE)
+
+                for ((i, r) in top5.withIndex()) {
+                    val medal = podiumEmojis.getOrElse(i) { "${i + 1}." }
+                    val color = when (i) {
+                        0 -> COLOR_GOLD
+                        1 -> 0xFFC0C0C0.toInt() // silver
+                        2 -> 0xFFCD7F32.toInt() // bronze
+                        else -> COLOR_WHITE
+                    }
+                    val protoColor = protocolColorForLabel(r.type)
+                    appendToBuf(rankingBuf, "$medal ${r.provider}", color)
+                    appendTwoPart(rankingBuf, "   (", r.type, protoColor, ") ${r.latency} ms", color)
+                    appendToBuf(rankingBuf, "", COLOR_WHITE)
+                }
+
+                if (final && top5.isNotEmpty()) {
+                    appendToBuf(rankingBuf, "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", COLOR_GREEN)
+                    appendToBuf(rankingBuf, "Recommande :", COLOR_GREEN)
+                    val recProtoColor = protocolColorForLabel(top5[0].type)
+                    appendToBuf(rankingBuf, top5[0].provider, COLOR_GOLD)
+                    appendTwoPart(rankingBuf, "(", top5[0].type, recProtoColor, ") ${top5[0].latency} ms", COLOR_GOLD)
+                    appendToBuf(rankingBuf, "", COLOR_WHITE)
+                }
             }
-            appendToBuf(resultsBuffer, "────────────────────", COLOR_CYAN)
+
+            // Full ranking
+            appendToBuf(rankingBuf, "", COLOR_WHITE)
+            if (final) {
+                appendToBuf(rankingBuf, "Classement complet", COLOR_CYAN)
+            } else {
+                appendToBuf(rankingBuf, "Classement provisoire", COLOR_CYAN)
+            }
+            appendToBuf(rankingBuf, "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", COLOR_CYAN)
 
             for ((i, r) in sorted.withIndex()) {
                 val latencyStr = if (r.latency != null) "${r.latency} ms" else "Erreur"
@@ -293,47 +303,176 @@ class DnsSpeedtestActivity : AppCompatActivity() {
                         else -> COLOR_RED
                     }
                 } else COLOR_GREY
-                appendToBuf(resultsBuffer, "${String.format("%2d", i + 1)}. ${r.provider} (${r.type})", color)
-                appendToBuf(resultsBuffer, "    $latencyStr", color)
+                val protoColor = protocolColorForLabel(r.type)
+                appendTwoPart(rankingBuf, "${String.format("%2d", i + 1)}. ${r.provider} (", r.type, protoColor, ")", color)
+                appendToBuf(rankingBuf, "    $latencyStr", color)
             }
 
-            tvResults.text = resultsBuffer
-            scrollResults.post { scrollResults.scrollTo(0, tvResults.bottom) }
+            tvRanking.text = rankingBuf
+            scrollRanking.post { scrollRanking.scrollTo(0, 0) }
+        }
+    }
 
-            // --- Panel TOP 5 (droite) ---
-            top5Buffer.clear()
-            val podiumEmojis = listOf("\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49", "4.", "5.")
-            val top5 = sorted.filter { it.latency != null }.take(5)
+    /**
+     * Build the left panel with expandable provider groups.
+     * Each provider is a header; clicking it expands/collapses the results underneath.
+     */
+    private fun buildProviderPanel(results: List<SpeedResult>, final: Boolean) {
+        layoutProviders.removeAllViews()
 
-            if (top5.isNotEmpty()) {
-                appendToBuf(top5Buffer, "Meilleurs DNS", COLOR_GOLD)
-                appendToBuf(top5Buffer, "────────────────────", COLOR_GOLD)
-                appendToBuf(top5Buffer, "", COLOR_WHITE)
+        // Group results by provider name (preserve order of first appearance)
+        val grouped = linkedMapOf<String, MutableList<SpeedResult>>()
+        for (r in results) {
+            grouped.getOrPut(r.provider) { mutableListOf() }.add(r)
+        }
 
-                for ((i, r) in top5.withIndex()) {
-                    val medal = podiumEmojis.getOrElse(i) { "${i + 1}." }
-                    val color = when (i) {
-                        0 -> COLOR_GOLD
-                        1 -> 0xFFC0C0C0.toInt() // silver
-                        2 -> 0xFFCD7F32.toInt() // bronze
-                        else -> COLOR_WHITE
+        val dp4 = (4 * resources.displayMetrics.density).toInt()
+        val dp6 = (6 * resources.displayMetrics.density).toInt()
+        val dp8 = (8 * resources.displayMetrics.density).toInt()
+        val dp2 = (2 * resources.displayMetrics.density).toInt()
+
+        for ((provider, providerResults) in grouped) {
+            val isExpanded = provider in expandedProviders
+
+            // Count successes and find best latency
+            val successCount = providerResults.count { it.latency != null }
+            val bestLatency = providerResults.mapNotNull { it.latency }.minOrNull()
+            val bestColor = if (bestLatency != null) {
+                when {
+                    bestLatency < 50 -> COLOR_GREEN
+                    bestLatency < 100 -> COLOR_YELLOW
+                    bestLatency < 200 -> COLOR_ORANGE
+                    else -> COLOR_RED
+                }
+            } else COLOR_GREY
+
+            // Header row
+            val headerLayout = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    topMargin = dp2
+                    bottomMargin = dp2
+                }
+                setPadding(dp6, dp4, dp6, dp4)
+                setBackgroundResource(R.drawable.focusable_item_background)
+                isClickable = true
+                isFocusable = true
+            }
+
+            val arrow = if (isExpanded) "\u25BC " else "\u25B6 "
+            val headerText = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                text = "$arrow$provider"
+                setTextColor(COLOR_WHITE)
+                textSize = 12f
+                typeface = Typeface.MONOSPACE
+                setTypeface(typeface, Typeface.BOLD)
+            }
+
+            val summaryText = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                val latencyLabel = if (bestLatency != null) "${bestLatency}ms" else "---"
+                text = "($successCount/${providerResults.size}) $latencyLabel"
+                setTextColor(bestColor)
+                textSize = 11f
+                typeface = Typeface.MONOSPACE
+            }
+
+            headerLayout.addView(headerText)
+            headerLayout.addView(summaryText)
+
+            headerLayout.setOnClickListener {
+                if (provider in expandedProviders) {
+                    expandedProviders.remove(provider)
+                } else {
+                    expandedProviders.add(provider)
+                }
+                buildProviderPanel(results, final)
+            }
+
+            layoutProviders.addView(headerLayout)
+
+            // Detail rows (only if expanded)
+            if (isExpanded) {
+                for (r in providerResults) {
+                    val detailLayout = LinearLayout(this).apply {
+                        orientation = LinearLayout.HORIZONTAL
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        setPadding(dp8 + dp6, dp2, dp6, dp2)
+                        setBackgroundResource(R.drawable.focusable_item_background)
+                        isFocusable = true
                     }
-                    appendToBuf(top5Buffer, "$medal ${r.provider}", color)
-                    appendToBuf(top5Buffer, "   (${r.type}) ${r.latency} ms", color)
-                    appendToBuf(top5Buffer, "", COLOR_WHITE)
-                }
 
-                if (final && top5.isNotEmpty()) {
-                    appendToBuf(top5Buffer, "────────────────────", COLOR_GREEN)
-                    appendToBuf(top5Buffer, "Recommande :", COLOR_GREEN)
-                    appendToBuf(top5Buffer, top5[0].provider, COLOR_GOLD)
-                    appendToBuf(top5Buffer, "(${top5[0].type}) ${top5[0].latency} ms", COLOR_GOLD)
+                    val typeColor = when (r.type) {
+                        "DoH" -> DnsColors.colorForType(DnsType.DOH)
+                        "DoQ" -> DnsColors.colorForType(DnsType.DOQ)
+                        "DoT" -> DnsColors.colorForType(DnsType.DOT)
+                        else -> DnsColors.colorForType(DnsType.DEFAULT)
+                    }
+
+                    val typeLabel = TextView(this).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply { marginEnd = dp8 }
+                        text = r.type
+                        setTextColor(typeColor)
+                        textSize = 11f
+                        typeface = Typeface.MONOSPACE
+                        setTypeface(typeface, Typeface.BOLD)
+                    }
+
+                    val latencyColor = if (r.latency != null) {
+                        when {
+                            r.latency < 50 -> COLOR_GREEN
+                            r.latency < 100 -> COLOR_YELLOW
+                            r.latency < 200 -> COLOR_ORANGE
+                            else -> COLOR_RED
+                        }
+                    } else COLOR_GREY
+
+                    val latencyLabel = TextView(this).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        text = if (r.latency != null) "${r.latency} ms" else "Erreur"
+                        setTextColor(latencyColor)
+                        textSize = 11f
+                        typeface = Typeface.MONOSPACE
+                    }
+
+                    detailLayout.addView(typeLabel)
+                    detailLayout.addView(latencyLabel)
+                    layoutProviders.addView(detailLayout)
                 }
-            } else {
-                appendToBuf(top5Buffer, "En attente...", COLOR_GREY)
             }
+        }
 
-            tvTop5.text = top5Buffer
+        // Title at the top
+        if (grouped.isNotEmpty()) {
+            val titleView = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { bottomMargin = (4 * resources.displayMetrics.density).toInt() }
+                val title = if (final) "Fournisseurs (final)" else "Fournisseurs..."
+                text = title
+                setTextColor(COLOR_CYAN)
+                textSize = 12f
+                typeface = Typeface.MONOSPACE
+                setTypeface(typeface, Typeface.BOLD)
+            }
+            layoutProviders.addView(titleView, 0)
         }
     }
 
@@ -349,14 +488,59 @@ class DnsSpeedtestActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Append a line with a colored portion in the middle:
+     * [prefix][colored middle][suffix] all on one line with newline at end.
+     * prefix and suffix use baseColor; middle uses middleColor.
+     */
+    private fun appendTwoPart(buf: SpannableStringBuilder, prefix: String, middle: String, middleColor: Int, suffix: String, baseColor: Int) {
+        val start = buf.length
+        buf.append(prefix)
+        buf.setSpan(ForegroundColorSpan(baseColor), start, buf.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val midStart = buf.length
+        buf.append(middle)
+        buf.setSpan(ForegroundColorSpan(middleColor), midStart, buf.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val sufStart = buf.length
+        buf.append(suffix)
+        buf.append("\n")
+        buf.setSpan(ForegroundColorSpan(baseColor), sufStart, buf.length - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+
+    private fun protocolColorForLabel(typeLabel: String): Int = when (typeLabel) {
+        "DoH" -> DnsColors.colorForType(DnsType.DOH)
+        "DoQ" -> DnsColors.colorForType(DnsType.DOQ)
+        "DoT" -> DnsColors.colorForType(DnsType.DOT)
+        else -> DnsColors.colorForType(DnsType.DEFAULT)
+    }
+
+    /**
+     * Update the compact progress area (tvCurrentTest) with the last 3 lines.
+     */
     private fun appendProgress(text: String, color: Int) {
         runOnUiThread {
-            appendToBuf(progressBuffer, text, color)
-            tvProgress.text = progressBuffer
-            // Scroll sans voler le focus du bouton
-            scrollProgress.post {
-                scrollProgress.scrollTo(0, tvProgress.bottom)
+            recentProgressLines.add(Pair(text, color))
+            // Keep only the last 3 lines
+            while (recentProgressLines.size > 3) {
+                recentProgressLines.removeAt(0)
             }
+            // Build a SpannableStringBuilder with the last 3 lines
+            val ssb = SpannableStringBuilder()
+            for ((i, pair) in recentProgressLines.withIndex()) {
+                val start = ssb.length
+                ssb.append(pair.first)
+                ssb.setSpan(
+                    ForegroundColorSpan(pair.second),
+                    start,
+                    ssb.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                if (i < recentProgressLines.size - 1) {
+                    ssb.append("\n")
+                }
+            }
+            tvCurrentTest.text = ssb
         }
     }
 

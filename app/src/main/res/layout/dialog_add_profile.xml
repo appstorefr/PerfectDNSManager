@@ -63,7 +63,7 @@
                 android:layout_height="48dp"
                 android:text="DNS over HTTPS (DoH) — Recommandé"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#2196F3"
+                android:buttonTint="#BF00FF"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -74,7 +74,7 @@
                 android:layout_height="48dp"
                 android:text="DNS over TLS (DoT)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#4CAF50"
+                android:buttonTint="#00FF66"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -85,7 +85,7 @@
                 android:layout_height="48dp"
                 android:text="DNS over QUIC (DoQ)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#9C27B0"
+                android:buttonTint="#00D4FF"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -96,7 +96,7 @@
                 android:layout_height="48dp"
                 android:text="Standard (UDP non chiffré)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#FF9800"
+                android:buttonTint="#888888"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />

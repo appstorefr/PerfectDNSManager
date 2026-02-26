@@ -94,7 +94,7 @@
     <string name="import_from_code">🔒 من رمز مشفر</string>
     <string name="import_from_code_title">🔒 استيراد تكوين مشفر</string>
     <string name="enter_share_code">أدخل الرمز:</string>
-    <string name="share_code_hint">مثال: aB3kL9</string>
+    <string name="share_code_hint">123456</string>
     <string name="import_code_explain">قم بإنشاء هذا الرمز عبر التصدير في الإعدادات.\n\nسيتم تنزيل الملف وفك تشفيره تلقائيًا.\n\nالتحقق: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">انتهاء صلاحية الملف:</string>
     <string name="expiration_1h">ساعة واحدة</string>
@@ -365,7 +365,7 @@
     <string name="privacy_label">الخصوصية</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">بدء الاختبار</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">جارٍ اختبار زمن استجابة DNS…</string>
     <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
@@ -390,10 +390,6 @@
 
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">تعذّر فتح Shizuku</string>
-
-    <!-- Downloader code -->
-    <string name="downloader_code_label">رمز Downloader (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">إعادة كتابة DNS (Rewriting)</string>
@@ -440,7 +436,7 @@
     <string name="report_progress_blocking">⏳ جارٍ اختبار الحجب…</string>
     <string name="report_complete">✅ تم إنشاء التقرير</string>
     <string name="no_report_to_share">أنشئ تقريراً أولاً</string>
-    <string name="test_domains_button">اختبار أسماء النطاقات</string>
+    <string name="test_domains_button">اختبار النطاقات</string>
     <string name="test_domains_add">إضافة نطاق</string>
     <string name="test_domains_empty">لم يتم تكوين أي نطاق</string>
 
@@ -455,7 +451,7 @@
     <string name="split_tunnel_save">حفظ</string>
     <string name="split_tunnel_saved">تم تحديث التطبيقات المستبعدة</string>
     <string name="split_tunnel_restart_vpn">سيتم إعادة تشغيل VPN لتطبيق التغييرات.</string>
-    <string name="vpn_required_for_report">قم بتوصيل VPN أولاً لإنشاء التقرير</string>
+    <string name="vpn_required_for_report">قم بتفعيل DNS أولاً (VPN أو DNS خاص)</string>
     <string name="dns_leak_isp_label">DNS مزود الخدمة (بدون VPN)</string>
     <string name="dns_leak_vpn_label">DNS نشط (مع VPN)</string>
 
@@ -525,4 +521,7 @@
     <string name="domain_tester_testing">جاري الاختبار…</string>
     <string name="domain_tester_no_result">لم يتم إجراء أي اختبار.</string>
     <string name="domain_tester_no_enabled">لا يوجد نطاق مفعّل.</string>
+    <string name="internet_speedtest_button">اختبار السرعة</string>
+    <string name="internet_speedtest_advanced">اختبار السرعة (متقدم)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

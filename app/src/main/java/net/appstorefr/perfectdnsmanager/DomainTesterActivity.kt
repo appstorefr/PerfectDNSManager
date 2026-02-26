@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.service.DnsVpnService
 import net.appstorefr.perfectdnsmanager.util.LocaleHelper
 import net.appstorefr.perfectdnsmanager.util.UrlBlockingTester
@@ -49,6 +51,7 @@ class DomainTesterActivity : AppCompatActivity() {
             text = getString(R.string.back_arrow)
             setTextColor(0xFFFFFFFF.toInt())
             setBackgroundResource(R.drawable.focusable_item_background)
+            foreground = resources.getDrawable(R.drawable.btn_focus_foreground, theme)
             isFocusable = true
             setPadding(20, 10, 20, 10)
             setOnClickListener { finish() }
@@ -70,11 +73,45 @@ class DomainTesterActivity : AppCompatActivity() {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 24)
         })
 
+        // DNS status indicator
+        val tvStatus = TextView(this).apply {
+            textSize = 13f
+            setPadding(16, 8, 16, 8)
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 16
+            }
+
+            val vpnRunning = DnsVpnService.isVpnRunning
+            val dotMode = android.provider.Settings.Global.getString(contentResolver, "private_dns_mode")
+            val isDotActive = dotMode == "hostname"
+
+            if (vpnRunning) {
+                val providerLabel = try {
+                    val profileJson = getSharedPreferences("prefs", MODE_PRIVATE).getString("selected_profile_json", null)
+                    if (profileJson != null) {
+                        val profile = Gson().fromJson(profileJson, DnsProfile::class.java)
+                        profile.providerName
+                    } else null
+                } catch (_: Exception) { null }
+                val label = if (providerLabel != null) "\uD83D\uDFE2 VPN actif ($providerLabel)" else "\uD83D\uDFE2 VPN actif"
+                text = label
+                setTextColor(0xFF4CAF50.toInt())
+            } else if (isDotActive) {
+                text = "\uD83D\uDFE2 DNS priv\u00E9 actif"
+                setTextColor(0xFF4CAF50.toInt())
+            } else {
+                text = "\uD83D\uDD34 Aucun DNS actif (r\u00E9solution FAI)"
+                setTextColor(0xFFF44336.toInt())
+            }
+        }
+        mainLayout.addView(tvStatus)
+
         // Add domain button
         val btnAdd = Button(this).apply {
             text = getString(R.string.domain_tester_add)
             setTextColor(0xFFFFFFFF.toInt())
             setBackgroundColor(0xFF4CAF50.toInt())
+            foreground = resources.getDrawable(R.drawable.btn_focus_foreground, theme)
             isFocusable = true
             textSize = 14f
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
@@ -100,6 +137,7 @@ class DomainTesterActivity : AppCompatActivity() {
             text = getString(R.string.domain_tester_run)
             setTextColor(0xFFFFFFFF.toInt())
             setBackgroundColor(0xFF0D47A1.toInt())
+            foreground = resources.getDrawable(R.drawable.btn_focus_foreground, theme)
             isFocusable = true
             textSize = 14f
             setTypeface(typeface, android.graphics.Typeface.BOLD)
@@ -173,6 +211,14 @@ class DomainTesterActivity : AppCompatActivity() {
                 }
             }
 
+            val tvDomain = TextView(this).apply {
+                text = entry.domain
+                setTextColor(0xFFFFFFFF.toInt())
+                textSize = 14f
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            }
+            row.addView(tvDomain)
+
             val sw = Switch(this).apply {
                 isChecked = entry.enabled
                 setOnCheckedChangeListener { _, isChecked ->
@@ -185,55 +231,33 @@ class DomainTesterActivity : AppCompatActivity() {
             }
             row.addView(sw)
 
-            val tvDomain = TextView(this).apply {
-                text = entry.domain
-                setTextColor(0xFFFFFFFF.toInt())
-                textSize = 14f
-                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
-                    marginStart = 12
-                }
-            }
-            row.addView(tvDomain)
-
-            // Edit button
-            val btnEdit = Button(this).apply {
-                text = "\u270F"
-                textSize = 16f
-                setBackgroundColor(0x00000000)
-                setTextColor(0xFF2196F3.toInt())
-                minWidth = 48
-                minimumWidth = 48
-                setPadding(8, 0, 8, 0)
-                setOnClickListener { showEditDomainDialog(index, entry) }
-            }
-            row.addView(btnEdit)
-
-            // Delete button
-            val btnDel = Button(this).apply {
-                text = "\u2716"
-                textSize = 16f
-                setBackgroundColor(0x00000000)
-                setTextColor(0xFFFF5252.toInt())
-                minWidth = 48
-                minimumWidth = 48
-                setPadding(8, 0, 8, 0)
-                setOnClickListener {
-                    AlertDialog.Builder(this@DomainTesterActivity)
-                        .setTitle(getString(R.string.domain_tester_delete_title))
-                        .setMessage(entry.domain)
-                        .setPositiveButton(getString(R.string.delete)) { _, _ ->
-                            val list = loadEntries()
-                            if (index < list.size) {
-                                list.removeAt(index)
-                                saveEntries(list)
-                                refreshList()
+            // Long-press → edit/delete popup
+            row.setOnLongClickListener {
+                AlertDialog.Builder(this@DomainTesterActivity)
+                    .setTitle(entry.domain)
+                    .setItems(arrayOf("Modifier", "Supprimer")) { _, which ->
+                        when (which) {
+                            0 -> showEditDomainDialog(index, entry)
+                            1 -> {
+                                AlertDialog.Builder(this@DomainTesterActivity)
+                                    .setTitle(getString(R.string.domain_tester_delete_title))
+                                    .setMessage(entry.domain)
+                                    .setPositiveButton(getString(R.string.delete)) { _, _ ->
+                                        val list = loadEntries()
+                                        if (index < list.size) {
+                                            list.removeAt(index)
+                                            saveEntries(list)
+                                            refreshList()
+                                        }
+                                    }
+                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .show()
                             }
                         }
-                        .setNegativeButton(getString(R.string.cancel), null)
-                        .show()
-                }
+                    }
+                    .show()
+                true
             }
-            row.addView(btnDel)
 
             listContainer.addView(row)
         }
@@ -289,10 +313,6 @@ class DomainTesterActivity : AppCompatActivity() {
     }
 
     private fun runTest() {
-        if (!DnsVpnService.isVpnRunning) {
-            Toast.makeText(this, getString(R.string.vpn_required_for_report), Toast.LENGTH_SHORT).show()
-            return
-        }
         isTesting = true
         btnRunTest.text = "\u23F9 Stop"
         btnRunTest.setBackgroundColor(0xFFB71C1C.toInt())

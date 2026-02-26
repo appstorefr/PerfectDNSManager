@@ -103,6 +103,9 @@
             android:name=".DnsProviderDetailActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false" />
+        <activity android:name=".InternetSpeedtestActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
 
     </application>
 </manifest>

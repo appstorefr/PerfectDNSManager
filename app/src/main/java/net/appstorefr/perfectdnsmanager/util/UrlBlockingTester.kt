@@ -66,11 +66,15 @@ object UrlBlockingTester {
     /**
      * Résout un domaine en bypassant le VPN via un socket protégé :
      * 1. Détecter le DNS opérateur via ConnectivityManager → LinkProperties.dnsServers
-     * 2. Créer un DatagramSocket protégé via DnsVpnService.protectSocket()
-     * 3. Envoyer requête DNS brute UDP au DNS opérateur détecté
+     * 2. Si VPN actif : créer un DatagramSocket protégé via DnsVpnService.protectSocket()
+     * 3. Si VPN inactif : utiliser un socket UDP normal (pas de VPN à bypasser)
+     * 4. Envoyer requête DNS brute UDP au DNS opérateur détecté
      */
     private fun resolveViaProtectedSocket(context: Context, domain: String): ResolutionResult {
-        return try {
+        val vpnRunning = DnsVpnService.isVpnRunning
+
+        // Try raw UDP DNS query first
+        val udpResult = try {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             // Trouver le DNS opérateur via le réseau physique
@@ -89,13 +93,15 @@ object UrlBlockingTester {
                 InetAddress.getByName("8.8.8.8")
             }
 
-            // Créer un socket protégé (bypass VPN)
+            // Créer un socket : protégé si VPN actif, normal sinon
             val socket = DatagramSocket()
-            val protected = DnsVpnService.protectSocket(socket)
-            if (!protected) {
-                socket.close()
-                return ResolutionResult(null, true, "Cannot protect socket (VPN not running?)")
+            if (vpnRunning) {
+                val isProtected = DnsVpnService.protectSocket(socket)
+                if (!isProtected) {
+                    Log.w(TAG, "Could not protect socket, using unprotected")
+                }
             }
+            // Sans VPN, le socket normal envoie directement via le réseau physique
             socket.soTimeout = 5000
 
             // Construire et envoyer la requête DNS
@@ -114,12 +120,33 @@ object UrlBlockingTester {
                 val ipStr = ip.hostAddress ?: ""
                 ResolutionResult(ipStr, isBlockedIp(ipStr), null)
             } else {
-                ResolutionResult(null, true, "No A record")
+                null // UDP succeeded but no A record parsed
             }
         } catch (e: Exception) {
             Log.w(TAG, "Protected socket resolve $domain: ${e.message}")
-            ResolutionResult(null, true, e.message)
+            null // UDP query failed
         }
+
+        // If UDP succeeded with a valid result, return it
+        if (udpResult != null && udpResult.ip != null) return udpResult
+
+        // Fallback: if no VPN is active, system resolver IS the ISP DNS,
+        // so InetAddress.getByName() gives us the ISP resolution directly
+        if (!vpnRunning) {
+            return try {
+                val addr = InetAddress.getByName(domain)
+                val ip = addr.hostAddress ?: ""
+                ResolutionResult(ip, isBlockedIp(ip), null)
+            } catch (e: java.net.UnknownHostException) {
+                ResolutionResult(null, true, "NXDOMAIN")
+            } catch (e: Exception) {
+                Log.w(TAG, "System fallback resolve $domain: ${e.message}")
+                udpResult ?: ResolutionResult(null, true, e.message)
+            }
+        }
+
+        // VPN active but UDP failed — return the UDP error
+        return udpResult ?: ResolutionResult(null, true, "DNS query failed")
     }
 
     /**

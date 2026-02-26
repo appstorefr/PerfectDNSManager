@@ -94,7 +94,7 @@
     <string name="import_from_code">🔒 एन्क्रिप्टेड कोड से</string>
     <string name="import_from_code_title">🔒 एन्क्रिप्टेड कॉन्फ़िगरेशन आयात करें</string>
     <string name="enter_share_code">कोड दर्ज करें:</string>
-    <string name="share_code_hint">उदा: aB3kL9</string>
+    <string name="share_code_hint">123456</string>
     <string name="import_code_explain">सेटिंग्स में निर्यात के माध्यम से यह कोड जनरेट करें।\n\nफ़ाइल स्वचालित रूप से डाउनलोड और डिक्रिप्ट की जाएगी।\n\nसत्यापन: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">फ़ाइल की समय सीमा:</string>
     <string name="expiration_1h">1 घंटा</string>
@@ -365,7 +365,7 @@
     <string name="privacy_label">गोपनीयता</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ स्पीडटेस्ट</string>
+    <string name="dns_speedtest_button">टेस्ट शुरू करें</string>
     <string name="dns_speedtest_title">⚡ DNS स्पीडटेस्ट</string>
     <string name="dns_speedtest_running">DNS विलंब परीक्षण जारी है…</string>
     <string name="dns_speedtest_result">%1$s (%2$s) : %3$s</string>
@@ -390,10 +390,6 @@
 
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Shizuku खोलना संभव नहीं</string>
-
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Downloader कोड (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
 
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS रीराइटिंग (Rewriting)</string>
@@ -440,7 +436,7 @@
     <string name="report_progress_blocking">⏳ ब्लॉकिंग टेस्ट चल रहा है…</string>
     <string name="report_complete">✅ रिपोर्ट बनाई गई</string>
     <string name="no_report_to_share">पहले एक रिपोर्ट बनाएं</string>
-    <string name="test_domains_button">डोमेन नाम परीक्षण</string>
+    <string name="test_domains_button">डोमेन टेस्ट करें</string>
     <string name="test_domains_add">डोमेन जोड़ें</string>
     <string name="test_domains_empty">कोई डोमेन कॉन्फ़िगर नहीं</string>
 
@@ -455,7 +451,7 @@
     <string name="split_tunnel_save">सहेजें</string>
     <string name="split_tunnel_saved">बहिष्कृत ऐप्स अपडेट किए गए</string>
     <string name="split_tunnel_restart_vpn">बदलाव लागू करने के लिए VPN पुनः आरंभ होगा।</string>
-    <string name="vpn_required_for_report">रिपोर्ट बनाने के लिए पहले VPN कनेक्ट करें</string>
+    <string name="vpn_required_for_report">पहले DNS सक्रिय करें (VPN या निजी DNS)</string>
     <string name="dns_leak_isp_label">ISP DNS (बिना VPN)</string>
     <string name="dns_leak_vpn_label">सक्रिय DNS (VPN के साथ)</string>
 
@@ -525,4 +521,7 @@
     <string name="domain_tester_testing">टेस्ट चल रहा है…</string>
     <string name="domain_tester_no_result">कोई टेस्ट नहीं किया गया।</string>
     <string name="domain_tester_no_enabled">कोई डोमेन सक्षम नहीं।</string>
+    <string name="internet_speedtest_button">स्पीड टेस्ट</string>
+    <string name="internet_speedtest_advanced">स्पीड टेस्ट (उन्नत)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

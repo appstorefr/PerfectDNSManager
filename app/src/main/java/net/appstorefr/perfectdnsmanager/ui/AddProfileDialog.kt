@@ -2,6 +2,7 @@ package net.appstorefr.perfectdnsmanager.ui
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.view.Window
@@ -10,6 +11,7 @@ import android.widget.*
 import net.appstorefr.perfectdnsmanager.R
 import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.data.DnsType
+import net.appstorefr.perfectdnsmanager.util.DnsColors
 
 class AddProfileDialog(
     context: Context,
@@ -58,6 +60,12 @@ class AddProfileDialog(
         tvPrimaryV6Label = findViewById(R.id.tvPrimaryV6Label)
         btnSave = findViewById(R.id.btnSave)
         btnCancel = findViewById(R.id.btnCancel)
+
+        // Apply protocol colors to radio buttons
+        rbDoh.buttonTintList = ColorStateList.valueOf(DnsColors.colorForType(DnsType.DOH))
+        rbDot.buttonTintList = ColorStateList.valueOf(DnsColors.colorForType(DnsType.DOT))
+        rbDoq.buttonTintList = ColorStateList.valueOf(DnsColors.colorForType(DnsType.DOQ))
+        rbStandard.buttonTintList = ColorStateList.valueOf(DnsColors.colorForType(DnsType.DEFAULT))
 
         rbDoh.isChecked = true
         etSecondary.visibility = View.GONE
