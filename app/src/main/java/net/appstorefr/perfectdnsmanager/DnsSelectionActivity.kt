@@ -6,12 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.reflect.TypeToken
 import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.data.DnsType
 import net.appstorefr.perfectdnsmanager.data.ProfileManager
@@ -78,24 +75,10 @@ class DnsSelectionActivity : AppCompatActivity() {
         showProviders()
     }
 
-    private val defaultProviderOrder = listOf(
+    private val providerOrder = listOf(
         "ControlD", "NextDNS", "AdGuard", "Surfshark",
         "Mullvad", "Cloudflare", "Quad9", "FDN", "dns.sb", "Yandex", "Google"
     )
-
-    private fun loadProviderOrder(): List<String> {
-        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-        val json = prefs.getString("provider_order_json", null) ?: return defaultProviderOrder
-        return try {
-            Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-        } catch (_: Exception) { defaultProviderOrder }
-    }
-
-    private fun saveProviderOrder(order: List<String>) {
-        getSharedPreferences("prefs", MODE_PRIVATE).edit()
-            .putString("provider_order_json", Gson().toJson(order))
-            .apply()
-    }
 
     private fun showProviders() {
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
@@ -120,13 +103,11 @@ class DnsSelectionActivity : AppCompatActivity() {
         val baseFiltered = allProfiles.filter { profile ->
             if (profile.isOperatorDns && !operatorEnabled) return@filter false
             if (profile.type == DnsType.DOT && !adbDotEnabled) return@filter false
-            // Masquer DNS Standard (non-opérateur) si toggle off
             if (!showStandardDns && profile.type == DnsType.DEFAULT && !profile.isOperatorDns) return@filter false
             true
         }
 
         // Si show_profile_variants off : ne garder qu'un seul profil par type par fournisseur
-        // Trier pour toujours garder le profil "sans filtre" (Unfiltered/Standard/Basic/Unsecured) en priorité
         val filtered = if (!showProfileVariants) {
             val seen = mutableSetOf<String>()
             val sortedForDedup = baseFiltered.sortedBy { profile ->
@@ -137,9 +118,7 @@ class DnsSelectionActivity : AppCompatActivity() {
                 }
             }
             sortedForDedup.filter { profile ->
-                // Toujours garder les custom et opérateurs
                 if (profile.isCustom || profile.isOperatorDns) return@filter true
-                // Un seul profil par fournisseur par type
                 val key = "${profile.providerName}:${profile.type}"
                 if (key in seen) return@filter false
                 seen.add(key)
@@ -150,16 +129,16 @@ class DnsSelectionActivity : AppCompatActivity() {
         }
 
         val grouped = linkedMapOf<String, List<DnsProfile>>()
-        val providerOrder = loadProviderOrder()
 
-        for (providerName in providerOrder) {
-            val profiles = filtered.filter { it.providerName == providerName }
+        // Fournisseurs dans l'ordre défini
+        for (name in providerOrder) {
+            val profiles = filtered.filter { it.providerName == name }
             if (profiles.isNotEmpty()) {
-                grouped[displayKey(providerName)] = profiles
+                grouped[displayKey(name)] = profiles
             }
         }
 
-        // Fournisseurs normaux (hors classement, hors opérateurs)
+        // Fournisseurs hors classement (hors opérateurs)
         for ((pName, value) in filtered.groupBy { it.providerName }.toSortedMap()) {
             if (pName !in providerOrder && !value.any { it.isOperatorDns }) {
                 grouped[displayKey(pName)] = value
@@ -214,7 +193,6 @@ class DnsSelectionActivity : AppCompatActivity() {
                 providerDetailLauncher.launch(intent)
             }
         ) { _, profiles ->
-            // Simple clic : sélection directe du meilleur profil (DoH > DoQ > DoT > Standard)
             val best = profiles.minByOrNull {
                 when (it.type) {
                     DnsType.DOH -> 0; DnsType.DOQ -> 1; DnsType.DOT -> 2; DnsType.DEFAULT -> 3
@@ -225,40 +203,7 @@ class DnsSelectionActivity : AppCompatActivity() {
 
         rvProviders.layoutManager = LinearLayoutManager(this)
         rvProviders.adapter = adapter
-
-        val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
-        ) {
-            override fun onMove(rv: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                val from = source.bindingAdapterPosition
-                val to = target.bindingAdapterPosition
-                if (from == RecyclerView.NO_POSITION || to == RecyclerView.NO_POSITION) return false
-                adapter.moveItem(from, to)
-                val newOrder = adapter.getProviderNames().map { it.replace(" \u2605", "") }
-                saveProviderOrder(newOrder)
-                return true
-            }
-            override fun onSwiped(holder: RecyclerView.ViewHolder, direction: Int) {}
-            override fun isLongPressDragEnabled() = true
-
-            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-                super.onSelectedChanged(viewHolder, actionState)
-                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                    viewHolder?.itemView?.elevation = 16f
-                    viewHolder?.itemView?.alpha = 0.9f
-                }
-            }
-
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-                super.clearView(recyclerView, viewHolder)
-                viewHolder.itemView.elevation = 8f
-                viewHolder.itemView.alpha = 1.0f
-            }
-        })
-        touchHelper.attachToRecyclerView(rvProviders)
     }
-
-    private fun prefs() = getSharedPreferences("prefs", MODE_PRIVATE)
 
     private fun returnProfileToMain(profile: DnsProfile) {
         setResult(Activity.RESULT_OK, Intent().apply {

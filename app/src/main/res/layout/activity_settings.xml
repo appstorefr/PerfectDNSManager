@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/default_background"
+    android:background="#1E1E1E"
     android:fillViewport="true">
 <LinearLayout
     android:layout_width="match_parent"
@@ -25,8 +25,9 @@
             android:background="@drawable/focusable_item_background"
             android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:padding="10dp"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:minHeight="48dp"
             android:focusable="true" />
         <TextView
             android:layout_width="0dp"

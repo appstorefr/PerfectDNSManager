@@ -272,7 +272,7 @@
     <string name="profile_updated">Profil mis à jour</string>
 
     <!-- NextDNS -->
-    <string name="add_nextdns_profile">➕ Ajouter un profil NextDNS personnalisé</string>
+    <string name="add_nextdns_profile">➕ Ajouter un profil NextDNS</string>
     <string name="nextdns_explain">Entrez l\'identifiant de votre profil NextDNS.\nhttps://my.nextdns.io/XXXXXX/setup</string>
     <string name="nextdns_add_title">Ajouter profil NextDNS</string>
     <string name="nextdns_add_select">Ajouter et sélectionner (DoH)</string>
@@ -394,7 +394,8 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Réécriture DNS (Rewriting)</string>
     <string name="show_doq_dns">Afficher DNS over QUIC</string>
-    <string name="gpl_license_text">Libre aujourd\'hui. Libre demain. On peut bloquer une route, pas la liberté !\nLe code source est ouvert, toute redistribution doit rester open source.\nLicence GPL v3\n\n🙏 Merci à is.gd (raccourcisseur d\'URL) et tmpfiles.org (hébergement temporaire)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">Libre aujourd\'hui. Libre demain. On peut bloquer une route, pas la liberté !\nLe code source est ouvert, toute redistribution doit rester open source.\nLicence GPL v3\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">is.gd — Raccourcisseur d\'URL pour le partage de rapports chiffrés\n\ntmpfiles.org — Hébergement temporaire de fichiers pour l\'export de configuration</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Speedtest Internet</string>

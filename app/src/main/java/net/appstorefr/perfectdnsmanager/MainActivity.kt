@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -405,6 +406,18 @@ class MainActivity : AppCompatActivity() {
         btnGenerateReport = findViewById(R.id.btnGenerateReport)
         tvReportContent = findViewById(R.id.tvReportContent)
         btnShareReport = findViewById(R.id.btnShareReport)
+
+        // Toggle outils de test
+        val layoutToolsPanel: LinearLayout = findViewById(R.id.layoutToolsPanel)
+        val swToolsToggle: Switch = findViewById(R.id.swToolsToggle)
+        val toolsVisible = prefs.getBoolean("tools_panel_visible", true)
+        swToolsToggle.isChecked = toolsVisible
+        layoutToolsPanel.visibility = if (toolsVisible) View.VISIBLE else View.GONE
+        swToolsToggle.setOnCheckedChangeListener { _, isChecked ->
+            layoutToolsPanel.visibility = if (isChecked) View.VISIBLE else View.GONE
+            prefs.edit().putBoolean("tools_panel_visible", isChecked).apply()
+        }
+
         btnDomainTester.setOnClickListener {
             startActivity(Intent(this, DomainTesterActivity::class.java))
         }
@@ -1270,6 +1283,7 @@ class MainActivity : AppCompatActivity() {
     private fun setActiveStatus(active: Boolean, statusText: String) {
         isActive = active
         btnToggle.text = getString(R.string.deactivate)
+        btnToggle.setTextColor(0xFF2E7D32.toInt()) // Vert foncé quand actif
         btnToggle.setBackgroundResource(R.drawable.btn_deactivate_background)
         btnToggle.requestFocus()
         // Refresh right panel with full network info + DNS status
@@ -1279,6 +1293,7 @@ class MainActivity : AppCompatActivity() {
     private fun setInactiveStatus() {
         isActive = false
         btnToggle.text = getString(R.string.activate)
+        btnToggle.setTextColor(0xFF7B1F3A.toInt()) // Bordeaux quand inactif
         btnToggle.setBackgroundResource(R.drawable.btn_activate_background)
         btnToggle.requestFocus()
         // Refresh right panel with full network info + DNS status

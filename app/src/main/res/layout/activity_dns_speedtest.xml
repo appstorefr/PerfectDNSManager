@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1A1A2E"
+    android:background="#1E1E1E"
     android:padding="16dp">
 
     <!-- Top bar: Back + Title -->
@@ -17,6 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:minHeight="48dp"
             android:backgroundTint="#333355"
             android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"

@@ -3,106 +3,133 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_margin="8dp"
+    android:padding="8dp"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="3dp"
     android:background="@drawable/focusable_item_background"
     android:elevation="8dp"
     android:focusable="false"
-    android:longClickable="true"
     android:descendantFocusability="afterDescendants">
 
+    <!-- Row 1: Icon + Blue name button + Green connect button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/ivProviderIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/tvName"
+        <!-- Blue button: icon + provider name → detail page -->
+        <LinearLayout
+            android:id="@+id/layoutProviderButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:background="@drawable/focusable_item_background"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/btn_blue_provider"
             android:focusable="true"
             android:clickable="true"
             android:paddingVertical="8dp"
-            android:paddingHorizontal="12dp"
-            android:layout_marginEnd="8dp"
-            android:elevation="2dp" />
+            android:paddingHorizontal="10dp"
+            android:layout_marginEnd="4dp"
+            android:elevation="2dp">
 
+            <ImageView
+                android:id="@+id/ivProviderIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="6dp"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="13sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end" />
+        </LinearLayout>
+
+        <!-- Green button: X profils / types → quick connect -->
         <TextView
             android:id="@+id/tvType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textColor="#FFFFFF"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
-            android:background="@drawable/focusable_item_background"
-            android:minWidth="50dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/btn_green_connect"
+            android:minWidth="70dp"
             android:gravity="center"
-            android:layout_marginStart="12dp"
             android:focusable="true"
             android:clickable="true"
             android:elevation="2dp" />
-
     </LinearLayout>
 
+    <!-- Hidden description -->
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
+        android:visibility="gone"
+        android:textSize="12sp"
         android:textColor="#CCCCCC" />
 
+    <!-- Ratings: 2 lines -->
     <LinearLayout
         android:id="@+id/layoutRatings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        android:layout_marginTop="3dp"
+        android:paddingStart="10dp"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tvSpeedLabel"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#CCCCCC" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tvSpeedStars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#FFD700" />
+            <TextView
+                android:id="@+id/tvSpeedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#CCCCCC" />
 
-        <TextView
-            android:id="@+id/tvPrivacyLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#CCCCCC"
-            android:layout_marginStart="8dp" />
+            <TextView
+                android:id="@+id/tvSpeedStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#FFD700" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvPrivacyStars"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#4CAF50" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvPrivacyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/tvPrivacyStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#4CAF50" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

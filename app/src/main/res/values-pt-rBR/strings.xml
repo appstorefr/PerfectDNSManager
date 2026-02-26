@@ -394,7 +394,8 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Reescrita DNS (Rewriting)</string>
     <string name="show_doq_dns">Mostrar DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">Livre hoje. Livre amanhã. Pode-se bloquear uma estrada, não a liberdade!\nO código-fonte é aberto, toda redistribuição deve permanecer open source.\nLicença GPL v3\n\n🙏 Obrigado a is.gd (encurtador de URL) e tmpfiles.org (hospedagem temporária)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">Livre hoje. Livre amanhã. Pode-se bloquear uma estrada, não a liberdade!\nO código-fonte é aberto, toda redistribuição deve permanecer open source.\nLicença GPL v3\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">is.gd — Encurtador de URL para compartilhar relatórios criptografados\n\ntmpfiles.org — Hospedagem temporária de arquivos para exportação de configuração</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Speedtest Internet</string>

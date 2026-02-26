@@ -394,7 +394,8 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">إعادة كتابة DNS (Rewriting)</string>
     <string name="show_doq_dns">إظهار DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">حر اليوم. حر غداً. يمكن إغلاق طريق، لكن لا يمكن إغلاق الحرية!\nالشفرة المصدرية مفتوحة، أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.\nرخصة GPL v3\n\n🙏 شكراً لـ is.gd (اختصار الروابط) و tmpfiles.org (الاستضافة المؤقتة)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">حر اليوم. حر غداً. يمكن إغلاق طريق، لكن لا يمكن إغلاق الحرية!\nالشفرة المصدرية مفتوحة، أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.\nرخصة GPL v3\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">is.gd — مختصر روابط لمشاركة التقارير المشفرة\n\ntmpfiles.org — استضافة ملفات مؤقتة لتصدير الإعدادات</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 اختبار سرعة الإنترنت</string>

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1A1A2E"
+    android:background="#1E1E1E"
     android:padding="24dp">
 
     <LinearLayout
@@ -16,6 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:minHeight="48dp"
             android:backgroundTint="#333355"
             android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
@@ -91,6 +94,30 @@
             android:layout_marginBottom="12dp"
             android:autoLink="web"
             android:linksClickable="true"/>
+
+        <!-- Credits -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Credits"
+            android:textColor="#D4A017"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credits_text"
+            android:textColor="#CCCCEE"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:background="#22FFFFFF"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"/>
 
     </LinearLayout>
 </ScrollView>

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#2E2E2E">
+    android:background="#1E1E1E">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                 android:layout_height="48dp"
                 android:text="DNS over HTTPS (DoH) — Recommandé"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#BF00FF"
+                android:buttonTint="#44FF44"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -74,7 +74,7 @@
                 android:layout_height="48dp"
                 android:text="DNS over TLS (DoT)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#00FF66"
+                android:buttonTint="#FFB700"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -85,7 +85,7 @@
                 android:layout_height="48dp"
                 android:text="DNS over QUIC (DoQ)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#00D4FF"
+                android:buttonTint="#7B68EE"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
