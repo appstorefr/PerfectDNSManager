@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">已阻止 ✓</string>
     <string name="share_ip_button">📤 分享报告</string>
     <string name="share_ip_uploading">正在上传 IP…</string>
-    <string name="share_ip_success_title">IP 已分享</string>
+    <string name="share_ip_success_title">加密报告已分享</string>
     <string name="share_ip_success_message">代码：%1$s\n\n代码已复制到剪贴板。\n\n链接：%2$s\n（AES-256 加密文件）</string>
     <string name="share_ip_error">分享 IP 时出错</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 恢复初始 DNS</string>
     <string name="show_operator_dns">🇫🇷 显示法国运营商 DNS（Orange/Bouygues/SFR/Free/OVH）</string>
     <string name="show_standard_dns">📋 显示经典 DNS（未加密）</string>
-    <string name="show_profile_variants">📋 显示 DNS 提供商的不同配置（无过滤、无广告、儿童等）</string>
-    <string name="dns_dot_adb">📡 通过 ADB 使用 DNS DoT</string>
+    <string name="show_profile_variants">📋 显示 DNS 提供商的不同配置</string>
+    <string name="dns_dot_adb">📡 显示通过 ADB 的 DNS DoT</string>
     <string name="adb_warning">ADB 方式会修改系统设置。如遇网络连接问题，请禁用此选项并使用 VPN 方式。</string>
     <string name="disable_ipv6_label">禁用 IPv6 / 强制 IPv4</string>
 
@@ -309,7 +309,7 @@
     <string name="update_download_error">下载错误</string>
     <string name="update_install_error">安装错误</string>
     <string name="update_dialog_title">有可用更新</string>
-    <string name="update_dialog_message">有新版本（v%1$s）可用。\n是否下载并安装？</string>
+    <string name="update_dialog_message">有新版本（v%1$s — %2$s）可用。\n是否下载并安装？</string>
     <string name="update_dialog_install">安装</string>
     <string name="update_dialog_later">稍后</string>
 
@@ -394,7 +394,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS 重写（Rewriting）</string>
     <string name="show_doq_dns">显示 DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">此应用程序是自由的。没有任何事物能禁止一个自由的应用程序。\nGPL v3 许可证 — 源代码开放，任何再发布必须保持开源。\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">今天自由。明天自由。可以封路，但不能封自由！\n源代码开放，任何再发布必须保持开源。\nGPL v3 许可证\n\n🙏 感谢 is.gd（短链接）和 tmpfiles.org（临时托管）\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 网络测速</string>

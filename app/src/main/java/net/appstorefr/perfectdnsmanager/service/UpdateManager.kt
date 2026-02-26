@@ -40,7 +40,7 @@ class UpdateManager(private val context: Context) {
      * Vérification manuelle (About) : affiche Toast "à jour" ou télécharge directement.
      */
     fun checkForUpdateGitHub(githubRepo: String, currentVersion: String) {
-        fetchLatestRelease(githubRepo) { tagName, apkUrl ->
+        fetchLatestRelease(githubRepo) { tagName, apkUrl, _ ->
             if (tagName != null && apkUrl != null && compareVersions(tagName, currentVersion) > 0) {
                 showToastOnMainThread(context.getString(R.string.update_available, tagName))
                 downloadAndInstallUpdate(apkUrl)
@@ -58,16 +58,20 @@ class UpdateManager(private val context: Context) {
         val prefs = context.getSharedPreferences("update_prefs", Context.MODE_PRIVATE)
         val dismissedVersion = prefs.getString("dismissed_version", null)
 
-        fetchLatestRelease(GITHUB_REPO) { tagName, apkUrl ->
+        fetchLatestRelease(GITHUB_REPO) { tagName, apkUrl, apkSize ->
             if (tagName != null && apkUrl != null && compareVersions(tagName, currentVersion) > 0) {
                 // Ne pas re-proposer une version déjà refusée
                 if (tagName == dismissedVersion) return@fetchLatestRelease
+
+                val sizeStr = if (apkSize > 0) {
+                    String.format("%.1f Mo", apkSize / 1_000_000.0)
+                } else ""
 
                 runOnMainThread {
                     if (context is Activity && !context.isFinishing) {
                         AlertDialog.Builder(context)
                             .setTitle(context.getString(R.string.update_dialog_title))
-                            .setMessage(context.getString(R.string.update_dialog_message, tagName))
+                            .setMessage(context.getString(R.string.update_dialog_message, tagName, sizeStr))
                             .setPositiveButton(context.getString(R.string.update_dialog_install)) { _, _ ->
                                 downloadAndInstallUpdate(apkUrl)
                             }
@@ -82,7 +86,7 @@ class UpdateManager(private val context: Context) {
         }
     }
 
-    private fun fetchLatestRelease(githubRepo: String, callback: (tagName: String?, apkUrl: String?) -> Unit) {
+    private fun fetchLatestRelease(githubRepo: String, callback: (tagName: String?, apkUrl: String?, apkSize: Long) -> Unit) {
         val apiUrl = "https://api.github.com/repos/$githubRepo/releases/latest"
         Log.i(TAG, "Vérification mise à jour GitHub: $apiUrl")
 
@@ -98,18 +102,21 @@ class UpdateManager(private val context: Context) {
 
                             val assets = json.getJSONArray("assets")
                             var apkUrl: String? = null
+                            var apkSize: Long = 0
                             for (i in 0 until assets.length()) {
                                 val asset = assets.getJSONObject(i)
                                 val name = asset.getString("name")
                                 if (name == "latest.apk") {
                                     apkUrl = asset.getString("browser_download_url")
+                                    apkSize = asset.optLong("size", 0)
                                     break
                                 }
                                 if (apkUrl == null && name.endsWith(".apk")) {
                                     apkUrl = asset.getString("browser_download_url")
+                                    apkSize = asset.optLong("size", 0)
                                 }
                             }
-                            callback(tagName, apkUrl)
+                            callback(tagName, apkUrl, apkSize)
                         } catch (e: Exception) {
                             Log.e(TAG, "Erreur parsing GitHub API", e)
                             showToastOnMainThread(context.getString(R.string.update_check_error))

@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">ブロック済み ✓</string>
     <string name="share_ip_button">📤 レポートを共有</string>
     <string name="share_ip_uploading">IP をアップロード中…</string>
-    <string name="share_ip_success_title">IP を共有しました</string>
+    <string name="share_ip_success_title">暗号化レポートを共有しました</string>
     <string name="share_ip_success_message">コード: %1$s\n\nコードはクリップボードにコピーされました。\n\nリンク: %2$s\n（AES-256 暗号化ファイル）</string>
     <string name="share_ip_error">IP の共有中にエラーが発生しました</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 初期 DNS を復元</string>
     <string name="show_operator_dns">🇫🇷 フランスのキャリア DNS を表示（Orange/Bouygues/SFR/Free/OVH）</string>
     <string name="show_standard_dns">📋 クラシック DNS（暗号化なし）を表示</string>
-    <string name="show_profile_variants">📋 DNS プロバイダーの各種プロファイルを表示（unfiltered、noads、kids など）</string>
-    <string name="dns_dot_adb">📡 ADB 経由の DNS DoT</string>
+    <string name="show_profile_variants">📋 DNS プロバイダーの各種プロファイルを表示</string>
+    <string name="dns_dot_adb">📡 ADB 経由の DNS DoT を表示</string>
     <string name="adb_warning">ADB メソッドはシステム設定を変更します。接続に問題が発生した場合は、このオプションを無効にして VPN メソッドを使用してください。</string>
     <string name="disable_ipv6_label">IPv6 を無効にする / IPv4 を強制</string>
 
@@ -309,7 +309,7 @@
     <string name="update_download_error">ダウンロード中にエラーが発生しました</string>
     <string name="update_install_error">インストール中にエラーが発生しました</string>
     <string name="update_dialog_title">アップデートが利用可能</string>
-    <string name="update_dialog_message">新しいバージョン（v%1$s）が利用可能です。\nダウンロードしてインストールしますか？</string>
+    <string name="update_dialog_message">新しいバージョン（v%1$s — %2$s）が利用可能です。\nダウンロードしてインストールしますか？</string>
     <string name="update_dialog_install">インストール</string>
     <string name="update_dialog_later">後で</string>
 
@@ -394,7 +394,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS リライト（Rewriting）</string>
     <string name="show_doq_dns">DNS over QUIC (DoQ) を表示</string>
-    <string name="gpl_license_text">このアプリケーションは自由です。自由なアプリケーションを禁止することは何もできません。\nGPL v3 ライセンス — ソースコードは公開されており、再配布はオープンソースのままでなければなりません。\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">今日も自由。明日も自由。道は塞げても、自由は塞げない！\nソースコードは公開されており、再配布はオープンソースのままでなければなりません。\nGPL v3 ライセンス\n\n🙏 is.gd（URL短縮）と tmpfiles.org（一時ホスティング）に感謝\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 インターネット速度テスト</string>

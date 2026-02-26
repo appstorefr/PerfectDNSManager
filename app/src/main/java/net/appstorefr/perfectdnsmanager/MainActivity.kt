@@ -915,22 +915,34 @@ class MainActivity : AppCompatActivity() {
                     btnShareReport.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#4CAF50"))
                     val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                     clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Report Code", result.shortCode))
-                    val msg = android.text.SpannableString(
-                        "Code : ${result.shortCode}\n\nOuvrir le rapport :\nappstorefr.github.io/PerfectDNSManager/decrypt.html\n\nEntrez le code ${result.shortCode} pour afficher le rapport.\n\n(code copié dans le presse-papier)"
-                    )
+                    val url1 = "https://appstorefr.github.io/PerfectDNSManager/decrypt.html"
+                    val url2 = "https://is.gd/pdm_decrypt"
+                    val text = "Ouvrir le rapport :\n$url1\nou : $url2\n\nEntrez le code ${result.shortCode} pour afficher le rapport.\n\n(code copié dans le presse-papier)"
+                    val msg = android.text.SpannableString(text)
                     val code = result.shortCode
                     val greenColor = android.graphics.Color.parseColor("#4CAF50")
-                    // Color first occurrence of code
+                    val linkColor = android.graphics.Color.parseColor("#2196F3")
+                    // Color code occurrences in green
                     val idx1 = msg.indexOf(code)
                     if (idx1 >= 0) msg.setSpan(android.text.style.ForegroundColorSpan(greenColor), idx1, idx1 + code.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    // Color second occurrence of code
-                    val idx2 = msg.indexOf(code, idx1 + code.length)
-                    if (idx2 >= 0) msg.setSpan(android.text.style.ForegroundColorSpan(greenColor), idx2, idx2 + code.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    AlertDialog.Builder(this)
+                    // Make first URL clickable
+                    val urlStart1 = text.indexOf(url1)
+                    if (urlStart1 >= 0) {
+                        msg.setSpan(android.text.style.URLSpan(url1), urlStart1, urlStart1 + url1.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        msg.setSpan(android.text.style.ForegroundColorSpan(linkColor), urlStart1, urlStart1 + url1.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                    // Make second URL clickable
+                    val urlStart2 = text.indexOf(url2)
+                    if (urlStart2 >= 0) {
+                        msg.setSpan(android.text.style.URLSpan(url2), urlStart2, urlStart2 + url2.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        msg.setSpan(android.text.style.ForegroundColorSpan(linkColor), urlStart2, urlStart2 + url2.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                    val dialog = AlertDialog.Builder(this)
                         .setTitle(getString(R.string.share_ip_success_title))
                         .setMessage(msg)
                         .setPositiveButton("OK", null)
                         .show()
+                    dialog.findViewById<android.widget.TextView>(android.R.id.message)?.movementMethod = android.text.method.LinkMovementMethod.getInstance()
                 }
             } catch (e: Exception) {
                 runOnUiThread {

@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">محظور ✓</string>
     <string name="share_ip_button">📤 مشاركة التقرير</string>
     <string name="share_ip_uploading">جارٍ رفع عناوين IP…</string>
-    <string name="share_ip_success_title">تم مشاركة عناوين IP</string>
+    <string name="share_ip_success_title">تم مشاركة التقرير المشفر</string>
     <string name="share_ip_success_message">الرمز: %1$s\n\nتم نسخ الرمز إلى الحافظة.\n\nالرابط: %2$s\n(ملف مشفر AES-256)</string>
     <string name="share_ip_error">خطأ أثناء مشاركة عناوين IP</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 استعادة DNS الأولي</string>
     <string name="show_operator_dns">🇫🇷 عرض DNS المشغّلين الفرنسيين (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 عرض DNS الكلاسيكي (غير مشفر)</string>
-    <string name="show_profile_variants">📋 عرض ملفات مزودي DNS المختلفة (بدون فلترة، بدون إعلانات، أطفال إلخ…)</string>
-    <string name="dns_dot_adb">📡 DNS DoT عبر ADB</string>
+    <string name="show_profile_variants">📋 عرض ملفات مزودي DNS المختلفة</string>
+    <string name="dns_dot_adb">📡 عرض DNS DoT عبر ADB</string>
     <string name="adb_warning">طريقة ADB تعدّل إعدادات النظام. في حال وجود مشاكل في الاتصال، قم بتعطيل هذا الخيار واستخدم طريقة VPN.</string>
     <string name="disable_ipv6_label">تعطيل IPv6 / فرض IPv4</string>
 
@@ -309,7 +309,7 @@
     <string name="update_download_error">خطأ في التنزيل</string>
     <string name="update_install_error">خطأ في التثبيت</string>
     <string name="update_dialog_title">تحديث متوفر</string>
-    <string name="update_dialog_message">إصدار جديد (v%1$s) متوفر.\nهل تريد تنزيله وتثبيته؟</string>
+    <string name="update_dialog_message">إصدار جديد (v%1$s — %2$s) متوفر.\nهل تريد تنزيله وتثبيته؟</string>
     <string name="update_dialog_install">تثبيت</string>
     <string name="update_dialog_later">لاحقًا</string>
 
@@ -394,7 +394,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">إعادة كتابة DNS (Rewriting)</string>
     <string name="show_doq_dns">إظهار DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">هذا التطبيق حر. لا شيء يمكن أن يمنع تطبيقاً حراً.\nرخصة GPL v3 — الشفرة المصدرية مفتوحة، أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">حر اليوم. حر غداً. يمكن إغلاق طريق، لكن لا يمكن إغلاق الحرية!\nالشفرة المصدرية مفتوحة، أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.\nرخصة GPL v3\n\n🙏 شكراً لـ is.gd (اختصار الروابط) و tmpfiles.org (الاستضافة المؤقتة)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 اختبار سرعة الإنترنت</string>

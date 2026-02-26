@@ -230,6 +230,9 @@ class DomainTesterActivity : AppCompatActivity() {
                 }
             }
             row.addView(sw)
+            row.setOnClickListener {
+                sw.isChecked = !sw.isChecked
+            }
 
             // Long-press → edit/delete popup
             row.setOnLongClickListener {

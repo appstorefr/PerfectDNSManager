@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">blocked ✓</string>
     <string name="share_ip_button">📤 Share report</string>
     <string name="share_ip_uploading">Uploading IPs…</string>
-    <string name="share_ip_success_title">IPs shared</string>
+    <string name="share_ip_success_title">Encrypted report shared</string>
     <string name="share_ip_success_message">Code: %1$s\n\nThe code has been copied to clipboard.\n\nLink: %2$s\n(AES-256 encrypted file)</string>
     <string name="share_ip_error">Error sharing IPs</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 Restore initial DNS</string>
     <string name="show_operator_dns">🇫🇷 Show French ISP DNS (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 Show classic DNS (unencrypted)</string>
-    <string name="show_profile_variants">📋 Show DNS provider profiles (unfiltered, noads, kids etc…)</string>
-    <string name="dns_dot_adb">📡 DNS DoT via ADB</string>
+    <string name="show_profile_variants">📋 Show DNS provider profiles</string>
+    <string name="dns_dot_adb">📡 Show DNS DoT via ADB</string>
     <string name="adb_warning">The ADB method modifies system settings. If you experience connectivity issues, disable this option and use the VPN method.</string>
     <string name="disable_ipv6_label">Disable IPv6 / Force IPv4</string>
 
@@ -308,7 +308,7 @@
     <string name="update_download_error">Download error</string>
     <string name="update_install_error">Installation error</string>
     <string name="update_dialog_title">Update available</string>
-    <string name="update_dialog_message">A new version (v%1$s) is available.\nWould you like to download and install it?</string>
+    <string name="update_dialog_message">A new version (v%1$s — %2$s) is available.\nWould you like to download and install it?</string>
     <string name="update_dialog_install">Install</string>
     <string name="update_dialog_later">Later</string>
 
@@ -396,7 +396,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS Rewriting</string>
     <string name="show_doq_dns">Show DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">This application is free. Nothing can prohibit a free application.\nGPL v3 License — The source code is open, any redistribution must remain open source.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">Free today. Free tomorrow. You can block a road, not freedom!\nThe source code is open, any redistribution must remain open source.\nGPL v3 License\n\n🙏 Thanks to is.gd (URL shortener) and tmpfiles.org (temporary hosting)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Internet Speedtest</string>

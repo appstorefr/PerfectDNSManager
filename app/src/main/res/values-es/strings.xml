@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">bloqueado ✓</string>
     <string name="share_ip_button">📤 Compartir informe</string>
     <string name="share_ip_uploading">Subiendo IPs…</string>
-    <string name="share_ip_success_title">IPs compartidas</string>
+    <string name="share_ip_success_title">Informe cifrado compartido</string>
     <string name="share_ip_success_message">Código: %1$s\n\nEl código se ha copiado al portapapeles.\n\nEnlace: %2$s\n(Archivo cifrado AES-256)</string>
     <string name="share_ip_error">Error al compartir las IPs</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 Restaurar los DNS iniciales</string>
     <string name="show_operator_dns">🇫🇷 Mostrar los DNS de operadores Francia (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 Mostrar los DNS cl\u00e1sicos (sin cifrar)</string>
-    <string name="show_profile_variants">📋 Mostrar los diferentes perfiles de proveedores DNS (unfiltered, noads, kids etc…)</string>
-    <string name="dns_dot_adb">📡 DNS DoT vía ADB</string>
+    <string name="show_profile_variants">📋 Mostrar los diferentes perfiles de proveedores DNS</string>
+    <string name="dns_dot_adb">📡 Mostrar los DNS DoT vía ADB</string>
     <string name="adb_warning">El método ADB modifica los ajustes del sistema. En caso de problemas de conectividad, desactiva esta opción y usa el método VPN.</string>
     <string name="disable_ipv6_label">Desactivar IPv6 / Forzar IPv4</string>
 
@@ -309,7 +309,7 @@
     <string name="update_download_error">Error durante la descarga</string>
     <string name="update_install_error">Error durante la instalación</string>
     <string name="update_dialog_title">Actualización disponible</string>
-    <string name="update_dialog_message">Una nueva versión (v%1$s) está disponible.\n¿Deseas descargarla e instalarla?</string>
+    <string name="update_dialog_message">Una nueva versión (v%1$s — %2$s) está disponible.\n¿Deseas descargarla e instalarla?</string>
     <string name="update_dialog_install">Instalar</string>
     <string name="update_dialog_later">Más tarde</string>
 
@@ -394,7 +394,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Reescritura DNS (Rewriting)</string>
     <string name="show_doq_dns">Mostrar DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">Esta aplicación es libre. Nada podrá prohibir una aplicación libre.\nLicencia GPL v3 — El código fuente es abierto, toda redistribución debe permanecer open source.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">Libre hoy. Libre mañana. ¡Se puede bloquear un camino, no la libertad!\nEl código fuente es abierto, toda redistribución debe permanecer open source.\nLicencia GPL v3\n\n🙏 Gracias a is.gd (acortador de URL) y tmpfiles.org (alojamiento temporal)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Speedtest Internet</string>

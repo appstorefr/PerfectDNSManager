@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">blockiert ✓</string>
     <string name="share_ip_button">📤 Bericht teilen</string>
     <string name="share_ip_uploading">IPs werden hochgeladen…</string>
-    <string name="share_ip_success_title">IPs geteilt</string>
+    <string name="share_ip_success_title">Verschlüsselter Bericht geteilt</string>
     <string name="share_ip_success_message">Code: %1$s\n\nDer Code wurde in die Zwischenablage kopiert.\n\nLink: %2$s\n(AES-256 verschlüsselte Datei)</string>
     <string name="share_ip_error">Fehler beim Teilen der IPs</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 Ursprüngliche DNS wiederherstellen</string>
     <string name="show_operator_dns">🇫🇷 Franz\u00f6sische Betreiber-DNS anzeigen (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 Klassische DNS anzeigen (unverschl\u00fcsselt)</string>
-    <string name="show_profile_variants">📋 Verschiedene Profile der DNS-Anbieter anzeigen (unfiltered, noads, kids usw.)</string>
-    <string name="dns_dot_adb">📡 DNS DoT über ADB</string>
+    <string name="show_profile_variants">📋 Verschiedene Profile der DNS-Anbieter anzeigen</string>
+    <string name="dns_dot_adb">📡 DNS DoT über ADB anzeigen</string>
     <string name="adb_warning">Die ADB-Methode ändert Systemeinstellungen. Bei Verbindungsproblemen deaktivieren Sie diese Option und verwenden Sie die VPN-Methode.</string>
     <string name="disable_ipv6_label">IPv6 deaktivieren / IPv4 erzwingen</string>
 
@@ -309,7 +309,7 @@
     <string name="update_download_error">Fehler beim Herunterladen</string>
     <string name="update_install_error">Fehler bei der Installation</string>
     <string name="update_dialog_title">Update verfügbar</string>
-    <string name="update_dialog_message">Eine neue Version (v%1$s) ist verfügbar.\nMöchten Sie sie herunterladen und installieren?</string>
+    <string name="update_dialog_message">Eine neue Version (v%1$s — %2$s) ist verfügbar.\nMöchten Sie sie herunterladen und installieren?</string>
     <string name="update_dialog_install">Installieren</string>
     <string name="update_dialog_later">Später</string>
 
@@ -394,7 +394,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS-Umschreibung (Rewriting)</string>
     <string name="show_doq_dns">DNS over QUIC (DoQ) anzeigen</string>
-    <string name="gpl_license_text">Diese Anwendung ist frei. Nichts kann eine freie Anwendung verbieten.\nGPL v3 Lizenz — Der Quellcode ist offen, jede Weiterverteilung muss Open Source bleiben.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">Heute frei. Morgen frei. Man kann eine Straße blockieren, nicht die Freiheit!\nDer Quellcode ist offen, jede Weiterverteilung muss Open Source bleiben.\nGPL v3 Lizenz\n\n🙏 Danke an is.gd (URL-Kürzer) und tmpfiles.org (temporäres Hosting)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Internet Speedtest</string>

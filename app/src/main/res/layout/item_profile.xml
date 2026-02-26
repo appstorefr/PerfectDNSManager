@@ -28,8 +28,10 @@
             android:background="@drawable/focusable_item_background"
             android:focusable="true"
             android:clickable="true"
-            android:paddingVertical="6dp"
-            android:paddingHorizontal="4dp" />
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="2dp" />
 
         <TextView
             android:id="@+id/tvType"
@@ -38,13 +40,14 @@
             android:textSize="12sp"
             android:textColor="#FFFFFF"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="6dp"
+            android:paddingVertical="8dp"
             android:background="@drawable/focusable_item_background"
             android:minWidth="50dp"
             android:gravity="center"
             android:layout_marginStart="12dp"
             android:focusable="true"
-            android:clickable="true" />
+            android:clickable="true"
+            android:elevation="2dp" />
 
     </LinearLayout>
 

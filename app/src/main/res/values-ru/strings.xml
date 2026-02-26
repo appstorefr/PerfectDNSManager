@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">заблокирован ✓</string>
     <string name="share_ip_button">📤 Поделиться отчётом</string>
     <string name="share_ip_uploading">Загрузка IP…</string>
-    <string name="share_ip_success_title">IP отправлены</string>
+    <string name="share_ip_success_title">Зашифрованный отчёт отправлен</string>
     <string name="share_ip_success_message">Код: %1$s\n\nКод скопирован в буфер обмена.\n\nСсылка: %2$s\n(Файл зашифрован AES-256)</string>
     <string name="share_ip_error">Ошибка при отправке IP</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 Восстановить исходные DNS</string>
     <string name="show_operator_dns">🇫🇷 Показать DNS французских операторов (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 Показать классические DNS (нешифрованные)</string>
-    <string name="show_profile_variants">📋 Показать варианты профилей провайдеров DNS (без фильтра, без рекламы, дети и т.д.)</string>
-    <string name="dns_dot_adb">📡 DNS DoT через ADB</string>
+    <string name="show_profile_variants">📋 Показать варианты профилей провайдеров DNS</string>
+    <string name="dns_dot_adb">📡 Показать DNS DoT через ADB</string>
     <string name="adb_warning">Метод ADB изменяет системные настройки. В случае проблем с подключением отключите эту опцию и используйте метод VPN.</string>
     <string name="disable_ipv6_label">Отключить IPv6 / Принудительно IPv4</string>
 
@@ -309,7 +309,7 @@
     <string name="update_download_error">Ошибка скачивания</string>
     <string name="update_install_error">Ошибка установки</string>
     <string name="update_dialog_title">Доступно обновление</string>
-    <string name="update_dialog_message">Доступна новая версия (v%1$s).\nХотите скачать и установить её?</string>
+    <string name="update_dialog_message">Доступна новая версия (v%1$s — %2$s).\nХотите скачать и установить её?</string>
     <string name="update_dialog_install">Установить</string>
     <string name="update_dialog_later">Позже</string>
 
@@ -394,7 +394,7 @@
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Перезапись DNS (Rewriting)</string>
     <string name="show_doq_dns">Показать DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">Это приложение свободное. Ничто не запретит свободное приложение.\nЛицензия GPL v3 — Исходный код открыт, любое распространение должно оставаться open source.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="gpl_license_text">Свободно сегодня. Свободно завтра. Можно заблокировать дорогу, но не свободу!\nИсходный код открыт, любое распространение должно оставаться open source.\nЛицензия GPL v3\n\n🙏 Благодарности is.gd (сокращение URL) и tmpfiles.org (временный хостинг)\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Speedtest интернета</string>
