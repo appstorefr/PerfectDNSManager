@@ -30,23 +30,41 @@
         .lang-bar {
             position: sticky;
             top: 0;
-            z-index: 200;
-            background: rgba(18,18,18,0.95);
-            backdrop-filter: blur(8px);
+            z-index: 999;
+            background: #0d0d0d;
             border-bottom: 1px solid #333;
-            padding: 8px 0;
-            text-align: center;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         .lang-bar a {
-            display: inline-block;
-            font-size: 1.3em;
-            margin: 0 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82em;
+            font-weight: 500;
+            color: var(--text-dim);
+            transition: all 0.2s;
             text-decoration: none;
-            opacity: 0.7;
-            transition: opacity 0.2s, transform 0.2s;
         }
-        .lang-bar a:hover { opacity: 1; transform: scale(1.15); text-decoration: none; }
-        .lang-bar a.active { opacity: 1; }
+        .lang-bar a:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .lang-bar a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .lang-bar .flag {
+            font-size: 1.15em;
+            line-height: 1;
+        }
 
         /* Hero */
         .hero {
@@ -249,18 +267,18 @@
 
 <!-- Language bar -->
 <div class="lang-bar">
-    <a href="fr.html" title="Francais">&#x1F1EB;&#x1F1F7;</a>
-    <a href="en.html" title="English">&#x1F1EC;&#x1F1E7;</a>
-    <a href="es.html" title="Espanol">&#x1F1EA;&#x1F1F8;</a>
-    <a href="ru.html" title="Русский">&#x1F1F7;&#x1F1FA;</a>
-    <a href="zh.html" title="中文" class="active">&#x1F1E8;&#x1F1F3;</a>
-    <a href="ar.html" title="العربية">&#x1F1F8;&#x1F1E6;</a>
-    <a href="it.html" title="Italiano">&#x1F1EE;&#x1F1F9;</a>
-    <a href="pt.html" title="Portugues">&#x1F1E7;&#x1F1F7;</a>
-    <a href="hi.html" title="&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;">&#x1F1EE;&#x1F1F3;</a>
-    <a href="bn.html" title="&#x09AC;&#x09BE;&#x0982;&#x09B2;&#x09BE;">&#x1F1E7;&#x1F1E9;</a>
-    <a href="ja.html" title="&#x65E5;&#x672C;&#x8A9E;">&#x1F1EF;&#x1F1F5;</a>
-    <a href="de.html" title="Deutsch">&#x1F1E9;&#x1F1EA;</a>
+    <a href="fr.html"><span class="flag">&#x1F1EB;&#x1F1F7;</span> FR</a>
+    <a href="en.html"><span class="flag">&#x1F1EC;&#x1F1E7;</span> EN</a>
+    <a href="es.html"><span class="flag">&#x1F1EA;&#x1F1F8;</span> ES</a>
+    <a href="ru.html"><span class="flag">&#x1F1F7;&#x1F1FA;</span> RU</a>
+    <a href="zh.html" class="active"><span class="flag">&#x1F1E8;&#x1F1F3;</span> ZH</a>
+    <a href="ar.html"><span class="flag">&#x1F1F8;&#x1F1E6;</span> AR</a>
+    <a href="it.html"><span class="flag">&#x1F1EE;&#x1F1F9;</span> IT</a>
+    <a href="pt.html"><span class="flag">&#x1F1E7;&#x1F1F7;</span> PT</a>
+    <a href="hi.html"><span class="flag">&#x1F1EE;&#x1F1F3;</span> HI</a>
+    <a href="bn.html"><span class="flag">&#x1F1E7;&#x1F1E9;</span> BN</a>
+    <a href="ja.html"><span class="flag">&#x1F1EF;&#x1F1F5;</span> JA</a>
+    <a href="de.html"><span class="flag">&#x1F1E9;&#x1F1EA;</span> DE</a>
 </div>
 
 <!-- Hero -->
