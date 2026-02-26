@@ -6,6 +6,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import net.appstorefr.perfectdnsmanager.R
@@ -36,6 +37,7 @@ class ProviderAdapter(
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivProviderIcon: ImageView = view.findViewById(R.id.ivProviderIcon)
         val tvProviderName: TextView = view.findViewById(R.id.tvName)
         val tvProfileCount: TextView = view.findViewById(R.id.tvType)
         val tvBestProfile: TextView = view.findViewById(R.id.tvDescription)
@@ -61,6 +63,16 @@ class ProviderAdapter(
         holder.tvProviderName.text = providerName
 
         val firstProfile = profiles.firstOrNull()
+
+        // Provider icon
+        val actualProviderName = providerName.replace(" \u2605", "")
+        val iconRes = DnsProfile.getProviderIcon(actualProviderName)
+        if (iconRes != 0) {
+            holder.ivProviderIcon.setImageResource(iconRes)
+            holder.ivProviderIcon.visibility = View.VISIBLE
+        } else {
+            holder.ivProviderIcon.visibility = View.GONE
+        }
 
         // Compter les types disponibles + nombre de profils (colored)
         val types = profiles.map { it.type }.distinct()

@@ -66,31 +66,6 @@ class DnsSelectionActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
         btnAddProfile.setOnClickListener { showAddProfileDialog() }
         btnSpeedtest.setOnClickListener { runDnsSpeedtest() }
-
-        val btnMoveUp: Button = findViewById(R.id.btnMoveUp)
-        val btnMoveDown: Button = findViewById(R.id.btnMoveDown)
-
-        btnMoveUp.setOnClickListener {
-            val adapter = rvProviders.adapter as? ProviderAdapter ?: return@setOnClickListener
-            val focusedPos = (rvProviders.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition() ?: 0
-            if (focusedPos > 0) {
-                adapter.moveItem(focusedPos, focusedPos - 1)
-                val newOrder = adapter.getProviderNames().map { it.replace(" \u2605", "") }
-                saveProviderOrder(newOrder)
-                rvProviders.scrollToPosition(focusedPos - 1)
-            }
-        }
-
-        btnMoveDown.setOnClickListener {
-            val adapter = rvProviders.adapter as? ProviderAdapter ?: return@setOnClickListener
-            val focusedPos = (rvProviders.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition() ?: 0
-            if (focusedPos < adapter.itemCount - 1) {
-                adapter.moveItem(focusedPos, focusedPos + 1)
-                val newOrder = adapter.getProviderNames().map { it.replace(" \u2605", "") }
-                saveProviderOrder(newOrder)
-                rvProviders.scrollToPosition(focusedPos + 1)
-            }
-        }
     }
 
     override fun onResume() {
