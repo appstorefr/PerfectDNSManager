@@ -80,18 +80,36 @@
     // Check if URL fragment contains auto-decrypt info
     window.addEventListener('DOMContentLoaded', () => {
         let hash = window.location.hash.substring(1);
-        // Decode %7C → | (cut.appstorefr.net encodes the pipe in redirects)
-        hash = decodeURIComponent(hash);
-        if (hash && hash.includes('|')) {
-            autoDecryptFromFragment(hash);
+        if (!hash) return;
+
+        // Try to find the pipe separator (| or %7C)
+        let sep = -1;
+        if (hash.includes('|')) {
+            sep = hash.indexOf('|');
+        } else if (hash.includes('%7C')) {
+            sep = hash.indexOf('%7C');
+        } else if (hash.includes('%7c')) {
+            sep = hash.indexOf('%7c');
+        }
+
+        if (sep > 0) {
+            let fileUrlPart = hash.substring(0, sep);
+            let keyPart = hash.substring(sep);
+            // Remove separator from key
+            if (keyPart.startsWith('%7C') || keyPart.startsWith('%7c')) {
+                keyPart = keyPart.substring(3);
+            } else {
+                keyPart = keyPart.substring(1);
+            }
+            // Decode the file URL part
+            try { fileUrlPart = decodeURIComponent(fileUrlPart); } catch(e) {}
+            autoDecryptFromFragment(fileUrlPart, keyPart);
         }
     });
 
-    async function autoDecryptFromFragment(hash) {
-        const parts = hash.split('|');
-        if (parts.length < 2) return;
-        currentFileUrl = decodeURIComponent(parts[0]);
-        currentKey = parts[1];
+    async function autoDecryptFromFragment(fileUrl, key) {
+        currentFileUrl = fileUrl;
+        currentKey = key;
         setStatus('info', 'Downloading and decrypting...');
 
         // Try multiple methods to fetch the encrypted data
