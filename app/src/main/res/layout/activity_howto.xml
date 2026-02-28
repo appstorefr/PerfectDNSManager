@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/default_background"
+    android:background="#1E1E1E"
     android:padding="32dp">
 
     <LinearLayout
@@ -221,6 +221,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:minHeight="48dp"
             android:backgroundTint="#444444"
             android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"

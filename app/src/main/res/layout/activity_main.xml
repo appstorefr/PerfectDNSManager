@@ -17,16 +17,17 @@
         <Button
             android:id="@+id/btnLanguage"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="52dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="@drawable/focusable_item_background"
+            android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:textAllCaps="false"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:minWidth="48dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:minWidth="56dp"
             android:focusable="true"
             android:nextFocusRight="@id/btnSettings"
             android:nextFocusDown="@id/layoutSelectDns" />
@@ -41,7 +42,7 @@
             android:gravity="center"
             android:text="@string/dns_switcher"
             android:textSize="16sp"
-            android:textColor="#FFFFFF"
+            android:textColor="#D4A017"
             android:fontFamily="sans-serif-medium"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
@@ -53,6 +54,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@drawable/focusable_item_background"
+            android:foreground="@drawable/btn_focus_foreground"
             android:src="@drawable/ic_settings"
             android:scaleType="centerInside"
             android:padding="8dp"
@@ -82,6 +84,7 @@
         android:paddingEnd="16dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/focusable_item_background"
+        android:foreground="@drawable/btn_focus_foreground"
         android:focusable="true"
         android:clickable="true"
         android:nextFocusUp="@id/btnLanguage"
@@ -103,7 +106,7 @@
             android:layout_weight="1"
             android:text="@string/dns_select_button"
             android:textSize="13sp"
-            android:textColor="#FFFFFF"
+            android:textColor="#2E7D32"
             android:gravity="center"
             android:textAllCaps="false" />
     </LinearLayout>
@@ -127,23 +130,42 @@
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_activate_background"
+        android:foreground="@drawable/btn_focus_foreground"
         android:focusable="true"
         android:layout_marginBottom="4dp"
         android:nextFocusUp="@id/layoutSelectDns"
-        android:nextFocusDown="@id/btnGenerateReport" />
+        android:nextFocusDown="@id/swToolsToggle" />
 
-    <!-- 3| Outils de test -->
-    <TextView
-        android:id="@+id/tvToolsLabel"
+    <!-- 3| Outils de test + toggle -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tools_section_label"
-        android:textSize="13sp"
-        android:textColor="#CCCCCC"
-        android:layout_marginBottom="3dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvToolsLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tools_section_label"
+            android:textSize="13sp"
+            android:textColor="#CCCCCC" />
+
+        <Switch
+            android:id="@+id/swToolsToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:background="@drawable/focusable_item_background"
+            android:nextFocusUp="@id/btnToggle"
+            android:nextFocusDown="@id/btnDomainTester" />
+    </LinearLayout>
 
     <!-- Module outils -->
     <LinearLayout
+        android:id="@+id/layoutToolsPanel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -151,23 +173,7 @@
         android:background="#12FFFFFF"
         android:padding="8dp">
 
-        <!-- DNS actif (bandeau statut) -->
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_active_dns"
-            android:textSize="13sp"
-            android:textColor="#FF5555"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:padding="6dp"
-            android:background="@drawable/focusable_item_background"
-            android:focusable="true"
-            android:nextFocusUp="@id/btnToggle"
-            android:nextFocusDown="@id/btnGenerateReport" />
-
-        <!-- Boutons Generer / Partager cote a cote -->
+        <!-- Boutons Testeur domaine + Générer rapport côte à côte -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -175,11 +181,28 @@
             android:layout_marginTop="4dp">
 
             <Button
-                android:id="@+id/btnGenerateReport"
+                android:id="@+id/btnDomainTester"
                 android:layout_width="0dp"
                 android:layout_height="34dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="4dp"
+                android:text="@string/quick_dns_test_button"
+                android:textSize="11sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#0D47A1"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:focusable="true"
+                android:textAllCaps="false"
+                android:nextFocusUp="@id/btnToggle"
+                android:nextFocusRight="@id/btnGenerateReport"
+                android:nextFocusDown="@id/btnSpeedtest" />
+
+            <Button
+                android:id="@+id/btnGenerateReport"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
                 android:text="@string/generate_report_button"
                 android:textSize="11sp"
                 android:textColor="#FFFFFF"
@@ -187,9 +210,34 @@
                 android:foreground="@drawable/btn_focus_foreground"
                 android:focusable="true"
                 android:textAllCaps="false"
-                android:nextFocusUp="@id/tvStatus"
+                android:nextFocusUp="@id/btnToggle"
+                android:nextFocusLeft="@id/btnDomainTester"
+                android:nextFocusDown="@id/btnShareReport" />
+        </LinearLayout>
+
+        <!-- Boutons Speedtest + Partager cote a cote -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <Button
+                android:id="@+id/btnSpeedtest"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="@string/internet_speedtest_advanced"
+                android:textSize="11sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF6F00"
+                android:foreground="@drawable/btn_focus_foreground"
+                android:focusable="true"
+                android:textAllCaps="false"
+                android:nextFocusUp="@id/btnDomainTester"
                 android:nextFocusRight="@id/btnShareReport"
-                android:nextFocusDown="@id/scrollReport" />
+                android:nextFocusDown="@id/scrollStatus" />
 
             <Button
                 android:id="@+id/btnShareReport"
@@ -204,36 +252,68 @@
                 android:foreground="@drawable/btn_focus_foreground"
                 android:focusable="true"
                 android:textAllCaps="false"
-                android:nextFocusUp="@id/tvStatus"
-                android:nextFocusLeft="@id/btnGenerateReport"
+                android:nextFocusUp="@id/btnGenerateReport"
+                android:nextFocusLeft="@id/btnSpeedtest"
                 android:nextFocusDown="@id/scrollReport" />
         </LinearLayout>
 
-        <!-- Zone resultats (scrollable) -->
-        <ScrollView
-            android:id="@+id/scrollReport"
+        <!-- Zone résultats split en 2 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:orientation="horizontal"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:fillViewport="true"
-            android:background="#121212"
-            android:foreground="@drawable/btn_focus_foreground"
-            android:focusable="true"
-            android:nextFocusUp="@id/btnGenerateReport">
+            android:layout_marginBottom="4dp">
 
-            <TextView
-                android:id="@+id/tvReportContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/no_report_yet"
-                android:textSize="11sp"
-                android:textColor="#AAAAAA"
-                android:fontFamily="monospace"
-                android:lineSpacingExtra="2dp"
-                android:padding="6dp" />
-        </ScrollView>
+            <!-- Left: Status info (DNS actif, IP, etc.) -->
+            <ScrollView
+                android:id="@+id/scrollStatus"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="2dp"
+                android:fillViewport="true"
+                android:background="@drawable/focusable_item_background"
+                android:focusable="true"
+                android:nextFocusUp="@id/btnSpeedtest"
+                android:nextFocusRight="@id/scrollReport">
+                <TextView
+                    android:id="@+id/tvStatusInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_active_dns"
+                    android:textSize="11sp"
+                    android:textColor="#AAAAAA"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="2dp"
+                    android:padding="6dp" />
+            </ScrollView>
+
+            <!-- Right: Report -->
+            <ScrollView
+                android:id="@+id/scrollReport"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp"
+                android:fillViewport="true"
+                android:background="@drawable/focusable_item_background"
+                android:focusable="true"
+                android:nextFocusUp="@id/btnShareReport"
+                android:nextFocusLeft="@id/scrollStatus">
+                <TextView
+                    android:id="@+id/tvReportContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_report_yet"
+                    android:textSize="11sp"
+                    android:textColor="#AAAAAA"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="2dp"
+                    android:padding="6dp" />
+            </ScrollView>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

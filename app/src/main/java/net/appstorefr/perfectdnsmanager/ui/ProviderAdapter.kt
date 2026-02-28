@@ -1,5 +1,8 @@
 package net.appstorefr.perfectdnsmanager.ui
 
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.appstorefr.perfectdnsmanager.R
 import net.appstorefr.perfectdnsmanager.data.DnsProfile
 import net.appstorefr.perfectdnsmanager.data.DnsType
+import net.appstorefr.perfectdnsmanager.util.DnsColors
 
 class ProviderAdapter(
     private val grouped: Map<String, List<DnsProfile>>,
@@ -19,9 +23,10 @@ class ProviderAdapter(
     private val providers = grouped.keys.toList()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val layoutProviderButton: View = view.findViewById(R.id.layoutProviderButton)
         val ivProviderIcon: ImageView = view.findViewById(R.id.ivProviderIcon)
         val tvProviderName: TextView = view.findViewById(R.id.tvName)
-        val tvProfileCount: TextView = view.findViewById(R.id.tvType)
+        val tvType: TextView = view.findViewById(R.id.tvType)
         val tvBestProfile: TextView = view.findViewById(R.id.tvDescription)
         val layoutRatings: View = view.findViewById(R.id.layoutRatings)
         val tvSpeedLabel: TextView = view.findViewById(R.id.tvSpeedLabel)
@@ -33,7 +38,7 @@ class ProviderAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_profile, parent, false)
-        view.isFocusable = true
+        view.isFocusable = false
         return ViewHolder(view)
     }
 
@@ -43,40 +48,39 @@ class ProviderAdapter(
 
         holder.tvProviderName.text = providerName
 
-        // Icône du fournisseur (basée sur le premier profil du groupe)
         val firstProfile = profiles.firstOrNull()
-        val iconRes = if (firstProfile != null) {
-            DnsProfile.getProviderIcon(firstProfile.providerName)
+
+        // Provider icon
+        val actualProviderName = providerName.replace(" \u2605", "")
+        val iconRes = DnsProfile.getProviderIcon(actualProviderName)
+        if (iconRes != 0) {
+            holder.ivProviderIcon.setImageResource(iconRes)
+            holder.ivProviderIcon.visibility = View.VISIBLE
         } else {
-            DnsProfile.getProviderIcon(providerName)
+            holder.ivProviderIcon.visibility = View.GONE
         }
-        holder.ivProviderIcon.setImageResource(iconRes)
 
-        // Compter les types disponibles + nombre de profils
+        // Green button: 2 lines — profile count + colored type labels
         val types = profiles.map { it.type }.distinct()
-        val typeStr = types.joinToString(" · ") {
-            when (it) {
-                DnsType.DOH -> "DoH"
-                DnsType.DOT -> "DoT"
-                DnsType.DOQ -> "DoQ"
-                DnsType.DEFAULT -> "Standard"
-            }
-        }
         val count = profiles.size
-        holder.tvProfileCount.text = if (count > 1) "$count profils · $typeStr" else typeStr
-
-        // Afficher le meilleur profil (DoQ > DoH > DoT > Standard)
-        val best = profiles.minByOrNull {
-            when (it.type) {
-                DnsType.DOQ -> 0
-                DnsType.DOH -> 1
-                DnsType.DOT -> 2
-                DnsType.DEFAULT -> 3
+        val countLine = "$count profil${if (count > 1) "s" else ""}\n"
+        val typeParts = types.map { DnsColors.labelForType(it) to DnsColors.colorForType(it) }
+        val typesStr = typeParts.joinToString(" · ") { it.first }
+        val fullText = "$countLine$typesStr"
+        val spannable = SpannableString(fullText)
+        var searchFrom = countLine.length
+        for ((label, color) in typeParts) {
+            val idx = fullText.indexOf(label, searchFrom)
+            if (idx >= 0) {
+                spannable.setSpan(ForegroundColorSpan(color), idx, idx + label.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                searchFrom = idx + label.length
             }
         }
-        holder.tvBestProfile.text = best?.let { "${it.primary}" } ?: ""
+        holder.tvType.text = spannable
 
-        // Étoiles vitesse/vie privée
+        holder.tvBestProfile.visibility = View.GONE
+
+        // Ratings: 2 lines (speed + privacy)
         val actualProvider = firstProfile?.providerName ?: providerName
         val rating = DnsProfile.providerRatings[actualProvider]
         if (rating != null && firstProfile?.isOperatorDns != true && firstProfile?.isCustom != true) {
@@ -90,13 +94,14 @@ class ProviderAdapter(
             holder.layoutRatings.visibility = View.GONE
         }
 
-        holder.itemView.setOnClickListener {
+        // Blue button (icon + name) click -> quick connect (best profile)
+        holder.layoutProviderButton.setOnClickListener {
             onProviderClick(providerName, profiles)
         }
 
-        holder.itemView.setOnLongClickListener {
+        // Green button (types) click -> open provider detail page
+        holder.tvType.setOnClickListener {
             onProviderLongClick?.invoke(providerName, profiles)
-            onProviderLongClick != null
         }
     }
 

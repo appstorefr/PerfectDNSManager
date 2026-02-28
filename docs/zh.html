@@ -30,27 +30,45 @@
         .lang-bar {
             position: sticky;
             top: 0;
-            z-index: 200;
-            background: rgba(18,18,18,0.95);
-            backdrop-filter: blur(8px);
+            z-index: 999;
+            background: #0d0d0d;
             border-bottom: 1px solid #333;
-            padding: 8px 0;
-            text-align: center;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         .lang-bar a {
-            display: inline-block;
-            font-size: 1.3em;
-            margin: 0 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82em;
+            font-weight: 500;
+            color: var(--text-dim);
+            transition: all 0.2s;
             text-decoration: none;
-            opacity: 0.7;
-            transition: opacity 0.2s, transform 0.2s;
         }
-        .lang-bar a:hover { opacity: 1; transform: scale(1.15); text-decoration: none; }
-        .lang-bar a.active { opacity: 1; }
+        .lang-bar a:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .lang-bar a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .lang-bar .flag {
+            font-size: 1.15em;
+            line-height: 1;
+        }
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            background: var(--bg);
             padding: 60px 20px;
             text-align: center;
         }
@@ -249,18 +267,18 @@
 
 <!-- Language bar -->
 <div class="lang-bar">
-    <a href="fr.html" title="Francais">&#x1F1EB;&#x1F1F7;</a>
-    <a href="en.html" title="English">&#x1F1EC;&#x1F1E7;</a>
-    <a href="es.html" title="Espanol">&#x1F1EA;&#x1F1F8;</a>
-    <a href="ru.html" title="Русский">&#x1F1F7;&#x1F1FA;</a>
-    <a href="zh.html" title="中文" class="active">&#x1F1E8;&#x1F1F3;</a>
-    <a href="ar.html" title="العربية">&#x1F1F8;&#x1F1E6;</a>
-    <a href="it.html" title="Italiano">&#x1F1EE;&#x1F1F9;</a>
-    <a href="pt.html" title="Portugues">&#x1F1E7;&#x1F1F7;</a>
-    <a href="hi.html" title="&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;">&#x1F1EE;&#x1F1F3;</a>
-    <a href="bn.html" title="&#x09AC;&#x09BE;&#x0982;&#x09B2;&#x09BE;">&#x1F1E7;&#x1F1E9;</a>
-    <a href="ja.html" title="&#x65E5;&#x672C;&#x8A9E;">&#x1F1EF;&#x1F1F5;</a>
-    <a href="de.html" title="Deutsch">&#x1F1E9;&#x1F1EA;</a>
+    <a href="fr.html"><span class="flag">&#x1F1EB;&#x1F1F7;</span> FR</a>
+    <a href="en.html"><span class="flag">&#x1F1EC;&#x1F1E7;</span> EN</a>
+    <a href="es.html"><span class="flag">&#x1F1EA;&#x1F1F8;</span> ES</a>
+    <a href="ru.html"><span class="flag">&#x1F1F7;&#x1F1FA;</span> RU</a>
+    <a href="zh.html" class="active"><span class="flag">&#x1F1E8;&#x1F1F3;</span> ZH</a>
+    <a href="ar.html"><span class="flag">&#x1F1F8;&#x1F1E6;</span> AR</a>
+    <a href="it.html"><span class="flag">&#x1F1EE;&#x1F1F9;</span> IT</a>
+    <a href="pt.html"><span class="flag">&#x1F1E7;&#x1F1F7;</span> PT</a>
+    <a href="hi.html"><span class="flag">&#x1F1EE;&#x1F1F3;</span> HI</a>
+    <a href="bn.html"><span class="flag">&#x1F1E7;&#x1F1E9;</span> BN</a>
+    <a href="ja.html"><span class="flag">&#x1F1EF;&#x1F1F5;</span> JA</a>
+    <a href="de.html"><span class="flag">&#x1F1E9;&#x1F1EA;</span> DE</a>
 </div>
 
 <!-- Hero -->
@@ -270,7 +288,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">一键更改 DNS。隐私、性能、自由。</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.67 &mdash; Build 67</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.80 &mdash; Build 80</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         ⬇️ 下载 APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -282,9 +300,9 @@
         <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
     </div>
 
-    <!-- IP Lookup link -->
+    <!-- Protected Report link -->
     <div style="margin-top: 24px;">
-        <a href="ip.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F310; 获取共享 IP 报告 &rarr;</a>
+        <a href="decrypt.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F512; 受保护的报告 &rarr;</a>
     </div>
 </div>
 
@@ -319,8 +337,8 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div class="icon">&#x1F310;</div>
-                <h3>DNS DoH / DoT / 标准</h3>
-                <p>支持 DNS over HTTPS（本地 VPN）、DNS over TLS（ADB/Shizuku）和经典 UDP DNS。</p>
+                <h3>DNS DoH / DoQ / DoT / &#x6807;&#x51C6;</h3>
+                <p>&#x652F;&#x6301; DNS over HTTPS&#x3001;DNS over QUIC (DoQ)&#xFF08;&#x672C;&#x5730; VPN&#xFF09;&#x3001;DNS over TLS&#xFF08;ADB/Shizuku&#xFF09;&#x548C;&#x7ECF;&#x5178; UDP DNS&#x3002;</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x26A1;</div>
@@ -332,11 +350,7 @@
                 <h3>DNS 速度测试</h3>
                 <p>测试所有 DNS 提供商的延迟，找到最适合您的最快服务器。</p>
             </div>
-            <div class="feature-card">
-                <div class="icon">&#x2B50;</div>
-                <h3>收藏夹和默认 DNS</h3>
-                <p>使用收藏夹整理您喜爱的 DNS 服务器，并设置默认 DNS。</p>
-            </div>
+
             <div class="feature-card">
                 <div class="icon">&#x1F500;</div>
                 <h3>URL 重写</h3>
@@ -350,7 +364,7 @@
             <div class="feature-card">
                 <div class="icon">&#x1F4BE;</div>
                 <h3>导入 / 导出</h3>
-                <p>保存和恢复完整配置。支持精细导出，可选择导出内容。</p>
+                <p>&#x4FDD;&#x5B58;&#x548C;&#x6062;&#x590D;&#x914D;&#x7F6E;&#x3002;&#x7AEF;&#x5230;&#x7AEF;&#x52A0;&#x5BC6;&#x5BFC;&#x51FA;&#x548C;&#x5BFC;&#x5165; (AES-256-GCM)&#x3002;</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F4E1;</div>
@@ -372,6 +386,11 @@
                 <h3>Split Tunneling</h3>
                 <p>&#x5C06;&#x7279;&#x5B9A;&#x5E94;&#x7528;&#x6392;&#x9664;&#x5728; DNS VPN &#x4E4B;&#x5916;&#x3002;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x517C;&#x5BB9;&#x7684;&#x5E94;&#x7528;&#x3002;</p>
             </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F50D;</div>
+                <h3>&#x5FEB;&#x901F; DNS &#x6D4B;&#x8BD5;</h3>
+                <p>&#x4E00;&#x952E; DNS &#x6CC4;&#x6F0F;&#x6D4B;&#x8BD5;&#x548C;&#x57DF;&#x540D;&#x6D4B;&#x8BD5;&#x3002;&#x5B9E;&#x65F6;&#x9A8C;&#x8BC1;&#x60A8;&#x7684;&#x4FDD;&#x62A4;&#x3002;</p>
+            </div>
         </div>
     </div>
 </section>
@@ -379,8 +398,8 @@
 <!-- DNS Providers -->
 <section style="background: var(--surface);">
     <div class="container">
-        <h2>内置 DNS 提供商</h2>
-        <p style="color: var(--text-dim); margin-bottom: 16px;">超过 15 个预配置的 DNS 提供商，含速度和隐私评级：</p>
+        <h2><a href="dns-providers.html" style="color: inherit; text-decoration: none;">&#x5185;&#x7F6E; DNS &#x63D0;&#x4F9B;&#x5546; &#x2192;</a></h2>
+        <p style="color: var(--text-dim); margin-bottom: 16px;">&#x8D85;&#x8FC7; 15 &#x4E2A;&#x9884;&#x914D;&#x7F6E;&#x7684; DNS &#x63D0;&#x4F9B;&#x5546;&#xFF0C;&#x542B;&#x901F;&#x5EA6;&#x548C;&#x9690;&#x79C1;&#x8BC4;&#x7EA7;&#xFF1A;</p>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
             <span class="badge">AdGuard</span>
             <span class="badge">Cloudflare</span>
@@ -393,7 +412,7 @@
             <span class="badge">Surfshark</span>
             <span class="badge">FDN</span>
             <span class="badge">Yandex</span>
-            <span class="badge">+ 自定义配置</span>
+            <span class="badge">+ &#x81EA;&#x5B9A;&#x4E49;&#x914D;&#x7F6E;</span>
         </div>
     </div>
 </section>
@@ -401,18 +420,99 @@
 <!-- Changelog -->
 <section id="changelog">
     <div class="container">
-        <h2>最近更新</h2>
+        <h2>&#x6700;&#x8FD1;&#x66F4;&#x65B0;</h2>
+
+        <details><summary>&#x663E;&#x793A; / &#x9690;&#x85CF;&#x66F4;&#x65B0;&#x65E5;&#x5FD7;</summary>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.80</span>
+            <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>
+            <ul>
+                <li><strong>v1.0.80</strong> — 多后端网速测试（Cloudflare、Ookla、Fast.com），DoQ颜色修正，返回按钮放大，鸣谢重组，切换按钮颜色改进</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.73</span>
+            <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>
+            <ul>
+                <li>&#x65B0;&#x8D5B;&#x535A;&#x670B;&#x514B; PDM &#x6807;&#x5FD7;(&#x9713;&#x8679;&#x706F; P/D/M &#x5B57;&#x6BCD;&#x5E26; ON/OFF &#x5F00;&#x5173;)</li>
+                <li>&#x539F;&#x751F;&#x9AD8;&#x7EA7;&#x6D4B;&#x901F;(LibreSpeed &#x534F;&#x8BAE;&#xFF0C;&#x591A;&#x670D;&#x52A1;&#x5668;)</li>
+                <li>&#x62A5;&#x544A;&#x652F;&#x6301; DoT(&#x79C1;&#x6709; DNS)&#xFF0C;&#x4E0D;&#x518D;&#x4EC5;&#x9650; VPN</li>
+                <li>NextDNS &#x81EA;&#x5B9A;&#x4E49;&#x914D;&#x7F6E;&#xFF1A;&#x65B0;&#x589E;&#x7ECF;&#x5178; DNS &#x9009;&#x9879;</li>
+                <li>&#x534F;&#x8BAE;&#x989C;&#x8272;: <span style="color:#44FF44">&#x25CF;</span> DoH &#x7EFF;&#x8272;, <span style="color:#7B68EE">&#x25CF;</span> DoQ &#x84DD;&#x8272;, <span style="color:#FFB700">&#x25CF;</span> DoT &#x91D1;&#x8272;, <span style="color:#888888">&#x25CF;</span> &#x6807;&#x51C6;&#x7070;&#x8272;</li>
+                <li>&#x4E3B;&#x9875;&#x6C38;&#x4E45;&#x7F51;&#x7EDC;&#x9762;&#x677F;</li>
+                <li>&#x57DF;&#x540D;&#x6D4B;&#x8BD5;&#x5668;&#xFF1A;&#x65E0;&#x9700; VPN &#x5373;&#x53EF;&#x5DE5;&#x4F5C;&#xFF0C;DNS &#x72B6;&#x6001;&#x6307;&#x793A;&#x5668;</li>
+                <li>Android TV &#x9065;&#x63A7;&#x5668;&#x7126;&#x70B9;&#x4FEE;&#x590D;</li>
+            </ul>
+        </div>
+            <span class="ver">v1.0.72</span>
+            <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>
+            <ul>
+                <li>&#x66F4;&#x65B0;&#x4F9B;&#x5E94;&#x5546;&#x661F;&#x7EA7;&#x8BC4;&#x5206;&#xFF08;&#x901F;&#x5EA6;&#x548C;&#x53CD;&#x5BA1;&#x67E5;&#xFF09;</li>
+                <li>DNS Speedtest &#x91CD;&#x65B0;&#x8BBE;&#x8BA1;&#xFF1A;&#x53EF;&#x5C55;&#x5F00;&#x7684;&#x4F9B;&#x5E94;&#x5546;&#xFF0C;&#x6309;&#x7C7B;&#x578B;&#x663E;&#x793A;&#x7ED3;&#x679C;</li>
+                <li>&#x4E3B;&#x9875;&#xFF1A;&#x57DF;&#x540D;&#x6D4B;&#x8BD5; + &#x7F51;&#x7EDC;&#x6D4B;&#x901F;&#x5E76;&#x6392;&#xFF0C;&#x63A7;&#x5236;&#x53F0;&#x4E00;&#x5206;&#x4E3A;&#x4E8C;</li>
+                <li>&#x65B0;&#x589E;&#x7F51;&#x7EDC;&#x6D4B;&#x901F;&#x9875;&#x9762;&#xFF08;LibreSpeed WebView&#xFF09;</li>
+                <li>DNS &#x9009;&#x62E9;&#xFF1A;&#x62D6;&#x62FD;&#x6392;&#x5E8F;&#xFF0C;&#x7EFF;&#x8272;&#x5FBD;&#x7AE0;&#x6253;&#x5F00;&#x4F9B;&#x5E94;&#x5546;&#x8BE6;&#x60C5;</li>
+                <li>&#x4F9B;&#x5E94;&#x5546;&#x8BE6;&#x60C5;&#xFF1A;&#x7126;&#x70B9;&#x4FEE;&#x590D;&#xFF0C;&#x957F;&#x6309;&#x7F16;&#x8F91;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</li>
+                <li>&#x8BBE;&#x7F6E;&#xFF1A;DoQ &#x56FE;&#x6807;&#xFF0C;&#x5BFC;&#x5165;&#x63D0;&#x793A;&#x6539;&#x4E3A;6&#x4F4D;&#xFF0C;&#x652F;&#x6301;&#x6309;&#x94AE;&#x9EC4;&#x8272;</li>
+                <li>&#x66F4;&#x65B0;&#x65E5;&#x5FD7;&#x9ED8;&#x8BA4;&#x6298;&#x53E0;&#xFF0C;&#x6536;&#x85CF;&#x529F;&#x80FD;&#x5DF2;&#x79FB;&#x9664;</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.71</span>
+            <span class="date">2026&#x5E74;2&#x6708;26&#x65E5;</span>
+            <ul>
+                <li>&#x4E13;&#x7528;&#x57DF;&#x540D;&#x6D4B;&#x8BD5;&#x5668;</li>
+                <li>&#x5207;&#x6362;&#x65F6;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x62A5;&#x544A;</li>
+                <li>&#x81EA;&#x52A8;&#x663E;&#x793A; IP</li>
+                <li>&#x52A0;&#x5BC6;&#x5BFC;&#x51FA;/&#x5BFC;&#x5165;&#x5DF2;&#x6F84;&#x6E05;</li>
+                <li>&#x79FB;&#x9664; AI &#x5B66;&#x5206;</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.70</span>
+            <span class="date">2026&#x5E74;2&#x6708;25&#x65E5;</span>
+            <ul>
+                <li>&#x5B8C;&#x5168;&#x91CD;&#x7F6E;&#x6309;&#x94AE;</li>
+                <li>&#x9AD8;&#x7EA7;&#x8BBE;&#x7F6E;&#x4E2D;&#x7684; DoQ &#x5F00;&#x5173;</li>
+                <li>&#x7F51;&#x7EDC;&#x4FE1;&#x606F;&#x4E2D;&#x663E;&#x793A;&#x8FD0;&#x8425;&#x5546;</li>
+                <li>&#x4FEE;&#x590D; DNS/&#x6CC4;&#x6F0F;&#x62A5;&#x544A;</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.69</span>
+            <span class="date">2026&#x5E74;2&#x6708;</span>
+            <ul>
+                <li>DoH &#x73B0;&#x4E3A;&#x9ED8;&#x8BA4;&#x4F18;&#x5148;&#xFF08;&#x66F4;&#x597D;&#x7684;&#x7F51;&#x7EDC;&#x517C;&#x5BB9;&#x6027;&#xFF09;</li>
+                <li>&#x65B0;&#x589E; &laquo; &#x5FEB;&#x901F; DNS &#x6D4B;&#x8BD5; &raquo; &#x6309;&#x94AE;&#xFF08;DNS &#x6CC4;&#x6F0F; + &#x57DF;&#x540D;&#xFF09;</li>
+                <li>&#x7B80;&#x5316;&#x5BFC;&#x5165;/&#x5BFC;&#x51FA;&#xFF1A;&#x4EC5;&#x52A0;&#x5BC6;&#x4EE3;&#x7801;</li>
+                <li>&#x4FEE;&#x590D;&#x914D;&#x7F6E;&#x5BFC;&#x51FA;&#x4E2D;&#x663E;&#x793A;&#x7684;&#x7248;&#x672C;</li>
+                <li>&#x62A5;&#x544A;&#x89E3;&#x5BC6;&#xFF1A;&#x6539;&#x8FDB;&#x7684; CORS &#x4EE3;&#x7406;&#x56DE;&#x9000;</li>
+                <li>&#x5728;&#x652F;&#x6301;&#x9875;&#x9762;&#x6DFB;&#x52A0; XMR &#x548C; BTC Lightning</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.68</span>
+            <span class="date">2026&#x5E74;2&#x6708;</span>
+            <ul>
+                <li>&#x754C;&#x9762;&#x9519;&#x8BEF;&#x4FEE;&#x590D;</li>
+                <li>&#x6574;&#x4F53;&#x7A33;&#x5B9A;&#x6027;&#x6539;&#x8FDB;</li>
+            </ul>
+        </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.67</span>
-            <span class="date">2026</span>
+            <span class="date">2026&#x5E74;2&#x6708;</span>
             <ul>
-                <li>DNS provider detail page redesigned: expandable categories</li>
-                <li>Custom NextDNS profiles from detail page</li>
-                <li>Dedicated crypto support page</li>
-                <li>DNS speedtest UI fixes</li>
-                <li>GPL v3 license on homepage</li>
-                <li style="color: #FF9800;">Known bug: some minor UI glitches</li>
+                <li>DNS &#x63D0;&#x4F9B;&#x5546;&#x8BE6;&#x60C5;&#x9875;&#x91CD;&#x65B0;&#x8BBE;&#x8BA1;&#xFF1A;&#x6309;&#x7C7B;&#x578B;&#x53EF;&#x5C55;&#x5F00;&#x7684;&#x5206;&#x7C7B;</li>
+                <li>&#x4ECE;&#x8BE6;&#x60C5;&#x9875;&#x6DFB;&#x52A0;&#x81EA;&#x5B9A;&#x4E49; NextDNS &#x914D;&#x7F6E;</li>
+                <li>&#x4E13;&#x7528;&#x52A0;&#x5BC6;&#x8D27;&#x5E01;&#x652F;&#x6301;&#x9875;&#x9762;</li>
+                <li>DNS &#x6D4B;&#x901F; UI &#x4FEE;&#x590D;</li>
+                <li>&#x4E3B;&#x9875;&#x6DFB;&#x52A0; GPL v3 &#x8BB8;&#x53EF;&#x8BC1;</li>
+                <li>&#x4EE3;&#x7801;&#x6E05;&#x7406;&#x548C;&#x5220;&#x9664;&#x6B7B;&#x4EE3;&#x7801;</li>
             </ul>
         </div>
 
@@ -547,10 +647,12 @@
             <span class="date">2026年2月</span>
             <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.3 MB</span>
             <ul>
-                <li>集成Shizuku，无需电脑即可修改Private DNS</li>
-                <li>改进无线ADB支持</li>
+                <li>&#x96C6;&#x6210;Shizuku&#xFF0C;&#x65E0;&#x9700;&#x7535;&#x8111;&#x5373;&#x53EF;&#x4FEE;&#x6539;Private DNS</li>
+                <li>&#x6539;&#x8FDB;&#x65E0;&#x7EBF;ADB&#x652F;&#x6301;</li>
             </ul>
         </div>
+
+        </details>
     </div>
 </section>
 
@@ -603,7 +705,6 @@
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR — 用 &#x2764;&#xFE0F; 为社区打造</p>
-    <p style="margin-top: 6px;">AI：Claude Opus 4.6 (Anthropic)</p>
 </footer>
 
 

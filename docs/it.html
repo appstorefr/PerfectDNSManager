@@ -68,7 +68,7 @@
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            background: var(--bg);
             padding: 60px 20px;
             text-align: center;
         }
@@ -290,7 +290,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">Cambia i tuoi DNS in un clic. Privacy, prestazioni, libert&agrave;.</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.67 &mdash; Build 67</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.80 &mdash; Build 80</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         &#x2B07;&#xFE0F; Scarica APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -302,9 +302,9 @@
         <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
     </div>
 
-    <!-- IP Lookup link -->
+    <!-- Protected Report link -->
     <div style="margin-top: 24px;">
-        <a href="ip.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F310; Recupera un rapporto IP condiviso &rarr;</a>
+        <a href="decrypt.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F512; Rapporto protetto &rarr;</a>
     </div>
 </div>
 
@@ -339,8 +339,8 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div class="icon">&#x1F310;</div>
-                <h3>DNS DoH / DoT / Standard</h3>
-                <p>Supporta DNS over HTTPS (VPN locale), DNS over TLS (ADB/Shizuku) e DNS classico UDP.</p>
+                <h3>DNS DoH / DoQ / DoT / Standard</h3>
+                <p>Supporta DNS over HTTPS, DNS over QUIC (DoQ), DNS over TLS (ADB/Shizuku) e DNS classico UDP.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x26A1;</div>
@@ -352,11 +352,7 @@
                 <h3>DNS Speedtest</h3>
                 <p>Testa la latenza di tutti i tuoi provider DNS e trova il pi&ugrave; veloce per te.</p>
             </div>
-            <div class="feature-card">
-                <div class="icon">&#x2B50;</div>
-                <h3>Preferiti e DNS predefinito</h3>
-                <p>Organizza i tuoi server DNS preferiti con i preferiti e imposta un DNS predefinito.</p>
-            </div>
+
             <div class="feature-card">
                 <div class="icon">&#x1F500;</div>
                 <h3>URL Rewrite</h3>
@@ -370,7 +366,7 @@
             <div class="feature-card">
                 <div class="icon">&#x1F4BE;</div>
                 <h3>Importa / Esporta</h3>
-                <p>Salva e ripristina la tua configurazione completa. Esportazione granulare con scelta degli elementi.</p>
+                <p>Salva e ripristina la tua configurazione. Esportazione e importazione crittografate end-to-end (AES-256-GCM).</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F4E1;</div>
@@ -392,6 +388,11 @@
                 <h3>Split Tunneling</h3>
                 <p>Escludi alcune app dal VPN DNS. Utile per le app incompatibili.</p>
             </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F50D;</div>
+                <h3>Test DNS rapido</h3>
+                <p>Test di perdita DNS e test dei nomi di dominio in un clic. Verifica la tua protezione in tempo reale.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -399,7 +400,7 @@
 <!-- Built-in DNS Providers -->
 <section style="background: var(--surface);">
     <div class="container">
-        <h2>Provider DNS inclusi</h2>
+        <h2><a href="dns-providers.html" style="color: inherit; text-decoration: none;">Provider DNS inclusi &#x2192;</a></h2>
         <p style="color: var(--text-dim); margin-bottom: 16px;">Pi&ugrave; di 15 provider DNS preconfigurati, con classifica velocit&agrave; e privacy:</p>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
             <span class="badge">AdGuard</span>
@@ -423,6 +424,90 @@
     <div class="container">
         <h2>Ultimi aggiornamenti</h2>
 
+        <details><summary>Mostra / Nascondi changelog</summary>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.80</span>
+            <span class="date">26 febbraio 2026</span>
+            <ul>
+                <li>Speedtest Internet multi-backend (Cloudflare, Ookla, Fast.com)</li>
+                <li>Colori DoQ corretti (blu-viola), pulsanti indietro ingranditi</li>
+                <li>Crediti riorganizzati, colori pulsante attiva/disattiva migliorati</li>
+                <li>Selezione DNS: pulsanti blu (connessione) e verde (dettagli) con icone</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.73</span>
+            <span class="date">26 febbraio 2026</span>
+            <ul>
+                <li>Nuovo logo cyberpunk PDM (lettere neon P/D/M con interruttore ON/OFF)</li>
+                <li>Test di velocit&agrave; avanzato nativo (protocollo LibreSpeed, multi-server)</li>
+                <li>Rapporto disponibile in DoT (DNS privato), non pi&ugrave; solo VPN</li>
+                <li>Profilo NextDNS personalizzato: opzione DNS classico aggiunta</li>
+                <li>Colori per protocollo: <span style="color:#44FF44">&#x25CF;</span> DoH verde, <span style="color:#7B68EE">&#x25CF;</span> DoQ blu, <span style="color:#FFB700">&#x25CF;</span> DoT oro, <span style="color:#888888">&#x25CF;</span> Standard grigio</li>
+                <li>Pannello di rete permanente nella pagina principale</li>
+                <li>Tester di domini: funziona senza VPN, indicatore di stato DNS</li>
+                <li>Correzioni del focus telecomando Android TV</li>
+            </ul>
+        </div>
+            <span class="ver">v1.0.72</span>
+            <span class="date">26 febbraio 2026</span>
+            <ul>
+                <li>Valutazioni dei provider aggiornate (velocit&agrave; e anti-censura)</li>
+                <li>DNS Speedtest ridisegnato: provider espandibili con risultati per tipo</li>
+                <li>Pagina principale: test domini + speedtest internet affiancati, console divisa in 2</li>
+                <li>Nuova pagina Internet Speedtest (LibreSpeed WebView)</li>
+                <li>Selezione DNS: riordino drag-and-drop, badge verde apre dettaglio provider</li>
+                <li>Dettaglio provider: fix focus, modifica profilo con pressione lunga</li>
+                <li>Impostazioni: icona DoQ, suggerimento importazione 6 cifre, pulsante supporto giallo</li>
+                <li>Changelog chiuso di default, preferiti rimossi</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.71</span>
+            <span class="date">26 febbraio 2026</span>
+            <ul>
+                <li>Tester di dominio dedicato</li>
+                <li>Rapporto automatico all'attivazione del toggle</li>
+                <li>Visualizzazione automatica dell'IP</li>
+                <li>Esportazione/importazione crittografata chiarita</li>
+                <li>Rimossi i crediti IA</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.70</span>
+            <span class="date">25 febbraio 2026</span>
+            <ul>
+                <li>Pulsante di ripristino completo</li>
+                <li>Toggle DoQ nelle impostazioni avanzate</li>
+                <li>Operatore nelle informazioni di rete</li>
+                <li>Correzione rapporto DNS/leak</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.69</span>
+            <span class="date">Febbraio 2026</span>
+            <ul>
+                <li>DoH ora priorit&agrave; predefinita (migliore compatibilit&agrave; di rete)</li>
+                <li>Nuovo pulsante &laquo; Test DNS rapido &raquo; (perdita DNS + nomi di dominio)</li>
+                <li>Importazione/esportazione semplificata: solo codice cifrato</li>
+                <li>Corretta versione visualizzata nell'esportazione della configurazione</li>
+                <li>Decrittazione report: fallback proxy CORS migliorato</li>
+                <li>Aggiunto XMR e BTC Lightning nella pagina di supporto</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.68</span>
+            <span class="date">Febbraio 2026</span>
+            <ul>
+                <li>Correzioni bug dell'interfaccia utente</li>
+                <li>Miglioramenti generali della stabilit&agrave;</li>
+            </ul>
+        </div>
+
         <div class="changelog-item">
             <span class="ver">v1.0.67</span>
             <span class="date">Febbraio 2026</span>
@@ -432,7 +517,6 @@
                 <li>Pagina di supporto crypto dedicata</li>
                 <li>Correzioni UI speedtest DNS</li>
                 <li>Licenza GPL v3 aggiunta alla homepage</li>
-                <li style="color: #FF9800;">Bug noto: alcuni piccoli bug dell&apos;interfaccia</li>
             </ul>
         </div>
 
@@ -571,6 +655,8 @@
                 <li>Supporto ADB wireless migliorato</li>
             </ul>
         </div>
+
+        </details>
     </div>
 </section>
 
@@ -623,7 +709,6 @@
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR &mdash; Fatto con &#x2764;&#xFE0F; per la comunit&agrave;</p>
-    <p style="margin-top: 6px;">IA: Claude Opus 4.6 (Anthropic)</p>
 </footer>
 
 

@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">ブロック済み ✓</string>
     <string name="share_ip_button">📤 レポートを共有</string>
     <string name="share_ip_uploading">IP をアップロード中…</string>
-    <string name="share_ip_success_title">IP を共有しました</string>
+    <string name="share_ip_success_title">暗号化レポートを共有しました</string>
     <string name="share_ip_success_message">コード: %1$s\n\nコードはクリップボードにコピーされました。\n\nリンク: %2$s\n（AES-256 暗号化ファイル）</string>
     <string name="share_ip_error">IP の共有中にエラーが発生しました</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 初期 DNS を復元</string>
     <string name="show_operator_dns">🇫🇷 フランスのキャリア DNS を表示（Orange/Bouygues/SFR/Free/OVH）</string>
     <string name="show_standard_dns">📋 クラシック DNS（暗号化なし）を表示</string>
-    <string name="show_profile_variants">📋 DNS プロバイダーの各種プロファイルを表示（unfiltered、noads、kids など）</string>
-    <string name="dns_dot_adb">📡 ADB 経由の DNS DoT</string>
+    <string name="show_profile_variants">📋 DNS プロバイダーの各種プロファイルを表示</string>
+    <string name="dns_dot_adb">📡 ADB 経由の DNS DoT を表示</string>
     <string name="adb_warning">ADB メソッドはシステム設定を変更します。接続に問題が発生した場合は、このオプションを無効にして VPN メソッドを使用してください。</string>
     <string name="disable_ipv6_label">IPv6 を無効にする / IPv4 を強制</string>
 
@@ -76,12 +76,12 @@
     <!-- Import / Export -->
     <string name="import_export_title">💾 設定ファイル</string>
     <string name="import_export_desc">完全な設定をバックアップまたは復元します（プロファイル、デフォルト DNS、リライトルール、設定）。</string>
-    <string name="export_config_button">📤 設定をエクスポート</string>
-    <string name="import_config_button">📥 設定をインポート</string>
+    <string name="export_config_button">📤 暗号化された設定をエクスポート (AES-256-GCM)</string>
+    <string name="import_config_button">📥 暗号化された設定をインポート</string>
     <string name="config_exported_title">📤 設定をエクスポートしました</string>
     <string name="config_exported_message">ファイル: %1$s\n\nJSON はクリップボードにもコピーされました。\n\n共有または保存できます。</string>
     <string name="share_button">共有</string>
-    <string name="upload_encrypted">🔒 暗号化して送信 (is.gd)</string>
+    <string name="upload_encrypted">🔒 暗号化して送信</string>
     <string name="uploading">暗号化して送信中…</string>
     <string name="upload_success_title">🔒 暗号化ファイルを送信しました！</string>
     <string name="upload_success_message_with_number">インポートコード: %1$s\n\n別のデバイスにインポートするには、このコードを入力してください。\n\n完全なリンク:\n%2$s\n\nコードはクリップボードにコピーされました。\n\n🔒 AES-256 暗号化 — 鍵はリンクに含まれています。</string>
@@ -92,10 +92,10 @@
     <string name="import_from_url">🌐 URL からインポート</string>
     <string name="import_from_file">📁 ローカルファイルからインポート</string>
     <string name="import_from_code">🔒 暗号化コードから</string>
-    <string name="import_from_code_title">🔒 暗号化インポート</string>
-    <string name="enter_share_code">is.gd コードを入力してください：</string>
-    <string name="share_code_hint">例: aB3kL9</string>
-    <string name="import_code_explain">ファイルは自動的にダウンロードされ、復号されます。\n\n検証: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="import_from_code_title">🔒 暗号化された設定をインポート</string>
+    <string name="enter_share_code">コードを入力してください：</string>
+    <string name="share_code_hint">123456</string>
+    <string name="import_code_explain">設定のエクスポートからこのコードを生成してください。\n\nファイルは自動的にダウンロードされ、復号されます。\n\n検証: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">ファイルの有効期限：</string>
     <string name="expiration_1h">1 時間</string>
     <string name="expiration_12h">12 時間</string>
@@ -185,11 +185,9 @@
     <string name="check_for_updates">アップデートを確認</string>
     <string name="checking_for_updates">アップデートを確認中…</string>
     <string name="credits">クレジット</string>
-    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
     <string name="appstorefr">AppstoreFR</string>
     <string name="contact_email">contact@appstorefr.net</string>
     <string name="support_about_button">❤️ 開発者を支援</string>
-    <string name="ia_credit">AI: Claude Opus 4.6 (Anthropic)</string>
 
     <!-- DNS Deletion -->
     <string name="cannot_delete">削除できません</string>
@@ -311,7 +309,7 @@
     <string name="update_download_error">ダウンロード中にエラーが発生しました</string>
     <string name="update_install_error">インストール中にエラーが発生しました</string>
     <string name="update_dialog_title">アップデートが利用可能</string>
-    <string name="update_dialog_message">新しいバージョン（v%1$s）が利用可能です。\nダウンロードしてインストールしますか？</string>
+    <string name="update_dialog_message">新しいバージョン（v%1$s — %2$s）が利用可能です。\nダウンロードしてインストールしますか？</string>
     <string name="update_dialog_install">インストール</string>
     <string name="update_dialog_later">後で</string>
 
@@ -367,7 +365,7 @@
     <string name="privacy_label">プライバシー</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ スピードテスト</string>
+    <string name="dns_speedtest_button">テスト開始</string>
     <string name="dns_speedtest_title">⚡ DNS スピードテスト</string>
     <string name="dns_speedtest_running">DNS 遅延テスト中…</string>
     <string name="dns_speedtest_result">%1$s（%2$s）: %3$s</string>
@@ -393,14 +391,11 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Shizuku を開けません</string>
 
-    <!-- Downloader code -->
-    <string name="downloader_code_label">ダウンローダーコード（AFTVnews）：</string>
-    <string name="downloader_code_value">2759555</string>
-
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS リライト（Rewriting）</string>
-    <string name="show_doq_dns">⚡ DNS over QUIC (DoQ) プロファイルを表示</string>
-    <string name="gpl_license_text">このアプリケーションは自由です。自由なアプリケーションを禁止することは何もできません。\nGPL v3 ライセンス — ソースコードは公開されており、再配布はオープンソースのままでなければなりません。\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="show_doq_dns">DNS over QUIC (DoQ) を表示</string>
+    <string name="gpl_license_text">今日も自由。明日も自由。道は塞げても、自由は塞げない！\nソースコードは公開されており、再配布はオープンソースのままでなければなりません。\nGPL v3 ライセンス\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">cut.appstorefr.net — 暗号化レポート共有用のURL短縮サービス\n\nvault.appstorefr.net — 設定エクスポート用のセキュアファイルホスティング</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 インターネット速度テスト</string>
@@ -428,6 +423,8 @@
     <!-- テストツール（統合モジュール） -->
     <string name="tools_section_label">3| テストツール：</string>
     <string name="generate_report_button">▶ レポート生成</string>
+    <string name="quick_dns_test_button">🔍 ドメインテスター</string>
+    <string name="quick_dns_test_running">DNSテスト実行中...</string>
     <string name="no_report_yet">レポートが生成されていません。\n上のボタンを押してテストを実行してください。</string>
     <string name="share_report_button">📤 レポートを共有</string>
     <string name="share_toggle_network">ネットワーク情報（IP、DNS）</string>
@@ -440,7 +437,7 @@
     <string name="report_progress_blocking">⏳ ブロッキングテスト中…</string>
     <string name="report_complete">✅ レポート生成完了</string>
     <string name="no_report_to_share">先にレポートを生成してください</string>
-    <string name="test_domains_button">テストドメイン</string>
+    <string name="test_domains_button">ドメインをテスト</string>
     <string name="test_domains_add">ドメインを追加</string>
     <string name="test_domains_empty">ドメインが設定されていません</string>
 
@@ -455,7 +452,7 @@
     <string name="split_tunnel_save">保存</string>
     <string name="split_tunnel_saved">除外アプリを更新しました</string>
     <string name="split_tunnel_restart_vpn">変更を適用するためVPNを再起動します。</string>
-    <string name="vpn_required_for_report">レポートを生成するには、まずVPNを接続してください</string>
+    <string name="vpn_required_for_report">まずDNSを有効にしてください（VPNまたはプライベートDNS）</string>
     <string name="dns_leak_isp_label">ISP DNS（VPNなし）</string>
     <string name="dns_leak_vpn_label">アクティブDNS（VPNあり）</string>
 
@@ -510,4 +507,24 @@
     <string name="device_type_phone">電話</string>
     <string name="device_type_tablet">タブレット</string>
     <string name="device_type_unknown">不明</string>
+
+    <!-- Reset app -->
+    <string name="reset_app_button">⚠ アプリをリセット</string>
+    <string name="reset_app_title">完全リセット</string>
+    <string name="reset_app_message">すべてのデータが削除されます。\n\nアプリが再起動されます。\n\nよろしいですか？</string>
+    <string name="reset_app_confirm">はい、すべてリセット</string>
+    <string name="domain_tester_title">ドメインテスター</string>
+    <string name="domain_tester_add">+ ドメインを追加</string>
+    <string name="domain_tester_add_title">ドメインを追加</string>
+    <string name="domain_tester_edit_title">ドメインを編集</string>
+    <string name="domain_tester_delete_title">ドメインを削除しますか？</string>
+    <string name="domain_tester_run">▶ ドメインをテスト</string>
+    <string name="domain_tester_testing">テスト中…</string>
+    <string name="domain_tester_no_result">テスト未実行。</string>
+    <string name="domain_tester_no_enabled">有効なドメインがありません。</string>
+    <string name="domain_tester_dns_all">すべて</string>
+    <string name="domain_tester_dns_select">テストするDNS：</string>
+    <string name="internet_speedtest_button">速度テスト</string>
+    <string name="internet_speedtest_advanced">速度テスト (詳細)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

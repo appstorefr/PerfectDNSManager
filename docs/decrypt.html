@@ -52,7 +52,7 @@
         <div class="card" id="inputCard">
             <h2>&#x1F511; Enter share code</h2>
             <div class="input-row">
-                <input type="text" id="codeInput" placeholder="123456 or full is.gd URL" autofocus onkeydown="if(event.key==='Enter')decryptFromCode()">
+                <input type="text" id="codeInput" placeholder="123456 or full URL" autofocus onkeydown="if(event.key==='Enter')decryptFromCode()">
                 <button onclick="decryptFromCode()" id="btnDecrypt">Decrypt</button>
             </div>
             <div id="status"></div>
@@ -91,29 +91,62 @@
         currentFileUrl = decodeURIComponent(parts[0]);
         currentKey = parts[1];
         setStatus('info', 'Downloading and decrypting...');
+
+        // Try multiple methods to fetch the encrypted data
+        let encryptedBase64 = null;
+
+        // Method 1: Direct fetch
         try {
             const resp = await fetch(currentFileUrl);
-            if (!resp.ok) throw new Error('HTTP ' + resp.status);
-            const encryptedBase64 = (await resp.text()).trim();
-            const plaintext = await decryptAES(encryptedBase64, currentKey);
-            showResult(plaintext);
-            setStatus('ok', 'Decrypted successfully!');
-        } catch (e) {
-            setStatus('err', 'Cannot download file (CORS). <a href="' + currentFileUrl + '" target="_blank" style="color:#FFD700">Click here to open the file</a>, then copy-paste the content below.');
-            document.getElementById('manualSection').style.display = 'block';
+            if (resp.ok) encryptedBase64 = (await resp.text()).trim();
+        } catch (e) { /* CORS blocked, try proxy */ }
+
+        // Method 2: allorigins proxy
+        if (!encryptedBase64) {
+            try {
+                setStatus('info', 'Trying alternative download...');
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(currentFileUrl);
+                const resp = await fetch(proxyUrl);
+                if (resp.ok) encryptedBase64 = (await resp.text()).trim();
+            } catch (e) { /* proxy also failed */ }
         }
+
+        // Method 3: corsproxy.io
+        if (!encryptedBase64) {
+            try {
+                const proxyUrl2 = 'https://corsproxy.io/?' + encodeURIComponent(currentFileUrl);
+                const resp = await fetch(proxyUrl2);
+                if (resp.ok) encryptedBase64 = (await resp.text()).trim();
+            } catch (e) { /* all methods failed */ }
+        }
+
+        if (encryptedBase64) {
+            try {
+                const plaintext = await decryptAES(encryptedBase64, currentKey);
+                showResult(plaintext);
+                setStatus('ok', 'Decrypted successfully!');
+                return;
+            } catch (e) {
+                setStatus('err', 'Decryption failed: ' + e.message);
+                return;
+            }
+        }
+
+        // All methods failed — show manual paste
+        setStatus('err', 'Cannot download file automatically. <a href="' + currentFileUrl + '" target="_blank" style="color:#FFD700">Click here to open the file</a>, then copy-paste the content below.');
+        document.getElementById('manualSection').style.display = 'block';
     }
 
     function decryptFromCode() {
         const code = document.getElementById('codeInput').value.trim();
         if (!code) return;
 
-        // Redirect to is.gd — the browser follows the redirect to
+        // Redirect to cut.appstorefr.net — the browser follows the 301 redirect to
         // decrypt.html on GitHub Pages with the correct #fragment.
-        // This avoids all CORS issues with the is.gd API.
+        // This avoids all CORS issues.
         setStatus('info', 'Redirecting...');
-        const isgdUrl = code.startsWith('http') ? code : 'https://is.gd/' + code;
-        window.location.href = isgdUrl;
+        const cutUrl = code.startsWith('http') ? code : 'https://cut.appstorefr.net/' + code;
+        window.location.href = cutUrl;
     }
 
     async function decryptManual() {

@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">ব্লক করা হয়েছে ✓</string>
     <string name="share_ip_button">📤 রিপোর্ট শেয়ার করুন</string>
     <string name="share_ip_uploading">IP আপলোড হচ্ছে…</string>
-    <string name="share_ip_success_title">IP শেয়ার করা হয়েছে</string>
+    <string name="share_ip_success_title">এনক্রিপ্টেড রিপোর্ট শেয়ার করা হয়েছে</string>
     <string name="share_ip_success_message">কোড: %1$s\n\nকোডটি ক্লিপবোর্ডে কপি করা হয়েছে।\n\nলিঙ্ক: %2$s\n(AES-256 এনক্রিপ্টেড ফাইল)</string>
     <string name="share_ip_error">IP শেয়ার করতে ত্রুটি হয়েছে</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 প্রাথমিক DNS পুনরুদ্ধার করুন</string>
     <string name="show_operator_dns">🇫🇷 ফ্রান্স অপারেটর DNS দেখান (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 ক্লাসিক DNS দেখান (এনক্রিপ্ট করা নয়)</string>
-    <string name="show_profile_variants">📋 DNS প্রদানকারীদের বিভিন্ন প্রোফাইল দেখান (unfiltered, noads, kids ইত্যাদি…)</string>
-    <string name="dns_dot_adb">📡 ADB এর মাধ্যমে DNS DoT</string>
+    <string name="show_profile_variants">📋 DNS প্রদানকারীদের বিভিন্ন প্রোফাইল দেখান</string>
+    <string name="dns_dot_adb">📡 ADB এর মাধ্যমে DNS DoT দেখান</string>
     <string name="adb_warning">ADB পদ্ধতি সিস্টেম সেটিংস পরিবর্তন করে। সংযোগ সমস্যা হলে, এই বিকল্পটি নিষ্ক্রিয় করুন এবং VPN পদ্ধতি ব্যবহার করুন।</string>
     <string name="disable_ipv6_label">IPv6 নিষ্ক্রিয় করুন / IPv4 জোর করুন</string>
 
@@ -76,12 +76,12 @@
     <!-- Import / Export -->
     <string name="import_export_title">💾 কনফিগারেশন ফাইল</string>
     <string name="import_export_desc">আপনার সম্পূর্ণ কনফিগারেশন সংরক্ষণ বা পুনরুদ্ধার করুন (প্রোফাইল, ডিফল্ট DNS, rewrite নিয়ম, সেটিংস)।</string>
-    <string name="export_config_button">📤 কনফিগারেশন রপ্তানি করুন</string>
-    <string name="import_config_button">📥 কনফিগারেশন আমদানি করুন</string>
+    <string name="export_config_button">📤 এনক্রিপ্টেড কনফিগারেশন এক্সপোর্ট করুন (AES-256-GCM)</string>
+    <string name="import_config_button">📥 এনক্রিপ্টেড কনফিগারেশন ইম্পোর্ট করুন</string>
     <string name="config_exported_title">📤 কনফিগারেশন রপ্তানি হয়েছে</string>
     <string name="config_exported_message">ফাইল: %1$s\n\nJSON ক্লিপবোর্ডেও কপি করা হয়েছে।\n\nআপনি এটি শেয়ার বা সংরক্ষণ করতে পারেন।</string>
     <string name="share_button">শেয়ার করুন</string>
-    <string name="upload_encrypted">🔒 এনক্রিপ্টেড পাঠান (is.gd)</string>
+    <string name="upload_encrypted">🔒 এনক্রিপ্টেড পাঠান</string>
     <string name="uploading">এনক্রিপ্ট এবং পাঠানো হচ্ছে…</string>
     <string name="upload_success_title">🔒 এনক্রিপ্টেড ফাইল পাঠানো হয়েছে!</string>
     <string name="upload_success_message_with_number">আমদানি কোড: %1$s\n\nঅন্য ডিভাইসে আমদানি করতে, এই কোডটি লিখুন।\n\nসম্পূর্ণ লিঙ্ক:\n%2$s\n\nকোড ক্লিপবোর্ডে কপি করা হয়েছে।\n\n🔒 AES-256 এনক্রিপ্টেড — কী লিঙ্কে আছে।</string>
@@ -92,10 +92,10 @@
     <string name="import_from_url">🌐 URL থেকে আমদানি করুন</string>
     <string name="import_from_file">📁 স্থানীয় ফাইল থেকে আমদানি করুন</string>
     <string name="import_from_code">🔒 একটি এনক্রিপ্টেড কোড থেকে</string>
-    <string name="import_from_code_title">🔒 এনক্রিপ্টেড আমদানি</string>
-    <string name="enter_share_code">is.gd কোড লিখুন:</string>
-    <string name="share_code_hint">উদাহরণ: aB3kL9</string>
-    <string name="import_code_explain">ফাইলটি স্বয়ংক্রিয়ভাবে ডাউনলোড এবং ডিক্রিপ্ট হবে।\n\nযাচাইকরণ: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="import_from_code_title">🔒 একটি এনক্রিপ্টেড কনফিগারেশন আমদানি করুন</string>
+    <string name="enter_share_code">কোড লিখুন:</string>
+    <string name="share_code_hint">123456</string>
+    <string name="import_code_explain">সেটিংসে রপ্তানি এর মাধ্যমে এই কোডটি তৈরি করুন।\n\nফাইলটি স্বয়ংক্রিয়ভাবে ডাউনলোড এবং ডিক্রিপ্ট হবে।\n\nযাচাইকরণ: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">ফাইলের মেয়াদ:</string>
     <string name="expiration_1h">১ ঘণ্টা</string>
     <string name="expiration_12h">১২ ঘণ্টা</string>
@@ -185,11 +185,9 @@
     <string name="check_for_updates">আপডেট পরীক্ষা করুন</string>
     <string name="checking_for_updates">আপডেট পরীক্ষা করা হচ্ছে…</string>
     <string name="credits">কৃতিত্ব</string>
-    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
     <string name="appstorefr">AppstoreFR</string>
     <string name="contact_email">contact@appstorefr.net</string>
     <string name="support_about_button">❤️ আমাকে সমর্থন করুন</string>
-    <string name="ia_credit">IA : Claude Opus 4.6 (Anthropic)</string>
 
     <!-- DNS Deletion -->
     <string name="cannot_delete">মুছে ফেলা সম্ভব নয়</string>
@@ -311,7 +309,7 @@
     <string name="update_download_error">ডাউনলোডে ত্রুটি</string>
     <string name="update_install_error">ইনস্টলে ত্রুটি</string>
     <string name="update_dialog_title">আপডেট উপলব্ধ</string>
-    <string name="update_dialog_message">একটি নতুন সংস্করণ (v%1$s) উপলব্ধ।\nআপনি কি এটি ডাউনলোড এবং ইনস্টল করতে চান?</string>
+    <string name="update_dialog_message">একটি নতুন সংস্করণ (v%1$s — %2$s) উপলব্ধ।\nআপনি কি এটি ডাউনলোড এবং ইনস্টল করতে চান?</string>
     <string name="update_dialog_install">ইনস্টল করুন</string>
     <string name="update_dialog_later">পরে</string>
 
@@ -367,7 +365,7 @@
     <string name="privacy_label">গোপনীয়তা</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ স্পিডটেস্ট</string>
+    <string name="dns_speedtest_button">পরীক্ষা শুরু করুন</string>
     <string name="dns_speedtest_title">⚡ DNS স্পিডটেস্ট</string>
     <string name="dns_speedtest_running">DNS লেটেন্সি পরীক্ষা চলছে…</string>
     <string name="dns_speedtest_result">%1$s (%2$s) : %3$s</string>
@@ -393,14 +391,11 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Shizuku খোলা সম্ভব হচ্ছে না</string>
 
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Downloader কোড (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
-
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS পুনর্লিখন (Rewriting)</string>
-    <string name="show_doq_dns">⚡ DNS over QUIC (DoQ) প্রোফাইল দেখান</string>
-    <string name="gpl_license_text">এই অ্যাপ্লিকেশনটি মুক্ত। কিছুই একটি মুক্ত অ্যাপ্লিকেশন নিষিদ্ধ করতে পারে না।\nGPL v3 লাইসেন্স — সোর্স কোড উন্মুক্ত, যেকোনো পুনর্বিতরণ ওপেন সোর্স থাকতে হবে।\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="show_doq_dns">DNS over QUIC (DoQ) দেখান</string>
+    <string name="gpl_license_text">আজ মুক্ত। আগামীকাল মুক্ত। পথ আটকানো যায়, স্বাধীনতা নয়!\nসোর্স কোড উন্মুক্ত, যেকোনো পুনর্বিতরণ ওপেন সোর্স থাকতে হবে।\nGPL v3 লাইসেন্স\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">cut.appstorefr.net — এনক্রিপ্টেড রিপোর্ট শেয়ারের জন্য URL সংক্ষেপক\n\nvault.appstorefr.net — কনফিগারেশন রপ্তানির জন্য নিরাপদ ফাইল হোস্টিং</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 ইন্টারনেট স্পিডটেস্ট</string>
@@ -428,6 +423,8 @@
     <!-- পরীক্ষার সরঞ্জাম (একীভূত মডিউল) -->
     <string name="tools_section_label">3| পরীক্ষার সরঞ্জাম:</string>
     <string name="generate_report_button">▶ রিপোর্ট তৈরি করুন</string>
+    <string name="quick_dns_test_button">🔍 ডোমেইন টেস্টার</string>
+    <string name="quick_dns_test_running">DNS পরীক্ষা চলছে...</string>
     <string name="no_report_yet">কোনো রিপোর্ট তৈরি হয়নি।\nপরীক্ষা চালাতে উপরের বোতাম চাপুন।</string>
     <string name="share_report_button">📤 রিপোর্ট শেয়ার করুন</string>
     <string name="share_toggle_network">নেটওয়ার্ক তথ্য (IP, DNS)</string>
@@ -440,7 +437,7 @@
     <string name="report_progress_blocking">⏳ ব্লকিং টেস্ট চলছে…</string>
     <string name="report_complete">✅ রিপোর্ট তৈরি হয়েছে</string>
     <string name="no_report_to_share">আগে একটি রিপোর্ট তৈরি করুন</string>
-    <string name="test_domains_button">পরীক্ষার ডোমেন</string>
+    <string name="test_domains_button">ডোমেইন পরীক্ষা করুন</string>
     <string name="test_domains_add">ডোমেন যোগ করুন</string>
     <string name="test_domains_empty">কোনো ডোমেন কনফিগার করা হয়নি</string>
 
@@ -455,7 +452,7 @@
     <string name="split_tunnel_save">সংরক্ষণ</string>
     <string name="split_tunnel_saved">বাদ দেওয়া অ্যাপ আপডেট হয়েছে</string>
     <string name="split_tunnel_restart_vpn">পরিবর্তন প্রয়োগ করতে VPN পুনরায় চালু হবে।</string>
-    <string name="vpn_required_for_report">রিপোর্ট তৈরি করতে প্রথমে VPN সংযোগ করুন</string>
+    <string name="vpn_required_for_report">প্রথমে DNS সক্রিয় করুন (VPN বা প্রাইভেট DNS)</string>
     <string name="dns_leak_isp_label">ISP DNS (VPN ছাড়া)</string>
     <string name="dns_leak_vpn_label">সক্রিয় DNS (VPN সহ)</string>
 
@@ -510,4 +507,24 @@
     <string name="device_type_phone">ফোন</string>
     <string name="device_type_tablet">ট্যাবলেট</string>
     <string name="device_type_unknown">অজানা</string>
+
+    <!-- Reset app -->
+    <string name="reset_app_button">⚠ অ্যাপ রিসেট করুন</string>
+    <string name="reset_app_title">সম্পূর্ণ রিসেট</string>
+    <string name="reset_app_message">সমস্ত ডেটা মুছে ফেলা হবে।\n\nঅ্যাপ পুনরায় চালু হবে।\n\nআপনি কি নিশ্চিত?</string>
+    <string name="reset_app_confirm">হ্যাঁ, সব রিসেট করুন</string>
+    <string name="domain_tester_title">ডোমেইন টেস্টার</string>
+    <string name="domain_tester_add">+ ডোমেইন যোগ করুন</string>
+    <string name="domain_tester_add_title">ডোমেইন যোগ করুন</string>
+    <string name="domain_tester_edit_title">ডোমেইন সম্পাদনা করুন</string>
+    <string name="domain_tester_delete_title">ডোমেইন মুছবেন?</string>
+    <string name="domain_tester_run">▶ ডোমেইন টেস্ট করুন</string>
+    <string name="domain_tester_testing">টেস্ট চলছে…</string>
+    <string name="domain_tester_no_result">কোনো টেস্ট করা হয়নি।</string>
+    <string name="domain_tester_no_enabled">কোনো ডোমেইন সক্রিয় নেই।</string>
+    <string name="domain_tester_dns_all">সব</string>
+    <string name="domain_tester_dns_select">পরীক্ষার জন্য DNS:</string>
+    <string name="internet_speedtest_button">গতি পরীক্ষা</string>
+    <string name="internet_speedtest_advanced">গতি পরীক্ষা (উন্নত)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

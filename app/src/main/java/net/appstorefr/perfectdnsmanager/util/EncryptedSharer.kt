@@ -24,6 +24,13 @@ class EncryptedSharer {
         private const val GCM_IV_SIZE = 12
         private const val GCM_TAG_SIZE = 128
 
+        private const val VAULT_API_URL = "https://vault.appstorefr.net/api/vault/upload"
+        private const val VAULT_API_KEY = "vault_af7ded81310c93ec6c555678bdac3b68967166e8e51ba3e5"
+        private const val VAULT_RAW_URL = "https://vault.appstorefr.net/raw"
+
+        private const val CUT_API_URL = "https://cut.appstorefr.net/api/cut/links"
+        private const val CUT_API_KEY = "cut_1889e2e1a1a89e228bfec6f1f48351298b5f045eaa1556ea"
+
         data class UploadResult(
             val shortCode: String,
             val decryptionKey: String,
@@ -32,11 +39,11 @@ class EncryptedSharer {
         )
 
         /**
-         * Encrypt content, upload to tmpfiles.org, shorten via is.gd.
+         * Encrypt content, upload to vault.appstorefr.net, shorten via cut.appstorefr.net.
          * Content is AES-256-GCM encrypted before upload.
          * @param content The text content to share
          * @param fileName The filename for the upload
-         * @param expiresIn Ignored (tmpfiles.org = 60 min auto), kept for API compat
+         * @param expiresIn Expiry duration (e.g. "1h", "72h")
          * @return UploadResult with short code and decryption key
          */
         fun encryptAndUpload(content: String, fileName: String = "data.enc", expiresIn: String = "1h"): UploadResult {
@@ -57,7 +64,7 @@ class EncryptedSharer {
             val combined = iv + encrypted
             val encryptedBase64 = Base64.encodeToString(combined, Base64.NO_WRAP)
 
-            // 4. Upload to tmpfiles.org (encrypted content)
+            // 4. Upload to vault.appstorefr.net (encrypted content)
             val client = OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
@@ -71,32 +78,31 @@ class EncryptedSharer {
                 .build()
 
             val uploadRequest = Request.Builder()
-                .url("https://tmpfiles.org/api/v1/upload")
+                .url(VAULT_API_URL)
+                .header("X-API-Key", VAULT_API_KEY)
                 .post(body)
                 .build()
 
-            Log.d(TAG, "Uploading ${encryptedBase64.length} chars to tmpfiles.org")
+            Log.d(TAG, "Uploading ${encryptedBase64.length} chars to vault.appstorefr.net")
             val uploadResponse = client.newCall(uploadRequest).execute()
             val responseBody = uploadResponse.body?.string()?.trim() ?: ""
             uploadResponse.close()
-            Log.d(TAG, "tmpfiles response: $responseBody")
+            Log.d(TAG, "vault response: $responseBody")
 
             val json = JSONObject(responseBody)
-            if (json.optString("status") != "success") {
-                throw Exception("Upload failed: $responseBody")
+            val vaultId = json.optString("id", "")
+            if (vaultId.isBlank()) {
+                throw Exception("Upload failed: no id in response — $responseBody")
             }
-            // tmpfiles.org returns page URL, need /dl/ for direct download
-            val pageUrl = json.getJSONObject("data").getString("url")
-            val fileUrl = pageUrl.replace("tmpfiles.org/", "tmpfiles.org/dl/")
-                .replace("http://", "https://")
-            Log.d(TAG, "tmpfiles link: $fileUrl")
+            val fileUrl = "$VAULT_RAW_URL/$vaultId"
+            Log.d(TAG, "vault link: $fileUrl")
 
             // 5. Build decrypt page URL with file URL + key in fragment
             val decryptPageUrl = "https://appstorefr.github.io/PerfectDNSManager/decrypt.html#${java.net.URLEncoder.encode(fileUrl, "UTF-8")}|$keyBase64"
             Log.d(TAG, "Decrypt page URL: $decryptPageUrl")
 
-            // 6. Shorten via is.gd with numeric code
-            Log.d(TAG, "Shortening URL via is.gd...")
+            // 6. Shorten via cut.appstorefr.net with numeric code
+            Log.d(TAG, "Shortening URL via cut.appstorefr.net...")
             val shortCode = shortenUrl(decryptPageUrl, client)
             Log.d(TAG, "Short code: $shortCode")
 
@@ -110,7 +116,7 @@ class EncryptedSharer {
 
         /**
          * Download from short URL, decrypt and return content.
-         * @param shortCode The is.gd short code (e.g. "abc123" or full URL)
+         * @param shortCode The cut.appstorefr.net short code (e.g. "123456" or full URL)
          * @return Decrypted content string
          */
         fun downloadAndDecrypt(shortCode: String): String {
@@ -120,15 +126,15 @@ class EncryptedSharer {
                 .followRedirects(false)
                 .build()
 
-            // 1. Resolve is.gd short URL to get download URL + key
-            val isgdUrl = if (shortCode.startsWith("http")) shortCode
-                else "https://is.gd/$shortCode"
+            // 1. Resolve cut.appstorefr.net short URL via Location header (301)
+            val cutUrl = if (shortCode.startsWith("http")) shortCode
+                else "https://cut.appstorefr.net/$shortCode"
 
             val expandRequest = Request.Builder()
-                .url("https://is.gd/forward.php?format=simple&shorturl=$isgdUrl")
+                .url(cutUrl)
                 .build()
             val expandResponse = client.newCall(expandRequest).execute()
-            val expandedUrl = expandResponse.body?.string()?.trim() ?: ""
+            val expandedUrl = expandResponse.header("Location") ?: ""
             expandResponse.close()
 
             if (expandedUrl.isBlank() || !expandedUrl.startsWith("http")) {
@@ -138,10 +144,12 @@ class EncryptedSharer {
             // 2. Extract key from fragment (#)
             val parts = expandedUrl.split("#", limit = 2)
             if (parts.size < 2) throw Exception("No decryption key in URL")
-            val fileUrl = parts[0]
-            val keyBase64 = parts[1]
+            val fragmentParts = parts[1].split("|", limit = 2)
+            if (fragmentParts.size < 2) throw Exception("Invalid URL format")
+            val fileUrl = java.net.URLDecoder.decode(fragmentParts[0], "UTF-8")
+            val keyBase64 = fragmentParts[1]
 
-            // 3. Download encrypted data
+            // 3. Download encrypted data from vault
             val dlClient = OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
@@ -156,7 +164,7 @@ class EncryptedSharer {
             val encryptedBase64 = downloadResponse.body?.string() ?: ""
             downloadResponse.close()
 
-            if (encryptedBase64.isBlank()) throw Exception("Empty response from file server")
+            if (encryptedBase64.isBlank()) throw Exception("Empty response from vault")
 
             // 4. Decrypt
             return decrypt(encryptedBase64.trim(), keyBase64)
@@ -181,48 +189,65 @@ class EncryptedSharer {
         }
 
         /**
-         * Shorten a URL via is.gd with a numeric code (easy to type on TV remote).
+         * Shorten a URL via cut.appstorefr.net with a numeric code (easy to type on TV remote).
          * Tries up to 5 times with different random numeric codes.
          * Falls back to auto-generated code if all attempts fail.
          */
         private fun shortenUrl(url: String, client: OkHttpClient): String {
-            val encoded = java.net.URLEncoder.encode(url, "UTF-8")
             val random = java.util.Random()
 
             // Try numeric custom codes (6 digits)
             for (attempt in 1..5) {
                 val numericCode = (100000 + random.nextInt(900000)).toString()
-                val request = Request.Builder()
-                    .url("https://is.gd/create.php?format=simple&url=$encoded&shorturl=$numericCode")
-                    .build()
                 try {
+                    val payload = JSONObject().apply {
+                        put("url", url)
+                        put("code", numericCode)
+                    }
+                    val request = Request.Builder()
+                        .url(CUT_API_URL)
+                        .header("X-API-Key", CUT_API_KEY)
+                        .header("Content-Type", "application/json")
+                        .post(payload.toString().toRequestBody("application/json".toMediaType()))
+                        .build()
+
                     val response = client.newCall(request).execute()
-                    val shortUrl = response.body?.string()?.trim() ?: ""
+                    val body = response.body?.string()?.trim() ?: ""
                     response.close()
 
-                    if (shortUrl.isNotBlank() && !shortUrl.startsWith("Error")) {
-                        return shortUrl.substringAfterLast("/")
+                    if (response.isSuccessful && body.isNotBlank()) {
+                        val json = JSONObject(body)
+                        if (json.optBoolean("ok", false)) {
+                            return json.optString("code", numericCode)
+                        }
                     }
-                    Log.d(TAG, "is.gd attempt $attempt ($numericCode) failed: $shortUrl")
+                    Log.d(TAG, "cut attempt $attempt ($numericCode) failed: $body")
                 } catch (e: Exception) {
-                    Log.d(TAG, "is.gd attempt $attempt ($numericCode) error: ${e.message}")
+                    Log.d(TAG, "cut attempt $attempt ($numericCode) error: ${e.message}")
                 }
             }
 
-            // Fallback: let is.gd generate its own code
-            Log.d(TAG, "Falling back to auto-generated is.gd code")
+            // Fallback: let cut generate its own code
+            Log.d(TAG, "Falling back to auto-generated cut code")
+            val payload = JSONObject().apply {
+                put("url", url)
+            }
             val request = Request.Builder()
-                .url("https://is.gd/create.php?format=simple&url=$encoded")
+                .url(CUT_API_URL)
+                .header("X-API-Key", CUT_API_KEY)
+                .header("Content-Type", "application/json")
+                .post(payload.toString().toRequestBody("application/json".toMediaType()))
                 .build()
             val response = client.newCall(request).execute()
-            val shortUrl = response.body?.string()?.trim() ?: ""
+            val body = response.body?.string()?.trim() ?: ""
             response.close()
 
-            if (shortUrl.isBlank() || shortUrl.startsWith("Error")) {
-                throw Exception("is.gd shortening failed: $shortUrl")
+            if (!response.isSuccessful || body.isBlank()) {
+                throw Exception("cut shortening failed: $body")
             }
 
-            return shortUrl.substringAfterLast("/")
+            val json = JSONObject(body)
+            return json.optString("code", "")
         }
     }
 }

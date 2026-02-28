@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">已阻止 ✓</string>
     <string name="share_ip_button">📤 分享报告</string>
     <string name="share_ip_uploading">正在上传 IP…</string>
-    <string name="share_ip_success_title">IP 已分享</string>
+    <string name="share_ip_success_title">加密报告已分享</string>
     <string name="share_ip_success_message">代码：%1$s\n\n代码已复制到剪贴板。\n\n链接：%2$s\n（AES-256 加密文件）</string>
     <string name="share_ip_error">分享 IP 时出错</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 恢复初始 DNS</string>
     <string name="show_operator_dns">🇫🇷 显示法国运营商 DNS（Orange/Bouygues/SFR/Free/OVH）</string>
     <string name="show_standard_dns">📋 显示经典 DNS（未加密）</string>
-    <string name="show_profile_variants">📋 显示 DNS 提供商的不同配置（无过滤、无广告、儿童等）</string>
-    <string name="dns_dot_adb">📡 通过 ADB 使用 DNS DoT</string>
+    <string name="show_profile_variants">📋 显示 DNS 提供商的不同配置</string>
+    <string name="dns_dot_adb">📡 显示通过 ADB 的 DNS DoT</string>
     <string name="adb_warning">ADB 方式会修改系统设置。如遇网络连接问题，请禁用此选项并使用 VPN 方式。</string>
     <string name="disable_ipv6_label">禁用 IPv6 / 强制 IPv4</string>
 
@@ -76,12 +76,12 @@
     <!-- Import / Export -->
     <string name="import_export_title">💾 配置文件</string>
     <string name="import_export_desc">保存或恢复您的完整配置（配置文件、默认 DNS、重写规则、设置）。</string>
-    <string name="export_config_button">📤 导出配置</string>
-    <string name="import_config_button">📥 导入配置</string>
+    <string name="export_config_button">📤 导出加密配置 (AES-256-GCM)</string>
+    <string name="import_config_button">📥 导入加密配置</string>
     <string name="config_exported_title">📤 配置已导出</string>
     <string name="config_exported_message">文件：%1$s\n\nJSON 也已复制到剪贴板。\n\n您可以分享或保存它。</string>
     <string name="share_button">分享</string>
-    <string name="upload_encrypted">🔒 加密发送 (is.gd)</string>
+    <string name="upload_encrypted">🔒 加密发送</string>
     <string name="uploading">加密并发送中…</string>
     <string name="upload_success_title">🔒 加密文件已发送！</string>
     <string name="upload_success_message_with_number">导入代码：%1$s\n\n在其他设备上导入时，请输入此代码。\n\n完整链接：\n%2$s\n\n代码已复制到剪贴板。\n\n🔒 AES-256 加密 — 密钥包含在链接中。</string>
@@ -92,10 +92,10 @@
     <string name="import_from_url">🌐 从 URL 导入</string>
     <string name="import_from_file">📁 从本地文件导入</string>
     <string name="import_from_code">🔒 从加密代码导入</string>
-    <string name="import_from_code_title">🔒 加密导入</string>
-    <string name="enter_share_code">输入 is.gd 代码：</string>
-    <string name="share_code_hint">例如：aB3kL9</string>
-    <string name="import_code_explain">文件将自动下载并解密。\n\n验证：https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="import_from_code_title">🔒 导入加密配置</string>
+    <string name="enter_share_code">输入代码：</string>
+    <string name="share_code_hint">123456</string>
+    <string name="import_code_explain">通过设置中的导出功能生成此代码。\n\n文件将自动下载并解密。\n\n验证：https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">文件有效期：</string>
     <string name="expiration_1h">1 小时</string>
     <string name="expiration_12h">12 小时</string>
@@ -185,11 +185,9 @@
     <string name="check_for_updates">检查更新</string>
     <string name="checking_for_updates">正在检查更新…</string>
     <string name="credits">致谢</string>
-    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
     <string name="appstorefr">AppstoreFR</string>
     <string name="contact_email">contact@appstorefr.net</string>
     <string name="support_about_button">❤️ 支持我</string>
-    <string name="ia_credit">AI：Claude Opus 4.6 (Anthropic)</string>
 
     <!-- DNS Deletion -->
     <string name="cannot_delete">无法删除</string>
@@ -311,7 +309,7 @@
     <string name="update_download_error">下载错误</string>
     <string name="update_install_error">安装错误</string>
     <string name="update_dialog_title">有可用更新</string>
-    <string name="update_dialog_message">有新版本（v%1$s）可用。\n是否下载并安装？</string>
+    <string name="update_dialog_message">有新版本（v%1$s — %2$s）可用。\n是否下载并安装？</string>
     <string name="update_dialog_install">安装</string>
     <string name="update_dialog_later">稍后</string>
 
@@ -367,7 +365,7 @@
     <string name="privacy_label">隐私</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">开始测试</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">正在测试 DNS 延迟…</string>
     <string name="dns_speedtest_result">%1$s（%2$s）：%3$s</string>
@@ -393,14 +391,11 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">无法打开 Shizuku</string>
 
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Downloader 代码（AFTVnews）：</string>
-    <string name="downloader_code_value">2759555</string>
-
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">DNS 重写（Rewriting）</string>
-    <string name="show_doq_dns">⚡ 显示 DNS over QUIC (DoQ) 配置</string>
-    <string name="gpl_license_text">此应用程序是自由的。没有任何事物能禁止一个自由的应用程序。\nGPL v3 许可证 — 源代码开放，任何再发布必须保持开源。\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="show_doq_dns">显示 DNS over QUIC (DoQ)</string>
+    <string name="gpl_license_text">今天自由。明天自由。可以封路，但不能封自由！\n源代码开放，任何再发布必须保持开源。\nGPL v3 许可证\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">cut.appstorefr.net — 用于分享加密报告的网址缩短服务\n\nvault.appstorefr.net — 用于配置导出的安全文件托管</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 网络测速</string>
@@ -428,6 +423,8 @@
     <!-- 测试工具（统一模块） -->
     <string name="tools_section_label">3| 测试工具：</string>
     <string name="generate_report_button">▶ 生成报告</string>
+    <string name="quick_dns_test_button">🔍 域名测试器</string>
+    <string name="quick_dns_test_running">DNS测试进行中...</string>
     <string name="no_report_yet">未生成报告。\n按上方按钮运行测试。</string>
     <string name="share_report_button">📤 分享报告</string>
     <string name="share_toggle_network">网络信息（IP、DNS）</string>
@@ -455,7 +452,7 @@
     <string name="split_tunnel_save">保存</string>
     <string name="split_tunnel_saved">排除的应用已更新</string>
     <string name="split_tunnel_restart_vpn">VPN 将重新启动以应用更改。</string>
-    <string name="vpn_required_for_report">请先连接 VPN 以生成报告</string>
+    <string name="vpn_required_for_report">请先激活 DNS（VPN 或私人 DNS）</string>
     <string name="dns_leak_isp_label">运营商 DNS（无 VPN）</string>
     <string name="dns_leak_vpn_label">活跃 DNS（有 VPN）</string>
 
@@ -510,4 +507,24 @@
     <string name="device_type_phone">手机</string>
     <string name="device_type_tablet">平板</string>
     <string name="device_type_unknown">未知</string>
+
+    <!-- Reset app -->
+    <string name="reset_app_button">⚠ 重置应用</string>
+    <string name="reset_app_title">完全重置</string>
+    <string name="reset_app_message">所有数据将被删除。\n\n应用将重新启动。\n\n确定吗？</string>
+    <string name="reset_app_confirm">是，重置一切</string>
+    <string name="domain_tester_title">域名测试器</string>
+    <string name="domain_tester_add">+ 添加域名</string>
+    <string name="domain_tester_add_title">添加域名</string>
+    <string name="domain_tester_edit_title">编辑域名</string>
+    <string name="domain_tester_delete_title">删除域名？</string>
+    <string name="domain_tester_run">▶ 测试域名</string>
+    <string name="domain_tester_testing">测试中…</string>
+    <string name="domain_tester_no_result">未进行测试。</string>
+    <string name="domain_tester_no_enabled">没有启用的域名。</string>
+    <string name="domain_tester_dns_all">全部</string>
+    <string name="domain_tester_dns_select">要测试的 DNS：</string>
+    <string name="internet_speedtest_button">测速工具</string>
+    <string name="internet_speedtest_advanced">测速工具 (高级)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

@@ -96,8 +96,14 @@
         <activity android:name=".SupportActivity" android:exported="false" />
         <activity android:name=".DnsRewriteActivity" android:exported="false" />
         <activity android:name=".DnsSpeedtestActivity" android:exported="false" />
+        <activity android:name=".DomainTesterActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
         <activity
             android:name=".DnsProviderDetailActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
+        <activity android:name=".InternetSpeedtestActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false" />
 

@@ -3,29 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1A1A2E"
+    android:background="#1E1E1E"
     android:padding="16dp">
 
-    <!-- Top bar: Back (left) + Title (center) -->
+    <!-- Top bar: Back + Title -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:descendantFocusability="afterDescendants">
-
         <Button
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/back_arrow"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:minHeight="48dp"
             android:backgroundTint="#333355"
             android:foreground="@drawable/btn_focus_foreground"
             android:textColor="#FFFFFF"
             android:layout_gravity="start|center_vertical"
             android:focusable="true"
-            android:nextFocusDown="@id/btnStartStop"
-            android:nextFocusRight="@id/btnStartStop"/>
-
+            android:nextFocusDown="@id/btnStartStop"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,151 +34,101 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
-
     </FrameLayout>
 
-    <!-- Start/Stop button centered -->
-    <Button
-        android:id="@+id/btnStartStop"
-        android:layout_width="wrap_content"
+    <!-- Start/Stop button + current test progress (same line) -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dns_speedtest_button"
-        android:backgroundTint="#4CAF50"
-        android:foreground="@drawable/btn_focus_foreground"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="6dp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:nextFocusUp="@id/btnBack"
-        android:nextFocusLeft="@id/btnBack"
-        android:nextFocusDown="@id/scrollResults"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp">
 
-    <!-- Main content: Results (left full column) | Progress + TOP 5 (right) -->
+        <Button
+            android:id="@+id/btnStartStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dns_speedtest_button"
+            android:backgroundTint="#4CAF50"
+            android:foreground="@drawable/btn_focus_foreground"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/btnBack"
+            android:nextFocusDown="@id/scrollProviders"
+            android:nextFocusRight="@id/scrollRanking"/>
+
+        <TextView
+            android:id="@+id/tvCurrentTest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:maxLines="3"
+            android:text="DNS Speedtest"
+            android:background="#121212"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <!-- Bottom: Providers (left) | Ranking (right) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <!-- LEFT: Results (full column with border effect) -->
-        <FrameLayout
+        <!-- LEFT: Providers with expandable results -->
+        <ScrollView
+            android:id="@+id/scrollProviders"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginEnd="4dp"
-            android:background="#090912"
-            android:padding="1dp">
+            android:background="#0D0D1A"
+            android:padding="6dp"
+            android:fillViewport="true"
+            android:focusable="false"
+            android:descendantFocusability="afterDescendants"
+            android:nextFocusUp="@id/btnStartStop"
+            android:nextFocusRight="@id/scrollRanking">
 
-            <ScrollView
-                android:id="@+id/scrollResults"
+            <LinearLayout
+                android:id="@+id/layoutProviders"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#0D0D1A"
-                android:foreground="@drawable/btn_focus_foreground"
-                android:padding="6dp"
-                android:fadingEdge="vertical"
-                android:fillViewport="true"
-                android:focusable="true"
-                android:descendantFocusability="blocksDescendants"
-                android:nextFocusUp="@id/btnStartStop"
-                android:nextFocusRight="@id/scrollProgress">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </ScrollView>
 
-                <TextView
-                    android:id="@+id/tvResults"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#AAAAAA"
-                    android:textSize="11sp"
-                    android:fontFamily="monospace"
-                    android:lineSpacingExtra="1dp"
-                    android:text=""
-                    android:focusable="false"/>
-
-            </ScrollView>
-
-        </FrameLayout>
-
-        <!-- RIGHT: Progress (top) + Separator + TOP 5 (bottom) -->
-        <LinearLayout
+        <!-- RIGHT: Ranking -->
+        <ScrollView
+            android:id="@+id/scrollRanking"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="4dp">
+            android:layout_marginStart="4dp"
+            android:background="#1A1A0D"
+            android:foreground="@drawable/btn_focus_foreground"
+            android:padding="6dp"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:descendantFocusability="blocksDescendants"
+            android:nextFocusUp="@id/btnStartStop"
+            android:nextFocusLeft="@id/scrollProviders">
 
-            <!-- Progress (top right) -->
-            <ScrollView
-                android:id="@+id/scrollProgress"
+            <TextView
+                android:id="@+id/tvRanking"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#121212"
-                android:foreground="@drawable/btn_focus_foreground"
-                android:padding="6dp"
-                android:fadingEdge="vertical"
-                android:fillViewport="true"
-                android:focusable="true"
-                android:descendantFocusability="blocksDescendants"
-                android:nextFocusUp="@id/btnStartStop"
-                android:nextFocusLeft="@id/scrollResults"
-                android:nextFocusDown="@id/scrollTop5">
-
-                <TextView
-                    android:id="@+id/tvProgress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#AAAAAA"
-                    android:textSize="11sp"
-                    android:fontFamily="monospace"
-                    android:lineSpacingExtra="1dp"
-                    android:text=""
-                    android:focusable="false"/>
-
-            </ScrollView>
-
-            <!-- Separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#333355"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"/>
-
-            <!-- TOP 5 (bottom right) -->
-            <ScrollView
-                android:id="@+id/scrollTop5"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#1A1A0D"
-                android:foreground="@drawable/btn_focus_foreground"
-                android:padding="6dp"
-                android:fadingEdge="vertical"
-                android:fillViewport="true"
-                android:focusable="true"
-                android:descendantFocusability="blocksDescendants"
-                android:nextFocusUp="@id/scrollProgress"
-                android:nextFocusLeft="@id/scrollResults">
-
-                <TextView
-                    android:id="@+id/tvTop5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#AAAAAA"
-                    android:textSize="12sp"
-                    android:fontFamily="monospace"
-                    android:lineSpacingExtra="2dp"
-                    android:text=""
-                    android:focusable="false"/>
-
-            </ScrollView>
-
-        </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:textColor="#AAAAAA"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="1dp"
+                android:focusable="false"/>
+        </ScrollView>
     </LinearLayout>
-
 </LinearLayout>

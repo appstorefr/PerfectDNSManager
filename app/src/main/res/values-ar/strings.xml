@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">محظور ✓</string>
     <string name="share_ip_button">📤 مشاركة التقرير</string>
     <string name="share_ip_uploading">جارٍ رفع عناوين IP…</string>
-    <string name="share_ip_success_title">تم مشاركة عناوين IP</string>
+    <string name="share_ip_success_title">تم مشاركة التقرير المشفر</string>
     <string name="share_ip_success_message">الرمز: %1$s\n\nتم نسخ الرمز إلى الحافظة.\n\nالرابط: %2$s\n(ملف مشفر AES-256)</string>
     <string name="share_ip_error">خطأ أثناء مشاركة عناوين IP</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 استعادة DNS الأولي</string>
     <string name="show_operator_dns">🇫🇷 عرض DNS المشغّلين الفرنسيين (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 عرض DNS الكلاسيكي (غير مشفر)</string>
-    <string name="show_profile_variants">📋 عرض ملفات مزودي DNS المختلفة (بدون فلترة، بدون إعلانات، أطفال إلخ…)</string>
-    <string name="dns_dot_adb">📡 DNS DoT عبر ADB</string>
+    <string name="show_profile_variants">📋 عرض ملفات مزودي DNS المختلفة</string>
+    <string name="dns_dot_adb">📡 عرض DNS DoT عبر ADB</string>
     <string name="adb_warning">طريقة ADB تعدّل إعدادات النظام. في حال وجود مشاكل في الاتصال، قم بتعطيل هذا الخيار واستخدم طريقة VPN.</string>
     <string name="disable_ipv6_label">تعطيل IPv6 / فرض IPv4</string>
 
@@ -76,12 +76,12 @@
     <!-- Import / Export -->
     <string name="import_export_title">💾 ملف التكوين</string>
     <string name="import_export_desc">احفظ أو استعد تكوينك الكامل (الملفات، DNS الافتراضي، قواعد إعادة الكتابة، الإعدادات).</string>
-    <string name="export_config_button">📤 تصدير التكوين</string>
-    <string name="import_config_button">📥 استيراد تكوين</string>
+    <string name="export_config_button">📤 تصدير الإعدادات المشفرة (AES-256-GCM)</string>
+    <string name="import_config_button">📥 استيراد الإعدادات المشفرة</string>
     <string name="config_exported_title">📤 تم تصدير التكوين</string>
     <string name="config_exported_message">الملف: %1$s\n\nتم نسخ JSON أيضًا إلى الحافظة.\n\nيمكنك مشاركته أو حفظه.</string>
     <string name="share_button">مشاركة</string>
-    <string name="upload_encrypted">🔒 إرسال مشفر (is.gd)</string>
+    <string name="upload_encrypted">🔒 إرسال مشفر</string>
     <string name="uploading">جارٍ التشفير والإرسال…</string>
     <string name="upload_success_title">🔒 تم إرسال الملف المشفر!</string>
     <string name="upload_success_message_with_number">رمز الاستيراد: %1$s\n\nللاستيراد على جهاز آخر، أدخل هذا الرمز.\n\nالرابط الكامل:\n%2$s\n\nتم نسخ الرمز إلى الحافظة.\n\n🔒 تشفير AES-256 — المفتاح موجود في الرابط.</string>
@@ -92,10 +92,10 @@
     <string name="import_from_url">🌐 استيراد من URL</string>
     <string name="import_from_file">📁 استيراد من ملف محلي</string>
     <string name="import_from_code">🔒 من رمز مشفر</string>
-    <string name="import_from_code_title">🔒 استيراد مشفر</string>
-    <string name="enter_share_code">أدخل رمز is.gd:</string>
-    <string name="share_code_hint">مثال: aB3kL9</string>
-    <string name="import_code_explain">سيتم تنزيل الملف وفك تشفيره تلقائيًا.\n\nالتحقق: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="import_from_code_title">🔒 استيراد تكوين مشفر</string>
+    <string name="enter_share_code">أدخل الرمز:</string>
+    <string name="share_code_hint">123456</string>
+    <string name="import_code_explain">قم بإنشاء هذا الرمز عبر التصدير في الإعدادات.\n\nسيتم تنزيل الملف وفك تشفيره تلقائيًا.\n\nالتحقق: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">انتهاء صلاحية الملف:</string>
     <string name="expiration_1h">ساعة واحدة</string>
     <string name="expiration_12h">12 ساعة</string>
@@ -185,11 +185,9 @@
     <string name="check_for_updates">التحقق من التحديثات</string>
     <string name="checking_for_updates">جارٍ التحقق من التحديثات…</string>
     <string name="credits">شكر وتقدير</string>
-    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
     <string name="appstorefr">AppstoreFR</string>
     <string name="contact_email">contact@appstorefr.net</string>
     <string name="support_about_button">❤️ ادعمني</string>
-    <string name="ia_credit">ذكاء اصطناعي: Claude Opus 4.6 (Anthropic)</string>
 
     <!-- DNS Deletion -->
     <string name="cannot_delete">لا يمكن الحذف</string>
@@ -311,7 +309,7 @@
     <string name="update_download_error">خطأ في التنزيل</string>
     <string name="update_install_error">خطأ في التثبيت</string>
     <string name="update_dialog_title">تحديث متوفر</string>
-    <string name="update_dialog_message">إصدار جديد (v%1$s) متوفر.\nهل تريد تنزيله وتثبيته؟</string>
+    <string name="update_dialog_message">إصدار جديد (v%1$s — %2$s) متوفر.\nهل تريد تنزيله وتثبيته؟</string>
     <string name="update_dialog_install">تثبيت</string>
     <string name="update_dialog_later">لاحقًا</string>
 
@@ -367,7 +365,7 @@
     <string name="privacy_label">الخصوصية</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">بدء الاختبار</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">جارٍ اختبار زمن استجابة DNS…</string>
     <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
@@ -393,14 +391,11 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">تعذّر فتح Shizuku</string>
 
-    <!-- Downloader code -->
-    <string name="downloader_code_label">رمز Downloader (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
-
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">إعادة كتابة DNS (Rewriting)</string>
-    <string name="show_doq_dns">⚡ عرض ملفات DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">هذا التطبيق حر. لا شيء يمكن أن يمنع تطبيقاً حراً.\nرخصة GPL v3 — الشفرة المصدرية مفتوحة، أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="show_doq_dns">إظهار DNS over QUIC (DoQ)</string>
+    <string name="gpl_license_text">حر اليوم. حر غداً. يمكن إغلاق طريق، لكن لا يمكن إغلاق الحرية!\nالشفرة المصدرية مفتوحة، أي إعادة توزيع يجب أن تبقى مفتوحة المصدر.\nرخصة GPL v3\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">cut.appstorefr.net — مختصر روابط لمشاركة التقارير المشفرة\n\nvault.appstorefr.net — استضافة ملفات آمنة لتصدير الإعدادات</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 اختبار سرعة الإنترنت</string>
@@ -427,7 +422,9 @@
 
     <!-- أدوات الاختبار (وحدة موحدة) -->
     <string name="tools_section_label">3| أدوات الاختبار:</string>
-    <string name="generate_report_button">▶ إنشاء التقرير</string>
+    <string name="generate_report_button">▶ إنشاء تقرير</string>
+    <string name="quick_dns_test_button">🔍 اختبار النطاقات</string>
+    <string name="quick_dns_test_running">جاري اختبار DNS...</string>
     <string name="no_report_yet">لم يتم إنشاء تقرير بعد.\nاضغط الزر أعلاه لتشغيل الاختبارات.</string>
     <string name="share_report_button">📤 مشاركة التقرير</string>
     <string name="share_toggle_network">معلومات الشبكة (IP, DNS)</string>
@@ -440,7 +437,7 @@
     <string name="report_progress_blocking">⏳ جارٍ اختبار الحجب…</string>
     <string name="report_complete">✅ تم إنشاء التقرير</string>
     <string name="no_report_to_share">أنشئ تقريراً أولاً</string>
-    <string name="test_domains_button">نطاقات الاختبار</string>
+    <string name="test_domains_button">اختبار النطاقات</string>
     <string name="test_domains_add">إضافة نطاق</string>
     <string name="test_domains_empty">لم يتم تكوين أي نطاق</string>
 
@@ -455,7 +452,7 @@
     <string name="split_tunnel_save">حفظ</string>
     <string name="split_tunnel_saved">تم تحديث التطبيقات المستبعدة</string>
     <string name="split_tunnel_restart_vpn">سيتم إعادة تشغيل VPN لتطبيق التغييرات.</string>
-    <string name="vpn_required_for_report">قم بتوصيل VPN أولاً لإنشاء التقرير</string>
+    <string name="vpn_required_for_report">قم بتفعيل DNS أولاً (VPN أو DNS خاص)</string>
     <string name="dns_leak_isp_label">DNS مزود الخدمة (بدون VPN)</string>
     <string name="dns_leak_vpn_label">DNS نشط (مع VPN)</string>
 
@@ -510,4 +507,24 @@
     <string name="device_type_phone">هاتف</string>
     <string name="device_type_tablet">جهاز لوحي</string>
     <string name="device_type_unknown">غير معروف</string>
+
+    <!-- Reset app -->
+    <string name="reset_app_button">⚠ إعادة تعيين التطبيق</string>
+    <string name="reset_app_title">إعادة تعيين كاملة</string>
+    <string name="reset_app_message">سيتم حذف جميع البيانات.\n\nسيتم إعادة تشغيل التطبيق.\n\nهل أنت متأكد؟</string>
+    <string name="reset_app_confirm">نعم، إعادة تعيين الكل</string>
+    <string name="domain_tester_title">اختبار النطاقات</string>
+    <string name="domain_tester_add">+ إضافة نطاق</string>
+    <string name="domain_tester_add_title">إضافة نطاق</string>
+    <string name="domain_tester_edit_title">تعديل النطاق</string>
+    <string name="domain_tester_delete_title">حذف النطاق؟</string>
+    <string name="domain_tester_run">▶ اختبار النطاقات</string>
+    <string name="domain_tester_testing">جاري الاختبار…</string>
+    <string name="domain_tester_no_result">لم يتم إجراء أي اختبار.</string>
+    <string name="domain_tester_no_enabled">لا يوجد نطاق مفعّل.</string>
+    <string name="domain_tester_dns_all">الكل</string>
+    <string name="domain_tester_dns_select">DNS للاختبار:</string>
+    <string name="internet_speedtest_button">اختبار السرعة</string>
+    <string name="internet_speedtest_advanced">اختبار السرعة (متقدم)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

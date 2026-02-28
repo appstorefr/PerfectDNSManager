@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">заблокирован ✓</string>
     <string name="share_ip_button">📤 Поделиться отчётом</string>
     <string name="share_ip_uploading">Загрузка IP…</string>
-    <string name="share_ip_success_title">IP отправлены</string>
+    <string name="share_ip_success_title">Зашифрованный отчёт отправлен</string>
     <string name="share_ip_success_message">Код: %1$s\n\nКод скопирован в буфер обмена.\n\nСсылка: %2$s\n(Файл зашифрован AES-256)</string>
     <string name="share_ip_error">Ошибка при отправке IP</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 Восстановить исходные DNS</string>
     <string name="show_operator_dns">🇫🇷 Показать DNS французских операторов (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 Показать классические DNS (нешифрованные)</string>
-    <string name="show_profile_variants">📋 Показать варианты профилей провайдеров DNS (без фильтра, без рекламы, дети и т.д.)</string>
-    <string name="dns_dot_adb">📡 DNS DoT через ADB</string>
+    <string name="show_profile_variants">📋 Показать варианты профилей провайдеров DNS</string>
+    <string name="dns_dot_adb">📡 Показать DNS DoT через ADB</string>
     <string name="adb_warning">Метод ADB изменяет системные настройки. В случае проблем с подключением отключите эту опцию и используйте метод VPN.</string>
     <string name="disable_ipv6_label">Отключить IPv6 / Принудительно IPv4</string>
 
@@ -76,12 +76,12 @@
     <!-- Import / Export -->
     <string name="import_export_title">💾 Файл конфигурации</string>
     <string name="import_export_desc">Сохраните или восстановите вашу полную конфигурацию (профили, DNS по умолчанию, правила перезаписи, настройки).</string>
-    <string name="export_config_button">📤 Экспорт конфигурации</string>
-    <string name="import_config_button">📥 Импорт конфигурации</string>
+    <string name="export_config_button">📤 Экспорт зашифрованной конфигурации (AES-256-GCM)</string>
+    <string name="import_config_button">📥 Импорт зашифрованной конфигурации</string>
     <string name="config_exported_title">📤 Конфигурация экспортирована</string>
     <string name="config_exported_message">Файл: %1$s\n\nJSON также скопирован в буфер обмена.\n\nВы можете поделиться им или сохранить.</string>
     <string name="share_button">Поделиться</string>
-    <string name="upload_encrypted">🔒 Отправить зашифрованно (is.gd)</string>
+    <string name="upload_encrypted">🔒 Отправить зашифрованно</string>
     <string name="uploading">Шифрование и отправка…</string>
     <string name="upload_success_title">🔒 Зашифрованный файл отправлен!</string>
     <string name="upload_success_message_with_number">Код импорта: %1$s\n\nДля импорта на другом устройстве введите этот код.\n\nПолная ссылка:\n%2$s\n\nКод скопирован в буфер обмена.\n\n🔒 Шифрование AES-256 — ключ содержится в ссылке.</string>
@@ -92,10 +92,10 @@
     <string name="import_from_url">🌐 Импорт по URL</string>
     <string name="import_from_file">📁 Импорт из локального файла</string>
     <string name="import_from_code">🔒 Из зашифрованного кода</string>
-    <string name="import_from_code_title">🔒 Зашифрованный импорт</string>
-    <string name="enter_share_code">Введите код is.gd:</string>
-    <string name="share_code_hint">Напр.: aB3kL9</string>
-    <string name="import_code_explain">Файл будет загружен и расшифрован автоматически.\n\nПроверка: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="import_from_code_title">🔒 Импорт зашифрованной конфигурации</string>
+    <string name="enter_share_code">Введите код:</string>
+    <string name="share_code_hint">123456</string>
+    <string name="import_code_explain">Сгенерируйте этот код через Экспорт в настройках.\n\nФайл будет загружен и расшифрован автоматически.\n\nПроверка: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">Срок действия файла:</string>
     <string name="expiration_1h">1 час</string>
     <string name="expiration_12h">12 часов</string>
@@ -185,11 +185,9 @@
     <string name="check_for_updates">Проверить обновления</string>
     <string name="checking_for_updates">Проверка обновлений…</string>
     <string name="credits">Благодарности</string>
-    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
     <string name="appstorefr">AppstoreFR</string>
     <string name="contact_email">contact@appstorefr.net</string>
     <string name="support_about_button">❤️ Поддержать меня</string>
-    <string name="ia_credit">ИИ: Claude Opus 4.6 (Anthropic)</string>
 
     <!-- DNS Deletion -->
     <string name="cannot_delete">Удаление невозможно</string>
@@ -311,7 +309,7 @@
     <string name="update_download_error">Ошибка скачивания</string>
     <string name="update_install_error">Ошибка установки</string>
     <string name="update_dialog_title">Доступно обновление</string>
-    <string name="update_dialog_message">Доступна новая версия (v%1$s).\nХотите скачать и установить её?</string>
+    <string name="update_dialog_message">Доступна новая версия (v%1$s — %2$s).\nХотите скачать и установить её?</string>
     <string name="update_dialog_install">Установить</string>
     <string name="update_dialog_later">Позже</string>
 
@@ -367,7 +365,7 @@
     <string name="privacy_label">Конфиденциальность</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">Запустить тест</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">Тестирование задержки DNS…</string>
     <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
@@ -393,14 +391,11 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">Невозможно открыть Shizuku</string>
 
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Код Downloader (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
-
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Перезапись DNS (Rewriting)</string>
-    <string name="show_doq_dns">⚡ Показать профили DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">Это приложение свободное. Ничто не запретит свободное приложение.\nЛицензия GPL v3 — Исходный код открыт, любое распространение должно оставаться open source.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="show_doq_dns">Показать DNS over QUIC (DoQ)</string>
+    <string name="gpl_license_text">Свободно сегодня. Свободно завтра. Можно заблокировать дорогу, но не свободу!\nИсходный код открыт, любое распространение должно оставаться open source.\nЛицензия GPL v3\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">cut.appstorefr.net — Сокращатель URL для обмена зашифрованными отчётами\n\nvault.appstorefr.net — Безопасный хостинг файлов для экспорта конфигурации</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Speedtest интернета</string>
@@ -428,6 +423,8 @@
     <!-- Инструменты тестирования (единый модуль) -->
     <string name="tools_section_label">3| Инструменты тестирования:</string>
     <string name="generate_report_button">▶ Создать отчёт</string>
+    <string name="quick_dns_test_button">🔍 Тестер доменов</string>
+    <string name="quick_dns_test_running">Тест DNS выполняется...</string>
     <string name="no_report_yet">Отчёт не создан.\nНажмите кнопку выше для запуска тестов.</string>
     <string name="share_report_button">📤 Поделиться отчётом</string>
     <string name="share_toggle_network">Сетевая информация (IP, DNS)</string>
@@ -440,7 +437,7 @@
     <string name="report_progress_blocking">⏳ Тест блокировки выполняется…</string>
     <string name="report_complete">✅ Отчёт создан</string>
     <string name="no_report_to_share">Сначала создайте отчёт</string>
-    <string name="test_domains_button">Тестовые домены</string>
+    <string name="test_domains_button">Тестировать домены</string>
     <string name="test_domains_add">Добавить домен</string>
     <string name="test_domains_empty">Нет настроенных доменов</string>
 
@@ -455,7 +452,7 @@
     <string name="split_tunnel_save">Сохранить</string>
     <string name="split_tunnel_saved">Список исключённых приложений обновлён</string>
     <string name="split_tunnel_restart_vpn">VPN будет перезапущен для применения изменений.</string>
-    <string name="vpn_required_for_report">Сначала подключите VPN для создания отчёта</string>
+    <string name="vpn_required_for_report">Сначала активируйте DNS (VPN или частный DNS)</string>
     <string name="dns_leak_isp_label">DNS провайдера (без VPN)</string>
     <string name="dns_leak_vpn_label">Активный DNS (с VPN)</string>
 
@@ -510,4 +507,24 @@
     <string name="device_type_phone">Телефон</string>
     <string name="device_type_tablet">Планшет</string>
     <string name="device_type_unknown">Неизвестно</string>
+
+    <!-- Reset app -->
+    <string name="reset_app_button">⚠ Сбросить приложение</string>
+    <string name="reset_app_title">Полный сброс</string>
+    <string name="reset_app_message">Все данные будут удалены.\n\nПриложение перезапустится.\n\nВы уверены?</string>
+    <string name="reset_app_confirm">Да, сбросить всё</string>
+    <string name="domain_tester_title">Тестер доменов</string>
+    <string name="domain_tester_add">+ Добавить домен</string>
+    <string name="domain_tester_add_title">Добавить домен</string>
+    <string name="domain_tester_edit_title">Редактировать домен</string>
+    <string name="domain_tester_delete_title">Удалить домен?</string>
+    <string name="domain_tester_run">▶ Тестировать домены</string>
+    <string name="domain_tester_testing">Тестирование…</string>
+    <string name="domain_tester_no_result">Тест не проведён.</string>
+    <string name="domain_tester_no_enabled">Нет активных доменов.</string>
+    <string name="domain_tester_dns_all">Все</string>
+    <string name="domain_tester_dns_select">DNS для теста:</string>
+    <string name="internet_speedtest_button">Тест скорости</string>
+    <string name="internet_speedtest_advanced">Тест скорости (расширенный)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>

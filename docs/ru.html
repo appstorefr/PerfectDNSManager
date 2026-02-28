@@ -30,27 +30,45 @@
         .lang-bar {
             position: sticky;
             top: 0;
-            z-index: 200;
-            background: rgba(18,18,18,0.95);
-            backdrop-filter: blur(8px);
+            z-index: 999;
+            background: #0d0d0d;
             border-bottom: 1px solid #333;
-            padding: 8px 0;
-            text-align: center;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         .lang-bar a {
-            display: inline-block;
-            font-size: 1.3em;
-            margin: 0 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82em;
+            font-weight: 500;
+            color: var(--text-dim);
+            transition: all 0.2s;
             text-decoration: none;
-            opacity: 0.7;
-            transition: opacity 0.2s, transform 0.2s;
         }
-        .lang-bar a:hover { opacity: 1; transform: scale(1.15); text-decoration: none; }
-        .lang-bar a.active { opacity: 1; }
+        .lang-bar a:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            text-decoration: none;
+        }
+        .lang-bar a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .lang-bar .flag {
+            font-size: 1.15em;
+            line-height: 1;
+        }
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            background: var(--bg);
             padding: 60px 20px;
             text-align: center;
         }
@@ -249,18 +267,18 @@
 
 <!-- Language bar -->
 <div class="lang-bar">
-    <a href="fr.html" title="Francais">&#x1F1EB;&#x1F1F7;</a>
-    <a href="en.html" title="English">&#x1F1EC;&#x1F1E7;</a>
-    <a href="es.html" title="Espanol">&#x1F1EA;&#x1F1F8;</a>
-    <a href="ru.html" title="Русский" class="active">&#x1F1F7;&#x1F1FA;</a>
-    <a href="zh.html" title="中文">&#x1F1E8;&#x1F1F3;</a>
-    <a href="ar.html" title="العربية">&#x1F1F8;&#x1F1E6;</a>
-    <a href="it.html" title="Italiano">&#x1F1EE;&#x1F1F9;</a>
-    <a href="pt.html" title="Portugues">&#x1F1E7;&#x1F1F7;</a>
-    <a href="hi.html" title="&#x0939;&#x093F;&#x0928;&#x094D;&#x0926;&#x0940;">&#x1F1EE;&#x1F1F3;</a>
-    <a href="bn.html" title="&#x09AC;&#x09BE;&#x0982;&#x09B2;&#x09BE;">&#x1F1E7;&#x1F1E9;</a>
-    <a href="ja.html" title="&#x65E5;&#x672C;&#x8A9E;">&#x1F1EF;&#x1F1F5;</a>
-    <a href="de.html" title="Deutsch">&#x1F1E9;&#x1F1EA;</a>
+    <a href="fr.html"><span class="flag">&#x1F1EB;&#x1F1F7;</span> FR</a>
+    <a href="en.html"><span class="flag">&#x1F1EC;&#x1F1E7;</span> EN</a>
+    <a href="es.html"><span class="flag">&#x1F1EA;&#x1F1F8;</span> ES</a>
+    <a href="ru.html" class="active"><span class="flag">&#x1F1F7;&#x1F1FA;</span> RU</a>
+    <a href="zh.html"><span class="flag">&#x1F1E8;&#x1F1F3;</span> ZH</a>
+    <a href="ar.html"><span class="flag">&#x1F1F8;&#x1F1E6;</span> AR</a>
+    <a href="it.html"><span class="flag">&#x1F1EE;&#x1F1F9;</span> IT</a>
+    <a href="pt.html"><span class="flag">&#x1F1E7;&#x1F1F7;</span> PT</a>
+    <a href="hi.html"><span class="flag">&#x1F1EE;&#x1F1F3;</span> HI</a>
+    <a href="bn.html"><span class="flag">&#x1F1E7;&#x1F1E9;</span> BN</a>
+    <a href="ja.html"><span class="flag">&#x1F1EF;&#x1F1F5;</span> JA</a>
+    <a href="de.html"><span class="flag">&#x1F1E9;&#x1F1EA;</span> DE</a>
 </div>
 
 <!-- Hero -->
@@ -270,7 +288,7 @@
     </div>
     <h1>Perfect DNS Manager</h1>
     <p class="tagline">Измените DNS в один клик. Конфиденциальность, скорость, свобода.</p>
-    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.67 &mdash; Build 67</div></a>
+    <a href="#changelog" style="text-decoration:none;"><div class="version-badge">v1.0.80 &mdash; Build 80</div></a>
     <br><br>
     <a href="https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk" class="dl-btn">
         ⬇️ Скачать APK <span id="apk-size" style="opacity:0.7;font-weight:400;font-size:0.85em;"></span>
@@ -282,9 +300,9 @@
         <code style="font-size: 0.9em; color: var(--primary); user-select: all; cursor: text; word-break: break-all;">https://github.com/appstorefr/PerfectDNSManager/releases/latest/download/latest.apk</code>
     </div>
 
-    <!-- IP Lookup link -->
+    <!-- Protected Report link -->
     <div style="margin-top: 24px;">
-        <a href="ip.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F310; Получить общий IP-отчёт &rarr;</a>
+        <a href="decrypt.html" style="color: rgba(255,255,255,0.8); font-size: 0.95em;">&#x1F512; Защищённый отчёт &rarr;</a>
     </div>
 </div>
 
@@ -319,8 +337,8 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div class="icon">&#x1F310;</div>
-                <h3>DNS DoH / DoT / Стандартный</h3>
-                <p>Поддержка DNS over HTTPS (локальный VPN), DNS over TLS (ADB/Shizuku) и классического DNS через UDP.</p>
+                <h3>DNS DoH / DoQ / DoT / Standard</h3>
+                <p>Поддержка DNS over HTTPS, DNS over QUIC (DoQ), DNS over TLS (ADB/Shizuku) и классического UDP DNS.</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x26A1;</div>
@@ -332,11 +350,7 @@
                 <h3>DNS Speedtest</h3>
                 <p>Проверьте задержку всех ваших DNS-провайдеров и найдите самый быстрый для вас.</p>
             </div>
-            <div class="feature-card">
-                <div class="icon">&#x2B50;</div>
-                <h3>Избранное и DNS по умолчанию</h3>
-                <p>Организуйте любимые DNS-серверы с помощью избранного и задайте DNS по умолчанию.</p>
-            </div>
+
             <div class="feature-card">
                 <div class="icon">&#x1F500;</div>
                 <h3>URL Rewrite</h3>
@@ -350,7 +364,7 @@
             <div class="feature-card">
                 <div class="icon">&#x1F4BE;</div>
                 <h3>Импорт / Экспорт</h3>
-                <p>Сохраняйте и восстанавливайте полную конфигурацию. Гранулярный экспорт с выбором элементов.</p>
+                <p>&#x0421;&#x043E;&#x0445;&#x0440;&#x0430;&#x043D;&#x044F;&#x0439;&#x0442;&#x0435; &#x0438; &#x0432;&#x043E;&#x0441;&#x0441;&#x0442;&#x0430;&#x043D;&#x0430;&#x0432;&#x043B;&#x0438;&#x0432;&#x0430;&#x0439;&#x0442;&#x0435; &#x043A;&#x043E;&#x043D;&#x0444;&#x0438;&#x0433;&#x0443;&#x0440;&#x0430;&#x0446;&#x0438;&#x044E;. &#x0428;&#x0438;&#x0444;&#x0440;&#x043E;&#x0432;&#x0430;&#x043D;&#x043D;&#x044B;&#x0439; &#x044D;&#x043A;&#x0441;&#x043F;&#x043E;&#x0440;&#x0442; &#x0438; &#x0438;&#x043C;&#x043F;&#x043E;&#x0440;&#x0442; (AES-256-GCM).</p>
             </div>
             <div class="feature-card">
                 <div class="icon">&#x1F4E1;</div>
@@ -372,6 +386,11 @@
                 <h3>Split Tunneling</h3>
                 <p>&#x0418;&#x0441;&#x043A;&#x043B;&#x044E;&#x0447;&#x0438;&#x0442;&#x0435; &#x043E;&#x043F;&#x0440;&#x0435;&#x0434;&#x0435;&#x043B;&#x0451;&#x043D;&#x043D;&#x044B;&#x0435; &#x043F;&#x0440;&#x0438;&#x043B;&#x043E;&#x0436;&#x0435;&#x043D;&#x0438;&#x044F; &#x0438;&#x0437; DNS VPN. &#x041F;&#x043E;&#x043B;&#x0435;&#x0437;&#x043D;&#x043E; &#x0434;&#x043B;&#x044F; &#x043D;&#x0435;&#x0441;&#x043E;&#x0432;&#x043C;&#x0435;&#x0441;&#x0442;&#x0438;&#x043C;&#x044B;&#x0445; &#x043F;&#x0440;&#x0438;&#x043B;&#x043E;&#x0436;&#x0435;&#x043D;&#x0438;&#x0439;.</p>
             </div>
+            <div class="feature-card">
+                <div class="icon">&#x1F50D;</div>
+                <h3>&#x0411;&#x044B;&#x0441;&#x0442;&#x0440;&#x044B;&#x0439; &#x0442;&#x0435;&#x0441;&#x0442; DNS</h3>
+                <p>&#x0422;&#x0435;&#x0441;&#x0442; &#x0443;&#x0442;&#x0435;&#x0447;&#x043A;&#x0438; DNS &#x0438; &#x0442;&#x0435;&#x0441;&#x0442; &#x0434;&#x043E;&#x043C;&#x0435;&#x043D;&#x043D;&#x044B;&#x0445; &#x0438;&#x043C;&#x0451;&#x043D; &#x0432; &#x043E;&#x0434;&#x0438;&#x043D; &#x043A;&#x043B;&#x0438;&#x043A;. &#x041F;&#x0440;&#x043E;&#x0432;&#x0435;&#x0440;&#x044C;&#x0442;&#x0435; &#x0441;&#x0432;&#x043E;&#x044E; &#x0437;&#x0430;&#x0449;&#x0438;&#x0442;&#x0443; &#x0432; &#x0440;&#x0435;&#x0430;&#x043B;&#x044C;&#x043D;&#x043E;&#x043C; &#x0432;&#x0440;&#x0435;&#x043C;&#x0435;&#x043D;&#x0438;.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -379,8 +398,8 @@
 <!-- DNS Providers -->
 <section style="background: var(--surface);">
     <div class="container">
-        <h2>Встроенные DNS-провайдеры</h2>
-        <p style="color: var(--text-dim); margin-bottom: 16px;">Более 15 предустановленных DNS-провайдеров с рейтингом скорости и конфиденциальности :</p>
+        <h2><a href="dns-providers.html" style="color: inherit; text-decoration: none;">&#x0412;&#x0441;&#x0442;&#x0440;&#x043E;&#x0435;&#x043D;&#x043D;&#x044B;&#x0435; DNS-&#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x044B; &#x2192;</a></h2>
+        <p style="color: var(--text-dim); margin-bottom: 16px;">&#x0411;&#x043E;&#x043B;&#x0435;&#x0435; 15 &#x043F;&#x0440;&#x0435;&#x0434;&#x0443;&#x0441;&#x0442;&#x0430;&#x043D;&#x043E;&#x0432;&#x043B;&#x0435;&#x043D;&#x043D;&#x044B;&#x0445; DNS-&#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x043E;&#x0432; &#x0441; &#x0440;&#x0435;&#x0439;&#x0442;&#x0438;&#x043D;&#x0433;&#x043E;&#x043C; &#x0441;&#x043A;&#x043E;&#x0440;&#x043E;&#x0441;&#x0442;&#x0438; &#x0438; &#x043A;&#x043E;&#x043D;&#x0444;&#x0438;&#x0434;&#x0435;&#x043D;&#x0446;&#x0438;&#x0430;&#x043B;&#x044C;&#x043D;&#x043E;&#x0441;&#x0442;&#x0438; :</p>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
             <span class="badge">AdGuard</span>
             <span class="badge">Cloudflare</span>
@@ -393,7 +412,7 @@
             <span class="badge">Surfshark</span>
             <span class="badge">FDN</span>
             <span class="badge">Yandex</span>
-            <span class="badge">+ пользовательские профили</span>
+            <span class="badge">+ &#x043F;&#x043E;&#x043B;&#x044C;&#x0437;&#x043E;&#x0432;&#x0430;&#x0442;&#x0435;&#x043B;&#x044C;&#x0441;&#x043A;&#x0438;&#x0435; &#x043F;&#x0440;&#x043E;&#x0444;&#x0438;&#x043B;&#x0438;</span>
         </div>
     </div>
 </section>
@@ -401,18 +420,100 @@
 <!-- Changelog -->
 <section id="changelog">
     <div class="container">
-        <h2>Последние обновления</h2>
+        <h2>&#x041F;&#x043E;&#x0441;&#x043B;&#x0435;&#x0434;&#x043D;&#x0438;&#x0435; &#x043E;&#x0431;&#x043D;&#x043E;&#x0432;&#x043B;&#x0435;&#x043D;&#x0438;&#x044F;</h2>
+
+        <details><summary>&#x041F;&#x043E;&#x043A;&#x0430;&#x0437;&#x0430;&#x0442;&#x044C; / &#x0421;&#x043A;&#x0440;&#x044B;&#x0442;&#x044C; &#x0436;&#x0443;&#x0440;&#x043D;&#x0430;&#x043B;</summary>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.80</span>
+            <span class="date">26 &#x0444;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044F; 2026</span>
+            <ul>
+                <li><strong>v1.0.80</strong> — Мульти-бэкенд интернет-спидтест (Cloudflare, Ookla, Fast.com), цвета DoQ исправлены, кнопки назад увеличены, кредиты реорганизованы, цвета кнопки включения/выключения улучшены</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.73</span>
+            <span class="date">26 &#x0444;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044F; 2026</span>
+            <ul>
+                <li>&#x041D;&#x043E;&#x0432;&#x044B;&#x0439; &#x043A;&#x0438;&#x0431;&#x0435;&#x0440;&#x043F;&#x0430;&#x043D;&#x043A; &#x043B;&#x043E;&#x0433;&#x043E;&#x0442;&#x0438;&#x043F; PDM (&#x043D;&#x0435;&#x043E;&#x043D;&#x043E;&#x0432;&#x044B;&#x0435; &#x0431;&#x0443;&#x043A;&#x0432;&#x044B; P/D/M &#x0441; &#x043F;&#x0435;&#x0440;&#x0435;&#x043A;&#x043B;&#x044E;&#x0447;&#x0430;&#x0442;&#x0435;&#x043B;&#x0435;&#x043C; ON/OFF)</li>
+                <li>&#x041F;&#x0440;&#x043E;&#x0434;&#x0432;&#x0438;&#x043D;&#x0443;&#x0442;&#x044B;&#x0439; &#x043D;&#x0430;&#x0442;&#x0438;&#x0432;&#x043D;&#x044B;&#x0439; &#x0442;&#x0435;&#x0441;&#x0442; &#x0441;&#x043A;&#x043E;&#x0440;&#x043E;&#x0441;&#x0442;&#x0438; (&#x043F;&#x0440;&#x043E;&#x0442;&#x043E;&#x043A;&#x043E;&#x043B; LibreSpeed, &#x043C;&#x0443;&#x043B;&#x044C;&#x0442;&#x0438;&#x0441;&#x0435;&#x0440;&#x0432;&#x0435;&#x0440;)</li>
+                <li>&#x041E;&#x0442;&#x0447;&#x0451;&#x0442; &#x0434;&#x043E;&#x0441;&#x0442;&#x0443;&#x043F;&#x0435;&#x043D; &#x0432; DoT (&#x043F;&#x0440;&#x0438;&#x0432;&#x0430;&#x0442;&#x043D;&#x044B;&#x0439; DNS), &#x043D;&#x0435; &#x0442;&#x043E;&#x043B;&#x044C;&#x043A;&#x043E; VPN</li>
+                <li>&#x041F;&#x043E;&#x043B;&#x044C;&#x0437;&#x043E;&#x0432;&#x0430;&#x0442;&#x0435;&#x043B;&#x044C;&#x0441;&#x043A;&#x0438;&#x0439; &#x043F;&#x0440;&#x043E;&#x0444;&#x0438;&#x043B;&#x044C; NextDNS: &#x0434;&#x043E;&#x0431;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0430; &#x043E;&#x043F;&#x0446;&#x0438;&#x044F; &#x043A;&#x043B;&#x0430;&#x0441;&#x0441;&#x0438;&#x0447;&#x0435;&#x0441;&#x043A;&#x043E;&#x0433;&#x043E; DNS</li>
+                <li>&#x0426;&#x0432;&#x0435;&#x0442;&#x0430; &#x043F;&#x043E; &#x043F;&#x0440;&#x043E;&#x0442;&#x043E;&#x043A;&#x043E;&#x043B;&#x0443;: <span style="color:#44FF44">&#x25CF;</span> DoH &#x0437;&#x0435;&#x043B;&#x0451;&#x043D;&#x044B;&#x0439;, <span style="color:#7B68EE">&#x25CF;</span> DoQ &#x0441;&#x0438;&#x043D;&#x0438;&#x0439;, <span style="color:#FFB700">&#x25CF;</span> DoT &#x0437;&#x043E;&#x043B;&#x043E;&#x0442;&#x043E;&#x0439;, <span style="color:#888888">&#x25CF;</span> &#x0421;&#x0442;&#x0430;&#x043D;&#x0434;&#x0430;&#x0440;&#x0442;&#x043D;&#x044B;&#x0439; &#x0441;&#x0435;&#x0440;&#x044B;&#x0439;</li>
+                <li>&#x041F;&#x043E;&#x0441;&#x0442;&#x043E;&#x044F;&#x043D;&#x043D;&#x0430;&#x044F; &#x043F;&#x0430;&#x043D;&#x0435;&#x043B;&#x044C; &#x0441;&#x0435;&#x0442;&#x0438; &#x043D;&#x0430; &#x0433;&#x043B;&#x0430;&#x0432;&#x043D;&#x043E;&#x0439; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x0435;</li>
+                <li>&#x0422;&#x0435;&#x0441;&#x0442;&#x0435;&#x0440; &#x0434;&#x043E;&#x043C;&#x0435;&#x043D;&#x043E;&#x0432;: &#x0440;&#x0430;&#x0431;&#x043E;&#x0442;&#x0430;&#x0435;&#x0442; &#x0431;&#x0435;&#x0437; VPN, &#x0438;&#x043D;&#x0434;&#x0438;&#x043A;&#x0430;&#x0442;&#x043E;&#x0440; &#x0441;&#x043E;&#x0441;&#x0442;&#x043E;&#x044F;&#x043D;&#x0438;&#x044F; DNS</li>
+                <li>&#x0418;&#x0441;&#x043F;&#x0440;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0438;&#x044F; &#x0444;&#x043E;&#x043A;&#x0443;&#x0441;&#x0430; &#x043F;&#x0443;&#x043B;&#x044C;&#x0442;&#x0430; Android TV</li>
+            </ul>
+        </div>
+            <span class="ver">v1.0.72</span>
+            <span class="date">26 &#x0444;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044F; 2026</span>
+            <ul>
+                <li>&#x041E;&#x0431;&#x043D;&#x043E;&#x0432;&#x043B;&#x0435;&#x043D;&#x044B; &#x0440;&#x0435;&#x0439;&#x0442;&#x0438;&#x043D;&#x0433;&#x0438; &#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x043E;&#x0432; (&#x0441;&#x043A;&#x043E;&#x0440;&#x043E;&#x0441;&#x0442;&#x044C; &#x0438; &#x0430;&#x043D;&#x0442;&#x0438;-&#x0446;&#x0435;&#x043D;&#x0437;&#x0443;&#x0440;&#x0430;)</li>
+                <li>DNS Speedtest &#x043F;&#x0435;&#x0440;&#x0435;&#x0440;&#x0430;&#x0431;&#x043E;&#x0442;&#x0430;&#x043D;: &#x0440;&#x0430;&#x0441;&#x043A;&#x0440;&#x044B;&#x0432;&#x0430;&#x0435;&#x043C;&#x044B;&#x0435; &#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x044B; &#x0441; &#x0440;&#x0435;&#x0437;&#x0443;&#x043B;&#x044C;&#x0442;&#x0430;&#x0442;&#x0430;&#x043C;&#x0438; &#x043F;&#x043E; &#x0442;&#x0438;&#x043F;&#x0443;</li>
+                <li>&#x0413;&#x043B;&#x0430;&#x0432;&#x043D;&#x0430;&#x044F;: &#x0442;&#x0435;&#x0441;&#x0442;&#x0435;&#x0440; &#x0434;&#x043E;&#x043C;&#x0435;&#x043D;&#x043E;&#x0432; + &#x0441;&#x043F;&#x0438;&#x0434;&#x0442;&#x0435;&#x0441;&#x0442; &#x0440;&#x044F;&#x0434;&#x043E;&#x043C;, &#x043A;&#x043E;&#x043D;&#x0441;&#x043E;&#x043B;&#x044C; &#x0440;&#x0430;&#x0437;&#x0434;&#x0435;&#x043B;&#x0435;&#x043D;&#x0430; &#x043D;&#x0430; 2</li>
+                <li>&#x041D;&#x043E;&#x0432;&#x0430;&#x044F; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x0430; Internet Speedtest (LibreSpeed WebView)</li>
+                <li>&#x0412;&#x044B;&#x0431;&#x043E;&#x0440; DNS: &#x043F;&#x0435;&#x0440;&#x0435;&#x0442;&#x0430;&#x0441;&#x043A;&#x0438;&#x0432;&#x0430;&#x043D;&#x0438;&#x0435;, &#x0437;&#x0435;&#x043B;&#x0451;&#x043D;&#x044B;&#x0439; &#x0437;&#x043D;&#x0430;&#x0447;&#x043E;&#x043A; &#x043E;&#x0442;&#x043A;&#x0440;&#x044B;&#x0432;&#x0430;&#x0435;&#x0442; &#x0434;&#x0435;&#x0442;&#x0430;&#x043B;&#x0438; &#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x0430;</li>
+                <li>&#x0414;&#x0435;&#x0442;&#x0430;&#x043B;&#x0438; &#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x0430;: &#x0438;&#x0441;&#x043F;&#x0440;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0438;&#x0435; &#x0444;&#x043E;&#x043A;&#x0443;&#x0441;&#x0430;, &#x0440;&#x0435;&#x0434;&#x0430;&#x043A;&#x0442;&#x0438;&#x0440;&#x043E;&#x0432;&#x0430;&#x043D;&#x0438;&#x0435; &#x043F;&#x0440;&#x043E;&#x0444;&#x0438;&#x043B;&#x044F; &#x0434;&#x043E;&#x043B;&#x0433;&#x0438;&#x043C; &#x043D;&#x0430;&#x0436;&#x0430;&#x0442;&#x0438;&#x0435;&#x043C;</li>
+                <li>&#x041D;&#x0430;&#x0441;&#x0442;&#x0440;&#x043E;&#x0439;&#x043A;&#x0438;: &#x0438;&#x043A;&#x043E;&#x043D;&#x043A;&#x0430; DoQ, &#x043F;&#x043E;&#x0434;&#x0441;&#x043A;&#x0430;&#x0437;&#x043A;&#x0430; 6 &#x0446;&#x0438;&#x0444;&#x0440;, &#x0436;&#x0451;&#x043B;&#x0442;&#x0430;&#x044F; &#x043A;&#x043D;&#x043E;&#x043F;&#x043A;&#x0430; &#x043F;&#x043E;&#x0434;&#x0434;&#x0435;&#x0440;&#x0436;&#x043A;&#x0438;</li>
+                <li>&#x0416;&#x0443;&#x0440;&#x043D;&#x0430;&#x043B; &#x0441;&#x0432;&#x0451;&#x0440;&#x043D;&#x0443;&#x0442; &#x043F;&#x043E; &#x0443;&#x043C;&#x043E;&#x043B;&#x0447;&#x0430;&#x043D;&#x0438;&#x044E;, &#x0438;&#x0437;&#x0431;&#x0440;&#x0430;&#x043D;&#x043D;&#x043E;&#x0435; &#x0443;&#x0434;&#x0430;&#x043B;&#x0435;&#x043D;&#x043E;</li>
+            </ul>
+        </div>
+        <div class="changelog-item">
+            <span class="ver">v1.0.71</span>
+            <span class="date">26 &#x0444;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044F; 2026</span>
+            <ul>
+                <li>&#x0412;&#x044B;&#x0434;&#x0435;&#x043B;&#x0435;&#x043D;&#x043D;&#x044B;&#x0439; &#x0442;&#x0435;&#x0441;&#x0442;&#x0435;&#x0440; &#x0434;&#x043E;&#x043C;&#x0435;&#x043D;&#x043E;&#x0432;</li>
+                <li>&#x0410;&#x0432;&#x0442;&#x043E;&#x043C;&#x0430;&#x0442;&#x0438;&#x0447;&#x0435;&#x0441;&#x043A;&#x0438;&#x0439; &#x043E;&#x0442;&#x0447;&#x0451;&#x0442; &#x043F;&#x0440;&#x0438; &#x043F;&#x0435;&#x0440;&#x0435;&#x043A;&#x043B;&#x044E;&#x0447;&#x0435;&#x043D;&#x0438;&#x0438; &#x0442;&#x043E;&#x0433;&#x043B;&#x0430;</li>
+                <li>&#x0410;&#x0432;&#x0442;&#x043E;&#x043C;&#x0430;&#x0442;&#x0438;&#x0447;&#x0435;&#x0441;&#x043A;&#x043E;&#x0435; &#x043E;&#x0442;&#x043E;&#x0431;&#x0440;&#x0430;&#x0436;&#x0435;&#x043D;&#x0438;&#x0435; IP</li>
+                <li>&#x0423;&#x0442;&#x043E;&#x0447;&#x043D;&#x0451;&#x043D; &#x0448;&#x0438;&#x0444;&#x0440;&#x043E;&#x0432;&#x0430;&#x043D;&#x043D;&#x044B;&#x0439; &#x044D;&#x043A;&#x0441;&#x043F;&#x043E;&#x0440;&#x0442;/&#x0438;&#x043C;&#x043F;&#x043E;&#x0440;&#x0442;</li>
+                <li>&#x0423;&#x0434;&#x0430;&#x043B;&#x0435;&#x043D;&#x044B; &#x0443;&#x043F;&#x043E;&#x043C;&#x0438;&#x043D;&#x0430;&#x043D;&#x0438;&#x044F; &#x0418;&#x0418;</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.70</span>
+            <span class="date">25 &#x0444;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044F; 2026</span>
+            <ul>
+                <li>&#x041A;&#x043D;&#x043E;&#x043F;&#x043A;&#x0430; &#x043F;&#x043E;&#x043B;&#x043D;&#x043E;&#x0433;&#x043E; &#x0441;&#x0431;&#x0440;&#x043E;&#x0441;&#x0430;</li>
+                <li>&#x041F;&#x0435;&#x0440;&#x0435;&#x043A;&#x043B;&#x044E;&#x0447;&#x0430;&#x0442;&#x0435;&#x043B;&#x044C; DoQ &#x0432; &#x0440;&#x0430;&#x0441;&#x0448;&#x0438;&#x0440;&#x0435;&#x043D;&#x043D;&#x044B;&#x0445; &#x043D;&#x0430;&#x0441;&#x0442;&#x0440;&#x043E;&#x0439;&#x043A;&#x0430;&#x0445;</li>
+                <li>&#x041E;&#x043F;&#x0435;&#x0440;&#x0430;&#x0442;&#x043E;&#x0440; &#x0432; &#x0438;&#x043D;&#x0444;&#x043E;&#x0440;&#x043C;&#x0430;&#x0446;&#x0438;&#x0438; &#x043E; &#x0441;&#x0435;&#x0442;&#x0438;</li>
+                <li>&#x0418;&#x0441;&#x043F;&#x0440;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0438;&#x0435; &#x043E;&#x0442;&#x0447;&#x0451;&#x0442;&#x0430; DNS/leak</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.69</span>
+            <span class="date">&#x0424;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044C; 2026</span>
+            <ul>
+                <li>DoH &#x0442;&#x0435;&#x043F;&#x0435;&#x0440;&#x044C; &#x043F;&#x0440;&#x0438;&#x043E;&#x0440;&#x0438;&#x0442;&#x0435;&#x0442; &#x043F;&#x043E; &#x0443;&#x043C;&#x043E;&#x043B;&#x0447;&#x0430;&#x043D;&#x0438;&#x044E; (&#x043B;&#x0443;&#x0447;&#x0448;&#x0430;&#x044F; &#x0441;&#x043E;&#x0432;&#x043C;&#x0435;&#x0441;&#x0442;&#x0438;&#x043C;&#x043E;&#x0441;&#x0442;&#x044C; &#x0441; &#x0441;&#x0435;&#x0442;&#x044C;&#x044E;)</li>
+                <li>&#x041D;&#x043E;&#x0432;&#x0430;&#x044F; &#x043A;&#x043D;&#x043E;&#x043F;&#x043A;&#x0430; &laquo;&#x0411;&#x044B;&#x0441;&#x0442;&#x0440;&#x044B;&#x0439; &#x0442;&#x0435;&#x0441;&#x0442; DNS&raquo; (&#x0443;&#x0442;&#x0435;&#x0447;&#x043A;&#x0430; DNS + &#x0434;&#x043E;&#x043C;&#x0435;&#x043D;&#x043D;&#x044B;&#x0435; &#x0438;&#x043C;&#x0435;&#x043D;&#x0430;)</li>
+                <li>&#x0423;&#x043F;&#x0440;&#x043E;&#x0449;&#x0451;&#x043D;&#x043D;&#x044B;&#x0439; &#x0438;&#x043C;&#x043F;&#x043E;&#x0440;&#x0442;/&#x044D;&#x043A;&#x0441;&#x043F;&#x043E;&#x0440;&#x0442;: &#x0442;&#x043E;&#x043B;&#x044C;&#x043A;&#x043E; &#x0437;&#x0430;&#x0448;&#x0438;&#x0444;&#x0440;&#x043E;&#x0432;&#x0430;&#x043D;&#x043D;&#x044B;&#x0439; &#x043A;&#x043E;&#x0434;</li>
+                <li>&#x0418;&#x0441;&#x043F;&#x0440;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0430; &#x0432;&#x0435;&#x0440;&#x0441;&#x0438;&#x044F; &#x0432; &#x044D;&#x043A;&#x0441;&#x043F;&#x043E;&#x0440;&#x0442;&#x0435; &#x043A;&#x043E;&#x043D;&#x0444;&#x0438;&#x0433;&#x0443;&#x0440;&#x0430;&#x0446;&#x0438;&#x0438;</li>
+                <li>&#x0420;&#x0430;&#x0441;&#x0448;&#x0438;&#x0444;&#x0440;&#x043E;&#x0432;&#x043A;&#x0430; &#x043E;&#x0442;&#x0447;&#x0451;&#x0442;&#x043E;&#x0432;: &#x0443;&#x043B;&#x0443;&#x0447;&#x0448;&#x0435;&#x043D;&#x043D;&#x044B;&#x0439; &#x0444;&#x043E;&#x043B;&#x0431;&#x044D;&#x043A; CORS-&#x043F;&#x0440;&#x043E;&#x043A;&#x0441;&#x0438;</li>
+                <li>&#x0414;&#x043E;&#x0431;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x044B; XMR &#x0438; BTC Lightning &#x043D;&#x0430; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x0435; &#x043F;&#x043E;&#x0434;&#x0434;&#x0435;&#x0440;&#x0436;&#x043A;&#x0438;</li>
+            </ul>
+        </div>
+
+        <div class="changelog-item">
+            <span class="ver">v1.0.68</span>
+            <span class="date">&#x0424;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044C; 2026</span>
+            <ul>
+                <li>&#x0418;&#x0441;&#x043F;&#x0440;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0438;&#x044F; &#x043E;&#x0448;&#x0438;&#x0431;&#x043E;&#x043A; &#x0438;&#x043D;&#x0442;&#x0435;&#x0440;&#x0444;&#x0435;&#x0439;&#x0441;&#x0430;</li>
+                <li>&#x041E;&#x0431;&#x0449;&#x0438;&#x0435; &#x0443;&#x043B;&#x0443;&#x0447;&#x0448;&#x0435;&#x043D;&#x0438;&#x044F; &#x0441;&#x0442;&#x0430;&#x0431;&#x0438;&#x043B;&#x044C;&#x043D;&#x043E;&#x0441;&#x0442;&#x0438;</li>
+            </ul>
+        </div>
 
         <div class="changelog-item">
             <span class="ver">v1.0.67</span>
-            <span class="date">2026</span>
+            <span class="date">&#x0424;&#x0435;&#x0432;&#x0440;&#x0430;&#x043B;&#x044C; 2026</span>
             <ul>
-                <li>DNS provider detail page redesigned: expandable categories</li>
-                <li>Custom NextDNS profiles from detail page</li>
-                <li>Dedicated crypto support page</li>
-                <li>DNS speedtest UI fixes</li>
-                <li>GPL v3 license on homepage</li>
-                <li style="color: #FF9800;">Known bug: some minor UI glitches</li>
+                <li>&#x041F;&#x0435;&#x0440;&#x0435;&#x0440;&#x0430;&#x0431;&#x043E;&#x0442;&#x0430;&#x043D;&#x0430; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x0430; &#x0434;&#x0435;&#x0442;&#x0430;&#x043B;&#x0435;&#x0439; DNS-&#x043F;&#x0440;&#x043E;&#x0432;&#x0430;&#x0439;&#x0434;&#x0435;&#x0440;&#x0430;: &#x0440;&#x0430;&#x0441;&#x043A;&#x0440;&#x044B;&#x0432;&#x0430;&#x0435;&#x043C;&#x044B;&#x0435; &#x043A;&#x0430;&#x0442;&#x0435;&#x0433;&#x043E;&#x0440;&#x0438;&#x0438; &#x043F;&#x043E; &#x0442;&#x0438;&#x043F;&#x0443;</li>
+                <li>&#x041F;&#x043E;&#x043B;&#x044C;&#x0437;&#x043E;&#x0432;&#x0430;&#x0442;&#x0435;&#x043B;&#x044C;&#x0441;&#x043A;&#x0438;&#x0435; &#x043F;&#x0440;&#x043E;&#x0444;&#x0438;&#x043B;&#x0438; NextDNS &#x0441;&#x043E; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x044B; &#x0434;&#x0435;&#x0442;&#x0430;&#x043B;&#x0435;&#x0439;</li>
+                <li>&#x0421;&#x043F;&#x0435;&#x0446;&#x0438;&#x0430;&#x043B;&#x044C;&#x043D;&#x0430;&#x044F; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x0430; &#x043A;&#x0440;&#x0438;&#x043F;&#x0442;&#x043E;-&#x043F;&#x043E;&#x0434;&#x0434;&#x0435;&#x0440;&#x0436;&#x043A;&#x0438;</li>
+                <li>&#x0418;&#x0441;&#x043F;&#x0440;&#x0430;&#x0432;&#x043B;&#x0435;&#x043D;&#x0438;&#x044F; UI &#x0442;&#x0435;&#x0441;&#x0442;&#x0430; &#x0441;&#x043A;&#x043E;&#x0440;&#x043E;&#x0441;&#x0442;&#x0438; DNS</li>
+                <li>&#x041B;&#x0438;&#x0446;&#x0435;&#x043D;&#x0437;&#x0438;&#x044F; GPL v3 &#x043D;&#x0430; &#x0433;&#x043B;&#x0430;&#x0432;&#x043D;&#x043E;&#x0439; &#x0441;&#x0442;&#x0440;&#x0430;&#x043D;&#x0438;&#x0446;&#x0435;</li>
+                <li>&#x041E;&#x0447;&#x0438;&#x0441;&#x0442;&#x043A;&#x0430; &#x043A;&#x043E;&#x0434;&#x0430; &#x0438; &#x0443;&#x0434;&#x0430;&#x043B;&#x0435;&#x043D;&#x0438;&#x0435; &#x043C;&#x0451;&#x0440;&#x0442;&#x0432;&#x043E;&#x0433;&#x043E; &#x043A;&#x043E;&#x0434;&#x0430;</li>
             </ul>
         </div>
 
@@ -547,10 +648,12 @@
             <span class="date">Февраль 2026</span>
             <span style="color: #FFD700; font-size: 0.85em; margin-left: 8px;">APK: 6.3 MB</span>
             <ul>
-                <li>Интеграция Shizuku для изменения Private DNS без ПК</li>
-                <li>Улучшенная поддержка беспроводного ADB</li>
+                <li>&#x0418;&#x043D;&#x0442;&#x0435;&#x0433;&#x0440;&#x0430;&#x0446;&#x0438;&#x044F; Shizuku &#x0434;&#x043B;&#x044F; &#x0438;&#x0437;&#x043C;&#x0435;&#x043D;&#x0435;&#x043D;&#x0438;&#x044F; Private DNS &#x0431;&#x0435;&#x0437; &#x041F;&#x041A;</li>
+                <li>&#x0423;&#x043B;&#x0443;&#x0447;&#x0448;&#x0435;&#x043D;&#x043D;&#x0430;&#x044F; &#x043F;&#x043E;&#x0434;&#x0434;&#x0435;&#x0440;&#x0436;&#x043A;&#x0430; &#x0431;&#x0435;&#x0441;&#x043F;&#x0440;&#x043E;&#x0432;&#x043E;&#x0434;&#x043D;&#x043E;&#x0433;&#x043E; ADB</li>
             </ul>
         </div>
+
+        </details>
     </div>
 </section>
 
@@ -603,7 +706,6 @@
 <!-- Footer -->
 <footer>
     <p>Perfect DNS Manager &copy; 2026 AppstoreFR — Сделано с &#x2764;&#xFE0F; для сообщества</p>
-    <p style="margin-top: 6px;">ИИ : Claude Opus 4.6 (Anthropic)</p>
 </footer>
 
 

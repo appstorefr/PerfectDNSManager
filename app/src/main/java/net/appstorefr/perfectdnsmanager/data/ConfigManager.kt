@@ -14,6 +14,12 @@ class ConfigManager(private val context: Context) {
 
     private val gson = Gson()
 
+    private fun getAppVersion(): String {
+        return try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
+        } catch (_: Exception) { "1.0" }
+    }
+
     data class ImportResult(
         val profileCount: Int,
         val rewriteRuleCount: Int,
@@ -35,7 +41,7 @@ class ConfigManager(private val context: Context) {
     ): String {
         val root = JsonObject()
 
-        root.addProperty("version", "1.0.50")
+        root.addProperty("version", getAppVersion())
         root.addProperty("exportDate", iso8601Now())
 
         val profileManager = ProfileManager(context)
@@ -101,7 +107,7 @@ class ConfigManager(private val context: Context) {
         val root = JsonObject()
 
         // Version and date
-        root.addProperty("version", "1.0.50")
+        root.addProperty("version", getAppVersion())
         root.addProperty("exportDate", iso8601Now())
 
         // Profiles from ProfileManager (SharedPrefs "dns_profiles_v2", key "profiles")

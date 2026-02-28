@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Focus -->
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="#7B1F3A" />
-            <stroke android:width="4dp" android:color="#00E5FF" />
+            <solid android:color="#43A047" />
+            <stroke android:width="3dp" android:color="#00E5FF" />
             <corners android:radius="8dp" />
         </shape>
     </item>
-    <!-- Normal -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#43A047" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#7B1F3A" />
+            <solid android:color="#388E3C" />
             <corners android:radius="8dp" />
         </shape>
     </item>

@@ -78,6 +78,8 @@ class SettingsActivity : AppCompatActivity() {
         val rowStandardDns: LinearLayout = findViewById(R.id.rowStandardDns)
         val switchProfileVariants: Switch = findViewById(R.id.switchProfileVariants)
         val rowProfileVariants: LinearLayout = findViewById(R.id.rowProfileVariants)
+        val switchDoqDns: Switch = findViewById(R.id.switchDoqDns)
+        val rowDoqDns: LinearLayout = findViewById(R.id.rowDoqDns)
 
         // ── Toggle DNS DoT via ADB (dans la section avancée) ──
         val switchAdbDot: Switch = findViewById(R.id.switchAdbDot)
@@ -323,6 +325,9 @@ class SettingsActivity : AppCompatActivity() {
                 switchProfileVariants.isChecked = false
                 prefs.edit().putBoolean("show_profile_variants", false).apply()
 
+                switchDoqDns.isChecked = false
+                prefs.edit().putBoolean("show_doq_dns", false).apply()
+
                 switchAdbDot.isChecked = false
                 prefs.edit().putBoolean("adb_dot_enabled", false).apply()
                 layoutAdbDotSection.visibility = View.GONE
@@ -357,11 +362,15 @@ class SettingsActivity : AppCompatActivity() {
             prefs.edit().putBoolean("show_profile_variants", isChecked).apply()
         }
 
+        // DNS over QUIC toggle (hidden by default)
+        switchDoqDns.isChecked = prefs.getBoolean("show_doq_dns", false)
+        rowDoqDns.setOnClickListener { switchDoqDns.isChecked = !switchDoqDns.isChecked }
+        switchDoqDns.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("show_doq_dns", isChecked).apply()
+        }
+
         // URL Rewrite (fonction avancée)
         btnUrlRewrite.setOnClickListener { showUrlRewriteDialog() }
-
-        // Domaines de test (dans section avancée)
-        findViewById<Button>(R.id.btnTestDomains).setOnClickListener { showTestDomainsDialog() }
 
         // Split tunneling (bypass VPN per-app)
         findViewById<Button>(R.id.btnSplitTunnel).setOnClickListener { showSplitTunnelDialog() }
@@ -408,156 +417,34 @@ class SettingsActivity : AppCompatActivity() {
                 .show()
         }
 
-        btnBack.requestFocus()
+        // Réinitialisation complète de l'application
+        findViewById<Button>(R.id.btnResetApp).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.reset_app_title))
+                .setMessage(getString(R.string.reset_app_message))
+                .setPositiveButton(getString(R.string.reset_app_confirm)) { _, _ ->
+                    try {
+                        val stopIntent = Intent(this, net.appstorefr.perfectdnsmanager.service.DnsVpnService::class.java)
+                        stopIntent.action = "ACTION_STOP"
+                        startService(stopIntent)
+                    } catch (_: Exception) {}
+                    getSharedPreferences("prefs", MODE_PRIVATE).edit().clear().apply()
+                    getSharedPreferences("nextdns_profiles", MODE_PRIVATE).edit().clear().apply()
+                    ProfileManager(this).resetAll()
+                    val intent = packageManager.getLaunchIntentForPackage(packageName)
+                    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                    finishAffinity()
+                }
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show()
+        }
+
+        switchAdvanced.requestFocus()
         btnBack.setOnClickListener { finish() }
         btnAbout.setOnClickListener { startActivity(Intent(this, AboutActivity::class.java)) }
         btnHowTo.setOnClickListener { startActivity(Intent(this, HowToActivity::class.java)) }
         btnSupport.setOnClickListener { startActivity(Intent(this, SupportActivity::class.java)) }
-    }
-
-    // ── Domaines de test ──────────────────────────────────────────
-
-    private data class TestDomainEntry(val domain: String, val enabled: Boolean)
-
-    private fun loadTestDomainEntries(): MutableList<TestDomainEntry> {
-        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-        val json = prefs.getString("test_domains_json", null)
-        if (json != null) {
-            try {
-                val arr = org.json.JSONArray(json)
-                val list = mutableListOf<TestDomainEntry>()
-                for (i in 0 until arr.length()) {
-                    val obj = arr.getJSONObject(i)
-                    list.add(TestDomainEntry(obj.getString("domain"), obj.optBoolean("enabled", true)))
-                }
-                return list
-            } catch (_: Exception) {}
-        }
-        // Default
-        return mutableListOf(TestDomainEntry("ygg.re", true))
-    }
-
-    private fun saveTestDomainEntries(entries: List<TestDomainEntry>) {
-        val arr = org.json.JSONArray()
-        for (e in entries) {
-            val obj = org.json.JSONObject()
-            obj.put("domain", e.domain)
-            obj.put("enabled", e.enabled)
-            arr.put(obj)
-        }
-        getSharedPreferences("prefs", MODE_PRIVATE).edit()
-            .putString("test_domains_json", arr.toString()).apply()
-    }
-
-    private fun showTestDomainsDialog() {
-        val entries = loadTestDomainEntries()
-        refreshTestDomainsDialog(entries)
-    }
-
-    private fun refreshTestDomainsDialog(entries: MutableList<TestDomainEntry>) {
-        val layout = android.widget.LinearLayout(this).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            setPadding(50, 20, 50, 10)
-        }
-
-        if (entries.isEmpty()) {
-            layout.addView(android.widget.TextView(this).apply {
-                text = getString(R.string.test_domains_empty)
-                setTextColor(0xFF888888.toInt()); textSize = 14f
-                setPadding(0, 10, 0, 10)
-            })
-        }
-
-        for ((index, entry) in entries.withIndex()) {
-            val row = android.widget.LinearLayout(this).apply {
-                orientation = android.widget.LinearLayout.HORIZONTAL
-                gravity = android.view.Gravity.CENTER_VERTICAL
-                setPadding(0, 4, 0, 4)
-            }
-            val sw = android.widget.Switch(this).apply {
-                isChecked = entry.enabled
-                setOnCheckedChangeListener { _, checked ->
-                    entries[index] = entries[index].copy(enabled = checked)
-                    saveTestDomainEntries(entries)
-                }
-            }
-            val tv = android.widget.TextView(this).apply {
-                text = entry.domain
-                setTextColor(0xFFCCCCCC.toInt()); textSize = 14f
-                layoutParams = android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-                setPadding(16, 0, 8, 0)
-            }
-            val btnDel = android.widget.Button(this).apply {
-                text = "\u2716"
-                setTextColor(0xFFFF5555.toInt()); textSize = 12f
-                background = null; minWidth = 0; minimumWidth = 0
-                setPadding(16, 0, 0, 0)
-                setOnClickListener {
-                    entries.removeAt(index)
-                    saveTestDomainEntries(entries)
-                    // Refresh dialog
-                    (layout.parent as? android.view.ViewGroup)?.let { parent ->
-                        try {
-                            // Close current dialog and reopen
-                        } catch (_: Exception) {}
-                    }
-                }
-            }
-            row.addView(sw)
-            row.addView(tv)
-            row.addView(btnDel)
-            layout.addView(row)
-        }
-
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle(getString(R.string.test_domains_button))
-            .setView(layout)
-            .setPositiveButton(getString(R.string.test_domains_add)) { dlg, _ ->
-                dlg.dismiss()
-                showAddTestDomainDialog(entries)
-            }
-            .setNegativeButton("OK", null)
-            .show()
-
-        // Wire delete buttons to close and reopen
-        for (i in 0 until layout.childCount) {
-            val row = layout.getChildAt(i) as? android.widget.LinearLayout ?: continue
-            for (j in 0 until row.childCount) {
-                val btn = row.getChildAt(j) as? android.widget.Button ?: continue
-                if (btn.text == "\u2716") {
-                    val idx = i
-                    btn.setOnClickListener {
-                        if (idx < entries.size) {
-                            entries.removeAt(idx)
-                            saveTestDomainEntries(entries)
-                            dialog.dismiss()
-                            refreshTestDomainsDialog(entries)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showAddTestDomainDialog(entries: MutableList<TestDomainEntry>) {
-        val input = android.widget.EditText(this).apply {
-            hint = "example.com"
-            setTextColor(0xFFFFFFFF.toInt()); setHintTextColor(0xFF666666.toInt())
-            textSize = 16f; setPadding(50, 30, 50, 30)
-        }
-        androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle(getString(R.string.test_domains_add))
-            .setView(input)
-            .setPositiveButton("OK") { _, _ ->
-                val domain = input.text.toString().trim().lowercase()
-                if (domain.isNotEmpty() && domain.contains(".")) {
-                    entries.add(TestDomainEntry(domain, true))
-                    saveTestDomainEntries(entries)
-                }
-                refreshTestDomainsDialog(entries)
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
     }
 
     // ── Split tunneling (bypass VPN per-app) ─────────────────────
@@ -1205,24 +1092,8 @@ class SettingsActivity : AppCompatActivity() {
                 includeProfiles, includeDefaultProfile,
                 includeNextDnsProfiles, includeRewriteRules, includeSettings
             )
-
-            val dir = getExternalFilesDir(null) ?: filesDir
-            val file = java.io.File(dir, "PerfectDNS-config.json")
-            file.writeText(json)
-
-            val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
-            clipboard.setPrimaryClip(android.content.ClipData.newPlainText("PerfectDNS Config", json))
-
-            AlertDialog.Builder(this)
-                .setTitle(getString(R.string.config_exported_title))
-                .setMessage(getString(R.string.export_choose_dest, file.absolutePath))
-                .setPositiveButton(getString(R.string.export_save_local)) { _, _ ->
-                    Toast.makeText(this, getString(R.string.export_saved_locally, file.absolutePath), Toast.LENGTH_LONG).show()
-                }
-                .setNeutralButton(getString(R.string.upload_encrypted)) { _, _ ->
-                    showExpirationAndUpload(json)
-                }
-                .show()
+            // Directly upload encrypted
+            showExpirationAndUpload(json)
         } catch (e: Exception) {
             Toast.makeText(this, getString(R.string.export_error, e.message ?: ""), Toast.LENGTH_LONG).show()
         }
@@ -1243,7 +1114,7 @@ class SettingsActivity : AppCompatActivity() {
                     val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                     clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Share Code", result.shortCode))
                     val msg = android.text.SpannableString(
-                        "Code : ${result.shortCode}\n\nOuvrir la configuration :\nappstorefr.github.io/PerfectDNSManager/decrypt.html\n\nEntrez le code ${result.shortCode} pour importer.\n\n(code copié dans le presse-papier)"
+                        "Code : ${result.shortCode}\n\nOuvrir la configuration :\nhttps://appstorefr.github.io/PerfectDNSManager/decrypt.html\n\nEntrez le code ${result.shortCode} pour importer.\n\n(code copié dans le presse-papier)"
                     )
                     val code = result.shortCode
                     val greenColor = android.graphics.Color.parseColor("#4CAF50")
@@ -1264,94 +1135,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun showImportOptions() {
-        val options = arrayOf(
-            getString(R.string.import_from_code),
-            getString(R.string.import_from_clipboard),
-            getString(R.string.import_from_url),
-            getString(R.string.import_from_file)
-        )
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.import_config_button))
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> showImportFromCodeDialog()
-                    1 -> importFromClipboard()
-                    2 -> showImportFromUrlDialog()
-                    3 -> importFromLocalFile()
-                }
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-
-    private fun importFromClipboard() {
-        val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
-        val text = clipboard.primaryClip?.getItemAt(0)?.text?.toString()
-        if (text.isNullOrBlank()) {
-            Toast.makeText(this, getString(R.string.clipboard_empty), Toast.LENGTH_SHORT).show()
-            return
-        }
-        confirmAndImport(text)
-    }
-
-    private fun showImportFromUrlDialog() {
-        val layout = android.widget.LinearLayout(this).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            setPadding(60, 40, 60, 20)
-        }
-        val tvExplain = TextView(this).apply {
-            text = getString(R.string.enter_config_url)
-            setTextColor(0xFFCCCCCC.toInt()); textSize = 13f
-        }
-        layout.addView(tvExplain)
-        val editUrl = android.widget.EditText(this).apply {
-            hint = "https://example.com/config.json"
-            setTextColor(0xFFFFFFFF.toInt()); setHintTextColor(0xFF888888.toInt())
-            setBackgroundColor(0xFF333333.toInt()); setPadding(20, 15, 20, 15)
-            isSingleLine = true
-        }
-        layout.addView(editUrl)
-
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.import_from_url_title))
-            .setView(layout)
-            .setPositiveButton(getString(R.string.download_button)) { _, _ ->
-                val url = editUrl.text.toString().trim()
-                if (url.isNotEmpty()) {
-                    Toast.makeText(this, getString(R.string.downloading), Toast.LENGTH_SHORT).show()
-                    Thread {
-                        try {
-                            val conn = java.net.URL(url).openConnection() as java.net.HttpURLConnection
-                            conn.connectTimeout = 10000
-                            conn.readTimeout = 10000
-                            val json = conn.inputStream.bufferedReader().readText()
-                            conn.disconnect()
-                            runOnUiThread { confirmAndImport(json) }
-                        } catch (e: Exception) {
-                            runOnUiThread {
-                                Toast.makeText(this, getString(R.string.read_error, e.message ?: ""), Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }.start()
-                }
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-
-    private fun importFromLocalFile() {
-        try {
-            val dir = getExternalFilesDir(null) ?: filesDir
-            val file = java.io.File(dir, "PerfectDNS-config.json")
-            if (!file.exists()) {
-                Toast.makeText(this, getString(R.string.no_file_found, file.absolutePath), Toast.LENGTH_LONG).show()
-                return
-            }
-            val json = file.readText()
-            confirmAndImport(json)
-        } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.read_error, e.message ?: ""), Toast.LENGTH_LONG).show()
-        }
+        // Directly open encrypted code import dialog
+        showImportFromCodeDialog()
     }
 
     private fun showImportFromCodeDialog() {

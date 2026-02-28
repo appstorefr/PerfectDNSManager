@@ -2,23 +2,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#2E2E2E">
+    android:background="#1E1E1E">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/new_dns_profile"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="8dp" />
 
         <!-- Nom -->
         <TextView
@@ -38,7 +38,7 @@
             android:textColorHint="#888888"
             android:background="#444444"
             android:padding="10dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:focusable="true" />
 
         <!-- Type DNS -->
@@ -55,15 +55,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="8dp">
 
             <RadioButton
                 android:id="@+id/rbDoh"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:text="DNS over HTTPS (DoH) — Recommandé"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#2196F3"
+                android:buttonTint="#44FF44"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -71,10 +71,10 @@
             <RadioButton
                 android:id="@+id/rbDot"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:text="DNS over TLS (DoT)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#4CAF50"
+                android:buttonTint="#FFB700"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -82,10 +82,10 @@
             <RadioButton
                 android:id="@+id/rbDoq"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:text="DNS over QUIC (DoQ)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#9C27B0"
+                android:buttonTint="#7B68EE"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -93,10 +93,10 @@
             <RadioButton
                 android:id="@+id/rbStandard"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="40dp"
                 android:text="Standard (UDP non chiffré)"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#FF9800"
+                android:buttonTint="#888888"
                 android:background="@drawable/focusable_item_background"
                 android:padding="8dp"
                 android:focusable="true" />
@@ -120,7 +120,7 @@
             android:textColorHint="#888888"
             android:background="#444444"
             android:padding="10dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:focusable="true" />
 
         <!-- DNS Secondaire -->
@@ -143,7 +143,7 @@
             android:textColorHint="#888888"
             android:background="#444444"
             android:padding="10dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:visibility="gone"
             android:focusable="true"/>
 
@@ -167,7 +167,7 @@
             android:textColorHint="#888888"
             android:background="#444444"
             android:padding="10dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:visibility="gone"
             android:focusable="true"/>
 
@@ -181,7 +181,7 @@
             android:textColorHint="#888888"
             android:background="#444444"
             android:padding="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:visibility="gone"
             android:focusable="true"/>
 

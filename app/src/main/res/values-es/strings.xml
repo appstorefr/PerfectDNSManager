@@ -37,7 +37,7 @@
     <string name="wan_ipv6_blocked">bloqueado ✓</string>
     <string name="share_ip_button">📤 Compartir informe</string>
     <string name="share_ip_uploading">Subiendo IPs…</string>
-    <string name="share_ip_success_title">IPs compartidas</string>
+    <string name="share_ip_success_title">Informe cifrado compartido</string>
     <string name="share_ip_success_message">Código: %1$s\n\nEl código se ha copiado al portapapeles.\n\nEnlace: %2$s\n(Archivo cifrado AES-256)</string>
     <string name="share_ip_error">Error al compartir las IPs</string>
 
@@ -58,8 +58,8 @@
     <string name="restore_dns_button">🔄 Restaurar los DNS iniciales</string>
     <string name="show_operator_dns">🇫🇷 Mostrar los DNS de operadores Francia (Orange/Bouygues/SFR/Free/OVH)</string>
     <string name="show_standard_dns">📋 Mostrar los DNS cl\u00e1sicos (sin cifrar)</string>
-    <string name="show_profile_variants">📋 Mostrar los diferentes perfiles de proveedores DNS (unfiltered, noads, kids etc…)</string>
-    <string name="dns_dot_adb">📡 DNS DoT vía ADB</string>
+    <string name="show_profile_variants">📋 Mostrar los diferentes perfiles de proveedores DNS</string>
+    <string name="dns_dot_adb">📡 Mostrar los DNS DoT vía ADB</string>
     <string name="adb_warning">El método ADB modifica los ajustes del sistema. En caso de problemas de conectividad, desactiva esta opción y usa el método VPN.</string>
     <string name="disable_ipv6_label">Desactivar IPv6 / Forzar IPv4</string>
 
@@ -76,12 +76,12 @@
     <!-- Import / Export -->
     <string name="import_export_title">💾 Archivo de configuración</string>
     <string name="import_export_desc">Guarda o restaura tu configuración completa (perfiles, DNS predeterminado, reglas rewrite, ajustes).</string>
-    <string name="export_config_button">📤 Exportar configuración</string>
-    <string name="import_config_button">📥 Importar configuración</string>
+    <string name="export_config_button">📤 Exportar configuración cifrada (AES-256-GCM)</string>
+    <string name="import_config_button">📥 Importar configuración cifrada</string>
     <string name="config_exported_title">📤 Configuración exportada</string>
     <string name="config_exported_message">Archivo: %1$s\n\nEl JSON también se ha copiado al portapapeles.\n\nPuedes compartirlo o guardarlo.</string>
     <string name="share_button">Compartir</string>
-    <string name="upload_encrypted">🔒 Enviar cifrado (is.gd)</string>
+    <string name="upload_encrypted">🔒 Enviar cifrado</string>
     <string name="uploading">Cifrando y enviando…</string>
     <string name="upload_success_title">🔒 ¡Archivo cifrado enviado!</string>
     <string name="upload_success_message_with_number">Código de importación: %1$s\n\nPara importar en otro dispositivo, introduce este código.\n\nEnlace completo:\n%2$s\n\nCódigo copiado al portapapeles.\n\n🔒 Cifrado AES-256 — la clave está en el enlace.</string>
@@ -92,10 +92,10 @@
     <string name="import_from_url">🌐 Importar desde una URL</string>
     <string name="import_from_file">📁 Importar desde un archivo local</string>
     <string name="import_from_code">🔒 Desde un código cifrado</string>
-    <string name="import_from_code_title">🔒 Importación cifrada</string>
-    <string name="enter_share_code">Introduce el código is.gd:</string>
-    <string name="share_code_hint">Ej: aB3kL9</string>
-    <string name="import_code_explain">El archivo se descargará y descifrará automáticamente.\n\nVerificación: https://appstorefr.github.io/PerfectDNSManager/</string>
+    <string name="import_from_code_title">🔒 Importar una configuración cifrada</string>
+    <string name="enter_share_code">Introduce el código:</string>
+    <string name="share_code_hint">123456</string>
+    <string name="import_code_explain">Genera este código mediante Exportar en los ajustes.\n\nEl archivo se descargará y descifrará automáticamente.\n\nVerificación: https://appstorefr.github.io/PerfectDNSManager/decrypt.html</string>
     <string name="choose_expiration">Expiración del archivo:</string>
     <string name="expiration_1h">1 hora</string>
     <string name="expiration_12h">12 horas</string>
@@ -185,11 +185,9 @@
     <string name="check_for_updates">Buscar actualizaciones</string>
     <string name="checking_for_updates">Buscando actualizaciones…</string>
     <string name="credits">Créditos</string>
-    <string name="credits_list">Claude Sonnet 4.6 (Anthropic)</string>
     <string name="appstorefr">AppstoreFR</string>
     <string name="contact_email">contact@appstorefr.net</string>
     <string name="support_about_button">❤️ Apóyame</string>
-    <string name="ia_credit">IA: Claude Opus 4.6 (Anthropic)</string>
 
     <!-- DNS Deletion -->
     <string name="cannot_delete">No se puede eliminar</string>
@@ -311,7 +309,7 @@
     <string name="update_download_error">Error durante la descarga</string>
     <string name="update_install_error">Error durante la instalación</string>
     <string name="update_dialog_title">Actualización disponible</string>
-    <string name="update_dialog_message">Una nueva versión (v%1$s) está disponible.\n¿Deseas descargarla e instalarla?</string>
+    <string name="update_dialog_message">Una nueva versión (v%1$s — %2$s) está disponible.\n¿Deseas descargarla e instalarla?</string>
     <string name="update_dialog_install">Instalar</string>
     <string name="update_dialog_later">Más tarde</string>
 
@@ -367,7 +365,7 @@
     <string name="privacy_label">Privacidad</string>
 
     <!-- DNS Speedtest -->
-    <string name="dns_speedtest_button">⚡ Speedtest</string>
+    <string name="dns_speedtest_button">Iniciar prueba</string>
     <string name="dns_speedtest_title">⚡ DNS Speedtest</string>
     <string name="dns_speedtest_running">Prueba de latencia DNS en curso…</string>
     <string name="dns_speedtest_result">%1$s (%2$s): %3$s</string>
@@ -393,14 +391,11 @@
     <!-- Shizuku hardcoded fix -->
     <string name="shizuku_cannot_open">No se puede abrir Shizuku</string>
 
-    <!-- Downloader code -->
-    <string name="downloader_code_label">Código Downloader (AFTVnews):</string>
-    <string name="downloader_code_value">2759555</string>
-
     <!-- DNS Rewrite screen -->
     <string name="dns_rewrite_screen_title">Reescritura DNS (Rewriting)</string>
-    <string name="show_doq_dns">⚡ Mostrar perfiles DNS over QUIC (DoQ)</string>
-    <string name="gpl_license_text">Esta aplicación es libre. Nada podrá prohibir una aplicación libre.\nLicencia GPL v3 — El código fuente es abierto, toda redistribución debe permanecer open source.\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="show_doq_dns">Mostrar DNS over QUIC (DoQ)</string>
+    <string name="gpl_license_text">Libre hoy. Libre mañana. ¡Se puede bloquear un camino, no la libertad!\nEl código fuente es abierto, toda redistribución debe permanecer open source.\nLicencia GPL v3\n\nhttps://github.com/appstorefr/PerfectDNSManager</string>
+    <string name="credits_text">cut.appstorefr.net — Acortador de URL para compartir informes cifrados\n\nvault.appstorefr.net — Alojamiento seguro de archivos para exportar configuración</string>
 
     <!-- Speedtest Internet -->
     <string name="speedtest_button">🌐 Speedtest Internet</string>
@@ -428,6 +423,8 @@
     <!-- Herramientas de prueba (módulo unificado) -->
     <string name="tools_section_label">3| Herramientas de prueba:</string>
     <string name="generate_report_button">▶ Generar informe</string>
+    <string name="quick_dns_test_button">🔍 Probador de dominios</string>
+    <string name="quick_dns_test_running">Prueba DNS en curso...</string>
     <string name="no_report_yet">Ningún informe generado.\nPulsa el botón de arriba para ejecutar las pruebas.</string>
     <string name="share_report_button">📤 Compartir informe</string>
     <string name="share_toggle_network">Información de red (IP, DNS)</string>
@@ -440,7 +437,7 @@
     <string name="report_progress_blocking">⏳ Test de bloqueo en curso…</string>
     <string name="report_complete">✅ Informe generado</string>
     <string name="no_report_to_share">Genera primero un informe</string>
-    <string name="test_domains_button">Dominios de prueba</string>
+    <string name="test_domains_button">Probar dominios</string>
     <string name="test_domains_add">Agregar un dominio</string>
     <string name="test_domains_empty">Ningún dominio configurado</string>
 
@@ -455,7 +452,7 @@
     <string name="split_tunnel_save">Guardar</string>
     <string name="split_tunnel_saved">Aplicaciones excluidas actualizadas</string>
     <string name="split_tunnel_restart_vpn">El VPN se reiniciará para aplicar los cambios.</string>
-    <string name="vpn_required_for_report">Conecta primero el VPN para generar el informe</string>
+    <string name="vpn_required_for_report">Activa primero un DNS (VPN o DNS privado)</string>
     <string name="dns_leak_isp_label">DNS del ISP (sin VPN)</string>
     <string name="dns_leak_vpn_label">DNS activo (con VPN)</string>
 
@@ -510,4 +507,24 @@
     <string name="device_type_phone">Teléfono</string>
     <string name="device_type_tablet">Tableta</string>
     <string name="device_type_unknown">Desconocido</string>
+
+    <!-- Reset app -->
+    <string name="reset_app_button">⚠ Reiniciar aplicación</string>
+    <string name="reset_app_title">Reinicio completo</string>
+    <string name="reset_app_message">Se eliminarán TODOS los datos.\n\nLa app se reiniciará.\n\n¿Está seguro?</string>
+    <string name="reset_app_confirm">Sí, reiniciar todo</string>
+    <string name="domain_tester_title">Probador de dominios</string>
+    <string name="domain_tester_add">+ Agregar un dominio</string>
+    <string name="domain_tester_add_title">Agregar un dominio</string>
+    <string name="domain_tester_edit_title">Editar dominio</string>
+    <string name="domain_tester_delete_title">¿Eliminar dominio?</string>
+    <string name="domain_tester_run">▶ Probar dominios</string>
+    <string name="domain_tester_testing">Probando…</string>
+    <string name="domain_tester_no_result">Ninguna prueba realizada.</string>
+    <string name="domain_tester_no_enabled">Ningún dominio habilitado.</string>
+    <string name="domain_tester_dns_all">Todos</string>
+    <string name="domain_tester_dns_select">DNS a probar:</string>
+    <string name="internet_speedtest_button">Test de velocidad</string>
+    <string name="internet_speedtest_advanced">Test de velocidad (avanzado)</string>
+    <string name="dns_speedtest_shortcut">⚡ Speedtest</string>
 </resources>
