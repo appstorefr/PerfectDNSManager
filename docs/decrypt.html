@@ -79,7 +79,9 @@
 
     // Check if URL fragment contains auto-decrypt info
     window.addEventListener('DOMContentLoaded', () => {
-        const hash = window.location.hash.substring(1);
+        let hash = window.location.hash.substring(1);
+        // Decode %7C → | (cut.appstorefr.net encodes the pipe in redirects)
+        hash = decodeURIComponent(hash);
         if (hash && hash.includes('|')) {
             autoDecryptFromFragment(hash);
         }
