@@ -157,16 +157,44 @@
         document.getElementById('manualSection').style.display = 'block';
     }
 
-    function decryptFromCode() {
-        const code = document.getElementById('codeInput').value.trim();
+    async function decryptFromCode() {
+        let code = document.getElementById('codeInput').value.trim();
         if (!code) return;
 
-        // Redirect to cut.appstorefr.net — the browser follows the 301 redirect to
-        // decrypt.html on GitHub Pages with the correct #fragment.
-        // This avoids all CORS issues.
-        setStatus('info', 'Redirecting...');
-        const cutUrl = code.startsWith('http') ? code : 'https://cut.appstorefr.net/' + code;
-        window.location.href = cutUrl;
+        // Extract code from full URL if needed
+        if (code.startsWith('http')) {
+            const m = code.match(/\/([^\/]+)$/);
+            if (m) code = m[1];
+        }
+
+        setStatus('info', 'Resolving code...');
+        try {
+            const resp = await fetch('https://cut.appstorefr.net/api/cut/resolve/' + encodeURIComponent(code));
+            const json = await resp.json();
+            if (!json.ok || !json.url) {
+                setStatus('err', 'Code not found or expired.');
+                return;
+            }
+            // json.url = decrypt.html#encodedFileUrl|key — extract the fragment
+            const hashIdx = json.url.indexOf('#');
+            if (hashIdx < 0) {
+                setStatus('err', 'Invalid link (no fragment).');
+                return;
+            }
+            let fragment = json.url.substring(hashIdx + 1);
+            try { fragment = decodeURIComponent(fragment); } catch(e) {}
+            const pipe = fragment.indexOf('|');
+            if (pipe < 0) {
+                setStatus('err', 'Invalid link (no key).');
+                return;
+            }
+            let fileUrl = fragment.substring(0, pipe);
+            const key = fragment.substring(pipe + 1);
+            try { fileUrl = decodeURIComponent(fileUrl); } catch(e) {}
+            autoDecryptFromFragment(fileUrl, key);
+        } catch (e) {
+            setStatus('err', 'Cannot resolve code: ' + e.message);
+        }
     }
 
     async function decryptManual() {
