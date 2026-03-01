@@ -168,33 +168,34 @@
         }
 
         setStatus('info', 'Resolving code...');
+
+        // Method 1: Try the resolve API (CORS-enabled endpoint)
         try {
             const resp = await fetch('https://cut.appstorefr.net/api/cut/resolve/' + encodeURIComponent(code));
-            const json = await resp.json();
-            if (!json.ok || !json.url) {
-                setStatus('err', 'Code not found or expired.');
-                return;
+            if (resp.ok) {
+                const json = await resp.json();
+                if (json.ok && json.url) {
+                    const hashIdx = json.url.indexOf('#');
+                    if (hashIdx >= 0) {
+                        let fragment = json.url.substring(hashIdx + 1);
+                        try { fragment = decodeURIComponent(fragment); } catch(e) {}
+                        const pipe = fragment.indexOf('|');
+                        if (pipe >= 0) {
+                            let fileUrl = fragment.substring(0, pipe);
+                            const key = fragment.substring(pipe + 1);
+                            try { fileUrl = decodeURIComponent(fileUrl); } catch(e) {}
+                            autoDecryptFromFragment(fileUrl, key);
+                            return;
+                        }
+                    }
+                }
             }
-            // json.url = decrypt.html#encodedFileUrl|key — extract the fragment
-            const hashIdx = json.url.indexOf('#');
-            if (hashIdx < 0) {
-                setStatus('err', 'Invalid link (no fragment).');
-                return;
-            }
-            let fragment = json.url.substring(hashIdx + 1);
-            try { fragment = decodeURIComponent(fragment); } catch(e) {}
-            const pipe = fragment.indexOf('|');
-            if (pipe < 0) {
-                setStatus('err', 'Invalid link (no key).');
-                return;
-            }
-            let fileUrl = fragment.substring(0, pipe);
-            const key = fragment.substring(pipe + 1);
-            try { fileUrl = decodeURIComponent(fileUrl); } catch(e) {}
-            autoDecryptFromFragment(fileUrl, key);
-        } catch (e) {
-            setStatus('err', 'Cannot resolve code: ' + e.message);
-        }
+        } catch (e) { /* resolve API not available, fallback to redirect */ }
+
+        // Method 2: Redirect via cut (browser follows 301, fragment in URL)
+        setStatus('info', 'Redirecting...');
+        const cutUrl = 'https://cut.appstorefr.net/' + code;
+        window.location.href = cutUrl;
     }
 
     async function decryptManual() {
